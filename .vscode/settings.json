@@ -1,6 +1,7 @@
 {
     "conventionalCommits.scopes": [
         "Global",
-        "Config"
+        "Config",
+        "Documentation"
     ]
 }
