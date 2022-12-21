@@ -2,13 +2,10 @@ import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 
 class ScanButton extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <TouchableOpacity style={styles.button} onPress={this.props.onPress}>
-        <Text style={styles.text}>{this.props.title}</Text>
+        <Text style={styles.text}>{this.props.title || "default"}</Text>
       </TouchableOpacity>
     );
   }
