@@ -4,14 +4,15 @@ import ScanButton from "../components/BasicUI/ScanButton";
 import IconButton from "../components/BasicUI/IconButton";
 
 class Home extends React.Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
+    const { navigation } = this.props;
     return (
       <View style={styles.mainContent}>
         <View style={styles.settings}>
-          <IconButton name="settings" />
+          <IconButton
+            name="settings"
+            onPress={() => navigation.navigate("Settings")}
+          />
         </View>
         <View style={styles.menu}>
           <ScanButton title="New Case" />

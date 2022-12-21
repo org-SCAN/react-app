@@ -3,6 +3,7 @@
         "Global",
         "Config",
         "Documentation",
-        "Components"
+        "Components",
+        "Navigation"
     ]
 }
