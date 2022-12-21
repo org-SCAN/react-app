@@ -1,19 +1,11 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
-import IconButton from "../components/BasicUI/IconButton";
 
 class Home extends React.Component {
   render() {
-    const { navigation } = this.props;
     return (
       <View style={styles.mainContent}>
-        <View style={styles.settings}>
-          <IconButton
-            name="settings"
-            onPress={() => navigation.navigate("Settings")}
-          />
-        </View>
         <View style={styles.menu}>
           <ScanButton title="New Case" />
         </View>
@@ -27,12 +19,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-  },
-  settings: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    zIndex: 1,
   },
   mainContent: {
     flex: 1,

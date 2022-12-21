@@ -6,7 +6,11 @@ class IconButton extends React.Component {
   render() {
     return (
       <TouchableOpacity onPress={this.props.onPress}>
-        <Icon name={this.props.name} size={this.props.size || 30} />
+        <Icon
+          name={this.props.name}
+          size={this.props.size || 30}
+          color={this.props.color ?? "#fff"}
+        />
       </TouchableOpacity>
     );
   }

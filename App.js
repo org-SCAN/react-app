@@ -1,28 +1,46 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
+import IconButton from "./components/BasicUI/IconButton";
 
 const Stack = createNativeStackNavigator();
-const ScanTheme = {
+
+const BasicScreenTheme = {
   headerStyle: { backgroundColor: "#BF0413" },
   headerTintColor: "#fff",
   headerTitleStyle: {
-    fontFamily: "Cochin",
-    fontWeight: "bold",
     fontSize: 20,
   },
 };
 
+const BasicNavigationTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#fff",
+  },
+};
+
+const HomeTheme = ({ navigation }) => ({
+  ...BasicScreenTheme,
+  headerRight: () => (
+    <IconButton
+      name="settings"
+      onPress={() => navigation.navigate("Settings")}
+    />
+  ),
+});
+
 const App = () => {
   return (
-    <NavigationContainer>
+    <NavigationContainer theme={BasicNavigationTheme}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={ScanTheme} />
+        <Stack.Screen name="Home" component={Home} options={HomeTheme} />
         <Stack.Screen
           name="Settings"
           component={Settings}
-          options={ScanTheme}
+          options={BasicScreenTheme}
         />
       </Stack.Navigator>
     </NavigationContainer>
