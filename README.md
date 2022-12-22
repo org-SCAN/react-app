@@ -35,6 +35,7 @@ Below all the documentation that we used to build this app.
 
 - [React Native](https://reactnative.dev/docs/getting-started.html)
 - [React Navigation](https://reactnavigation.org/docs/getting-started)
+- [React Redux](https://react-redux.js.org/introduction/quick-start)
 
 ## Contribution guide
 
