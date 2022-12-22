@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./screens/Home";
 import Settings from "./screens/Settings";
 import IconButton from "./components/BasicUI/IconButton";
+import React from "react";
 
 const Stack = createNativeStackNavigator();
 
@@ -13,7 +14,6 @@ const BasicScreenTheme = {
     fontSize: 20,
   },
 };
-
 const BasicNavigationTheme = {
   ...DefaultTheme,
   colors: {
@@ -21,7 +21,6 @@ const BasicNavigationTheme = {
     background: "#fff",
   },
 };
-
 const HomeTheme = ({ navigation }) => ({
   ...BasicScreenTheme,
   headerRight: () => (
@@ -32,19 +31,21 @@ const HomeTheme = ({ navigation }) => ({
   ),
 });
 
-const App = () => {
-  return (
-    <NavigationContainer theme={BasicNavigationTheme}>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={HomeTheme} />
-        <Stack.Screen
-          name="Settings"
-          component={Settings}
-          options={BasicScreenTheme}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
-};
+class App extends React.Component {
+  render() {
+    return (
+      <NavigationContainer theme={BasicNavigationTheme}>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} options={HomeTheme} />
+          <Stack.Screen
+            name="Settings"
+            component={Settings}
+            options={BasicScreenTheme}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+}
 
 export default App;
