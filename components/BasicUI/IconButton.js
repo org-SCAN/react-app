@@ -1,21 +1,16 @@
-import React from "react";
 import { Icon } from "@rneui/themed";
-import { StyleSheet, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 
-class IconButton extends React.Component {
-  render() {
-    return (
-      <TouchableOpacity onPress={this.props.onPress}>
-        <Icon
-          name={this.props.name}
-          size={this.props.size || 30}
-          color={this.props.color ?? "#fff"}
-        />
-      </TouchableOpacity>
-    );
-  }
-}
-
-const styles = StyleSheet.create({});
+const IconButton = (props) => {
+  return (
+    <TouchableOpacity onPress={props.onPress}>
+      <Icon
+        name={props.name}
+        size={props.size || 30}
+        color={props.color ?? "#fff"}
+      />
+    </TouchableOpacity>
+  );
+};
 
 export default IconButton;
