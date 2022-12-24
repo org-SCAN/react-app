@@ -1,11 +1,18 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Button } from "react-native";
+import { useDispatch } from "react-redux";
+import { clearImage } from "../redux/actions";
 import DarkModeToggle from "../components/Settings/DarkModeToggle";
 
 const Settings = () => {
+  const dispatch = useDispatch();
+  const clear = () => {
+    dispatch(clearImage());
+  };
   return (
     <View style={styles.mainContent}>
       <DarkModeToggle style={styles.toggle} />
+      <Button title="Clear Image" onPress={clear} />
     </View>
   );
 };

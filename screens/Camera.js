@@ -1,23 +1,36 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
+import { storeImage } from "../redux/actions";
 
 const ScanCamera = () => {
   const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(Camera.Constants.Type.back);
+  const dispatch = useDispatch();
+  const saveImage = () => {
+    console.log("image", image);
+    dispatch(storeImage(image));
+  };
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
     })();
   }, []);
+
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync(null);
-      //console.log(data.uri)
-      setImage(data.uri);
+      if (data && data.uri) {
+        setImage(data.uri);
+      }
+    }
+    if (image) {
+      saveImage();
     }
   };
   if (hasPermission === null) {

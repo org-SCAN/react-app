@@ -10,16 +10,17 @@ import {
   REGISTER,
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import themeReducer from "./reducers";
+import themeReducer from "./Reducers/themeReducer";
+import imageReducer from "./Reducers/imageReducer";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
+  image: imageReducer,
 });
 
 const persistConfig = {
   key: "root",
   storage: AsyncStorage,
-  whitelist: ["theme"],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

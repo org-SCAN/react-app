@@ -1,12 +1,12 @@
-import { THEME_CHANGE } from "./constants";
-
-// Initially we will have a light mode
-const initialState = {
-  mode: "light",
-};
+import { THEME_CHANGE } from "../constants";
 
 // Handle our action of changing the theme
-const themeReducer = (state = initialState, action) => {
+const themeReducer = (
+  state = {
+    mode: "light",
+  },
+  action
+) => {
   switch (action.type) {
     case THEME_CHANGE:
       return {

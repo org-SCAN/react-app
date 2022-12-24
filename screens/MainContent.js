@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./Home";
 import Settings from "./Settings";
 import ScanCamera from "./Camera";
+import Pictures from "./Pictures";
 import React from "react";
 import { connect } from "react-redux";
 import { navigationStyle } from "../theme/theme";
@@ -25,6 +26,11 @@ const MainContent = (props) => {
           name="Camera"
           component={ScanCamera}
           options={styles.camera}
+        />
+        <Stack.Screen
+          name="Pictures"
+          component={Pictures}
+          options={styles.screen}
         />
       </Stack.Navigator>
     </NavigationContainer>
