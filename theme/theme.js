@@ -1,8 +1,9 @@
 import { DefaultTheme } from "@react-navigation/native";
 import IconButton from "../components/BasicUI/IconButton";
+import { SCAN_COLOR } from "./constants";
 
 const Screen = {
-  headerStyle: { backgroundColor: "#BF0413" },
+  headerStyle: { backgroundColor: SCAN_COLOR },
   headerTintColor: "#fff",
   headerTitleStyle: {
     fontSize: 20,
