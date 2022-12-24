@@ -1,12 +1,14 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Image } from "react-native";
 import { connect } from "react-redux";
 
 const Pictures = (props) => {
   return (
     <View style={styles.mainContent}>
-      <Text>{JSON.stringify(props.image)}</Text>
-      <Text>{JSON.stringify(props.theme)}</Text>
+      <Text>{JSON.stringify(props.images)}</Text>
+      {props.images && (
+        <Image source={{ uri: props.images[0] }} style={styles.image} />
+      )}
     </View>
   );
 };
@@ -17,12 +19,15 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  image: {
+    width: 200,
+    height: 200,
+  },
 });
 
 function mapStateToProps(state) {
   return {
-    image: state.image,
-    theme: state.theme,
+    images: state.image.image,
   };
 }
 

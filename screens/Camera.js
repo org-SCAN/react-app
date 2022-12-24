@@ -3,16 +3,17 @@ import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
+import IconButton from "../components/BasicUI/IconButton";
 
 const ScanCamera = () => {
+  const camType = Camera.Constants.Type;
   const [hasPermission, setHasPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
-  const [type, setType] = useState(Camera.Constants.Type.back);
+  const [type, setType] = useState(camType.back);
   const dispatch = useDispatch();
-  const saveImage = () => {
-    console.log("image", image);
-    dispatch(storeImage(image));
+  const saveImage = (data) => {
+    dispatch(storeImage(data));
   };
 
   useEffect(() => {
@@ -27,10 +28,8 @@ const ScanCamera = () => {
       const data = await camera.takePictureAsync(null);
       if (data && data.uri) {
         setImage(data.uri);
+        saveImage(data.uri);
       }
-    }
-    if (image) {
-      saveImage();
     }
   };
   if (hasPermission === null) {
@@ -50,19 +49,14 @@ const ScanCamera = () => {
         />
       </View>
 
+      <IconButton name="camera" color="black" onPress={() => takePicture()} />
       <Button
-        style={styles.button}
         title="Flip Image"
         onPress={() => {
-          setType(
-            type === Camera.Constants.Type.back
-              ? Camera.Constants.Type.front
-              : Camera.Constants.Type.back
-          );
+          setType(type === camType.back ? camType.front : camType.back);
         }}
       ></Button>
-      <Button title="Take Picture" onPress={() => takePicture()} />
-      {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+      {image && <Image source={{ uri: image }} style={styles.preview} />}
     </View>
   );
 };
@@ -80,10 +74,12 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
   },
-  button: {
-    flex: 0.1,
-    alignSelf: "flex-end",
-    alignItems: "center",
+  preview: {
+    width: 100,
+    height: 100,
+    position: "absolute",
+    bottom: 0,
+    right: 0,
   },
 });
 
