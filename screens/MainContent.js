@@ -1,8 +1,8 @@
 import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Home from "./screens/Home";
-import Settings from "./screens/Settings";
-import IconButton from "./components/BasicUI/IconButton";
+import Home from "./Home";
+import Settings from "./Settings";
+import IconButton from "../components/BasicUI/IconButton";
 import React from "react";
 import { connect } from "react-redux";
 
