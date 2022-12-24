@@ -35,15 +35,22 @@ const HomeTheme = ({ navigation }) => ({
   ),
 });
 
+const CameraTheme = {
+  ...Screen,
+  headerShown: true,
+};
+
 export const navigationStyle = {
   light: {
     screen: Screen,
     navigation: BasicNavigationThemeLight,
     home: HomeTheme,
+    camera: CameraTheme,
   },
   dark: {
     screen: Screen,
     navigation: BasicNavigationThemeDark,
     home: HomeTheme,
+    camera: CameraTheme,
   },
 };

@@ -4,6 +4,7 @@
         "Config",
         "Documentation",
         "Components",
-        "Navigation"
+        "Navigation",
+        "Camera"
     ]
 }
