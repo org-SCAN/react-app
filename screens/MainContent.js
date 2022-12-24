@@ -2,60 +2,23 @@ import { NavigationContainer, DefaultTheme } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Home from "./Home";
 import Settings from "./Settings";
-import IconButton from "../components/BasicUI/IconButton";
 import React from "react";
 import { connect } from "react-redux";
+import { navigationStyle } from "../theme/theme";
 
 const Stack = createNativeStackNavigator();
 
-const BasicScreenTheme = {
-  headerStyle: { backgroundColor: "#BF0413" },
-  headerTintColor: "#fff",
-  headerTitleStyle: {
-    fontSize: 20,
-  },
-};
-const BasicNavigationThemeLight = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "#fff",
-  },
-};
-
-const BasicNavigationThemeDark = {
-  ...DefaultTheme,
-  colors: {
-    ...DefaultTheme.colors,
-    background: "#1C1C1EFF",
-  },
-};
-
-const HomeTheme = ({ navigation }) => ({
-  ...BasicScreenTheme,
-  headerRight: () => (
-    <IconButton
-      name="settings"
-      onPress={() => navigation.navigate("Settings")}
-    />
-  ),
-});
-
 const MainContent = (props) => {
+  const styles =
+    props.theme.mode == "light" ? navigationStyle.light : navigationStyle.dark;
   return (
-    <NavigationContainer
-      theme={
-        props.theme.mode == "light"
-          ? BasicNavigationThemeLight
-          : BasicNavigationThemeDark
-      }
-    >
+    <NavigationContainer theme={styles.navigation}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={HomeTheme} />
+        <Stack.Screen name="Home" component={Home} options={styles.home} />
         <Stack.Screen
           name="Settings"
           component={Settings}
-          options={BasicScreenTheme}
+          options={styles.screen}
         />
       </Stack.Navigator>
     </NavigationContainer>
