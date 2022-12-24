@@ -2,11 +2,16 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 
-const Home = () => {
+const Home = ({ navigation: { navigate } }) => {
   return (
     <View style={styles.mainContent}>
       <View style={styles.menu}>
-        <ScanButton title="New Case" />
+        <ScanButton
+          title="New Case"
+          onPress={() => {
+            navigate("Camera");
+          }}
+        />
       </View>
     </View>
   );
