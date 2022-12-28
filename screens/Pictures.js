@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 const Pictures = (props) => {
   return (
     <View style={styles.mainContent}>
-      <Text>{JSON.stringify(props.images)}</Text>
       {props.images && (
         <Image source={{ uri: props.images[0] }} style={styles.image} />
       )}

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Button, Alert } from "react-native";
+import { StyleSheet, View, Button } from "react-native";
 import { useDispatch } from "react-redux";
 import { clearImage } from "../redux/actions";
 import DarkModeToggle from "../components/Settings/DarkModeToggle";

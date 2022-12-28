@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
+import { deleteCameraCache } from "../utils/cacheManager";
 
 const ScanCamera = () => {
   const camType = Camera.Constants.Type;
@@ -25,10 +26,11 @@ const ScanCamera = () => {
 
   const takePicture = async () => {
     if (camera) {
-      const data = await camera.takePictureAsync(null);
-      if (data && data.uri) {
-        setImage(data.uri);
-        saveImage(data.uri);
+      const data = await camera.takePictureAsync({ base64: true });
+      if (data && data.base64) {
+        setImage("data:image/jpg;base64," + data.base64);
+        saveImage("data:image/jpg;base64," + data.base64);
+        deleteCameraCache();
       }
     }
   };
