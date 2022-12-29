@@ -7,17 +7,16 @@ import {
 export async function displayCameraCache() {
   const cache = await readDirectoryAsync(cacheDirectory);
   if (cache && "Camera" in cache) {
-    console.log("Camera cache exists");
     const cameraCache = await readDirectoryAsync(cacheDirectory + "Camera/");
-    console.log(cameraCache);
+    console.log("Camera cache exists. Cache: ", cameraCache);
   } else {
-    console.log("Camera cache does not exist");
+    console.log("Camera cache does not exist. Cache: ", cache);
   }
 }
 
 export async function deleteCameraCache() {
   const cache = await readDirectoryAsync(cacheDirectory);
-  if (cache && "Camera" in cache) {
+  if (cache && cache.includes("Camera")) {
     console.log("Camera cache exists");
     console.log(cache);
     try {
@@ -25,6 +24,7 @@ export async function deleteCameraCache() {
     } catch (e) {
       console.error(e);
     }
+    console.log("Camera cache deleted");
   } else {
     console.log("Camera cache does not exist");
   }
