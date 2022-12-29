@@ -25,13 +25,10 @@ const BasicNavigationThemeDark = {
   },
 };
 
-const HomeTheme = ({ navigation }) => ({
+const HomeTheme = ({ navigation: { navigate } }) => ({
   ...Screen,
   headerRight: () => (
-    <IconButton
-      name="settings"
-      onPress={() => navigation.navigate("Settings")}
-    />
+    <IconButton name="settings" onPress={() => navigate("Settings")} />
   ),
 });
 

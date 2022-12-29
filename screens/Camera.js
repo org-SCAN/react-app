@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
 import { deleteCameraCache } from "../utils/cacheManager";
 
-const ScanCamera = () => {
+const ScanCamera = ({ navigation: { navigate } }) => {
   const camType = Camera.Constants.Type;
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -70,7 +70,15 @@ const ScanCamera = () => {
           style={styles.icon}
         />
       </View>
-      {image && <Image source={{ uri: image }} style={styles.preview} />}
+      {image && (
+        <TouchableOpacity
+          onPress={() => {
+            navigate("Pictures");
+          }}
+        >
+          <Image source={{ uri: image }} style={styles.preview} />
+        </TouchableOpacity>
+      )}
     </View>
   );
 };
