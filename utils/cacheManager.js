@@ -5,29 +5,27 @@ import {
 } from "expo-file-system";
 
 export async function displayCameraCache() {
-  const cache = await readDirectoryAsync(cacheDirectory + "Camera/");
-  if (cache) {
-    if ("Camera" in cache) {
-      console.log("Camera cache exists");
-      console.log(cache);
-    } else {
-      console.log("Camera cache does not exist");
-    }
+  const cache = await readDirectoryAsync(cacheDirectory);
+  if (cache && "Camera" in cache) {
+    console.log("Camera cache exists");
+    const cameraCache = await readDirectoryAsync(cacheDirectory + "Camera/");
+    console.log(cameraCache);
   } else {
-    console.log("Cache does not exist");
+    console.log("Camera cache does not exist");
   }
 }
 
 export async function deleteCameraCache() {
-  await deleteAsync(cacheDirectory + "Camera/");
   const cache = await readDirectoryAsync(cacheDirectory);
-  if (cache) {
-    if ("Camera" in cache) {
-      throw new Error("Camera cache not deleted");
-    } else {
-      console.log("Camera cache deleted");
+  if (cache && "Camera" in cache) {
+    console.log("Camera cache exists");
+    console.log(cache);
+    try {
+      await deleteAsync(cacheDirectory + "Camera/");
+    } catch (e) {
+      console.error(e);
     }
   } else {
-    console.log("Cache does not exist");
+    console.log("Camera cache does not exist");
   }
 }
