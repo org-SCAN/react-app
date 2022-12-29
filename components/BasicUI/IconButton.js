@@ -3,7 +3,10 @@ import { TouchableOpacity } from "react-native";
 
 const IconButton = (props) => {
   return (
-    <TouchableOpacity onPress={props.onPress}>
+    <TouchableOpacity
+      style={props.style ? props.style : {}}
+      onPress={props.onPress}
+    >
       <Icon
         name={props.name}
         size={props.size || 30}

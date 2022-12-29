@@ -38,6 +38,7 @@ const HomeTheme = ({ navigation }) => ({
 const CameraTheme = {
   ...Screen,
   headerShown: true,
+  headerStyle: { backgroundColor: "black" },
 };
 
 export const navigationStyle = {
