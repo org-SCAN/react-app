@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
 import { deleteCameraCache } from "../utils/cacheManager";
 import uuid from "react-native-uuid";
 
-const ScanCamera = ({ navigation: { navigate } }) => {
+const ScanCamera = (props) => {
+  const { navigation } = props;
   const camType = Camera.Constants.Type;
 
   const [hasPermission, setHasPermission] = useState(null);
@@ -25,6 +26,9 @@ const ScanCamera = ({ navigation: { navigate } }) => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === "granted");
+      if (props.images && props.images.length > 0) {
+        setImage(props.images[props.images.length - 1].data);
+      }
     })();
   }, []);
 
@@ -57,6 +61,7 @@ const ScanCamera = ({ navigation: { navigate } }) => {
         style={styles.camera}
         type={type}
         ratio={"1:1"}
+        quality={0.5}
       />
 
       <View style={styles.control}>
@@ -80,7 +85,7 @@ const ScanCamera = ({ navigation: { navigate } }) => {
       {image && (
         <TouchableOpacity
           onPress={() => {
-            navigate("Pictures");
+            navigation.navigate("Pictures");
           }}
         >
           <Image source={{ uri: image }} style={styles.preview} />
@@ -119,4 +124,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScanCamera;
+function mapStateToProps(state) {
+  return {
+    images: state.image.image,
+  };
+}
+
+export default connect(mapStateToProps)(ScanCamera);
