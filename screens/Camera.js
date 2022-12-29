@@ -5,6 +5,7 @@ import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
 import { deleteCameraCache } from "../utils/cacheManager";
+import uuid from "react-native-uuid";
 
 const ScanCamera = ({ navigation: { navigate } }) => {
   const camType = Camera.Constants.Type;
@@ -32,7 +33,13 @@ const ScanCamera = ({ navigation: { navigate } }) => {
       const data = await camera.takePictureAsync({ base64: true });
       if (data && data.base64) {
         setImage("data:image/jpg;base64," + data.base64);
-        saveImage("data:image/jpg;base64," + data.base64);
+        const imageId = uuid.v4();
+        const image = {
+          id: imageId,
+          date: new Date().toISOString(),
+          data: "data:image/jpg;base64," + data.base64,
+        };
+        saveImage(image);
         deleteCameraCache();
       }
     }

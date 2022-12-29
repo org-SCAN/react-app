@@ -6,7 +6,11 @@ const Pictures = (props) => {
   return (
     <View style={styles.mainContent}>
       {props.images && (
-        <Image source={{ uri: props.images[0] }} style={styles.image} />
+        <View>
+          <Image source={{ uri: props.images[0].data }} style={styles.image} />
+          <Text>{props.images[0].date}</Text>
+          <Text>{props.images[0].id}</Text>
+        </View>
       )}
     </View>
   );
