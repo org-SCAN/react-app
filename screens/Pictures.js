@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-const Item = ({ date, uri, id, styles }) => (
+const Item = ({ date, uri, id, coords, styles }) => (
   <View style={styles.item}>
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
-      <Text style={styles.position}>Somewhere in Niévroz</Text>
+      <Text style={styles.position}>{JSON.stringify(coords)}</Text>
       <Text style={styles.id}>ID : {id}</Text>
     </View>
   </View>
@@ -24,13 +24,23 @@ const Pictures = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   if (props.images && props.images.length > 0) {
     const renderItem = ({ item }) => (
-      <Item date={item.date} uri={item.uri} id={item.id} styles={styles} />
+      <Item
+        date={item.date}
+        uri={item.uri}
+        id={item.id}
+        coords={item.coords}
+        styles={styles}
+      />
     );
     const DATA = props.images.map((image) => {
       return {
         id: image.id,
         date: image.date,
         uri: image.data,
+        coords: {
+          lat: image.lat,
+          lng: image.lng,
+        },
       };
     });
 
