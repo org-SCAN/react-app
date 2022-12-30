@@ -12,9 +12,12 @@ import { connect } from "react-redux";
 const Item = ({ date, uri, id, coords, styles }) => (
   <View style={styles.item}>
     <Image style={styles.image} source={{ uri: uri }} />
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
-      <Text style={styles.position}>{JSON.stringify(coords)}</Text>
+      <View style={{ flex: 10 }}>
+        <Text style={styles.position}>LAT : {JSON.stringify(coords.lat)}</Text>
+        <Text style={styles.position}>LNG : {JSON.stringify(coords.lng)}</Text>
+      </View>
       <Text style={styles.id}>ID : {id}</Text>
     </View>
   </View>
@@ -82,19 +85,18 @@ const basicStyle = StyleSheet.create({
     textAlign: "right",
     flex: 1,
     fontSize: 20,
-    marginLeft: 10,
     marginTop: 10,
   },
   position: {
     flexWrap: "wrap",
     textAlign: "right",
-    flex: 10,
+    fontSize: 12,
   },
   id: {
     flexWrap: "wrap",
     textAlign: "right",
-    marginLeft: 10,
     fontStyle: "italic",
+    fontSize: 10,
   },
 });
 
