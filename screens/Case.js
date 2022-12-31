@@ -3,6 +3,8 @@ import { StyleSheet, View, SafeAreaView, FlatList } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
+import { useDispatch } from "react-redux";
+import { saveCase } from "../redux/actions";
 
 const FORM = [
   {
@@ -30,9 +32,18 @@ const FORM = [
 
 const Case = () => {
   const [caseID, setCaseID] = useState(null);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setCaseID(uuid.v4());
+
+    return () => {
+      //clear form
+      FORM.forEach((element) => {
+        element.value = "";
+        element.onChangeText("");
+      });
+    };
   }, []);
 
   FORM.forEach((element) => {
