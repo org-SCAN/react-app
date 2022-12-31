@@ -34,7 +34,7 @@ const HomeTheme = ({ navigation: { navigate } }) => ({
 
 const CameraTheme = {
   ...Screen,
-  headerShown: true,
+  headerShown: false,
   headerStyle: { backgroundColor: "black" },
 };
 

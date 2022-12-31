@@ -30,7 +30,8 @@ const FORM = [
   },
 ];
 
-const Case = () => {
+const Case = (props) => {
+  const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
   const dispatch = useDispatch();
 
@@ -67,15 +68,26 @@ const Case = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
+        style={{ flexGrow: 0 }}
       />
       <ScanButton
-        title="Submit"
-        onPress={() => {
-          console.log(
-            "Form with ID : " + caseID + " || data : " + JSON.stringify(FORM)
-          );
-        }}
+        title="Add photo"
+        onPress={() => navigation.navigate("Camera", { caseID: caseID })}
       />
+      <ScanButton
+        title="Check photos"
+        onPress={() => navigation.navigate("Pictures", { caseID: caseID })}
+      />
+      <View style={styles.button}>
+        <ScanButton
+          title="Submit"
+          onPress={() => {
+            console.log(
+              "Form with ID : " + caseID + " || data : " + JSON.stringify(FORM)
+            );
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -83,8 +95,11 @@ const Case = () => {
 const styles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+  },
+  button: {
+    position: "absolute",
+    bottom: 0,
   },
 });
 

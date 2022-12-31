@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-const Item = ({ date, uri, id, coords, styles }) => (
+const Item = ({ date, uri, id, caseID, coords, styles }) => (
   <View style={styles.item}>
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
@@ -19,33 +19,46 @@ const Item = ({ date, uri, id, coords, styles }) => (
         <Text style={styles.position}>LNG : {JSON.stringify(coords.lng)}</Text>
       </View>
       <Text style={styles.id}>ID : {id}</Text>
+      <Text style={styles.id}>caseID : {caseID}</Text>
     </View>
   </View>
 );
 
 const Pictures = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
+  const [DATA, setDATA] = useState([]);
   if (props.images && props.images.length > 0) {
     const renderItem = ({ item }) => (
       <Item
         date={item.date}
         uri={item.uri}
         id={item.id}
+        caseID={item.caseID}
         coords={item.coords}
         styles={styles}
       />
     );
-    const DATA = props.images.map((image) => {
-      return {
-        id: image.id,
-        date: image.date,
-        uri: image.data,
-        coords: {
-          lat: image.lat,
-          lng: image.lng,
-        },
-      };
-    });
+
+    useEffect(() => {
+      var images = props.images;
+      if (props.route.params && props.route.params.caseID) {
+        const caseID = props.route.params.caseID;
+        images = props.images.filter((image) => image.caseID === caseID);
+      }
+      const DATA = images.map((image) => {
+        return {
+          id: image.id,
+          caseID: image.caseID,
+          date: image.date,
+          uri: image.data,
+          coords: {
+            lat: image.lat,
+            lng: image.lng,
+          },
+        };
+      });
+      setDATA(DATA);
+    }, []);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -94,7 +107,7 @@ const basicStyle = StyleSheet.create({
   },
   id: {
     flexWrap: "wrap",
-    textAlign: "right",
+    textAlign: "justify",
     fontStyle: "italic",
     fontSize: 10,
   },
