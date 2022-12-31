@@ -4,6 +4,7 @@ import Home from "./Home";
 import Settings from "./Settings";
 import ScanCamera from "./Camera";
 import Pictures from "./Pictures";
+import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
 import { navigationStyle } from "../theme/theme";
@@ -32,6 +33,7 @@ const MainContent = (props) => {
           component={Pictures}
           options={styles.screen}
         />
+        <Stack.Screen name="Case" component={Case} options={styles.screen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

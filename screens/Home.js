@@ -9,7 +9,7 @@ const Home = ({ navigation: { navigate } }) => {
         <ScanButton
           title="New case"
           onPress={() => {
-            navigate("Camera");
+            navigate("Case");
           }}
         />
         <ScanButton
