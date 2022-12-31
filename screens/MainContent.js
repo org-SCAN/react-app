@@ -33,7 +33,7 @@ const MainContent = (props) => {
           component={Pictures}
           options={styles.screen}
         />
-        <Stack.Screen name="Case" component={Case} options={styles.screen} />
+        <Stack.Screen name="Case" component={Case} options={styles.case} />
       </Stack.Navigator>
     </NavigationContainer>
   );

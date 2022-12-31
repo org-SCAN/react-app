@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, SafeAreaView, FlatList } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
+import ScanButton from "../components/BasicUI/ScanButton";
+import uuid from "react-native-uuid";
 
 const FORM = [
   {
@@ -27,6 +29,12 @@ const FORM = [
 ];
 
 const Case = () => {
+  const [caseID, setCaseID] = useState(null);
+
+  useEffect(() => {
+    setCaseID(uuid.v4());
+  }, []);
+
   FORM.forEach((element) => {
     const [value, onChangeText] = useState(element.value);
     element.value = value;
@@ -48,6 +56,14 @@ const Case = () => {
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
+      />
+      <ScanButton
+        title="Submit"
+        onPress={() => {
+          console.log(
+            "Form with ID : " + caseID + " || data : " + JSON.stringify(FORM)
+          );
+        }}
       />
     </SafeAreaView>
   );

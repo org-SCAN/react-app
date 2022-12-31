@@ -3,19 +3,13 @@ import { connect } from "react-redux";
 
 const ScanInput = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
-  if (props.style) {
-    styles = { ...styles, ...props.style };
-  }
   return (
     <TextInput
+      {...props}
       style={styles.input}
-      placeholder={props.placeholder || ""}
       placeholderTextColor={
         props.theme.mode === "light" ? "#B3B3B3" : "#B3B3B39C"
       }
-      value={props.value || null}
-      onChangeText={props.onChangeText || null}
-      keyboardType={props.keyboardType || "default"}
     />
   );
 };

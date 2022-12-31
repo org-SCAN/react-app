@@ -44,11 +44,13 @@ export const navigationStyle = {
     navigation: BasicNavigationThemeLight,
     home: HomeTheme,
     camera: CameraTheme,
+    case: Screen,
   },
   dark: {
     screen: Screen,
     navigation: BasicNavigationThemeDark,
     home: HomeTheme,
     camera: CameraTheme,
+    case: Screen,
   },
 };
