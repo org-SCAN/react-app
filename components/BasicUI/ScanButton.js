@@ -10,15 +10,13 @@ const ScanButton = (props) => {
   );
 };
 
-const stylesLight = StyleSheet.create({
+const basicStyles = StyleSheet.create({
   button: {
     paddingVertical: 12,
     paddingHorizontal: 40,
     borderRadius: 4,
     elevation: 3,
-    backgroundColor: "white",
     borderWidth: 2,
-    borderColor: "grey",
     margin: 10,
   },
   text: {
@@ -26,26 +24,31 @@ const stylesLight = StyleSheet.create({
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
+  },
+});
+
+const stylesLight = StyleSheet.create({
+  ...basicStyles,
+  button: {
+    ...basicStyles.button,
+    backgroundColor: "white",
+    borderColor: "grey",
+  },
+  text: {
+    ...basicStyles.text,
     color: "black",
   },
 });
 
 const stylesDark = StyleSheet.create({
+  ...basicStyles,
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: "#BF0413",
-    borderWidth: 2,
+    ...basicStyles.button,
+    backgroundColor: "grey",
     borderColor: "grey",
-    margin: 10,
   },
   text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
+    ...basicStyles.text,
     color: "white",
   },
 });
