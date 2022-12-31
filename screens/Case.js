@@ -47,6 +47,7 @@ const Case = () => {
         data={FORM}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
+        ListHeaderComponent={<View style={{ height: 20 }} />}
       />
     </SafeAreaView>
   );

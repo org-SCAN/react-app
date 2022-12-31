@@ -1,6 +1,14 @@
-import { THEME_CHANGE, STORE_IMAGE, CLEAR_IMAGE } from "./constants";
+import {
+  THEME_CHANGE,
+  STORE_IMAGE,
+  CLEAR_IMAGE,
+  SAVE_CASE,
+  CLEAR_CASE,
+  DELETE_CASE,
+  EDIT_CASE,
+} from "./constants";
 
-// switch mode according to what is specified...
+/* THEME ACTION */
 export const switchMode = (mode) => {
   return {
     type: THEME_CHANGE,
@@ -8,6 +16,7 @@ export const switchMode = (mode) => {
   };
 };
 
+/* IMAGE ACTIONS */
 export const storeImage = (image) => {
   return {
     type: STORE_IMAGE,
@@ -18,5 +27,33 @@ export const storeImage = (image) => {
 export const clearImage = () => {
   return {
     type: CLEAR_IMAGE,
+  };
+};
+
+/* CASE ACTIONS */
+export const saveCase = (caseData) => {
+  return {
+    type: SAVE_CASE,
+    payload: caseData,
+  };
+};
+
+export const clearCase = () => {
+  return {
+    type: CLEAR_CASE,
+  };
+};
+
+export const editCase = (caseData) => {
+  return {
+    type: EDIT_CASE,
+    payload: caseData,
+  };
+};
+
+export const deleteCase = (id) => {
+  return {
+    type: DELETE_CASE,
+    payload: id,
   };
 };
