@@ -35,6 +35,10 @@ const Case = (props) => {
   const [caseID, setCaseID] = useState(null);
   const dispatch = useDispatch();
 
+  const save = () => {
+    dispatch(saveCase(caseID, FORM));
+  };
+
   useEffect(() => {
     setCaseID(uuid.v4());
 

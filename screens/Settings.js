@@ -29,6 +29,7 @@ const Settings = (props) => {
         onChange={() => {
           handleThemeChange();
         }}
+        value={props.theme.mode === "dark"}
         title="Dark Mode"
         description="Change the theme of the app"
       />

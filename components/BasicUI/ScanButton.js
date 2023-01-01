@@ -2,7 +2,10 @@ import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 
 const ScanButton = (props) => {
-  const styles = props.theme.mode === "light" ? stylesLight : stylesDark;
+  var styles = props.theme.mode === "light" ? stylesLight : stylesDark;
+  if (props.style) {
+    styles.button = { ...styles.button, ...props.style };
+  }
   return (
     <TouchableOpacity style={styles.button} onPress={props.onPress}>
       <Text style={styles.text}>{props.title || "default"}</Text>
@@ -18,12 +21,14 @@ const basicStyles = StyleSheet.create({
     elevation: 3,
     borderWidth: 2,
     margin: 10,
+    width: 200,
   },
   text: {
     fontSize: 16,
     lineHeight: 21,
     fontWeight: "bold",
     letterSpacing: 0.25,
+    textAlign: "center",
   },
 });
 
