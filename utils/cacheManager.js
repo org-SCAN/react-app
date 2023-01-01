@@ -17,8 +17,7 @@ export async function displayCameraCache() {
 export async function deleteCameraCache() {
   const cache = await readDirectoryAsync(cacheDirectory);
   if (cache && cache.includes("Camera")) {
-    console.log("Camera cache exists");
-    console.log(cache);
+    console.log("Camera cache exists : " + JSON.stringify(cache));
     try {
       await deleteAsync(cacheDirectory + "Camera/");
     } catch (e) {
