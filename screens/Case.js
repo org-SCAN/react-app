@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, FlatList } from "react-native";
+import { StyleSheet, View, SafeAreaView, FlatList, Image } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, connect } from "react-redux";
 import { saveCase } from "../redux/actions";
 
 const FORM = [
@@ -33,10 +33,23 @@ const FORM = [
 const Case = (props) => {
   const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
+  const [images, setImages] = useState([]);
   const dispatch = useDispatch();
 
   const save = () => {
-    dispatch(saveCase(caseID, FORM));
+    const keyValues = FORM.map((element) => {
+      return { [element.key]: element.value };
+    });
+    const keyValuesObject = Object.assign({}, ...keyValues);
+    //get all images id
+    const imageIDs = images.map((image) => image.id);
+    const data = {
+      id: caseID,
+      ...keyValuesObject,
+      images: imageIDs,
+    };
+    console.log("EndForm", data);
+    //dispatch(saveCase(caseID, FORM));
   };
 
   useEffect(() => {
@@ -51,6 +64,21 @@ const Case = (props) => {
     };
   }, []);
 
+  useEffect(() => {
+    if (props.images && props.images.length > 0) {
+      const DATA = props.images
+        .map((image) => {
+          return {
+            id: image.id,
+            uri: image.data,
+            caseID: image.caseID,
+          };
+        })
+        .filter((image) => image.caseID === caseID);
+      setImages(DATA);
+    }
+  }, [props.images]);
+
   FORM.forEach((element) => {
     const [value, onChangeText] = useState(element.value);
     element.value = value;
@@ -64,6 +92,12 @@ const Case = (props) => {
       keyboardType={item.keyboardType}
     />
   );
+  const renderImage = ({ item }) => (
+    <Image
+      source={{ uri: item.uri }}
+      style={{ width: 150, height: 150, margin: 10 }}
+    />
+  );
 
   return (
     <SafeAreaView style={styles.mainContent}>
@@ -72,23 +106,26 @@ const Case = (props) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
+        ListFooterComponent={<View style={{ height: 20 }} />}
         style={{ flexGrow: 0 }}
       />
       <ScanButton
-        title="Add photo"
+        title="Take a photo"
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
       />
-      <ScanButton
-        title="Check photos"
-        onPress={() => navigation.navigate("Pictures", { caseID: caseID })}
+      <FlatList
+        data={images}
+        renderItem={renderImage}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={<View style={{ height: 50 }} />}
+        style={{ flexGrow: 0 }}
+        horizontal={true}
       />
       <View style={styles.button}>
         <ScanButton
           title="Submit"
           onPress={() => {
-            console.log(
-              "Form with ID : " + caseID + " || data : " + JSON.stringify(FORM)
-            );
+            save();
           }}
         />
       </View>
@@ -107,4 +144,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Case;
+function mapStateToProps(state) {
+  return {
+    images: state.image.image,
+  };
+}
+
+export default connect(mapStateToProps)(Case);
