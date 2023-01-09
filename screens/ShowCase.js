@@ -9,9 +9,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
+import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 
-const Item = ({ date, uri, id, styles, onPress }) => (
-  <TouchableOpacity style={styles.item} onPress={onPress}>
+const Item = ({ date, uri, id, styles, onPress, onLongPress }) => (
+  <TouchableOpacity
+    style={styles.item}
+    onPress={onPress}
+    onLongPress={onLongPress}
+  >
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
@@ -28,6 +33,12 @@ const ShowCase = (props) => {
       const onPress = () => {
         props.navigation.navigate("Case", { caseId: item.id });
       };
+      const onLongPress = () =>
+        showConfirmDialog(
+          "Delete ?",
+          "You really want to delete this case ?",
+          () => {}
+        );
       return (
         <Item
           date={item.date}
@@ -35,6 +46,7 @@ const ShowCase = (props) => {
           id={item.id}
           styles={styles}
           onPress={onPress}
+          onLongPress={onLongPress}
         />
       );
     };
