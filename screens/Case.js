@@ -43,6 +43,13 @@ const Case = (props) => {
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  FORM.forEach((element) => {
+    const [value, onChangeText] = useState(element.value);
+    element.value = value;
+    element.onChangeText = onChangeText;
+  });
+
   const dispatch = useDispatch();
 
   const save = () => {
@@ -51,7 +58,6 @@ const Case = (props) => {
       return { [element.key]: element.value };
     });
     const keyValuesObject = Object.assign({}, ...keyValues);
-    //get all images id
     const imageIDs = images.map((image) => image.id);
     const data = {
       id: caseID,
@@ -65,6 +71,23 @@ const Case = (props) => {
     } else {
       dispatch(saveCase(data));
       navigation.navigate("Home");
+    }
+  };
+
+  const setCaseImages = () => {
+    if (props.images && props.images.length > 0) {
+      const DATA = props.images
+        .map((image) => {
+          return {
+            id: image.id,
+            uri: image.data,
+            caseID: image.caseID,
+          };
+        })
+        .filter((image) => image.caseID === caseID);
+      setImages(DATA);
+    } else {
+      setImages([]);
     }
   };
 
@@ -92,44 +115,16 @@ const Case = (props) => {
     //update form with existing case if it exist
     if (existingCase) {
       FORM.forEach((element) => {
-        element.value = existingCase[element.key];
         element.onChangeText(existingCase[element.key]);
       });
     }
-    if (props.images && props.images.length > 0) {
-      const DATA = props.images
-        .map((image) => {
-          return {
-            id: image.id,
-            uri: image.data,
-            caseID: image.caseID,
-          };
-        })
-        .filter((image) => image.caseID === caseID);
-      setImages(DATA);
-    }
+    setCaseImages();
   }, [existingCase]);
 
   useEffect(() => {
-    if (props.images && props.images.length > 0) {
-      const DATA = props.images
-        .map((image) => {
-          return {
-            id: image.id,
-            uri: image.data,
-            caseID: image.caseID,
-          };
-        })
-        .filter((image) => image.caseID === caseID);
-      setImages(DATA);
-    }
+    setCaseImages();
   }, [props.images]);
 
-  FORM.forEach((element) => {
-    const [value, onChangeText] = useState(element.value);
-    element.value = value;
-    element.onChangeText = onChangeText;
-  });
   const renderItem = ({ item }) => (
     <ScanInput
       placeholder={item.placeholder}
