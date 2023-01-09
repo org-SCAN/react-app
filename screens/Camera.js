@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
@@ -14,7 +14,7 @@ const ScanCamera = (props) => {
   const camType = Camera.Constants.Type;
   const [camera, setCamera] = useState(null);
   const [type, setType] = useState(camType.back);
-  const [location, setLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -22,20 +22,17 @@ const ScanCamera = (props) => {
     dispatch(storeImage(data));
   };
 
-  useEffect(() => {
-    (async () => {
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
-      setLocation(location);
-    })();
-  }, []);
+  useEffect(() => {}, []);
 
   const takePicture = async () => {
+    setLoading(true);
     if (camera) {
       const data = await camera.takePictureAsync({ base64: true });
       if (data && data.base64) {
         const imageId = uuid.v4();
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
         const image = {
           id: imageId,
           caseID: caseID,
@@ -51,6 +48,11 @@ const ScanCamera = (props) => {
   };
   return (
     <View style={styles.container}>
+      {loading && (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}
       <Camera
         ref={(ref) => setCamera(ref)}
         style={styles.camera}
@@ -111,6 +113,17 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 25,
     right: 25,
+  },
+  activityContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
 });
 
