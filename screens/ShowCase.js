@@ -6,26 +6,38 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import { connect } from "react-redux";
 
-const Item = ({ date, uri, id, caseID, styles }) => (
-  <View style={styles.item}>
+const Item = ({ date, uri, id, styles, onPress }) => (
+  <TouchableOpacity style={styles.item} onPress={onPress}>
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
       <Text style={styles.id}>ID : {id}</Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
 const ShowCase = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const [DATA, setDATA] = useState([]);
   if (props.cases && props.cases.length > 0) {
-    const renderItem = ({ item }) => (
-      <Item date={item.date} uri={item.uri} id={item.id} styles={styles} />
-    );
+    const renderItem = ({ item }) => {
+      const onPress = () => {
+        props.navigation.navigate("Case", { caseId: item.id });
+      };
+      return (
+        <Item
+          date={item.date}
+          uri={item.uri}
+          id={item.id}
+          styles={styles}
+          onPress={onPress}
+        />
+      );
+    };
 
     useEffect(() => {
       //get first images related to eache cases

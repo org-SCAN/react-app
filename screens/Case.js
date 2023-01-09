@@ -11,7 +11,7 @@ import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
-import { saveCase } from "../redux/actions";
+import { saveCase, editCase } from "../redux/actions";
 
 const FORM = [
   {
@@ -40,6 +40,7 @@ const FORM = [
 const Case = (props) => {
   const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
+  const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
@@ -58,12 +59,25 @@ const Case = (props) => {
       images: imageIDs,
       date: new Date().toISOString(),
     };
-    dispatch(saveCase(data));
-    navigation.navigate("Home");
+    if (existingCase) {
+      dispatch(editCase(data));
+      navigation.navigate("ShowCase");
+    } else {
+      dispatch(saveCase(data));
+      navigation.navigate("Home");
+    }
   };
 
   useEffect(() => {
-    setCaseID(uuid.v4());
+    if (props.route.params && props.route.params.caseId) {
+      const mcase = props.cases.filter(
+        (item) => item.id === props.route.params.caseId
+      )[0];
+      setExistingCase(mcase);
+      setCaseID(mcase.id);
+    } else {
+      setCaseID(uuid.v4());
+    }
 
     return () => {
       //clear form
@@ -73,6 +87,28 @@ const Case = (props) => {
       });
     };
   }, []);
+
+  useEffect(() => {
+    //update form with existing case if it exist
+    if (existingCase) {
+      FORM.forEach((element) => {
+        element.value = existingCase[element.key];
+        element.onChangeText(existingCase[element.key]);
+      });
+    }
+    if (props.images && props.images.length > 0) {
+      const DATA = props.images
+        .map((image) => {
+          return {
+            id: image.id,
+            uri: image.data,
+            caseID: image.caseID,
+          };
+        })
+        .filter((image) => image.caseID === caseID);
+      setImages(DATA);
+    }
+  }, [existingCase]);
 
   useEffect(() => {
     if (props.images && props.images.length > 0) {
@@ -173,6 +209,7 @@ const styles = StyleSheet.create({
 function mapStateToProps(state) {
   return {
     images: state.image.image,
+    cases: state.case.cases,
   };
 }
 
