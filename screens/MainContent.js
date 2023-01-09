@@ -7,7 +7,7 @@ import ShowCase from "./ShowCase";
 import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
-import { navigationStyle } from "../theme/theme";
+import { navigationStyle } from "../theme/navTheme";
 
 const Stack = createNativeStackNavigator();
 
