@@ -9,17 +9,12 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-const Item = ({ date, uri, id, caseID, coords, styles }) => (
+const Item = ({ date, uri, id, caseID, styles }) => (
   <View style={styles.item}>
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
-      <View style={{ flex: 10 }}>
-        <Text style={styles.position}>LAT : {JSON.stringify(coords.lat)}</Text>
-        <Text style={styles.position}>LNG : {JSON.stringify(coords.lng)}</Text>
-      </View>
       <Text style={styles.id}>ID : {id}</Text>
-      <Text style={styles.id}>caseID : {caseID}</Text>
     </View>
   </View>
 );
@@ -29,34 +24,20 @@ const ShowCase = (props) => {
   const [DATA, setDATA] = useState([]);
   if (props.cases && props.cases.length > 0) {
     const renderItem = ({ item }) => (
-      <Item
-        date={item.date}
-        uri={item.uri}
-        id={item.id}
-        caseID={item.caseID}
-        coords={item.coords}
-        styles={styles}
-      />
+      <Item date={item.date} uri={item.uri} id={item.id} styles={styles} />
     );
 
     useEffect(() => {
+      //get first images related to eache cases
       var images = props.images;
-      if (props.route.params && props.route.params.caseID) {
-        const caseID = props.route.params.caseID;
-        images = props.images.filter((image) => image.caseID === caseID);
-      }
-      const DATA = images.map((image) => {
+      const DATA = props.cases.map((caseItem) => {
         return {
-          id: image.id,
-          caseID: image.caseID,
-          date: image.date,
-          uri: image.data,
-          coords: {
-            lat: image.lat,
-            lng: image.lng,
-          },
+          id: caseItem.id,
+          uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
+          date: caseItem.date,
         };
       });
+
       setDATA(DATA);
     }, []);
 
@@ -72,7 +53,7 @@ const ShowCase = (props) => {
   } else {
     return (
       <View style={styles.mainContent}>
-        <Text>No images to display</Text>
+        <Text>No cases to display</Text>
       </View>
     );
   }

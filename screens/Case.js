@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, SafeAreaView, FlatList, Image } from "react-native";
+import {
+  StyleSheet,
+  View,
+  SafeAreaView,
+  FlatList,
+  Image,
+  ActivityIndicator,
+} from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
@@ -34,9 +41,11 @@ const Case = (props) => {
   const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
   const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const save = () => {
+    setLoading(true);
     const keyValues = FORM.map((element) => {
       return { [element.key]: element.value };
     });
@@ -50,6 +59,7 @@ const Case = (props) => {
       date: new Date().toISOString(),
     };
     dispatch(saveCase(data));
+    navigation.navigate("Home");
   };
 
   useEffect(() => {
@@ -101,6 +111,11 @@ const Case = (props) => {
 
   return (
     <SafeAreaView style={styles.mainContent}>
+      {loading && (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}
       <FlatList
         data={FORM}
         renderItem={renderItem}
@@ -141,6 +156,17 @@ const styles = StyleSheet.create({
   button: {
     position: "absolute",
     bottom: 0,
+  },
+  activityContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
 });
 
