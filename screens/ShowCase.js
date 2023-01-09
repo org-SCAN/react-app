@@ -24,10 +24,10 @@ const Item = ({ date, uri, id, caseID, coords, styles }) => (
   </View>
 );
 
-const Pictures = (props) => {
+const ShowCase = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const [DATA, setDATA] = useState([]);
-  if (props.images && props.images.length > 0) {
+  if (props.cases && props.cases.length > 0) {
     const renderItem = ({ item }) => (
       <Item
         date={item.date}
@@ -149,7 +149,8 @@ function mapStateToProps(state) {
   return {
     images: state.image.image,
     theme: state.theme,
+    cases: state.case.cases,
   };
 }
 
-export default connect(mapStateToProps)(Pictures);
+export default connect(mapStateToProps)(ShowCase);

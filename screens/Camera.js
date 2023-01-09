@@ -58,7 +58,7 @@ const ScanCamera = (props) => {
         style={styles.camera}
         type={type}
         ratio={"1:1"}
-        quality={0.5}
+        quality={0.25}
       />
 
       <View style={styles.control}>

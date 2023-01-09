@@ -47,9 +47,9 @@ const Case = (props) => {
       id: caseID,
       ...keyValuesObject,
       images: imageIDs,
+      date: new Date().toISOString(),
     };
-    console.log("EndForm", data);
-    //dispatch(saveCase(caseID, FORM));
+    dispatch(saveCase(data));
   };
 
   useEffect(() => {

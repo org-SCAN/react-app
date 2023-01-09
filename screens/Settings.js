@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, Button } from "react-native";
 import { useDispatch } from "react-redux";
-import { clearImage } from "../redux/actions";
+import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
@@ -20,6 +20,7 @@ const Settings = (props) => {
   const clear = () => {
     setShowBox(false);
     dispatch(clearImage());
+    dispatch(clearCase());
   };
   return (
     <View style={styles.mainContent}>
@@ -35,7 +36,7 @@ const Settings = (props) => {
       />
       <View style={styles.bottom}>
         <Button
-          title="Clear Image"
+          title="Clear all datas"
           color={SCAN_COLOR}
           onPress={() =>
             showConfirmDialog(

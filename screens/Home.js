@@ -15,7 +15,7 @@ const Home = ({ navigation: { navigate } }) => {
         <ScanButton
           title="Consult cases"
           onPress={() => {
-            navigate("Pictures");
+            navigate("ShowCase");
           }}
         />
       </View>

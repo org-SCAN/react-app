@@ -15,7 +15,7 @@ const caseReducer = (
     case CLEAR_CASE:
       return {
         ...state,
-        case: [],
+        cases: [],
       };
     case EDIT_CASE:
       return {
