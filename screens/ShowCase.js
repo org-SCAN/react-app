@@ -8,7 +8,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from "react-native";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { deleteCase } from "../redux/actions";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 
 const Item = ({ date, uri, id, styles, onPress, onLongPress }) => (
@@ -28,7 +29,30 @@ const Item = ({ date, uri, id, styles, onPress, onLongPress }) => (
 const ShowCase = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const [DATA, setDATA] = useState([]);
-  if (props.cases && props.cases.length > 0) {
+  const [cases, setCases] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //get first images related to eache cases
+    var images = props.images;
+    const DATA = props.cases.map((caseItem) => {
+      return {
+        id: caseItem.id,
+        uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
+        date: caseItem.date,
+      };
+    });
+    setDATA(DATA);
+  }, []);
+
+  useEffect(() => {
+    if (props.cases && props.cases.length > 0) {
+      setCases(props.cases);
+    } else {
+      setCases([]);
+    }
+  }, [props.cases]);
+
+  if (cases.length > 0) {
     const renderItem = ({ item }) => {
       const onPress = () => {
         props.navigation.navigate("Case", { caseId: item.id });
@@ -36,8 +60,10 @@ const ShowCase = (props) => {
       const onLongPress = () =>
         showConfirmDialog(
           "Delete ?",
-          "You really want to delete this case ?",
-          () => {}
+          `You really want to delete this case with id ? ${item.id}`,
+          () => {
+            dispatch(deleteCase(item.id));
+          }
         );
       return (
         <Item
@@ -45,25 +71,11 @@ const ShowCase = (props) => {
           uri={item.uri}
           id={item.id}
           styles={styles}
-          onPress={onPress}
-          onLongPress={onLongPress}
+          onPress={() => onPress()}
+          onLongPress={() => onLongPress()}
         />
       );
     };
-
-    useEffect(() => {
-      //get first images related to eache cases
-      var images = props.images;
-      const DATA = props.cases.map((caseItem) => {
-        return {
-          id: caseItem.id,
-          uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
-          date: caseItem.date,
-        };
-      });
-
-      setDATA(DATA);
-    }, []);
 
     return (
       <SafeAreaView style={styles.container}>
