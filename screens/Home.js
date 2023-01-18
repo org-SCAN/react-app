@@ -7,15 +7,15 @@ const Home = ({ navigation: { navigate } }) => {
     <View style={styles.mainContent}>
       <View style={styles.menu}>
         <ScanButton
-          title="Take a picture"
+          title="New case"
           onPress={() => {
-            navigate("Camera");
+            navigate("Case");
           }}
         />
         <ScanButton
-          title="View your pictures"
+          title="Consult cases"
           onPress={() => {
-            navigate("Pictures");
+            navigate("ShowCase");
           }}
         />
       </View>

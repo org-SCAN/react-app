@@ -1,30 +1,19 @@
 import { StyleSheet, View, Text, Switch } from "react-native";
-import { useDispatch, connect } from "react-redux";
-import { switchMode } from "../../redux/actions";
+import { connect } from "react-redux";
 
-const DarkModeToggle = (props) => {
+const SettingsToggle = (props) => {
   const mainStyle = { ...props.style, ...baseStyles.settingsLine };
-  const dispatch = useDispatch();
-
-  // Handle changing the theme mode
-  const handleThemeChange = () => {
-    dispatch(switchMode(props.theme.mode === "light" ? "dark" : "light"));
-  };
 
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
 
   return (
     <View style={mainStyle}>
       <View>
-        <Text style={styles.mainText}>Dark Mode</Text>
-        <Text style={styles.description}>Toggle dark mode</Text>
+        <Text style={styles.mainText}>{props.title || "default"}</Text>
+        <Text style={styles.description}>{props.description || "None"}</Text>
       </View>
       <View>
-        <Switch
-          onChange={handleThemeChange}
-          value={props.theme.mode == "dark"}
-          trackColor={{ true: "#BF0413", false: "grey" }}
-        />
+        <Switch {...props} trackColor={{ true: "#BF0413", false: "grey" }} />
       </View>
     </View>
   );
@@ -68,4 +57,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(DarkModeToggle);
+export default connect(mapStateToProps)(SettingsToggle);

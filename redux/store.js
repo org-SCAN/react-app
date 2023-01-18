@@ -12,10 +12,12 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import themeReducer from "./Reducers/themeReducer";
 import imageReducer from "./Reducers/imageReducer";
+import caseReducer from "./Reducers/caseReducer";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
   image: imageReducer,
+  case: caseReducer,
 });
 
 const persistConfig = {

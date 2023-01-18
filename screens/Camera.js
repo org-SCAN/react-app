@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Image, TouchableOpacity } from "react-native";
-import { useDispatch, connect } from "react-redux";
+import { StyleSheet, View, ActivityIndicator } from "react-native";
+import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
@@ -10,11 +10,11 @@ import * as Location from "expo-location";
 
 const ScanCamera = (props) => {
   const { navigation } = props;
+  const caseID = props.route.params.caseID;
   const camType = Camera.Constants.Type;
   const [camera, setCamera] = useState(null);
-  const [image, setImage] = useState(null);
   const [type, setType] = useState(camType.back);
-  const [location, setLocation] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -22,27 +22,20 @@ const ScanCamera = (props) => {
     dispatch(storeImage(data));
   };
 
-  useEffect(() => {
-    (async () => {
-      if (props.images && props.images.length > 0) {
-        setImage(props.images[props.images.length - 1].data);
-      }
-      const location = await Location.getCurrentPositionAsync({
-        accuracy: Location.Accuracy.Balanced,
-      });
-      console.log(location);
-      setLocation(location);
-    })();
-  }, []);
+  useEffect(() => {}, []);
 
   const takePicture = async () => {
+    setLoading(true);
     if (camera) {
       const data = await camera.takePictureAsync({ base64: true });
       if (data && data.base64) {
-        setImage("data:image/jpg;base64," + data.base64);
         const imageId = uuid.v4();
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Balanced,
+        });
         const image = {
           id: imageId,
+          caseID: caseID,
           date: new Date().toISOString(),
           data: "data:image/jpg;base64," + data.base64,
           lat: location.coords.latitude,
@@ -55,19 +48,28 @@ const ScanCamera = (props) => {
   };
   return (
     <View style={styles.container}>
+      {loading && (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}
       <Camera
         ref={(ref) => setCamera(ref)}
         style={styles.camera}
         type={type}
         ratio={"1:1"}
-        quality={0.5}
+        quality={0.25}
       />
 
       <View style={styles.control}>
         <IconButton
           name="camera"
           color="white"
-          onPress={() => takePicture()}
+          onPress={() =>
+            takePicture().then(() => {
+              navigation.goBack();
+            })
+          }
           size="40"
           style={styles.icon}
         />
@@ -81,15 +83,6 @@ const ScanCamera = (props) => {
           style={styles.icon}
         />
       </View>
-      {image && (
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate("Pictures");
-          }}
-        >
-          <Image source={{ uri: image }} style={styles.preview} />
-        </TouchableOpacity>
-      )}
     </View>
   );
 };
@@ -121,12 +114,17 @@ const styles = StyleSheet.create({
     bottom: 25,
     right: 25,
   },
+  activityContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
 });
 
-function mapStateToProps(state) {
-  return {
-    images: state.image.image,
-  };
-}
-
-export default connect(mapStateToProps)(ScanCamera);
+export default ScanCamera;

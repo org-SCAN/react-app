@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -6,46 +6,76 @@ import {
   Image,
   FlatList,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
+import { deleteCase } from "../redux/actions";
+import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 
-const Item = ({ date, uri, id, coords, styles }) => (
-  <View style={styles.item}>
+const Item = ({ date, uri, id, styles, onPress, onLongPress }) => (
+  <TouchableOpacity
+    style={styles.item}
+    onPress={onPress}
+    onLongPress={onLongPress}
+  >
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
-      <View style={{ flex: 10 }}>
-        <Text style={styles.position}>LAT : {JSON.stringify(coords.lat)}</Text>
-        <Text style={styles.position}>LNG : {JSON.stringify(coords.lng)}</Text>
-      </View>
       <Text style={styles.id}>ID : {id}</Text>
     </View>
-  </View>
+  </TouchableOpacity>
 );
 
-const Pictures = (props) => {
+const ShowCase = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
-  if (props.images && props.images.length > 0) {
-    const renderItem = ({ item }) => (
-      <Item
-        date={item.date}
-        uri={item.uri}
-        id={item.id}
-        coords={item.coords}
-        styles={styles}
-      />
-    );
-    const DATA = props.images.map((image) => {
+  const [DATA, setDATA] = useState([]);
+  const [cases, setCases] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    //get first images related to eache cases
+    var images = props.images;
+    const DATA = props.cases.map((caseItem) => {
       return {
-        id: image.id,
-        date: image.date,
-        uri: image.data,
-        coords: {
-          lat: image.lat,
-          lng: image.lng,
-        },
+        id: caseItem.id,
+        uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
+        date: caseItem.date,
       };
     });
+    setDATA(DATA);
+  }, []);
+
+  useEffect(() => {
+    if (props.cases && props.cases.length > 0) {
+      setCases(props.cases);
+    } else {
+      setCases([]);
+    }
+  }, [props.cases]);
+
+  if (cases.length > 0) {
+    const renderItem = ({ item }) => {
+      const onPress = () => {
+        props.navigation.navigate("Case", { caseId: item.id });
+      };
+      const onLongPress = () =>
+        showConfirmDialog(
+          "Delete ?",
+          `You really want to delete this case with id ? ${item.id}`,
+          () => {
+            dispatch(deleteCase(item.id));
+          }
+        );
+      return (
+        <Item
+          date={item.date}
+          uri={item.uri}
+          id={item.id}
+          styles={styles}
+          onPress={() => onPress()}
+          onLongPress={() => onLongPress()}
+        />
+      );
+    };
 
     return (
       <SafeAreaView style={styles.container}>
@@ -59,7 +89,7 @@ const Pictures = (props) => {
   } else {
     return (
       <View style={styles.mainContent}>
-        <Text>No images to display</Text>
+        <Text>No cases to display</Text>
       </View>
     );
   }
@@ -94,7 +124,7 @@ const basicStyle = StyleSheet.create({
   },
   id: {
     flexWrap: "wrap",
-    textAlign: "right",
+    textAlign: "justify",
     fontStyle: "italic",
     fontSize: 10,
   },
@@ -136,7 +166,8 @@ function mapStateToProps(state) {
   return {
     images: state.image.image,
     theme: state.theme,
+    cases: state.case.cases,
   };
 }
 
-export default connect(mapStateToProps)(Pictures);
+export default connect(mapStateToProps)(ShowCase);
