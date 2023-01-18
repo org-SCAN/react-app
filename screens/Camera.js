@@ -38,9 +38,16 @@ const ScanCamera = (props) => {
             "Permission to access location was denied, photo was saved without location data"
           );
         } else {
+          //get location in 5 seconds max
           location = await Location.getCurrentPositionAsync({
             accuracy: Location.Accuracy.Balanced,
+            timeout: 5000,
           });
+          if (!location) {
+            alert(
+              "Could not get location, photo was saved without location data"
+            );
+          }
         }
         const image = {
           id: imageId,

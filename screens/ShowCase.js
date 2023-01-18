@@ -42,7 +42,7 @@ const ShowCase = (props) => {
       };
     });
     setDATA(DATA);
-  }, []);
+  }, [props.images, props.cases]);
 
   useEffect(() => {
     if (props.cases && props.cases.length > 0) {
