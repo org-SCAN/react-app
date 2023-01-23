@@ -239,6 +239,7 @@ const basicStyle = StyleSheet.create({
     width: 300,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 5,
   },
 });
 

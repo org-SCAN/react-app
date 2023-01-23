@@ -21,6 +21,7 @@ const basicStyle = StyleSheet.create({
     margin: 5,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 5,
   },
 });
 
