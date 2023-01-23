@@ -22,18 +22,9 @@ const App = () => {
     })();
   }, []);
 
-  if (cameraPermission === false || locationPermission === false) {
-    var errorText = "";
-    if (cameraPermission === false && locationPermission === false) {
-      errorText =
-        "This application need Camera and Location access. Please allow it in your phone settings.";
-    } else if (cameraPermission === false) {
-      errorText =
-        "This application need Camera access. Please allow it in your phone settings.";
-    } else if (locationPermission === false) {
-      errorText =
-        "This application need Location access. Please allow it in your phone settings.";
-    }
+  if (cameraPermission === false) {
+    var errorText =
+      "This application need Camera access. Please allow it in your phone settings.";
 
     return (
       <SafeAreaView style={styles.errorContainer}>
