@@ -62,10 +62,21 @@ const Case = (props) => {
   const dispatch = useDispatch();
 
   const save = () => {
-    setLoading(true);
+    if (images.length === 0) {
+      alert("Please add at least one image");
+      return;
+    }
     const keyValues = FORM.map((element) => {
       return { [element.key]: element.value };
     });
+    //if a value is empty send an alert
+    const emptyValues = keyValues.filter((element) => {
+      return element[Object.keys(element)[0]] === "";
+    });
+    if (emptyValues.length > 0) {
+      alert("Please fill all the fields");
+      return;
+    }
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const data = {
