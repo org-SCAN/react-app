@@ -17,10 +17,11 @@ const ScanInput = (props) => {
 const basicStyle = StyleSheet.create({
   input: {
     height: 40,
-    width: 200,
+    width: 300,
     margin: 5,
     borderWidth: 1,
     padding: 10,
+    borderRadius: 5,
   },
 });
 

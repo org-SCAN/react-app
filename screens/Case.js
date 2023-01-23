@@ -6,6 +6,7 @@ import {
   FlatList,
   Image,
   ActivityIndicator,
+  TextInput,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -35,9 +36,17 @@ const FORM = [
     onChangeText: null,
     keyboardType: "numeric",
   },
+  {
+    key: "injuries",
+    placeholder: "Cause of injuries",
+    value: "",
+    onChangeText: null,
+    keyboardType: "default",
+  },
 ];
 
 const Case = (props) => {
+  const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
@@ -53,10 +62,21 @@ const Case = (props) => {
   const dispatch = useDispatch();
 
   const save = () => {
-    setLoading(true);
+    if (images.length === 0) {
+      alert("Please add at least one image");
+      return;
+    }
     const keyValues = FORM.map((element) => {
       return { [element.key]: element.value };
     });
+    //if a value is empty send an alert
+    const emptyValues = keyValues.filter((element) => {
+      return element[Object.keys(element)[0]] === "";
+    });
+    if (emptyValues.length > 0) {
+      alert("Please fill all the fields");
+      return;
+    }
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const data = {
@@ -137,6 +157,7 @@ const Case = (props) => {
     <Image
       source={{ uri: item.uri }}
       style={{ width: 150, height: 150, margin: 10 }}
+      blurRadius={20}
     />
   );
 
@@ -148,12 +169,26 @@ const Case = (props) => {
         </View>
       )}
       <FlatList
-        data={FORM}
+        data={FORM.filter((item) => item.key !== "injuries")}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
         ListFooterComponent={<View style={{ height: 20 }} />}
         style={{ flexGrow: 0 }}
+        scrollEnabled={false}
+      />
+      <TextInput
+        editable
+        multiline
+        numberOfLines={4}
+        placeholder={FORM[3].placeholder}
+        value={FORM[3].value}
+        onChangeText={FORM[3].onChangeText}
+        keyboardType={FORM[3].keyboardType}
+        style={styles.injuries}
+        placeholderTextColor={
+          props.theme.mode === "light" ? "#B3B3B3" : "#B3B3B39C"
+        }
       />
       <ScanButton
         title="Take a photo"
@@ -179,7 +214,7 @@ const Case = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const basicStyle = StyleSheet.create({
   mainContent: {
     flex: 1,
     alignItems: "center",
@@ -199,12 +234,37 @@ const styles = StyleSheet.create({
     zIndex: 1,
     backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
+  injuries: {
+    height: 100,
+    width: 300,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 5,
+  },
+});
+
+const lightStyle = StyleSheet.create({
+  ...basicStyle,
+  injuries: {
+    ...basicStyle.injuries,
+    borderColor: "#000",
+  },
+});
+
+const darkStyle = StyleSheet.create({
+  ...basicStyle,
+  injuries: {
+    ...basicStyle.injuries,
+    borderColor: "#fff",
+    backgroundColor: "#333333",
+  },
 });
 
 function mapStateToProps(state) {
   return {
     images: state.image.image,
     cases: state.case.cases,
+    theme: state.theme,
   };
 }
 

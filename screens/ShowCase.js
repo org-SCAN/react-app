@@ -12,15 +12,33 @@ import { connect, useDispatch } from "react-redux";
 import { deleteCase } from "../redux/actions";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 
-const Item = ({ date, uri, id, styles, onPress, onLongPress }) => (
+const Item = ({
+  date,
+  uri,
+  id,
+  forname,
+  lastname,
+  styles,
+  onPress,
+  onLongPress,
+}) => (
   <TouchableOpacity
     style={styles.item}
     onPress={onPress}
     onLongPress={onLongPress}
   >
-    <Image style={styles.image} source={{ uri: uri }} />
+    <Image style={styles.image} source={{ uri: uri }} blurRadius={20} />
     <View style={{ flex: 1, marginLeft: 10 }}>
-      <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
+      <Text style={styles.names}>
+        {forname} {lastname}
+      </Text>
+      <Text style={styles.date}>
+        {new Date(date).toLocaleDateString("en-GB", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        })}
+      </Text>
       <Text style={styles.id}>ID : {id}</Text>
     </View>
   </TouchableOpacity>
@@ -39,6 +57,8 @@ const ShowCase = (props) => {
         id: caseItem.id,
         uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
         date: caseItem.date,
+        forname: caseItem.forname,
+        lastname: caseItem.lastname,
       };
     });
     setDATA(DATA);
@@ -70,6 +90,8 @@ const ShowCase = (props) => {
           date={item.date}
           uri={item.uri}
           id={item.id}
+          forname={item.forname}
+          lastname={item.lastname}
           styles={styles}
           onPress={() => onPress()}
           onLongPress={() => onLongPress()}
@@ -113,9 +135,15 @@ const basicStyle = StyleSheet.create({
   date: {
     flexWrap: "wrap",
     textAlign: "right",
+    flex: 10,
+    fontSize: 17,
+  },
+  names: {
+    flexWrap: "wrap",
+    textAlign: "right",
     flex: 1,
-    fontSize: 20,
-    marginTop: 10,
+    fontSize: 25,
+    fontWeight: "bold",
   },
   position: {
     flexWrap: "wrap",
