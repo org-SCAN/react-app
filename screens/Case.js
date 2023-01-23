@@ -146,6 +146,7 @@ const Case = (props) => {
     <Image
       source={{ uri: item.uri }}
       style={{ width: 150, height: 150, margin: 10 }}
+      blurRadius={20}
     />
   );
 

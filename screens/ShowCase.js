@@ -18,7 +18,7 @@ const Item = ({ date, uri, id, styles, onPress, onLongPress }) => (
     onPress={onPress}
     onLongPress={onLongPress}
   >
-    <Image style={styles.image} source={{ uri: uri }} />
+    <Image style={styles.image} source={{ uri: uri }} blurRadius={20} />
     <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
       <Text style={styles.id}>ID : {id}</Text>
