@@ -22,6 +22,9 @@ const basicStyles = StyleSheet.create({
     borderWidth: 2,
     margin: 10,
     width: 200,
+    shadowColor: "black",
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.4,
   },
   text: {
     fontSize: 16,
