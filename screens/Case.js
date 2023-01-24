@@ -7,6 +7,7 @@ import {
   Image,
   ActivityIndicator,
   TextInput,
+  Text,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -180,7 +181,7 @@ const Case = (props) => {
       <TextInput
         editable
         multiline
-        numberOfLines={4}
+        numberOfLines={3}
         placeholder={FORM[3].placeholder}
         value={FORM[3].value}
         onChangeText={FORM[3].onChangeText}
@@ -194,6 +195,9 @@ const Case = (props) => {
         title="Take a photo"
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
       />
+      <Text style={{ fontStyle: "italic" }}>
+        Take at least 5 photos if possible
+      </Text>
       <FlatList
         data={images}
         renderItem={renderImage}
@@ -235,11 +239,12 @@ const basicStyle = StyleSheet.create({
     backgroundColor: "rgba(52, 52, 52, 0.8)",
   },
   injuries: {
-    height: 100,
+    height: 90,
     width: 300,
     borderWidth: 1,
     padding: 10,
     borderRadius: 5,
+    marginBottom: 10,
   },
 });
 
