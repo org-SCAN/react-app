@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -15,6 +15,8 @@ import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase } from "../redux/actions";
+import { HeaderBackButton } from "react-navigation-stack";
+import { Alert } from "react-native";
 
 const FORM = [
   {
@@ -54,6 +56,46 @@ const Case = (props) => {
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  //Change the back button onpress beahviour and disable swipe back
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            var isFormFilled = false;
+            if (images.length === 0) {
+              isFormFilled = true;
+            }
+            const keyValues = FORM.map((element) => {
+              return { [element.key]: element.value };
+            });
+            const emptyValues = keyValues.filter((element) => {
+              return element[Object.keys(element)[0]] === "";
+            });
+            if (emptyValues.length > 0) {
+              isFormFilled = true;
+            }
+            if (isFormFilled) {
+              Alert.alert("Are you sure you want to discard this case ?", "", [
+                {
+                  text: "Yes",
+                  onPress: () => navigation.goBack(),
+                },
+                {
+                  text: "No",
+                },
+              ]);
+            } else {
+              navigation.goBack();
+            }
+          }}
+        />
+      ),
+      gestureEnabled: false,
+    });
+  }, [navigation, FORM, images]);
 
   FORM.forEach((element) => {
     const [value, onChangeText] = useState(element.value);
@@ -213,7 +255,7 @@ const Case = (props) => {
       />
       <View style={styles.button}>
         <ScanButton
-          title="Submit"
+          title="Save"
           onPress={() => {
             save();
           }}
