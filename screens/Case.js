@@ -64,32 +64,15 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            var isFormFilled = false;
-            if (images.length === 0) {
-              isFormFilled = true;
-            }
-            const keyValues = FORM.map((element) => {
-              return { [element.key]: element.value };
-            });
-            const emptyValues = keyValues.filter((element) => {
-              return element[Object.keys(element)[0]] === "";
-            });
-            if (emptyValues.length > 0) {
-              isFormFilled = true;
-            }
-            if (isFormFilled) {
-              Alert.alert("Are you sure you want to discard this case ?", "", [
-                {
-                  text: "Yes",
-                  onPress: () => navigation.goBack(),
-                },
-                {
-                  text: "No",
-                },
-              ]);
-            } else {
-              navigation.goBack();
-            }
+            Alert.alert("Are you sure you want to discard this case ?", "", [
+              {
+                text: "Yes",
+                onPress: () => navigation.goBack(),
+              },
+              {
+                text: "No",
+              },
+            ]);
           }}
         />
       ),
