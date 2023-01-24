@@ -11,6 +11,11 @@ const IconButton = (props) => {
         name={props.name}
         size={props.size || 30}
         color={props.color ?? "#fff"}
+        style={{
+          shadowColor: "black",
+          shadowOffset: { width: 1, height: 1 },
+          shadowOpacity: 0.4,
+        }}
       />
     </TouchableOpacity>
   );

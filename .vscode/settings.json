@@ -1,14 +1,15 @@
 {
-    "conventionalCommits.scopes": [
-        "Global",
-        "Config",
-        "Documentation",
-        "Components",
-        "Navigation",
-        "Camera",
-        "Settings",
-        "Pictures",
-        "Location",
-        "Case"
-    ]
+  "conventionalCommits.scopes": [
+    "Global",
+    "Config",
+    "Documentation",
+    "Components",
+    "Navigation",
+    "Camera",
+    "Settings",
+    "Pictures",
+    "Location",
+    "Case",
+    "Style"
+  ]
 }
