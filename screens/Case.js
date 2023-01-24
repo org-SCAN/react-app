@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   View,
-  SafeAreaView,
   FlatList,
   Image,
   ActivityIndicator,
   TextInput,
   Text,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase } from "../redux/actions";
+import { HeaderBackButton } from "react-navigation-stack";
+import { Alert } from "react-native";
 
 const FORM = [
   {
@@ -54,6 +56,29 @@ const Case = (props) => {
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   const [loading, setLoading] = useState(false);
+
+  //Change the back button onpress beahviour and disable swipe back
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: (props) => (
+        <HeaderBackButton
+          {...props}
+          onPress={() => {
+            Alert.alert("Are you sure you want to discard this case ?", "", [
+              {
+                text: "Yes",
+                onPress: () => navigation.goBack(),
+              },
+              {
+                text: "No",
+              },
+            ]);
+          }}
+        />
+      ),
+      gestureEnabled: false,
+    });
+  }, [navigation, FORM, images]);
 
   FORM.forEach((element) => {
     const [value, onChangeText] = useState(element.value);
@@ -168,7 +193,11 @@ const Case = (props) => {
   );
 
   return (
-    <SafeAreaView style={styles.mainContent}>
+    <TouchableOpacity
+      style={styles.mainContent}
+      activeOpacity={1}
+      onPress={() => Keyboard.dismiss()}
+    >
       {loading && (
         <View style={styles.activityContainer}>
           <ActivityIndicator size="large" color="white" />
@@ -213,13 +242,13 @@ const Case = (props) => {
       />
       <View style={styles.button}>
         <ScanButton
-          title="Submit"
+          title="Save"
           onPress={() => {
             save();
           }}
         />
       </View>
-    </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 
