@@ -2,13 +2,13 @@ import React, { useState, useEffect, useLayoutEffect } from "react";
 import {
   StyleSheet,
   View,
-  SafeAreaView,
   FlatList,
   Image,
   ActivityIndicator,
   TextInput,
   Text,
   TouchableOpacity,
+  Keyboard,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -193,7 +193,11 @@ const Case = (props) => {
   );
 
   return (
-    <SafeAreaView style={styles.mainContent}>
+    <TouchableOpacity
+      style={styles.mainContent}
+      activeOpacity={1}
+      onPress={() => Keyboard.dismiss()}
+    >
       {loading && (
         <View style={styles.activityContainer}>
           <ActivityIndicator size="large" color="white" />
@@ -244,7 +248,7 @@ const Case = (props) => {
           }}
         />
       </View>
-    </SafeAreaView>
+    </TouchableOpacity>
   );
 };
 
