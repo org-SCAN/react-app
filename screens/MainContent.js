@@ -4,6 +4,7 @@ import Home from "./Home";
 import Settings from "./Settings";
 import ScanCamera from "./Camera";
 import ShowCase from "./ShowCase";
+import Pictures from "./Pictures";
 import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
@@ -31,6 +32,11 @@ const MainContent = (props) => {
         <Stack.Screen
           name="ShowCase"
           component={ShowCase}
+          options={styles.screen}
+        />
+        <Stack.Screen
+          name="Pictures"
+          component={Pictures}
           options={styles.screen}
         />
         <Stack.Screen name="Case" component={Case} options={styles.case} />

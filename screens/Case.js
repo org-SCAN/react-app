@@ -8,6 +8,7 @@ import {
   ActivityIndicator,
   TextInput,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -155,11 +156,15 @@ const Case = (props) => {
     />
   );
   const renderImage = ({ item }) => (
-    <Image
-      source={{ uri: item.uri }}
-      style={{ width: 150, height: 150, margin: 10 }}
-      blurRadius={20}
-    />
+    <TouchableOpacity
+      onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
+    >
+      <Image
+        source={{ uri: item.uri }}
+        style={{ width: 150, height: 150, margin: 10 }}
+        blurRadius={20}
+      />
+    </TouchableOpacity>
   );
 
   return (
