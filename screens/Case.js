@@ -4,7 +4,6 @@ import {
   View,
   FlatList,
   Image,
-  ActivityIndicator,
   TextInput,
   Text,
   TouchableOpacity,
@@ -14,7 +13,7 @@ import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
-import { saveCase, editCase } from "../redux/actions";
+import { saveCase, editCase, deleteCase } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
 import { Alert } from "react-native";
 
@@ -55,7 +54,7 @@ const Case = (props) => {
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch();
 
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
@@ -64,15 +63,22 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            Alert.alert("Are you sure you want to discard this case ?", "", [
-              {
-                text: "Yes",
-                onPress: () => navigation.goBack(),
-              },
-              {
-                text: "No",
-              },
-            ]);
+            if (!existingCase) {
+              Alert.alert("Are you sure you want to discard this case ?", "", [
+                {
+                  text: "Yes",
+                  onPress: () => {
+                    dispatch(deleteCase(caseID));
+                    navigation.goBack();
+                  },
+                },
+                {
+                  text: "No",
+                },
+              ]);
+            } else {
+              navigation.goBack();
+            }
           }}
         />
       ),
@@ -85,8 +91,6 @@ const Case = (props) => {
     element.value = value;
     element.onChangeText = onChangeText;
   });
-
-  const dispatch = useDispatch();
 
   const save = () => {
     if (images.length === 0) {
@@ -198,11 +202,6 @@ const Case = (props) => {
       activeOpacity={1}
       onPress={() => Keyboard.dismiss()}
     >
-      {loading && (
-        <View style={styles.activityContainer}>
-          <ActivityIndicator size="large" color="white" />
-        </View>
-      )}
       <FlatList
         data={FORM.filter((item) => item.key !== "injuries")}
         renderItem={renderItem}

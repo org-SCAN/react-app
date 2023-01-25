@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { deleteCase } from "../redux/actions";
+import { deleteCase, deleteImageCase } from "../redux/actions";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 
 const Item = ({
