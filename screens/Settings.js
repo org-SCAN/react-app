@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Button } from "react-native";
+import { StyleSheet, View, Button, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
@@ -35,6 +35,12 @@ const Settings = (props) => {
         description="Change the theme of the app"
       />
       <View style={styles.bottom}>
+        <Text style={styles.hint}>Debug</Text>
+        <Button
+          title="Log photo length"
+          color={SCAN_COLOR}
+          onPress={() => console.log(props.images.length)}
+        />
         <Button
           title="Clear all datas"
           color={SCAN_COLOR}
@@ -64,11 +70,18 @@ const styles = StyleSheet.create({
     bottom: 50,
     width: "100%",
   },
+  hint: {
+    fontStyle: "italic",
+    color: "#B3B3B3",
+    alignContent: "center",
+    textAlign: "center",
+  },
 });
 
 function mapStateToProps(state) {
   return {
     theme: state.theme,
+    images: state.image.image,
   };
 }
 

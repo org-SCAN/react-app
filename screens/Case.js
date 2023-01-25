@@ -64,15 +64,19 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            Alert.alert("Are you sure you want to discard this case ?", "", [
-              {
-                text: "Yes",
-                onPress: () => navigation.goBack(),
-              },
-              {
-                text: "No",
-              },
-            ]);
+            if (!existingCase) {
+              Alert.alert("Are you sure you want to discard this case ?", "", [
+                {
+                  text: "Yes",
+                  onPress: () => navigation.goBack(),
+                },
+                {
+                  text: "No",
+                },
+              ]);
+            } else {
+              navigation.goBack();
+            }
           }}
         />
       ),

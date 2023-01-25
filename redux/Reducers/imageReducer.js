@@ -1,4 +1,4 @@
-import { STORE_IMAGE, CLEAR_IMAGE } from "../constants";
+import { STORE_IMAGE, CLEAR_IMAGE, DELETE_CASE } from "../constants";
 
 const imageReducer = (
   state = {
@@ -16,6 +16,11 @@ const imageReducer = (
       return {
         ...state,
         image: [],
+      };
+    case DELETE_CASE:
+      return {
+        ...state,
+        image: state.image.filter((item) => item.caseID !== action.payload),
       };
     default:
       return state;
