@@ -39,6 +39,7 @@ Below all the documentation that we used to build this app.
 - [React Navigation](https://reactnavigation.org/docs/getting-started)
 - [React Redux](https://react-redux.js.org/introduction/quick-start)
 - [Expo Documentation](https://docs.expo.dev/)
+- [React native mail](https://github.com/chirag04/react-native-mail)
 
 ## Contribution guide
 

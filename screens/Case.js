@@ -16,7 +16,7 @@ import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase, deleteCase } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
-import { Alert } from "react-native";
+import { Alert, Linking } from "react-native";
 
 const FORM = [
   {
@@ -93,10 +93,10 @@ const Case = (props) => {
     element.onChangeText = onChangeText;
   });
 
-  const save = () => {
+  const isCaseComplete = () => {
     if (images.length === 0) {
       alert("Please add at least one image");
-      return;
+      return false;
     }
     const keyValues = FORM.map((element) => {
       return { [element.key]: element.value };
@@ -107,8 +107,16 @@ const Case = (props) => {
     });
     if (emptyValues.length > 0) {
       alert("Please fill all the fields");
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const save = () => {
+    if (!isCaseComplete()) return;
+    const keyValues = FORM.map((element) => {
+      return { [element.key]: element.value };
+    });
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const data = {
@@ -124,6 +132,16 @@ const Case = (props) => {
       dispatch(saveCase(data));
       navigation.navigate("Home");
     }
+  };
+
+  const submit = () => {
+    //if (!isCaseComplete()) return;
+    var mail = "";
+    var subject = "[CASE] " + caseID;
+    var body =
+      "This email is sent from the Dividoc Appilcation. Please do not reply to it.";
+    var url = "mailto:" + mail + "?subject=" + subject + "&body=" + body;
+    Linking.openURL(url);
   };
 
   const setCaseImages = () => {
@@ -247,7 +265,12 @@ const Case = (props) => {
             save();
           }}
         />
-        <LittleScanButton title="Submit" onPress={() => {}} />
+        <LittleScanButton
+          title="Submit"
+          onPress={() => {
+            submit();
+          }}
+        />
       </View>
     </TouchableOpacity>
   );
