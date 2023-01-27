@@ -11,11 +11,13 @@ import {
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
+import LittleScanButton from "../components/BasicUI/LittleScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase, deleteCase } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
 import { Alert } from "react-native";
+import * as MailComposer from "expo-mail-composer";
 
 const FORM = [
   {
@@ -92,10 +94,10 @@ const Case = (props) => {
     element.onChangeText = onChangeText;
   });
 
-  const save = () => {
+  const isCaseComplete = () => {
     if (images.length === 0) {
       alert("Please add at least one image");
-      return;
+      return false;
     }
     const keyValues = FORM.map((element) => {
       return { [element.key]: element.value };
@@ -106,8 +108,16 @@ const Case = (props) => {
     });
     if (emptyValues.length > 0) {
       alert("Please fill all the fields");
-      return;
+      return false;
     }
+    return true;
+  };
+
+  const save = () => {
+    if (!isCaseComplete()) return;
+    const keyValues = FORM.map((element) => {
+      return { [element.key]: element.value };
+    });
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const data = {
@@ -123,6 +133,16 @@ const Case = (props) => {
       dispatch(saveCase(data));
       navigation.navigate("Home");
     }
+  };
+
+  const submit = () => {
+    //if (!isCaseComplete()) return;
+    MailComposer.composeAsync({
+      recipients: ["sample@gmail.com"],
+      subject: "[CASE] " + caseID,
+      body: "<em>This email comes from the Dividoc application. Please do not respond to it.</em>",
+      isHtml: true,
+    });
   };
 
   const setCaseImages = () => {
@@ -240,10 +260,16 @@ const Case = (props) => {
         horizontal={true}
       />
       <View style={styles.button}>
-        <ScanButton
+        <LittleScanButton
           title="Save"
           onPress={() => {
             save();
+          }}
+        />
+        <LittleScanButton
+          title="Submit"
+          onPress={() => {
+            submit();
           }}
         />
       </View>
@@ -259,6 +285,9 @@ const basicStyle = StyleSheet.create({
   button: {
     position: "absolute",
     bottom: 0,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
   },
   activityContainer: {
     position: "absolute",
