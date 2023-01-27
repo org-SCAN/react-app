@@ -16,7 +16,8 @@ import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase, deleteCase } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
-import { Alert, Linking } from "react-native";
+import { Alert } from "react-native";
+import * as MailComposer from "expo-mail-composer";
 
 const FORM = [
   {
@@ -136,12 +137,12 @@ const Case = (props) => {
 
   const submit = () => {
     //if (!isCaseComplete()) return;
-    var mail = "";
-    var subject = "[CASE] " + caseID;
-    var body =
-      "This email is sent from the Dividoc Appilcation. Please do not reply to it.";
-    var url = "mailto:" + mail + "?subject=" + subject + "&body=" + body;
-    Linking.openURL(url);
+    MailComposer.composeAsync({
+      recipients: ["sample@gmail.com"],
+      subject: "[CASE] " + caseID,
+      body: "<em>This email comes from the Dividoc application. Please do not respond to it.</em>",
+      isHtml: true,
+    });
   };
 
   const setCaseImages = () => {
