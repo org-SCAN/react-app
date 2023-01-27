@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
+import LittleScanButton from "../components/BasicUI/LittleScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase, deleteCase } from "../redux/actions";
@@ -240,12 +241,13 @@ const Case = (props) => {
         horizontal={true}
       />
       <View style={styles.button}>
-        <ScanButton
+        <LittleScanButton
           title="Save"
           onPress={() => {
             save();
           }}
         />
+        <LittleScanButton title="Submit" onPress={() => {}} />
       </View>
     </TouchableOpacity>
   );
@@ -259,6 +261,9 @@ const basicStyle = StyleSheet.create({
   button: {
     position: "absolute",
     bottom: 0,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
   },
   activityContainer: {
     position: "absolute",
