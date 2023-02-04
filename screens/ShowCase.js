@@ -27,7 +27,7 @@ const Item = ({
     onPress={onPress}
     onLongPress={onLongPress}
   >
-    <Image style={styles.image} source={{ uri: uri }} blurRadius={20} />
+    <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
     <View style={{ flex: 1, marginLeft: 10 }}>
       <Text style={styles.names}>
         {forname} {lastname}

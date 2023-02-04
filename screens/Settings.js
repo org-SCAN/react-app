@@ -7,6 +7,7 @@ import { SCAN_COLOR } from "../theme/constants";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 import { switchMode } from "../redux/actions";
 import { connect } from "react-redux";
+import { deleteCameraCache } from "../utils/cacheManager";
 
 const Settings = (props) => {
   const dispatch = useDispatch();
@@ -21,6 +22,7 @@ const Settings = (props) => {
     setShowBox(false);
     dispatch(clearImage());
     dispatch(clearCase());
+    deleteCameraCache();
   };
   return (
     <View style={styles.mainContent}>

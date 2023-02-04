@@ -4,9 +4,10 @@ import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
-import { deleteCameraCache } from "../utils/cacheManager";
 import uuid from "react-native-uuid";
 import * as Location from "expo-location";
+import { deleteCameraCache } from "../utils/cacheManager";
+import { saveImageToMemory } from "../utils/fileHandler";
 
 const ScanCamera = (props) => {
   const { navigation } = props;
@@ -27,7 +28,10 @@ const ScanCamera = (props) => {
   const takePicture = async () => {
     setLoading(true);
     if (camera) {
-      const data = await camera.takePictureAsync({ base64: true });
+      const data = await camera.takePictureAsync({
+        quality: 0.25,
+        base64: true,
+      });
       if (data && data.base64) {
         const imageId = uuid.v4();
         //get permission status
@@ -49,11 +53,13 @@ const ScanCamera = (props) => {
             );
           }
         }
+        //save image to file system
+        const path = await saveImageToMemory(data.base64, imageId);
         const image = {
           id: imageId,
           caseID: caseID,
           date: new Date().toISOString(),
-          data: "data:image/jpg;base64," + data.base64,
+          data: path,
           lat: location.coords.latitude,
           lng: location.coords.longitude,
         };

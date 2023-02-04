@@ -18,6 +18,7 @@ import { saveCase, editCase, deleteCase } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
 import { Alert } from "react-native";
 import * as MailComposer from "expo-mail-composer";
+import { deleteCameraCache } from "../utils/cacheManager";
 
 const FORM = [
   {
@@ -71,6 +72,7 @@ const Case = (props) => {
                   text: "Yes",
                   onPress: () => {
                     dispatch(deleteCase(caseID));
+                    deleteCameraCache();
                     navigation.goBack();
                   },
                 },
@@ -211,7 +213,7 @@ const Case = (props) => {
       <Image
         source={{ uri: item.uri }}
         style={{ width: 150, height: 150, margin: 10 }}
-        blurRadius={20}
+        blurRadius={100}
       />
     </TouchableOpacity>
   );
