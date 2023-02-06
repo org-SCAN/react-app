@@ -19,3 +19,28 @@ export async function deleteImageFromMemory(imageId) {
     FileSystem.documentDirectory + "images/" + imageId + ".jpg"
   );
 }
+
+export async function saveCaseToMemory(data, caseId) {
+  await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "cases", {
+    intermediates: true,
+  });
+  await FileSystem.writeAsStringAsync(
+    FileSystem.documentDirectory + "cases/" + caseId + ".json",
+    JSON.stringify(data),
+    {
+      encoding: FileSystem.EncodingType.UTF8,
+    }
+  );
+  return FileSystem.documentDirectory + "cases/" + caseId + ".json";
+}
+
+export async function deleteCaseFromMemory(caseId) {
+  await FileSystem.deleteAsync(
+    FileSystem.documentDirectory + "cases/" + caseId + ".json"
+  );
+}
+
+export async function deleteAll() {
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "images");
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "cases");
+}

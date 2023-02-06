@@ -8,6 +8,7 @@ import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 import { switchMode } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
+import { deleteAll } from "../utils/fileHandler";
 
 const Settings = (props) => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const Settings = (props) => {
 
   const clear = () => {
     setShowBox(false);
+    deleteAll();
     dispatch(clearImage());
     dispatch(clearCase());
     deleteCameraCache();
