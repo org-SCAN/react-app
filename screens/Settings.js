@@ -7,6 +7,8 @@ import { SCAN_COLOR } from "../theme/constants";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 import { switchMode } from "../redux/actions";
 import { connect } from "react-redux";
+import { deleteCameraCache } from "../utils/cacheManager";
+import { deleteAll } from "../utils/fileHandler";
 
 const Settings = (props) => {
   const dispatch = useDispatch();
@@ -19,8 +21,10 @@ const Settings = (props) => {
 
   const clear = () => {
     setShowBox(false);
+    deleteAll();
     dispatch(clearImage());
     dispatch(clearCase());
+    deleteCameraCache();
   };
   return (
     <View style={styles.mainContent}>
@@ -36,11 +40,6 @@ const Settings = (props) => {
       />
       <View style={styles.bottom}>
         <Text style={styles.hint}>Debug</Text>
-        <Button
-          title="Log photo length"
-          color={SCAN_COLOR}
-          onPress={() => console.log(props.images.length)}
-        />
         <Button
           title="Clear all datas"
           color={SCAN_COLOR}
