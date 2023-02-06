@@ -41,11 +41,6 @@ const Settings = (props) => {
       <View style={styles.bottom}>
         <Text style={styles.hint}>Debug</Text>
         <Button
-          title="Log photo length"
-          color={SCAN_COLOR}
-          onPress={() => console.log(props.images.length)}
-        />
-        <Button
           title="Clear all datas"
           color={SCAN_COLOR}
           onPress={() =>

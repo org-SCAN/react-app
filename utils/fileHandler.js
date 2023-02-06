@@ -1,4 +1,5 @@
 import * as FileSystem from "expo-file-system";
+import JSZip from "jszip";
 
 export async function saveImageToMemory(data, imageId) {
   await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "images", {
@@ -20,27 +21,41 @@ export async function deleteImageFromMemory(imageId) {
   );
 }
 
-export async function saveCaseToMemory(data, caseId) {
-  await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "cases", {
+export async function deleteAll() {
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "images");
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "zips");
+}
+
+export async function createZip(caseData) {
+  const zip = new JSZip();
+  const images = caseData.images;
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    const uri = FileSystem.documentDirectory + "images/" + image + ".jpg";
+    const imageUri = await FileSystem.readAsStringAsync(uri, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
+    zip.file(image + ".jpg", imageUri, { base64: true });
+  }
+  delete caseData.images;
+  const caseJson = JSON.stringify(caseData);
+  zip.file(caseData.id + ".json", caseJson);
+  const zipContent = await zip.generateAsync({ type: "base64" });
+  await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "zips", {
     intermediates: true,
   });
   await FileSystem.writeAsStringAsync(
-    FileSystem.documentDirectory + "cases/" + caseId + ".json",
-    JSON.stringify(data),
+    FileSystem.documentDirectory + "zips/" + caseData.id + ".zip",
+    zipContent,
     {
-      encoding: FileSystem.EncodingType.UTF8,
+      encoding: FileSystem.EncodingType.Base64,
     }
   );
-  return FileSystem.documentDirectory + "cases/" + caseId + ".json";
+  return FileSystem.documentDirectory + "zips/" + caseData.id + ".zip";
 }
 
-export async function deleteCaseFromMemory(caseId) {
+export async function deleteZip(caseId) {
   await FileSystem.deleteAsync(
-    FileSystem.documentDirectory + "cases/" + caseId + ".json"
+    FileSystem.documentDirectory + "zips/" + caseId + ".zip"
   );
-}
-
-export async function deleteAll() {
-  await FileSystem.deleteAsync(FileSystem.documentDirectory + "images");
-  await FileSystem.deleteAsync(FileSystem.documentDirectory + "cases");
 }

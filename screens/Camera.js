@@ -23,8 +23,6 @@ const ScanCamera = (props) => {
     dispatch(storeImage(data));
   };
 
-  useEffect(() => {}, []);
-
   const takePicture = async () => {
     setLoading(true);
     if (camera) {

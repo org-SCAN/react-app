@@ -19,7 +19,8 @@ import { HeaderBackButton } from "react-navigation-stack";
 import { Alert } from "react-native";
 import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
-import { saveCaseToMemory, deleteCaseFromMemory } from "../utils/fileHandler";
+import { createZip } from "../utils/fileHandler";
+import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 
 const FORM = [
   {
@@ -73,6 +74,11 @@ const Case = (props) => {
                   text: "Yes",
                   onPress: () => {
                     dispatch(deleteCase(caseID));
+                    if (images.length > 0) {
+                      images.forEach((image) => {
+                        deleteImageFromMemory(image.id);
+                      });
+                    }
                     deleteCameraCache();
                     navigation.goBack();
                   },
@@ -151,19 +157,15 @@ const Case = (props) => {
       images: imageIDs,
       date: new Date().toISOString(),
     };
-    const path = await saveCaseToMemory(data, caseID);
+    const path = await createZip(data);
     MailComposer.composeAsync({
       recipients: ["sample@gmail.com"],
       subject: "[CASE] " + caseID,
       body: "<em>This email comes from the Dividoc application. Please do not respond to it.</em>",
       isHtml: true,
-      attachments: images
-        .map((image) => {
-          return image.uri;
-        })
-        .concat(path),
+      attachments: path,
     }).then(() => {
-      deleteCaseFromMemory(caseID);
+      deleteZip(caseID);
     });
   };
 
