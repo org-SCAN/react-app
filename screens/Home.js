@@ -1,32 +1,37 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Animated } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 
 const Home = (props) => {
   const navigation = props.navigation;
-  const [notification, setNotification] = useState(false);
+  const [mOpacity, setOpacity] = useState(new Animated.Value(1));
 
   useEffect(() => {
     if (props.route.params && props.route.params.notification) {
-      setNotification(true);
+      setOpacity(new Animated.Value(1));
     }
   }, [props.route.params]);
 
   useEffect(() => {
-    if (notification) {
+    //fade out if opacity is 1
+    if (mOpacity._value === 1) {
       setTimeout(() => {
-        setNotification(false);
-      }, 1000);
+        Animated.timing(mOpacity, {
+          toValue: 0,
+          duration: 1500,
+          useNativeDriver: true,
+        }).start();
+      }, 500);
     }
-  }, [notification]);
+  }, [mOpacity]);
 
   return (
     <View style={styles.mainContent}>
-      {notification && (
-        <View style={styles.notification}>
-          <Text>Case Saved ✅</Text>
-        </View>
-      )}
+      <Animated.View
+        style={{ ...styles.notification, ...{ opacity: mOpacity } }}
+      >
+        <Text>Case Saved ✅</Text>
+      </Animated.View>
       <View style={styles.menu}>
         <ScanButton
           title="New case"
