@@ -142,7 +142,7 @@ const Case = (props) => {
       navigation.navigate("ShowCase");
     } else {
       dispatch(saveCase(data));
-      navigation.navigate("Home");
+      navigation.navigate("Home", { notification: true });
     }
   };
 
