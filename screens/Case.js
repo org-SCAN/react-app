@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   Keyboard,
+  Vibration,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -135,6 +136,7 @@ const Case = (props) => {
       images: imageIDs,
       date: new Date().toISOString(),
     };
+    Vibration.vibrate();
     if (existingCase) {
       dispatch(editCase(data));
       navigation.navigate("ShowCase");
