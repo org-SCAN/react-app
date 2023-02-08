@@ -4,7 +4,7 @@ import ScanButton from "../components/BasicUI/ScanButton";
 
 const Home = (props) => {
   const navigation = props.navigation;
-  const [mOpacity, setOpacity] = useState(new Animated.Value(1));
+  const [mOpacity, setOpacity] = useState(new Animated.Value(0));
 
   useEffect(() => {
     if (props.route.params && props.route.params.notification) {

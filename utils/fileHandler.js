@@ -22,8 +22,16 @@ export async function deleteImageFromMemory(imageId) {
 }
 
 export async function deleteAll() {
-  await FileSystem.deleteAsync(FileSystem.documentDirectory + "images");
-  await FileSystem.deleteAsync(FileSystem.documentDirectory + "zips");
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "images").catch(
+    (err) => {
+      console.log(err);
+    }
+  );
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "zips").catch(
+    (err) => {
+      console.log(err);
+    }
+  );
 }
 
 export async function createZip(caseData) {
