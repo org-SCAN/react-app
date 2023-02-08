@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Animated } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
+import { connect } from "react-redux";
+import { Icon } from "@rneui/themed";
 
 const Home = (props) => {
   const navigation = props.navigation;
@@ -13,7 +15,6 @@ const Home = (props) => {
   }, [props.route.params]);
 
   useEffect(() => {
-    //fade out if opacity is 1
     if (mOpacity._value === 1) {
       setTimeout(() => {
         Animated.timing(mOpacity, {
@@ -45,6 +46,16 @@ const Home = (props) => {
             navigation.navigate("ShowCase");
           }}
         />
+        <View style={styles.hintBox}>
+          <View style={styles.hintLine}>
+            <Icon name="description" size={22} color="grey" />
+            <Text style={styles.hintText}> : {props.cases.length}</Text>
+          </View>
+          <View style={styles.hintLine}>
+            <Icon name="camera-alt" size={22} color="grey" />
+            <Text style={styles.hintText}> : {props.images.length}</Text>
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -73,6 +84,28 @@ const styles = StyleSheet.create({
     backgroundColor: "#6FDE7A30",
     borderColor: "#6FDE7A30",
   },
+  hintBox: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: 200,
+  },
+  hintLine: {
+    flexDirection: "row",
+    marginBottom: 5,
+  },
+  hintText: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "grey",
+  },
 });
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+    cases: state.case.cases,
+    images: state.image.image,
+  };
+}
+
+export default connect(mapStateToProps)(Home);
