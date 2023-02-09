@@ -62,6 +62,10 @@ const Case = (props) => {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
 
+  const isCaseEmpty = () => {
+    return FORM.every((element) => element.value === "");
+  };
+
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -69,7 +73,7 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            if (!existingCase) {
+            if (!existingCase && !isCaseEmpty()) {
               Alert.alert("Are you sure you want to discard this case ?", "", [
                 {
                   text: "Yes",
