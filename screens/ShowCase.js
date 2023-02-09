@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { connect, useDispatch } from "react-redux";
-import { deleteCase, deleteImageCase } from "../redux/actions";
+import { deleteCase } from "../redux/actions";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 
 const Item = ({
@@ -39,7 +39,7 @@ const Item = ({
           day: "numeric",
         })}
       </Text>
-      <Text style={styles.id}>ID : {id}</Text>
+      <Text style={styles.hint}>Click case to edit or submit</Text>
     </View>
   </TouchableOpacity>
 );
@@ -150,11 +150,12 @@ const basicStyle = StyleSheet.create({
     textAlign: "right",
     fontSize: 12,
   },
-  id: {
+  hint: {
     flexWrap: "wrap",
     textAlign: "justify",
     fontStyle: "italic",
-    fontSize: 10,
+    fontSize: 12,
+    textAlign: "right",
   },
 });
 
