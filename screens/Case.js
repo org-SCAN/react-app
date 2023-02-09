@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   Keyboard,
+  Vibration,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -61,6 +62,10 @@ const Case = (props) => {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
 
+  const isCaseEmpty = () => {
+    return FORM.every((element) => element.value === "");
+  };
+
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,7 +73,7 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            if (!existingCase) {
+            if (!existingCase && !isCaseEmpty()) {
               Alert.alert("Are you sure you want to discard this case ?", "", [
                 {
                   text: "Yes",
@@ -135,12 +140,13 @@ const Case = (props) => {
       images: imageIDs,
       date: new Date().toISOString(),
     };
+    Vibration.vibrate();
     if (existingCase) {
       dispatch(editCase(data));
       navigation.navigate("ShowCase");
     } else {
       dispatch(saveCase(data));
-      navigation.navigate("Home");
+      navigation.navigate("Home", { notification: true });
     }
   };
 

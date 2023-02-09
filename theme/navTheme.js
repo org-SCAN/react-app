@@ -38,6 +38,11 @@ const CameraTheme = {
   headerStyle: { backgroundColor: "black" },
 };
 
+const ShowCaseTheme = {
+  ...Screen,
+  title: "Consult cases",
+};
+
 export const navigationStyle = {
   light: {
     screen: Screen,
@@ -45,6 +50,7 @@ export const navigationStyle = {
     home: HomeTheme,
     camera: CameraTheme,
     case: Screen,
+    showCase: ShowCaseTheme,
   },
   dark: {
     screen: Screen,
@@ -52,5 +58,6 @@ export const navigationStyle = {
     home: HomeTheme,
     camera: CameraTheme,
     case: Screen,
+    showCase: ShowCaseTheme,
   },
 };

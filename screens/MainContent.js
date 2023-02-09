@@ -32,7 +32,7 @@ const MainContent = (props) => {
         <Stack.Screen
           name="ShowCase"
           component={ShowCase}
-          options={styles.screen}
+          options={styles.showCase}
         />
         <Stack.Screen
           name="Pictures"
