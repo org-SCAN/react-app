@@ -67,3 +67,11 @@ export async function deleteZip(caseId) {
     FileSystem.documentDirectory + "zips/" + caseId + ".zip"
   );
 }
+
+export async function deleteImageCase(caseData) {
+  const images = caseData.images;
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    await deleteImageFromMemory(image);
+  }
+}

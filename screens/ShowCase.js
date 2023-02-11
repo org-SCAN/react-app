@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   StyleSheet,
   View,
@@ -7,48 +7,79 @@ import {
   FlatList,
   SafeAreaView,
   TouchableOpacity,
+  Animated,
 } from "react-native";
+import { Icon } from "@rneui/themed";
+import { Swipeable } from "react-native-gesture-handler";
 import { connect, useDispatch } from "react-redux";
-import { deleteCase } from "../redux/actions";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
-
-const Item = ({
-  date,
-  uri,
-  id,
-  forname,
-  lastname,
-  styles,
-  onPress,
-  onLongPress,
-}) => (
-  <TouchableOpacity
-    style={styles.item}
-    onPress={onPress}
-    onLongPress={onLongPress}
-  >
-    <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
-    <View style={{ flex: 1, marginLeft: 10 }}>
-      <Text style={styles.names}>
-        {forname} {lastname}
-      </Text>
-      <Text style={styles.date}>
-        {new Date(date).toLocaleDateString("en-GB", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        })}
-      </Text>
-      <Text style={styles.hint}>Click case to edit or submit</Text>
-    </View>
-  </TouchableOpacity>
-);
+import { SCAN_COLOR } from "../theme/constants";
+import { deleteImageCase } from "../utils/fileHandler";
+import { deleteCase } from "../redux/actions";
 
 const ShowCase = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const [DATA, setDATA] = useState([]);
   const [cases, setCases] = useState([]);
+  const swipeableRef = useRef(null);
   const dispatch = useDispatch();
+  //disable Touchable opacity when swiping
+  const Item = ({ id, date, uri, forname, lastname, styles, onPress }) => (
+    <Swipeable
+      renderRightActions={(progress, dragX) => {
+        const opacity = dragX.interpolate({
+          inputRange: [-120, 0],
+          outputRange: [1, 0],
+          extrapolate: "clamp",
+        });
+
+        return (
+          <Animated.View style={{ ...styles.deleteContainer, opacity }}>
+            <TouchableOpacity
+              style={styles.deleteButton}
+              onPress={() => {
+                showConfirmDialog(
+                  "Delete Case",
+                  "Are you sure you want to delete this case?",
+                  async () => {
+                    let entireCase = props.cases.find((c) => c.id === id);
+                    await deleteImageCase(entireCase);
+                    dispatch(deleteCase(id));
+                  }
+                );
+              }}
+            >
+              <Icon name="delete" size={30} color="#fff" />
+            </TouchableOpacity>
+          </Animated.View>
+        );
+      }}
+      ref={swipeableRef}
+    >
+      <TouchableOpacity
+        style={styles.item}
+        onPress={onPress}
+        disabled={swipeableRef.current?.state?.dragX?.__getValue() !== 0}
+      >
+        <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
+        <View style={{ flex: 1, marginLeft: 10 }}>
+          <Text style={styles.names}>
+            {forname} {lastname}
+          </Text>
+          <Text style={styles.date}>
+            {new Date(date).toLocaleDateString("en-GB", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </Text>
+          <Text style={styles.hint}>Click case to edit or submit</Text>
+          <Text style={styles.hint}>Swipe left to delete</Text>
+        </View>
+      </TouchableOpacity>
+    </Swipeable>
+  );
+
   useEffect(() => {
     //get first images related to eache cases
     var images = props.images;
@@ -77,24 +108,15 @@ const ShowCase = (props) => {
       const onPress = () => {
         props.navigation.navigate("Case", { caseId: item.id });
       };
-      const onLongPress = () =>
-        showConfirmDialog(
-          "Delete ?",
-          `You really want to delete this case with id ? ${item.id}`,
-          () => {
-            dispatch(deleteCase(item.id));
-          }
-        );
       return (
         <Item
+          id={item.id}
           date={item.date}
           uri={item.uri}
-          id={item.id}
           forname={item.forname}
           lastname={item.lastname}
           styles={styles}
           onPress={() => onPress()}
-          onLongPress={() => onLongPress()}
         />
       );
     };
@@ -157,6 +179,18 @@ const basicStyle = StyleSheet.create({
     fontSize: 12,
     textAlign: "right",
   },
+  deleteContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    width: 120,
+    backgroundColor: SCAN_COLOR,
+  },
+  deleteButton: {
+    width: 120,
+    height: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 const lightStyle = StyleSheet.create({
@@ -190,7 +224,6 @@ const darkStyle = StyleSheet.create({
     color: "white",
   },
 });
-
 function mapStateToProps(state) {
   return {
     images: state.image.image,
