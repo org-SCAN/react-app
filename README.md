@@ -1,5 +1,7 @@
 # Rework of Scan App in React Native
 
+_By Antoine Piron & Nicolas Guy_
+
 ## Table of Contents
 
 - [Rework of Scan App in React Native](#rework-of-scan-app-in-react-native)
