@@ -26,6 +26,15 @@ const Settings = (props) => {
     dispatch(clearCase());
     deleteCameraCache();
   };
+
+  const languageFrench = () => {
+    setShowBox(false);
+    dispatch(updateLanguage("fr"));
+  };
+
+  const { intlData } = props;
+  console.log(intlData);
+
   return (
     <View style={styles.mainContent}>
       {showBox}
@@ -38,6 +47,17 @@ const Settings = (props) => {
         title="Dark Mode"
         description="Change the theme of the app"
       />
+      <View style={styles.bottomLanguage}>
+        <Text style={styles.hint}>Language</Text>
+        <Button
+          title="French"
+          color={SCAN_COLOR}
+          onPress={() =>
+            showConfirmDialog("Do you want to pass to french ?", languageFrench)
+          }
+        />
+        <Text> {intlData.messages["Settings"]} </Text>
+      </View>
       <View style={styles.bottom}>
         <Text style={styles.hint}>Debug</Text>
         <Button
@@ -69,6 +89,11 @@ const styles = StyleSheet.create({
     bottom: 50,
     width: "100%",
   },
+  bottomLanguage: {
+    position: "absolute",
+    bottom: 200,
+    width: "100%",
+  },
   hint: {
     fontStyle: "italic",
     color: "#B3B3B3",
@@ -81,6 +106,7 @@ function mapStateToProps(state) {
   return {
     theme: state.theme,
     images: state.image.image,
+    intlData: state.lang,
   };
 }
 
