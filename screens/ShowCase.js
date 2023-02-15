@@ -10,7 +10,10 @@ import {
   Animated,
 } from "react-native";
 import { Icon } from "@rneui/themed";
-import { Swipeable } from "react-native-gesture-handler";
+import {
+  Swipeable,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import { connect, useDispatch } from "react-redux";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 import { SCAN_COLOR } from "../theme/constants";
@@ -56,11 +59,7 @@ const ShowCase = (props) => {
       }}
       ref={swipeableRef}
     >
-      <TouchableOpacity
-        style={styles.item}
-        onPress={onPress}
-        disabled={swipeableRef.current?.state?.dragX?.__getValue() !== 0}
-      >
+      <TouchableOpacity style={styles.item} onPress={onPress}>
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.names}>
@@ -122,13 +121,13 @@ const ShowCase = (props) => {
     };
 
     return (
-      <SafeAreaView style={styles.container}>
+      <GestureHandlerRootView style={styles.container}>
         <FlatList
           data={DATA}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
-      </SafeAreaView>
+      </GestureHandlerRootView>
     );
   } else {
     return (
