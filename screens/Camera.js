@@ -90,7 +90,7 @@ const ScanCamera = (props) => {
               navigation.goBack();
             })
           }
-          size="40"
+          size={40}
           style={styles.icon}
         />
         <IconButton
@@ -99,7 +99,7 @@ const ScanCamera = (props) => {
           onPress={() => {
             setType(type === camType.back ? camType.front : camType.back);
           }}
-          size="40"
+          size={40}
           style={styles.icon}
         />
       </View>
