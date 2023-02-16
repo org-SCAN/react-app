@@ -164,12 +164,18 @@ const Case = (props) => {
       date: new Date().toISOString(),
     };
     const path = await createZip(data);
+    //Check if mail is available
+    const isAvailable = await MailComposer.isAvailableAsync();
+    if (!isAvailable) {
+      alert("No email client found");
+      return;
+    }
     MailComposer.composeAsync({
       recipients: ["sample@gmail.com"],
       subject: "[CASE] " + caseID,
       body: "<em>This email comes from the Dividoc application. Please do not respond to it.</em>",
       isHtml: true,
-      attachments: path,
+      attachments: [path],
     }).then(() => {
       deleteZip(caseID);
     });
