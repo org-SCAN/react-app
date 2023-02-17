@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Keyboard,
   Vibration,
+  Pressable,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -241,7 +242,7 @@ const Case = (props) => {
     />
   );
   const renderImage = ({ item }) => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
     >
       <Image
@@ -249,11 +250,11 @@ const Case = (props) => {
         style={{ width: 150, height: 150, margin: 10 }}
         blurRadius={100}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 
   return (
-    <TouchableOpacity
+    <Pressable
       style={styles.mainContent}
       activeOpacity={1}
       onPress={() => Keyboard.dismiss()}
@@ -309,7 +310,7 @@ const Case = (props) => {
           }}
         />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

@@ -5,8 +5,7 @@ import {
   Text,
   Image,
   FlatList,
-  SafeAreaView,
-  TouchableOpacity,
+  Pressable,
   Animated,
 } from "react-native";
 import { Icon } from "@rneui/themed";
@@ -38,7 +37,7 @@ const ShowCase = (props) => {
 
         return (
           <Animated.View style={{ ...styles.deleteContainer, opacity }}>
-            <TouchableOpacity
+            <Pressable
               style={styles.deleteButton}
               onPress={() => {
                 showConfirmDialog(
@@ -53,13 +52,13 @@ const ShowCase = (props) => {
               }}
             >
               <Icon name="delete" size={30} color="#fff" />
-            </TouchableOpacity>
+            </Pressable>
           </Animated.View>
         );
       }}
       ref={swipeableRef}
     >
-      <TouchableOpacity style={styles.item} onPress={onPress}>
+      <Pressable style={styles.item} onPress={onPress}>
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.names}>
@@ -75,7 +74,7 @@ const ShowCase = (props) => {
           <Text style={styles.hint}>Click case to edit or submit</Text>
           <Text style={styles.hint}>Swipe left to delete</Text>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </Swipeable>
   );
 
