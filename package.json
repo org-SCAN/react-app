@@ -1,6 +1,6 @@
 {
   "name": "scan-app",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "scripts": {
     "start": "expo start --dev-client",
     "android": "expo run:android",
