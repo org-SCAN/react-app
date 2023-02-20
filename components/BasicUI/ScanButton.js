@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, Pressable } from "react-native";
 import { connect } from "react-redux";
 
 const ScanButton = (props) => {
@@ -7,9 +7,9 @@ const ScanButton = (props) => {
     styles.button = { ...styles.button, ...props.style };
   }
   return (
-    <TouchableOpacity style={styles.button} onPress={props.onPress}>
+    <Pressable style={styles.button} onPress={props.onPress}>
       <Text style={styles.text}>{props.title || "default"}</Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

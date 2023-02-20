@@ -1,12 +1,9 @@
 import { Icon } from "@rneui/themed";
-import { TouchableOpacity } from "react-native";
+import { Pressable } from "react-native";
 
 const IconButton = (props) => {
   return (
-    <TouchableOpacity
-      style={props.style ? props.style : {}}
-      onPress={props.onPress}
-    >
+    <Pressable style={props.style ? props.style : {}} onPress={props.onPress}>
       <Icon
         name={props.name}
         size={props.size || 30}
@@ -17,7 +14,7 @@ const IconButton = (props) => {
           shadowOpacity: 0.4,
         }}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

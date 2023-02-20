@@ -5,12 +5,14 @@ import {
   Text,
   Image,
   FlatList,
-  SafeAreaView,
-  TouchableOpacity,
+  Pressable,
   Animated,
 } from "react-native";
 import { Icon } from "@rneui/themed";
-import { Swipeable } from "react-native-gesture-handler";
+import {
+  Swipeable,
+  GestureHandlerRootView,
+} from "react-native-gesture-handler";
 import { connect, useDispatch } from "react-redux";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 import { SCAN_COLOR } from "../theme/constants";
@@ -35,7 +37,7 @@ const ShowCase = (props) => {
 
         return (
           <Animated.View style={{ ...styles.deleteContainer, opacity }}>
-            <TouchableOpacity
+            <Pressable
               style={styles.deleteButton}
               onPress={() => {
                 showConfirmDialog(
@@ -50,17 +52,13 @@ const ShowCase = (props) => {
               }}
             >
               <Icon name="delete" size={30} color="#fff" />
-            </TouchableOpacity>
+            </Pressable>
           </Animated.View>
         );
       }}
       ref={swipeableRef}
     >
-      <TouchableOpacity
-        style={styles.item}
-        onPress={onPress}
-        disabled={swipeableRef.current?.state?.dragX?.__getValue() !== 0}
-      >
+      <Pressable style={styles.item} onPress={onPress}>
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.names}>
@@ -76,7 +74,7 @@ const ShowCase = (props) => {
           <Text style={styles.hint}>Click case to edit or submit</Text>
           <Text style={styles.hint}>Swipe left to delete</Text>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </Swipeable>
   );
 
@@ -122,13 +120,13 @@ const ShowCase = (props) => {
     };
 
     return (
-      <SafeAreaView style={styles.container}>
+      <GestureHandlerRootView style={styles.container}>
         <FlatList
           data={DATA}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
         />
-      </SafeAreaView>
+      </GestureHandlerRootView>
     );
   } else {
     return (
