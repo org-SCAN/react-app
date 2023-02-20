@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import MainContent from "./screens/MainContent";
 import { PersistGate } from "redux-persist/lib/integration/react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Text, StyleSheet, SafeAreaView } from "react-native";
 
 const App = () => {
@@ -36,7 +37,9 @@ const App = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <MainContent />
+        <GestureHandlerRootView style={{ flex: 1 }}>
+          <MainContent />
+        </GestureHandlerRootView>
       </PersistGate>
     </Provider>
   );
