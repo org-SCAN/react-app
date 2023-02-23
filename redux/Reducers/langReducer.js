@@ -21,7 +21,7 @@ const initialState = {
   messages: setLanguage("en"),
 };
 
-const intlData = (state = initialState, action) => {
+const langReducer = (state = initialState, action) => {
   if (action === undefined) return state;
   switch (action.type) {
     case UPDATE_LANGUAGE:
@@ -33,4 +33,4 @@ const intlData = (state = initialState, action) => {
       return state;
   }
 };
-export default intlData;
+export default langReducer;

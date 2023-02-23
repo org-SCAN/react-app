@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text } from "react-native";
 import { useDispatch } from "react-redux";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
 import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
-import { switchMode } from "../redux/actions";
+import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
 
 const Settings = (props) => {
+  const { intlData } = props;
   const dispatch = useDispatch();
   const [showBox, setShowBox] = useState(true);
 
@@ -32,8 +33,9 @@ const Settings = (props) => {
     dispatch(updateLanguage("fr"));
   };
 
-  const { intlData } = props;
-  console.log(intlData);
+  useEffect(() => {
+    console.log(props.intlData);
+  }, [props.intlData]);
 
   return (
     <View style={styles.mainContent}>
@@ -53,10 +55,14 @@ const Settings = (props) => {
           title="French"
           color={SCAN_COLOR}
           onPress={() =>
-            showConfirmDialog("Do you want to pass to french ?", languageFrench)
+            showConfirmDialog(
+              "Do you want to pass to french ?",
+              "",
+              languageFrench
+            )
           }
         />
-        <Text> {intlData.messages["Settings"]} </Text>
+        <Text> {intlData.messages["Test"]} </Text>
       </View>
       <View style={styles.bottom}>
         <Text style={styles.hint}>Debug</Text>
