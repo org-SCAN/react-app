@@ -8,6 +8,8 @@ import {
   Text,
   TouchableOpacity,
   Keyboard,
+  Vibration,
+  Pressable,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -61,6 +63,10 @@ const Case = (props) => {
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
 
+  const isCaseEmpty = () => {
+    return FORM.every((element) => element.value === "");
+  };
+
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -68,7 +74,7 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
-            if (!existingCase) {
+            if (!existingCase && !isCaseEmpty()) {
               Alert.alert("Are you sure you want to discard this case ?", "", [
                 {
                   text: "Yes",
@@ -135,12 +141,13 @@ const Case = (props) => {
       images: imageIDs,
       date: new Date().toISOString(),
     };
+    Vibration.vibrate();
     if (existingCase) {
       dispatch(editCase(data));
       navigation.navigate("ShowCase");
     } else {
       dispatch(saveCase(data));
-      navigation.navigate("Home");
+      navigation.navigate("Home", { notification: true });
     }
   };
 
@@ -158,12 +165,18 @@ const Case = (props) => {
       date: new Date().toISOString(),
     };
     const path = await createZip(data);
+    //Check if mail is available
+    const isAvailable = await MailComposer.isAvailableAsync();
+    if (!isAvailable) {
+      alert("No email client found");
+      return;
+    }
     MailComposer.composeAsync({
       recipients: ["sample@gmail.com"],
       subject: "[CASE] " + caseID,
       body: "<em>This email comes from the Dividoc application. Please do not respond to it.</em>",
       isHtml: true,
-      attachments: path,
+      attachments: [path],
     }).then(() => {
       deleteZip(caseID);
     });
@@ -229,7 +242,7 @@ const Case = (props) => {
     />
   );
   const renderImage = ({ item }) => (
-    <TouchableOpacity
+    <Pressable
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
     >
       <Image
@@ -237,11 +250,11 @@ const Case = (props) => {
         style={{ width: 150, height: 150, margin: 10 }}
         blurRadius={100}
       />
-    </TouchableOpacity>
+    </Pressable>
   );
 
   return (
-    <TouchableOpacity
+    <Pressable
       style={styles.mainContent}
       activeOpacity={1}
       onPress={() => Keyboard.dismiss()}
@@ -252,7 +265,7 @@ const Case = (props) => {
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
         ListFooterComponent={<View style={{ height: 20 }} />}
-        style={{ flexGrow: 0 }}
+        style={{ flexGrow: 0, flexShrink: 0 }}
         scrollEnabled={false}
       />
       <TextInput
@@ -297,7 +310,7 @@ const Case = (props) => {
           }}
         />
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 };
 

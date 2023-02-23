@@ -1,5 +1,7 @@
 # Rework of Scan App in React Native
 
+_By Antoine Piron & Nicolas Guy_
+
 ## Table of Contents
 
 - [Rework of Scan App in React Native](#rework-of-scan-app-in-react-native)
@@ -38,8 +40,7 @@ Below all the documentation that we used to build this app.
 - [React Native](https://reactnative.dev/docs/getting-started.html)
 - [React Navigation](https://reactnavigation.org/docs/getting-started)
 - [React Redux](https://react-redux.js.org/introduction/quick-start)
-- [Expo Documentation](https://docs.expo.dev/)
-- [Expo mail composer](https://docs.expo.dev/versions/latest/sdk/mail-composer/)
+- [Expo Documentation](https://docs.expo.dev/) &rarr; very useful for the Camera, FileSystem, MailCompsoer, etc.
 
 ## Contribution guide
 
