@@ -5,12 +5,10 @@ const setLanguage = (language) => {
   switch (language) {
     case "fr":
       messages = Object.assign(messages, require(`../../i18n/fr.json`));
-      console.log(messages);
       break;
     default:
     case "en":
       messages = Object.assign(messages, require(`../../i18n/en.json`));
-      console.log(messages);
       break;
   }
   return messages;

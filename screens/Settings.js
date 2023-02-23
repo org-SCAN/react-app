@@ -33,10 +33,6 @@ const Settings = (props) => {
     dispatch(updateLanguage("fr"));
   };
 
-  useEffect(() => {
-    console.log(props.intlData);
-  }, [props.intlData]);
-
   return (
     <View style={styles.mainContent}>
       {showBox}
