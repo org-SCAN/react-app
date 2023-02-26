@@ -57,6 +57,7 @@ const FORM = [
 
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
+  const { intlData } = props;
   const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
@@ -75,9 +76,9 @@ const Case = (props) => {
           {...props}
           onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              Alert.alert("Are you sure you want to discard this case ?", "", [
+              Alert.alert(intlData.messages.Case["confirmBack"], "", [
                 {
-                  text: "Yes",
+                  text: intlData.messages["yes"],
                   onPress: () => {
                     dispatch(deleteCase(caseID));
                     if (images.length > 0) {
@@ -90,7 +91,7 @@ const Case = (props) => {
                   },
                 },
                 {
-                  text: "No",
+                  text: intlData.messages["no"],
                 },
               ]);
             } else {
@@ -369,6 +370,7 @@ function mapStateToProps(state) {
     images: state.image.image,
     cases: state.case.cases,
     theme: state.theme,
+    intlData: state.lang,
   };
 }
 

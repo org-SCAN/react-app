@@ -1,4 +1,37 @@
 {
-  "Settings": "Settings",
-  "Test": "Hello"
+  "Home": {
+    "title": "Home",
+    "caseButton": "New case",
+    "consultButton": "Consult cases",
+    "saveCase ": "Case saved"
+  },
+  "Case": {
+    "title": "Case",
+    "forename": "Forename",
+    "lastname": "Lastname",
+    "age": "Age",
+    "injury": "Cause of injuries",
+    "photoButton": "Take a photo",
+    "descriptionPhoto": "Take more than 5 photos if possible",
+    "saveButton": "Save",
+    "submitButton": "Submit",
+    "backButton": "Back",
+    "confirmBack": "Are you sure you want to discard this case ?"
+  },
+  "consultCases": {
+    "title": "Consult cases",
+    "noCase": "No cases to disaplay",
+    "editMessage": "Click case to edit or submit",
+    "swipeMessage": "Swipe left to delete"
+  },
+  "Settings": {
+    "title": "Settings",
+    "lightTheme": "Dark Mode",
+    "themeDescription": "Change the theme of the app",
+    "selectLanguage": "Select Language",
+    "debugMessage": "Clear all datas"
+  },
+
+  "yes": "Yes",
+  "no": "No"
 }

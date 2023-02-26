@@ -9,6 +9,8 @@ import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
+import languagePicker from "../components/Settings/languagePicker";
+import LanguagePicker from "../components/Settings/languagePicker";
 
 const Settings = (props) => {
   const { intlData } = props;
@@ -45,20 +47,8 @@ const Settings = (props) => {
         title="Dark Mode"
         description="Change the theme of the app"
       />
-      <View style={styles.bottomLanguage}>
-        <Text style={styles.hint}>Language</Text>
-        <Button
-          title="French"
-          color={SCAN_COLOR}
-          onPress={() =>
-            showConfirmDialog(
-              "Do you want to pass to french ?",
-              "",
-              languageFrench
-            )
-          }
-        />
-        <Text> {intlData.messages["Test"]} </Text>
+      <View>
+        <LanguagePicker></LanguagePicker>
       </View>
       <View style={styles.bottom}>
         <Text style={styles.hint}>Debug</Text>
