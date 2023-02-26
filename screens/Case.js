@@ -24,37 +24,6 @@ import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 
-const FORM = [
-  {
-    key: "forname",
-    placeholder: "Forename",
-    value: "",
-    onChangeText: null,
-    keyboardType: "default",
-  },
-  {
-    key: "lastname",
-    placeholder: "Lastname",
-    value: "",
-    onChangeText: null,
-    keyboardType: "default",
-  },
-  {
-    key: "age",
-    placeholder: "Age",
-    value: "",
-    onChangeText: null,
-    keyboardType: "numeric",
-  },
-  {
-    key: "injuries",
-    placeholder: "Cause of injuries",
-    value: "",
-    onChangeText: null,
-    keyboardType: "default",
-  },
-];
-
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const { intlData } = props;
@@ -63,6 +32,37 @@ const Case = (props) => {
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   const dispatch = useDispatch();
+
+  const FORM = [
+    {
+      key: "forname",
+      placeholder: intlData.messages.Case.forename,
+      value: "",
+      onChangeText: null,
+      keyboardType: "default",
+    },
+    {
+      key: "lastname",
+      placeholder: intlData.messages.Case.lastname,
+      value: "",
+      onChangeText: null,
+      keyboardType: "default",
+    },
+    {
+      key: "age",
+      placeholder: intlData.messages.Case.age,
+      value: "",
+      onChangeText: null,
+      keyboardType: "numeric",
+    },
+    {
+      key: "injuries",
+      placeholder: intlData.messages.Case.injury,
+      value: "",
+      onChangeText: null,
+      keyboardType: "default",
+    },
+  ];
 
   const isCaseEmpty = () => {
     return FORM.every((element) => element.value === "");
@@ -76,9 +76,9 @@ const Case = (props) => {
           {...props}
           onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              Alert.alert(intlData.messages.Case["confirmBack"], "", [
+              Alert.alert(intlData.messages.Case.confirmBack, "", [
                 {
-                  text: intlData.messages["yes"],
+                  text: intlData.messages.yes,
                   onPress: () => {
                     dispatch(deleteCase(caseID));
                     if (images.length > 0) {
@@ -91,7 +91,7 @@ const Case = (props) => {
                   },
                 },
                 {
-                  text: intlData.messages["no"],
+                  text: intlData.messages.no,
                 },
               ]);
             } else {
@@ -112,7 +112,7 @@ const Case = (props) => {
 
   const isCaseComplete = () => {
     if (images.length === 0) {
-      alert("Please add at least one image");
+      alert(intlData.messages.Case.addImage);
       return false;
     }
     const keyValues = FORM.map((element) => {
@@ -123,7 +123,7 @@ const Case = (props) => {
       return element[Object.keys(element)[0]] === "";
     });
     if (emptyValues.length > 0) {
-      alert("Please fill all the fields");
+      alert(intlData.messages.Case.allFields);
       return false;
     }
     return true;
@@ -169,13 +169,13 @@ const Case = (props) => {
     //Check if mail is available
     const isAvailable = await MailComposer.isAvailableAsync();
     if (!isAvailable) {
-      alert("No email client found");
+      alert(intlData.messages.Case.noMail);
       return;
     }
     MailComposer.composeAsync({
       recipients: ["sample@gmail.com"],
-      subject: "[CASE] " + caseID,
-      body: "<em>This email comes from the Dividoc application. Please do not respond to it.</em>",
+      subject: intlData.messages.Mail.subject + caseID,
+      body: intlData.messages.Mail.body,
       isHtml: true,
       attachments: [path],
     }).then(() => {
@@ -283,11 +283,11 @@ const Case = (props) => {
         }
       />
       <ScanButton
-        title="Take a photo"
+        title={intlData.messages.Case.photoButton}
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
       />
       <Text style={{ fontStyle: "italic" }}>
-        Take at least 5 photos if possible
+        {intlData.messages.Case.descriptionPhoto}
       </Text>
       <FlatList
         data={images}
@@ -299,13 +299,13 @@ const Case = (props) => {
       />
       <View style={styles.button}>
         <LittleScanButton
-          title="Save"
+          title={intlData.messages.Case.saveButton}
           onPress={() => {
             save();
           }}
         />
         <LittleScanButton
-          title="Submit"
+          title={intlData.messages.Case.submitButton}
           onPress={() => {
             submit();
           }}

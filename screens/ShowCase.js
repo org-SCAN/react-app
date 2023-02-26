@@ -25,6 +25,7 @@ const ShowCase = (props) => {
   const [cases, setCases] = useState([]);
   const swipeableRef = useRef(null);
   const dispatch = useDispatch();
+  const { intlData } = props;
   //disable Touchable opacity when swiping
   const Item = ({ id, date, uri, forname, lastname, styles, onPress }) => (
     <Swipeable
@@ -41,8 +42,8 @@ const ShowCase = (props) => {
               style={styles.deleteButton}
               onPress={() => {
                 showConfirmDialog(
-                  "Delete Case",
-                  "Are you sure you want to delete this case?",
+                  intlData.messages.consultCases.clearCase1,
+                  intlData.messages.consultCases.clearCase2,
                   async () => {
                     let entireCase = props.cases.find((c) => c.id === id);
                     await deleteImageCase(entireCase);
@@ -65,14 +66,20 @@ const ShowCase = (props) => {
             {forname} {lastname}
           </Text>
           <Text style={styles.date}>
-            {new Date(date).toLocaleDateString("en-GB", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+            {new Date(date).toLocaleDateString(
+              /*"en-GB", comment out to remove multilang problem*/ {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              }
+            )}
           </Text>
-          <Text style={styles.hint}>Click case to edit or submit</Text>
-          <Text style={styles.hint}>Swipe left to delete</Text>
+          <Text style={styles.hint}>
+            {intlData.messages.consultCases.editMessage}
+          </Text>
+          <Text style={styles.hint}>
+            {intlData.messages.consultCases.swipeMessage}
+          </Text>
         </View>
       </Pressable>
     </Swipeable>
@@ -131,7 +138,7 @@ const ShowCase = (props) => {
   } else {
     return (
       <View style={styles.mainContent}>
-        <Text>No cases to display</Text>
+        <Text>{intlData.messages.consultCases.noCase}</Text>
       </View>
     );
   }
@@ -227,6 +234,7 @@ function mapStateToProps(state) {
     images: state.image.image,
     theme: state.theme,
     cases: state.case.cases,
+    intlData: state.lang,
   };
 }
 

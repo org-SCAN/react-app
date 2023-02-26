@@ -16,20 +16,31 @@
     "saveButton": "Sauvegarder",
     "submitButton": "Soumettre",
     "backButton": "Retour",
-    "confirmBack": "Etes vous sûr de vouloir annuler le cas ?"
+    "confirmBack": "Etes vous sûr de vouloir annuler le cas ?",
+    "addImage": "Ajouter au moins une photo",
+    "allFields": "Veuillez remplir tous les champs",
+    "noMail": "Aucune messagerie n'est installée sur votre appareil"
   },
   "consultCases": {
     "title": "Consulter les cas",
     "noCase": "Pas de cas à afficher",
     "editMessage": "Editer les cas ou les modifier",
-    "swipeMessage": "Glisser vers la gauche pour supprimer"
+    "swipeMessage": "Glisser vers la gauche pour supprimer",
+    "clearCase1": "Supprimer un cas",
+    "clearCase2": "Êtes vous sûr de vouloir supprimer ce cas ?"
   },
   "Settings": {
     "title": "Paramètres",
     "lightTheme": "Mode sombre",
-    "themeDescription": "Chnage le thème de l'application",
+    "themeDescription": "Change le thème de l'application",
     "selectLanguage": "Sélectionner la langue",
-    "debugMessage": "Effacer les données"
+    "debugMessage": "Effacer les données",
+    "clearCases1": "Êtes vous sûr ?",
+    "clearCases2": "Tous les cas seront supprimés"
+  },
+  "Mail": {
+    "subject": "[CAS] ",
+    "body": "<em>Cet email provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
   },
 
   "yes": "Oui",

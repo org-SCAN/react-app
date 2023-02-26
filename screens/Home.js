@@ -7,6 +7,7 @@ import { Icon } from "@rneui/themed";
 const Home = (props) => {
   const navigation = props.navigation;
   const [mOpacity, setOpacity] = useState(new Animated.Value(0));
+  const { intlData } = props;
 
   useEffect(() => {
     if (props.route.params && props.route.params.notification) {
@@ -31,17 +32,17 @@ const Home = (props) => {
       <Animated.View
         style={{ ...styles.notification, ...{ opacity: mOpacity } }}
       >
-        <Text>Case Saved ✅</Text>
+        <Text>{intlData.messages.Home.saveCase} ✅</Text>
       </Animated.View>
       <View style={styles.menu}>
         <ScanButton
-          title="New case"
+          title={intlData.messages.Home.caseButton}
           onPress={() => {
             navigation.navigate("Case");
           }}
         />
         <ScanButton
-          title="Consult cases"
+          title={intlData.messages.Home.consultButton}
           onPress={() => {
             navigation.navigate("ShowCase");
           }}
@@ -105,6 +106,7 @@ function mapStateToProps(state) {
   return {
     cases: state.case.cases,
     images: state.image.image,
+    intlData: state.lang,
   };
 }
 
