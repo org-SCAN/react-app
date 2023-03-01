@@ -159,11 +159,19 @@ const Case = (props) => {
     });
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
+    const coordinates = images.map((image) => {
+      return {
+        id: image.id,
+        latitude: image.lat,
+        longitude: image.lng,
+      };
+    });
     const data = {
       id: caseID,
       ...keyValuesObject,
       images: imageIDs,
       date: new Date().toISOString(),
+      coordinates: coordinates,
     };
     const path = await createZip(data);
     //Check if mail is available
@@ -185,15 +193,7 @@ const Case = (props) => {
 
   const setCaseImages = () => {
     if (props.images && props.images.length > 0) {
-      const DATA = props.images
-        .map((image) => {
-          return {
-            id: image.id,
-            uri: image.data,
-            caseID: image.caseID,
-          };
-        })
-        .filter((image) => image.caseID === caseID);
+      const DATA = props.images.filter((image) => image.caseID === caseID);
       setImages(DATA);
     } else {
       setImages([]);
@@ -247,7 +247,7 @@ const Case = (props) => {
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
     >
       <Image
-        source={{ uri: item.uri }}
+        source={{ uri: item.data }}
         style={{ width: 150, height: 150, margin: 10 }}
         blurRadius={100}
       />
