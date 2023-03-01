@@ -42,6 +42,9 @@
     "subject": "[CAS] ",
     "body": "<em>Cet email provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
   },
+  "Pictures": {
+    "title": "Photos"
+  },
 
   "yes": "Oui",
   "no": "Non"
