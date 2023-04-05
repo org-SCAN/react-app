@@ -7,3 +7,5 @@ export const SAVE_CASE = "SAVE_CASE";
 export const CLEAR_CASE = "CLEAR_CASE";
 export const EDIT_CASE = "EDIT_CASE";
 export const DELETE_CASE = "DELETE_CASE";
+
+export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";

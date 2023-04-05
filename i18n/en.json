@@ -1,0 +1,51 @@
+{
+  "Home": {
+    "title": "Home",
+    "caseButton": "New case",
+    "consultButton": "Consult cases",
+    "saveCase ": "Case saved"
+  },
+  "Case": {
+    "title": "Case",
+    "forename": "Forename",
+    "lastname": "Lastname",
+    "age": "Age",
+    "injury": "Cause of injuries",
+    "photoButton": "Take a photo",
+    "descriptionPhoto": "Take more than 5 photos if possible",
+    "saveButton": "Save",
+    "submitButton": "Submit",
+    "backButton": "Back",
+    "confirmBack": "Are you sure you want to discard this case ?",
+    "addImage": "Please add at least one image",
+    "allFields": "Please fill all fields",
+    "noMail": "No email client found"
+  },
+  "consultCases": {
+    "title": "Consult cases",
+    "noCase": "No cases to display",
+    "editMessage": "Click case to edit or submit",
+    "swipeMessage": "Swipe left to delete",
+    "clearCase1": "Delete case",
+    "clearCase2": "Are you sure you want to delete this case ?"
+  },
+  "Settings": {
+    "title": "Settings",
+    "lightTheme": "Dark Mode",
+    "themeDescription": "Change the theme of the app",
+    "selectLanguage": "Select Language",
+    "debugMessage": "Clear all datas",
+    "clearCases1": "Are your sure ?",
+    "clearCases2": "All cases will be deleted"
+  },
+  "Mail": {
+    "subject": "[CASE] ",
+    "body": "<em>This email comes from the Dividoc application. Please do not respond to it.</em>"
+  },
+  "Pictures": {
+    "title": "Pictures"
+  },
+
+  "yes": "Yes",
+  "no": "No"
+}

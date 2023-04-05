@@ -1,6 +1,7 @@
 import { DefaultTheme } from "@react-navigation/native";
 import IconButton from "../components/BasicUI/IconButton";
 import { SCAN_COLOR } from "./constants";
+import * as RootNavigation from "../RootNavigation";
 
 const Screen = {
   headerStyle: { backgroundColor: SCAN_COLOR },
@@ -25,12 +26,19 @@ const BasicNavigationThemeDark = {
   },
 };
 
-const HomeTheme = ({ navigation: { navigate } }) => ({
-  ...Screen,
-  headerRight: () => (
-    <IconButton name="settings" onPress={() => navigate("Settings")} />
-  ),
-});
+const HomeTheme = (props) => {
+  const { intlData } = props;
+  return {
+    ...Screen,
+    title: intlData.messages.Home.title,
+    headerRight: () => (
+      <IconButton
+        name="settings"
+        onPress={() => RootNavigation.navigate("Settings", {})}
+      />
+    ),
+  };
+};
 
 const CameraTheme = {
   ...Screen,
@@ -40,7 +48,6 @@ const CameraTheme = {
 
 const ShowCaseTheme = {
   ...Screen,
-  title: "Consult cases",
 };
 
 export const navigationStyle = {

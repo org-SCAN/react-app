@@ -9,20 +9,30 @@ import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
 import { navigationStyle } from "../theme/navTheme";
+import { navigationRef } from "../RootNavigation";
 
 const Stack = createNativeStackNavigator();
 
 const MainContent = (props) => {
   const styles =
     props.theme.mode == "light" ? navigationStyle.light : navigationStyle.dark;
+  const { intlData } = props;
+  console.log(props);
   return (
-    <NavigationContainer theme={styles.navigation}>
+    <NavigationContainer theme={styles.navigation} ref={navigationRef}>
       <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} options={styles.home} />
+        <Stack.Screen
+          name="Home"
+          component={Home}
+          options={styles.home(props)}
+        />
         <Stack.Screen
           name="Settings"
           component={Settings}
-          options={styles.screen}
+          options={{
+            title: intlData.messages.Settings.title,
+            ...styles.screen,
+          }}
         />
         <Stack.Screen
           name="Camera"
@@ -32,14 +42,24 @@ const MainContent = (props) => {
         <Stack.Screen
           name="ShowCase"
           component={ShowCase}
-          options={styles.showCase}
+          options={{
+            title: intlData.messages.Case.title,
+            ...styles.showCase,
+          }}
         />
         <Stack.Screen
           name="Pictures"
           component={Pictures}
-          options={styles.screen}
+          options={{
+            title: intlData.messages.Pictures.title,
+            ...styles.screen,
+          }}
         />
-        <Stack.Screen name="Case" component={Case} options={styles.case} />
+        <Stack.Screen
+          name="Case"
+          component={Case}
+          options={{ title: intlData.messages.Case.title, ...styles.case }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -48,6 +68,7 @@ const MainContent = (props) => {
 function mapStateToProps(state) {
   return {
     theme: state.theme,
+    intlData: state.lang,
   };
 }
 

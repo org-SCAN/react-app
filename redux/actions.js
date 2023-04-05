@@ -6,7 +6,17 @@ import {
   CLEAR_CASE,
   DELETE_CASE,
   EDIT_CASE,
+  UPDATE_LANGUAGE,
 } from "./constants";
+
+/* LANGUAGE ACTION */
+
+export const updateLanguage = (language) => {
+  return {
+    type: UPDATE_LANGUAGE,
+    language,
+  };
+};
 
 /* THEME ACTION */
 export const switchMode = (mode) => {
