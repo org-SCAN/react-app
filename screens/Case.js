@@ -18,7 +18,7 @@ import uuid from "react-native-uuid";
 import { useDispatch, connect } from "react-redux";
 import { saveCase, editCase, deleteCase } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
-import { Alert } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
@@ -31,6 +31,9 @@ const Case = (props) => {
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
+  const [selectedIconAge, setSelectedIconAge] = useState(null);
+  const [selectedIconSex, setSelectedIconSex] = useState(null);
+
   const dispatch = useDispatch();
 
   const FORM = [
@@ -49,11 +52,24 @@ const Case = (props) => {
       keyboardType: "default",
     },
     {
+      key: "sex",
+      placeholder: intlData.messages.Case.sex,
+      value: null,
+      icons: [
+        { name: "woman", icon: require("../icons/woman.png") },
+        { name: "man", icon: require("../icons/man.png") },
+        { name: "unknown", icon: require("../icons/unknown.png") }
+      ]
+    },
+    {
       key: "age",
       placeholder: intlData.messages.Case.age,
-      value: "",
-      onChangeText: null,
-      keyboardType: "numeric",
+      value: null,
+      icons: [
+        { name: "kid", icon: require("../icons/kid.png") },
+        { name: "man", icon: require("../icons/man.png") },
+        { name: "grandpa", icon: require("../icons/grandpa.png") }
+      ]
     },
     {
       key: "injuries",
@@ -234,14 +250,76 @@ const Case = (props) => {
     setCaseImages();
   }, [props.images]);
 
-  const renderItem = ({ item }) => (
-    <ScanInput
-      placeholder={item.placeholder}
-      value={item.value}
-      onChangeText={item.onChangeText}
-      keyboardType={item.keyboardType}
-    />
-  );
+
+  //function called when an icon is selected for the sex
+  const handleIconSelectionSex = (selectedIconSex) => {
+    // Set the selected icon value
+    setSelectedIconSex(selectedIconSex);
+    const sexItem = FORM.find((item) => item.key === "sex");
+    const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
+    if (selectedIndex !== -1) {
+      const selectedIconName = sexItem.icons[selectedIndex].name;
+      console.log(selectedIconName);
+      FORM.find((item) => item.key === "sex").value = selectedIconName;
+    }
+  };
+
+
+  //function called when an icon is selected for the age
+  const handleIconSelectionAge = (selectedIconAge) => {
+    // Set the selected icon value
+    setSelectedIconAge(selectedIconAge);
+    const ageItem = FORM.find((item) => item.key === "age");
+    const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
+    if (selectedIndex !== -1) {
+      const selectedIconName = ageItem.icons[selectedIndex].name;
+      console.log(selectedIconName);
+      FORM.find((item) => item.key === "age").value = selectedIconName;
+    }
+  };
+
+  const renderItem = ({ item }) => {
+    if (item.key === "age" || item.key === "sex") {
+      return (
+        <View style={styles.inputContainer}>
+          <Text style={[styles.placeholder, { marginBottom: 10 }]}>{item.placeholder}</Text>
+          <ScrollView horizontal contentContainerStyle={[styles.iconContainer, { marginBottom: 20 }]}>
+            {item.icons.map((iconOption, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.iconButton,
+                  { marginRight: 40 },
+                  (item.key === "age" && selectedIconAge === iconOption.icon) ||
+                  (item.key === "sex" && selectedIconSex === iconOption.icon)
+                    ? styles.selectedIconButton
+                    : null,
+                ]}
+                onPress={() =>
+                  item.key === "age"
+                    ? handleIconSelectionAge(iconOption.icon)
+                    : handleIconSelectionSex(iconOption.icon)
+                }
+              >
+                <Image source={iconOption.icon} style={styles.icon} />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </View>
+      );
+    }
+
+    return (
+      <View style={styles.inputContainer}>
+        <ScanInput
+          placeholder={item.placeholder}
+          value={item.value}
+          onChangeText={item.onChangeText}
+          keyboardType={item.keyboardType}
+        />
+      </View>
+    );
+  };
   const renderImage = ({ item }) => (
     <Pressable
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
@@ -272,11 +350,11 @@ const Case = (props) => {
       <TextInput
         editable
         multiline
-        numberOfLines={3}
-        placeholder={FORM[3].placeholder}
-        value={FORM[3].value}
-        onChangeText={FORM[3].onChangeText}
-        keyboardType={FORM[3].keyboardType}
+        numberOfLines={4}
+        placeholder={FORM[4].placeholder}
+        value={FORM[4].value}
+        onChangeText={FORM[4].onChangeText}
+        keyboardType={FORM[4].keyboardType}
         style={styles.injuries}
         placeholderTextColor={
           props.theme.mode === "light" ? "#B3B3B3" : "#B3B3B39C"
@@ -346,6 +424,12 @@ const basicStyle = StyleSheet.create({
     borderRadius: 5,
     marginBottom: 10,
   },
+  selectedIconButton: {
+    borderColor: '#D3D3D3',
+    backgroundColor: '#D3D3D3',
+    borderWidth: 2,
+    borderRadius: 10,
+  }
 });
 
 const lightStyle = StyleSheet.create({
@@ -364,6 +448,7 @@ const darkStyle = StyleSheet.create({
     backgroundColor: "#333333",
   },
 });
+
 
 function mapStateToProps(state) {
   return {

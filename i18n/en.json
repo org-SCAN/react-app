@@ -9,6 +9,7 @@
     "title": "Case",
     "forename": "Forename",
     "lastname": "Lastname",
+    "sex": "Sex",
     "age": "Age",
     "injury": "Cause of injuries",
     "photoButton": "Take a photo",
