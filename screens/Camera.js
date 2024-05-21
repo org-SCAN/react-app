@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { StyleSheet, View, ActivityIndicator, Text, Button, TouchableOpacity } from "react-native";
 import { useDispatch } from "react-redux";
-import { Camera } from "expo-camera";
+import { CameraView, useCameraPermissions } from "expo-camera";
 import { storeImage } from "../redux/actions";
 import IconButton from "../components/BasicUI/IconButton";
 import uuid from "react-native-uuid";
@@ -12,10 +12,10 @@ import { saveImageToMemory } from "../utils/fileHandler";
 const ScanCamera = (props) => {
   const { navigation } = props;
   const caseID = props.route.params.caseID;
-  const camType = Camera.Constants.Type;
-  const [camera, setCamera] = useState(null);
-  const [type, setType] = useState(camType.back);
+  const [facing, setFacing] = useState("back");
   const [loading, setLoading] = useState(false);
+  const [permission, requestPermission] = useCameraPermissions();
+  const cameraRef = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -23,35 +23,37 @@ const ScanCamera = (props) => {
     dispatch(storeImage(data));
   };
 
+  useEffect(() => {
+    if (!permission) {
+      requestPermission();
+    }
+  }, [permission]);
+
   const takePicture = async () => {
     setLoading(true);
-    if (camera) {
-      const data = await camera.takePictureAsync({
+    if (cameraRef.current) {
+      const data = await cameraRef.current.takePictureAsync({
         quality: 0.25,
         base64: true,
       });
       if (data && data.base64) {
         const imageId = uuid.v4();
-        //get permission status
+        // Get permission status
         const { status } = await Location.requestForegroundPermissionsAsync();
         var location = { coords: { latitude: 0, longitude: 0 } };
         if (status !== "granted") {
-          alert(
-            "Permission to access location was denied, photo was saved without location data"
-          );
+          alert("Permission to access location was denied, photo was saved without location data");
         } else {
-          //get location in 5 seconds max
+          // Get location in 5 seconds max
           location = await Location.getCurrentPositionAsync({
             accuracy: Location.Accuracy.Balanced,
             timeout: 5000,
           });
           if (!location) {
-            alert(
-              "Could not get location, photo was saved without location data"
-            );
+            alert("Could not get location, photo was saved without location data");
           }
         }
-        //save image to file system
+        // Save image to file system
         const path = await saveImageToMemory(data.base64, imageId);
         const image = {
           id: imageId,
@@ -65,7 +67,22 @@ const ScanCamera = (props) => {
         deleteCameraCache();
       }
     }
+    setLoading(false);
   };
+
+  if (!permission) {
+    return <View />;
+  }
+
+  if (!permission.granted) {
+    return (
+      <View style={styles.container}>
+        <Text style={{ textAlign: "center" }}>We need your permission to show the camera</Text>
+        <Button onPress={requestPermission} title="Grant Permission" />
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       {loading && (
@@ -73,36 +90,36 @@ const ScanCamera = (props) => {
           <ActivityIndicator size="large" color="white" />
         </View>
       )}
-      <Camera
-        ref={(ref) => setCamera(ref)}
+      <CameraView
+        ref={cameraRef}
         style={styles.camera}
-        type={type}
-        ratio={"1:1"}
+        facing={facing}
+        ratio="1:1"
         quality={0.25}
-      />
-
-      <View style={styles.control}>
-        <IconButton
-          name="camera"
-          color="white"
-          onPress={() =>
-            takePicture().then(() => {
-              navigation.goBack();
-            })
-          }
-          size={40}
-          style={styles.icon}
-        />
-        <IconButton
-          name="autorenew"
-          color="white"
-          onPress={() => {
-            setType(type === camType.back ? camType.front : camType.back);
-          }}
-          size={40}
-          style={styles.icon}
-        />
-      </View>
+      >
+        <View style={styles.control}>
+          <IconButton
+            name="camera"
+            color="white"
+            onPress={() =>
+              takePicture().then(() => {
+                navigation.goBack();
+              })
+            }
+            size={40}
+            style={styles.icon}
+          />
+          <IconButton
+            name="autorenew"
+            color="white"
+            onPress={() => {
+              setFacing(facing === "back" ? "front" : "back");
+            }}
+            size={40}
+            style={styles.icon}
+          />
+        </View>
+      </CameraView>
     </View>
   );
 };
@@ -126,13 +143,6 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 30,
-  },
-  preview: {
-    width: 75,
-    height: 75,
-    position: "absolute",
-    bottom: 25,
-    right: 25,
   },
   activityContainer: {
     position: "absolute",
