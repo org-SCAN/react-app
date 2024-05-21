@@ -70,14 +70,8 @@ const Case = (props) => {
         { name: "man", icon: require("../icons/man.png") },
         { name: "grandpa", icon: require("../icons/grandpa.png") }
       ]
-    },
-    {
-      key: "injuries",
-      placeholder: intlData.messages.Case.injury,
-      value: "",
-      onChangeText: null,
-      keyboardType: "default",
-    },
+    }
+    
   ]; 
 
   const handleInputChange = (key, newValue) => {
@@ -300,17 +294,6 @@ const Case = (props) => {
         </View>
       );
     }
-
-    return (
-      <View style={styles.inputContainer}>
-        <ScanInput
-          placeholder={item.placeholder}
-          value={item.value}
-          onChangeText={item.onChangeText}
-          keyboardType={item.keyboardType}
-        />
-      </View>
-    );
   };
   const renderImage = ({ item }) => (
     <Pressable
@@ -339,19 +322,7 @@ const Case = (props) => {
         style={{ flexGrow: 0, flexShrink: 0 }}
         scrollEnabled={false}
       />
-      <TextInput
-        editable
-        multiline
-        numberOfLines={4}
-        placeholder={form[4].placeholder}
-        value={form[4].value}
-        onChangeText={form[4].onChangeText}
-        keyboardType={form[4].keyboardType}
-        style={styles.injuries}
-        placeholderTextColor={
-          props.theme.mode === "light" ? "#B3B3B3" : "#B3B3B39C"
-        }
-      />
+      
       <ScanButton
         title={intlData.messages.Case.photoButton}
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
