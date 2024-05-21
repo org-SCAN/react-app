@@ -252,7 +252,7 @@ const Case = (props) => {
 
   
   //function called when an icon is selected for the sex or age
-  /*const handleIconSelection = (key, selectedIcon) => {
+  const handleIconSelection = (key, selectedIcon) => {
     const updatedForm = form.map((item ) => {
         if (item.key === key && item.icons) {
             const selectedIndex = item.icons.findIndex(icon => icon.icon === selectedIcon);
@@ -264,35 +264,7 @@ const Case = (props) => {
     });
     setform(updatedForm);  
     console.log("Updated FORM:", updatedForm);
-  };*/
-
-
-    //function called when an icon is selected for the sex
-    const handleIconSelectionSex = (selectedIconSex) => {
-      // Set the selected icon value
-      setSelectedIconSex(selectedIconSex);
-      const sexItem = FORM.find((item) => item.key === "sex");
-      const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
-      if (selectedIndex !== -1) {
-        const selectedIconName = sexItem.icons[selectedIndex].name;
-        console.log(selectedIconName);
-        FORM.find((item) => item.key === "sex").value = selectedIconName;
-      }
-    };
-
-
-    //function called when an icon is selected for the age
-    const handleIconSelectionAge = (selectedIconAge) => {
-      // Set the selected icon value
-      setSelectedIconAge(selectedIconAge);
-      const ageItem = FORM.find((item) => item.key === "age");
-      const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
-      if (selectedIndex !== -1) {
-        const selectedIconName = ageItem.icons[selectedIndex].name;
-        console.log(selectedIconName);
-        FORM.find((item) => item.key === "age").value = selectedIconName;
-      }
-    };
+  };
 
 
   const renderItem = ({ item }) => {
@@ -312,13 +284,8 @@ const Case = (props) => {
                     ? styles.selectedIconButton
                     : null,
                 ]}
-                onPress={() => {
-                  if (item.key === "age") {
-                    handleIconSelectionAge(iconOption.icon);
-                  } else if (item.key === "sex") {
-                    handleIconSelectionSex(iconOption.icon);
-                  }
-                }}
+                onPress={() => handleIconSelection(item.key, iconOption.icon)}
+
               >
                 <Image source={iconOption.icon} style={styles.icon} />
               </TouchableOpacity>
