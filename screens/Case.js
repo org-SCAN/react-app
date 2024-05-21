@@ -78,10 +78,26 @@ const Case = (props) => {
       onChangeText: null,
       keyboardType: "default",
     },
-  ];
+  ]; 
 
+  const handleInputChange = (key, newValue) => {
+    const updatedForm = form.map(item => {
+        if (item.key === key) {
+            return { ...item, value: newValue };
+        }
+        return item;
+    });
+    setform(updatedForm);
+  };
+
+  const [form, setform] = useState(FORM.map(field => ({
+    ...field,
+    value: field.value,
+    onChangeText: (text) => handleInputChange(field.key, text) 
+   })));
+  
   const isCaseEmpty = () => {
-    return FORM.every((element) => element.value === "");
+    return form.every((element) => element.value === "");
   };
 
   //Change the back button onpress beahviour and disable swipe back
@@ -118,20 +134,15 @@ const Case = (props) => {
       ),
       gestureEnabled: false,
     });
-  }, [navigation, FORM, images]);
+  }, [navigation, form, images]);
 
-  FORM.forEach((element) => {
-    const [value, onChangeText] = useState(element.value);
-    element.value = value;
-    element.onChangeText = onChangeText;
-  });
 
   const isCaseComplete = () => {
     if (images.length === 0) {
       alert(intlData.messages.Case.addImage);
       return false;
     }
-    const keyValues = FORM.map((element) => {
+    const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
     //if a value is empty send an alert
@@ -145,9 +156,11 @@ const Case = (props) => {
     return true;
   };
 
+
+
   const save = () => {
     if (!isCaseComplete()) return;
-    const keyValues = FORM.map((element) => {
+    const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
     const keyValuesObject = Object.assign({}, ...keyValues);
@@ -170,7 +183,7 @@ const Case = (props) => {
 
   const submit = async () => {
     if (!isCaseComplete()) return;
-    const keyValues = FORM.map((element) => {
+    const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
     const keyValuesObject = Object.assign({}, ...keyValues);
@@ -205,6 +218,7 @@ const Case = (props) => {
     }).then(() => {
       deleteZip(caseID);
     });
+    console.log("Updated FORM finalee:", form);
   };
 
   const setCaseImages = () => {
@@ -229,54 +243,35 @@ const Case = (props) => {
 
     return () => {
       //clear form
-      FORM.forEach((element) => {
+      form.forEach((element) => {
         element.value = "";
         element.onChangeText("");
       });
     };
   }, []);
 
-  useEffect(() => {
-    //update form with existing case if it exist
-    if (existingCase) {
-      FORM.forEach((element) => {
-        element.onChangeText(existingCase[element.key]);
-      });
-    }
-    setCaseImages();
-  }, [existingCase]);
 
   useEffect(() => {
     setCaseImages();
   }, [props.images]);
 
 
-  //function called when an icon is selected for the sex
-  const handleIconSelectionSex = (selectedIconSex) => {
-    // Set the selected icon value
-    setSelectedIconSex(selectedIconSex);
-    const sexItem = FORM.find((item) => item.key === "sex");
-    const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
-    if (selectedIndex !== -1) {
-      const selectedIconName = sexItem.icons[selectedIndex].name;
-      console.log(selectedIconName);
-      FORM.find((item) => item.key === "sex").value = selectedIconName;
-    }
+  
+  //function called when an icon is selected for the sex or age
+  const handleIconSelection = (key, selectedIcon) => {
+    const updatedForm = form.map((item ) => {
+        if (item.key === key && item.icons) {
+            const selectedIndex = item.icons.findIndex(icon => icon.icon === selectedIcon);
+            if (selectedIndex !== -1) {
+                return {...item, value: item.icons[selectedIndex].name};
+            }
+        }
+        return item;
+    });
+    setform(updatedForm);  
+    console.log("Updated FORM:", updatedForm);
   };
 
-
-  //function called when an icon is selected for the age
-  const handleIconSelectionAge = (selectedIconAge) => {
-    // Set the selected icon value
-    setSelectedIconAge(selectedIconAge);
-    const ageItem = FORM.find((item) => item.key === "age");
-    const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
-    if (selectedIndex !== -1) {
-      const selectedIconName = ageItem.icons[selectedIndex].name;
-      console.log(selectedIconName);
-      FORM.find((item) => item.key === "age").value = selectedIconName;
-    }
-  };
 
   const renderItem = ({ item }) => {
     if (item.key === "age" || item.key === "sex") {
@@ -295,11 +290,8 @@ const Case = (props) => {
                     ? styles.selectedIconButton
                     : null,
                 ]}
-                onPress={() =>
-                  item.key === "age"
-                    ? handleIconSelectionAge(iconOption.icon)
-                    : handleIconSelectionSex(iconOption.icon)
-                }
+                onPress={() => handleIconSelection(item.key, iconOption.icon)}
+
               >
                 <Image source={iconOption.icon} style={styles.icon} />
               </TouchableOpacity>
@@ -339,7 +331,7 @@ const Case = (props) => {
       onPress={() => Keyboard.dismiss()}
     >
       <FlatList
-        data={FORM.filter((item) => item.key !== "injuries")}
+        data={form.filter((item) => item.key !== "injuries")}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
@@ -351,10 +343,10 @@ const Case = (props) => {
         editable
         multiline
         numberOfLines={4}
-        placeholder={FORM[4].placeholder}
-        value={FORM[4].value}
-        onChangeText={FORM[4].onChangeText}
-        keyboardType={FORM[4].keyboardType}
+        placeholder={form[4].placeholder}
+        value={form[4].value}
+        onChangeText={form[4].onChangeText}
+        keyboardType={form[4].keyboardType}
         style={styles.injuries}
         placeholderTextColor={
           props.theme.mode === "light" ? "#B3B3B3" : "#B3B3B39C"
