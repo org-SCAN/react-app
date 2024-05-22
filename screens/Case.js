@@ -24,6 +24,7 @@ import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 
+
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
   const { intlData } = props;
@@ -37,20 +38,7 @@ const Case = (props) => {
   const dispatch = useDispatch();
 
   const FORM = [
-    {
-      key: "forname",
-      placeholder: intlData.messages.Case.forename,
-      value: "",
-      onChangeText: null,
-      keyboardType: "default",
-    },
-    {
-      key: "lastname",
-      placeholder: intlData.messages.Case.lastname,
-      value: "",
-      onChangeText: null,
-      keyboardType: "default",
-    },
+
     {
       key: "sex",
       placeholder: intlData.messages.Case.sex,
@@ -250,48 +238,41 @@ const Case = (props) => {
   }, [props.images]);
 
 
-  
-  //function called when an icon is selected for the sex or age
-  /*const handleIconSelection = (key, selectedIcon) => {
-    const updatedForm = form.map((item ) => {
-        if (item.key === key && item.icons) {
-            const selectedIndex = item.icons.findIndex(icon => icon.icon === selectedIcon);
-            if (selectedIndex !== -1) {
-                return {...item, value: item.icons[selectedIndex].name};
-            }
-        }
-        return item;
-    });
-    setform(updatedForm);  
-    console.log("Updated FORM:", updatedForm);
-  };*/
-
-
 //function called when an icon is selected for the sex
 const handleIconSelectionSex = (selectedIconSex) => {
-  // Set the selected icon value
-  setSelectedIconSex(selectedIconSex);
-  const sexItem = FORM.find((item) => item.key === "sex");
-  const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
-  if (selectedIndex !== -1) {
-    const selectedIconName = sexItem.icons[selectedIndex].name;
-    console.log(selectedIconName);
-    FORM.find((item) => item.key === "sex").value = selectedIconName;
-  }
+  const updatedForm = form.map((item ) => {
+    // Set the selected icon value
+    setSelectedIconSex(selectedIconSex);
+    const sexItem = form.find((item) => item.key === "sex");
+    const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
+    if (selectedIndex !== -1) {
+      const selectedIconName = sexItem.icons[selectedIndex].name;
+      console.log(selectedIconName);
+      form.find((item) => item.key === "sex").value = selectedIconName;
+    }
+    return item;
+    });
+  setform(updatedForm);  
+  console.log("Updated FORM:", updatedForm);
 };
 
 
 //function called when an icon is selected for the age
 const handleIconSelectionAge = (selectedIconAge) => {
-  // Set the selected icon value
-  setSelectedIconAge(selectedIconAge);
-  const ageItem = FORM.find((item) => item.key === "age");
-  const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
-  if (selectedIndex !== -1) {
-    const selectedIconName = ageItem.icons[selectedIndex].name;
-    console.log(selectedIconName);
-    FORM.find((item) => item.key === "age").value = selectedIconName;
-  }
+  const updatedForm = form.map((item ) => {
+    // Set the selected icon value
+    setSelectedIconAge(selectedIconAge);
+    const ageItem = form.find((item) => item.key === "age");
+    const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
+    if (selectedIndex !== -1) {
+      const selectedIconName = ageItem.icons[selectedIndex].name;
+      console.log(selectedIconName);
+      form.find((item) => item.key === "age").value = selectedIconName;
+    }
+    return item;
+  });
+  setform(updatedForm);  
+  console.log("Updated FORM:", updatedForm)
 };
 
 
