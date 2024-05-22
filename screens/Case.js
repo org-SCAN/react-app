@@ -38,20 +38,6 @@ const Case = (props) => {
 
   const FORM = [
     {
-      key: "forname",
-      placeholder: intlData.messages.Case.forename,
-      value: "",
-      onChangeText: null,
-      keyboardType: "default",
-    },
-    {
-      key: "lastname",
-      placeholder: intlData.messages.Case.lastname,
-      value: "",
-      onChangeText: null,
-      keyboardType: "default",
-    },
-    {
       key: "sex",
       placeholder: intlData.messages.Case.sex,
       value: null,
@@ -70,8 +56,7 @@ const Case = (props) => {
         { name: "man", icon: require("../icons/man.png") },
         { name: "grandpa", icon: require("../icons/grandpa.png") }
       ]
-    }
-    
+    } 
   ]; 
 
   const handleInputChange = (key, newValue) => {
