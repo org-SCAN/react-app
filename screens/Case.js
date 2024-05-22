@@ -4,7 +4,6 @@ import {
   View,
   FlatList,
   Image,
-  TextInput,
   Text,
   TouchableOpacity,
   Keyboard,
@@ -60,21 +59,8 @@ const Case = (props) => {
     } 
   ]; 
 
-  const handleInputChange = (key, newValue) => {
-    const updatedForm = form.map(item => {
-        if (item.key === key) {
-            return { ...item, value: newValue };
-        }
-        return item;
-    });
-    setform(updatedForm);
-  };
-
-  const [form, setform] = useState(FORM.map(field => ({
-    ...field,
-    value: field.value,
-    onChangeText: (text) => handleInputChange(field.key, text) 
-   })));
+  
+  const [form, setform] = useState(FORM)
   
   const isCaseEmpty = () => {
     return form.every((element) => element.value === "");
