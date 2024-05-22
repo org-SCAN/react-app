@@ -38,7 +38,6 @@ const Case = (props) => {
   const dispatch = useDispatch();
 
   const FORM = [
-
     {
       key: "sex",
       placeholder: intlData.messages.Case.sex,
@@ -58,8 +57,7 @@ const Case = (props) => {
         { name: "man", icon: require("../icons/man.png") },
         { name: "grandpa", icon: require("../icons/grandpa.png") }
       ]
-    }
-    
+    } 
   ]; 
 
   const handleInputChange = (key, newValue) => {
