@@ -217,7 +217,7 @@ const Case = (props) => {
       } else {
         setCaseID(uuid.v4());
       }
-    }, [props.route.params.caseId, props.cases]);
+    }, [props.cases]);
 
     useEffect(() => {
       if (caseID) {
