@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
+import { StyleSheet, View, Button, Text, TextInput, Alert } from "react-native";
 import { useDispatch } from "react-redux";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
@@ -15,6 +15,8 @@ const Settings = (props) => {
   const { intlData } = props;
   const dispatch = useDispatch();
   const [showBox, setShowBox] = useState(true);
+  const [userId, setUserId] = useState('');
+  const [storedUserId, setStoredUserId] = useState('');
 
   // Handle changing the theme mode
   const handleThemeChange = () => {
@@ -27,6 +29,15 @@ const Settings = (props) => {
     dispatch(clearImage());
     dispatch(clearCase());
     deleteCameraCache();
+  };
+
+  const handleSaveUserId = () => {
+    if (/^\d{5}$/.test(userId)) {
+      setStoredUserId(userId);
+      Alert.alert("Success", "User ID has been saved!");
+    } else {
+      Alert.alert("Error", "Please enter a valid 5-digit User ID.");
+    }
   };
 
   return (
@@ -42,7 +53,7 @@ const Settings = (props) => {
         description={intlData.messages.Settings.themeDescription}
       />
       <View>
-        <LanguagePicker></LanguagePicker>
+        <LanguagePicker />
       </View>
       <View style={styles.bottom}>
         <Text style={styles.hint}>Debug</Text>
@@ -57,6 +68,22 @@ const Settings = (props) => {
             )
           }
         />
+      </View>
+      <View style={styles.userIdContainer}>
+        <Text style={styles.label}>Enter User ID:</Text>
+        <TextInput
+          style={styles.input}
+          keyboardType="numeric"
+          maxLength={5}
+          value={userId}
+          onChangeText={setUserId}
+        />
+        <Button
+          title="Save User ID"
+          onPress={handleSaveUserId}
+          color={SCAN_COLOR}
+        />
+        {storedUserId ? <Text>Stored User ID: {storedUserId}</Text> : null}
       </View>
     </View>
   );
@@ -85,6 +112,20 @@ const styles = StyleSheet.create({
     color: "#B3B3B3",
     alignContent: "center",
     textAlign: "center",
+  },
+  userIdContainer: {
+    marginTop: 20,
+  },
+  label: {
+    marginBottom: 10,
+    fontSize: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: "gray",
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingLeft: 8,
   },
 });
 
