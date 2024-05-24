@@ -27,7 +27,7 @@ const ShowCase = (props) => {
   const dispatch = useDispatch();
   const { intlData } = props;
   //disable Touchable opacity when swiping
-  const Item = ({ id, date, uri, forname, lastname, styles, onPress }) => (
+  const Item = ({ id, date, uri, sex, age, styles, onPress }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => {
         const opacity = dragX.interpolate({
@@ -63,7 +63,7 @@ const ShowCase = (props) => {
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.names}>
-            {forname} {lastname}
+            {sex} {age}
           </Text>
           <Text style={styles.date}>
             {new Date(date).toLocaleDateString(
@@ -93,8 +93,9 @@ const ShowCase = (props) => {
         id: caseItem.id,
         uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
         date: caseItem.date,
-        forname: caseItem.forname,
-        lastname: caseItem.lastname,
+        sex: caseItem.sex,
+        age: caseItem.age
+        
       };
     });
     setDATA(DATA);
@@ -111,15 +112,15 @@ const ShowCase = (props) => {
   if (cases.length > 0) {
     const renderItem = ({ item }) => {
       const onPress = () => {
-        props.navigation.navigate("Case", { caseId: item.id });
+        props.navigation.navigate("Case", { caseId: item.id});
       };
       return (
         <Item
           id={item.id}
           date={item.date}
           uri={item.uri}
-          forname={item.forname}
-          lastname={item.lastname}
+          sex={item.sex}
+          age={item.age}
           styles={styles}
           onPress={() => onPress()}
         />

@@ -188,17 +188,11 @@ const Case = (props) => {
   };
 
     const setCaseImages = () => {
-      console.log("setCaseImages called");
       if (props.images && props.images.length > 0) {
         const DATA = props.images.filter((image) => image.caseID === caseID);
-        console.log("Current caseID:", caseID);
-        console.log("Images from props:", props.images);
-        console.log("Filtered DATA:", DATA);
         setImages(DATA);
-        console.log("Images not empty");
       } else {
         setImages([]);
-        console.log("Images empty");
       }
     };
 
@@ -209,12 +203,21 @@ const Case = (props) => {
         )[0];
         setExistingCase(mcase);
         setCaseID(mcase.id);
-        console.log("Setting caseID for an existing case:", mcase.id);
+        const updatedForm = form.map((item) => {
+          if (item.key === "age") {
+            item.value = mcase.age;
+            setSelectedIconAge(item.icons.find(icon => icon.name === mcase.age).icon);
+          } else if (item.key === "sex") {
+            item.value = mcase.sex;
+            setSelectedIconSex(item.icons.find(icon => icon.name === mcase.sex).icon);
+          }
+          return item;
+        });
+        setform(updatedForm);
       } else {
         setCaseID(uuid.v4());
-        console.log("Setting caseID for a new case");
       }
-    }, [props.route.params.caseId, props.cases]); // This effect depends on route.params.caseId and cases
+    }, [props.route.params.caseId, props.cases]);
 
     useEffect(() => {
       if (caseID) {
