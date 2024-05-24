@@ -196,6 +196,7 @@ const Case = (props) => {
     }
   };
 
+  
   useEffect(() => {
     if (props.route.params && props.route.params.caseId) {
       const mcase = props.cases.filter(
@@ -207,13 +208,6 @@ const Case = (props) => {
       setCaseID(uuid.v4());
     }
 
-    return () => {
-      //clear form
-      form.forEach((element) => {
-        element.value = "";
-        element.onChangeText("");
-      });
-    };
   }, []);
 
 
