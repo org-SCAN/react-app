@@ -187,33 +187,40 @@ const Case = (props) => {
     console.log("Updated FORM finalee:", form);
   };
 
-  const setCaseImages = () => {
-    if (props.images && props.images.length > 0) {
-      const DATA = props.images.filter((image) => image.caseID === caseID);
-      setImages(DATA);
-    } else {
-      setImages([]);
-    }
-  };
+    const setCaseImages = () => {
+      console.log("setCaseImages called");
+      if (props.images && props.images.length > 0) {
+        const DATA = props.images.filter((image) => image.caseID === caseID);
+        console.log("Current caseID:", caseID);
+        console.log("Images from props:", props.images);
+        console.log("Filtered DATA:", DATA);
+        setImages(DATA);
+        console.log("Images not empty");
+      } else {
+        setImages([]);
+        console.log("Images empty");
+      }
+    };
 
-  
-  useEffect(() => {
-    if (props.route.params && props.route.params.caseId) {
-      const mcase = props.cases.filter(
-        (item) => item.id === props.route.params.caseId
-      )[0];
-      setExistingCase(mcase);
-      setCaseID(mcase.id);
-    } else {
-      setCaseID(uuid.v4());
-    }
+    useEffect(() => {
+      if (props.route.params && props.route.params.caseId) {
+        const mcase = props.cases.filter(
+          (item) => item.id === props.route.params.caseId
+        )[0];
+        setExistingCase(mcase);
+        setCaseID(mcase.id);
+        console.log("Setting caseID for an existing case:", mcase.id);
+      } else {
+        setCaseID(uuid.v4());
+        console.log("Setting caseID for a new case");
+      }
+    }, [props.route.params.caseId, props.cases]); // This effect depends on route.params.caseId and cases
 
-  }, []);
-
-
-  useEffect(() => {
-    setCaseImages();
-  }, [props.images]);
+    useEffect(() => {
+      if (caseID) {
+        setCaseImages();
+      }
+    }, [caseID, props.images]);
 
 
 //function called when an icon is selected for the sex
