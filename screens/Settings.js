@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { updateUserId } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -16,12 +17,19 @@ const Settings = (props) => {
   const dispatch = useDispatch();
   const [showBox, setShowBox] = useState(true);
   const [userId, setUserId] = useState('');
-  const [storedUserId, setStoredUserId] = useState('');
+
+  const storedUserId = useSelector(state => state.userId.userId);
 
   // Handle changing the theme mode
   const handleThemeChange = () => {
     dispatch(switchMode(props.theme.mode === "light" ? "dark" : "light"));
   };
+
+  useEffect(() => {
+    if (storedUserId) {
+      setUserId(storedUserId);
+    }
+  }, [storedUserId]);
 
   const clear = () => {
     setShowBox(false);
@@ -32,12 +40,8 @@ const Settings = (props) => {
   };
 
   const handleSaveUserId = () => {
-    if (/^\d{5}$/.test(userId)) {
-      setStoredUserId(userId);
-      Alert.alert("Success", "User ID has been saved!");
-    } else {
-      Alert.alert("Error", "Please enter a valid 5-digit User ID.");
-    }
+    dispatch(updateUserId(userId));
+    Alert.alert("Success", "User ID has been saved!");
   };
 
   return (
@@ -73,8 +77,8 @@ const Settings = (props) => {
         <Text style={styles.label}>Enter User ID:</Text>
         <TextInput
           style={styles.input}
-          keyboardType="numeric"
-          maxLength={5}
+          keyboardType="alphanumeric"
+          maxLength={10}
           value={userId}
           onChangeText={setUserId}
         />

@@ -3,11 +3,22 @@ import { StyleSheet, View, Text, Animated } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
+import { useDispatch, useSelector } from "react-redux";
+import { updateCaseNumber } from "../redux/actions";
+
 
 const Home = (props) => {
   const navigation = props.navigation;
   const [mOpacity, setOpacity] = useState(new Animated.Value(0));
   const { intlData } = props;
+
+  const dispatch = useDispatch();
+  const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+
+  const handleCreateCase = () => {
+    dispatch(updateCaseNumber(caseNumber+1));
+  };
+
 
   useEffect(() => {
     if (props.route.params && props.route.params.notification) {
@@ -38,6 +49,7 @@ const Home = (props) => {
         <ScanButton
           title={intlData.messages.Home.caseButton}
           onPress={() => {
+            handleCreateCase();
             navigation.navigate("Case");
           }}
         />

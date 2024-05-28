@@ -7,6 +7,8 @@ import {
   DELETE_CASE,
   EDIT_CASE,
   UPDATE_LANGUAGE,
+  UPDATE_USER_ID,
+  UPDATE_CASE_NUMBER,
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -65,5 +67,19 @@ export const deleteCase = (id) => {
   return {
     type: DELETE_CASE,
     payload: id,
+  };
+};
+
+export const updateUserId = (userId) => {
+  return {
+    type: UPDATE_USER_ID,
+    payload: userId,
+  };
+};
+
+export const updateCaseNumber = (caseNumber) => {
+  return {
+    type: UPDATE_CASE_NUMBER,
+    payload: caseNumber,
   };
 };

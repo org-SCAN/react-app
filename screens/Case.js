@@ -14,8 +14,8 @@ import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
 import LittleScanButton from "../components/BasicUI/LittleScanButton";
 import uuid from "react-native-uuid";
-import { useDispatch, connect } from "react-redux";
-import { saveCase, editCase, deleteCase } from "../redux/actions";
+import { useDispatch, useSelector, connect } from "react-redux";
+import { saveCase, editCase, deleteCase, updateCaseNumber } from "../redux/actions";
 import { HeaderBackButton } from "react-navigation-stack";
 import { Alert, ScrollView } from "react-native";
 import * as MailComposer from "expo-mail-composer";
@@ -33,8 +33,15 @@ const Case = (props) => {
   const [images, setImages] = useState([]);
   const [selectedIconAge, setSelectedIconAge] = useState(null);
   const [selectedIconSex, setSelectedIconSex] = useState(null);
+  //const [tag, setTag] = useState(null);
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
 
   const dispatch = useDispatch();
+
+  const userId = useSelector(state => state.userId.userId);
+  const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+
+  const tag = `${userId}-${caseNumber}`;
 
   const FORM = [
     {
@@ -79,6 +86,10 @@ const Case = (props) => {
                   text: intlData.messages.yes,
                   onPress: () => {
                     dispatch(deleteCase(caseID));
+                    console.log("caseNumber before: ", caseNumber);
+                    handleDeleteCase();
+                    console.log("caseNumber after: ", caseNumber);
+
                     if (images.length > 0) {
                       images.forEach((image) => {
                         deleteImageFromMemory(image.id);
@@ -125,7 +136,7 @@ const Case = (props) => {
 
 
   const save = () => {
-    if (!isCaseComplete()) return;
+    //if (!isCaseComplete()) return;
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
@@ -133,6 +144,7 @@ const Case = (props) => {
     const imageIDs = images.map((image) => image.id);
     const data = {
       id: caseID,
+      tag: tag,
       ...keyValuesObject,
       images: imageIDs,
       date: new Date().toISOString(),
@@ -152,6 +164,7 @@ const Case = (props) => {
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
+    //handleCreateCase();
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const coordinates = images.map((image) => {
@@ -161,8 +174,11 @@ const Case = (props) => {
         longitude: image.lng,
       };
     });
+    console.log("user id =", userId)
+    console.log("tag= ", tag)
     const data = {
       id: caseID,
+      tag: tag,
       ...keyValuesObject,
       images: imageIDs,
       date: new Date().toISOString(),
@@ -185,16 +201,26 @@ const Case = (props) => {
       deleteZip(caseID);
     });
     console.log("Updated FORM finalee:", form);
+    setReadyToSubmit(false); // reset the readyToSubmit state
+
   };
 
-    const setCaseImages = () => {
-      if (props.images && props.images.length > 0) {
+  const setCaseImages = () => {
+    if (props.images && props.images.length > 0) {
         const DATA = props.images.filter((image) => image.caseID === caseID);
         setImages(DATA);
-      } else {
+    } else {
         setImages([]);
-      }
-    };
+    }
+  };
+
+  const handleCreateCase = () => {
+    dispatch(updateCaseNumber(caseNumber+1));
+  };
+
+  const handleDeleteCase = () => {
+    dispatch(updateCaseNumber(caseNumber-1));
+  };
 
     useEffect(() => {
       if (props.route.params && props.route.params.caseId) {
@@ -216,6 +242,7 @@ const Case = (props) => {
         setform(updatedForm);
       } else {
         setCaseID(uuid.v4());
+        console.log("case number:", caseNumber);
       }
     }, [props.cases]);
 
@@ -315,6 +342,8 @@ const handleIconSelectionAge = (selectedIconAge) => {
       activeOpacity={1}
       onPress={() => Keyboard.dismiss()}
     >
+      <Text style={styles.tagLabel}>{tag}</Text>
+
       <FlatList
         data={form.filter((item) => item.key !== "injuries")}
         renderItem={renderItem}
@@ -324,7 +353,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
         style={{ flexGrow: 0, flexShrink: 0 }}
         scrollEnabled={false}
       />
-      
+
       <ScanButton
         title={intlData.messages.Case.photoButton}
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
@@ -349,13 +378,12 @@ const handleIconSelectionAge = (selectedIconAge) => {
         />
         <LittleScanButton
           title={intlData.messages.Case.submitButton}
-          onPress={() => {
-            submit();
-          }}
+          onPress={() =>{submit()}}
         />
       </View>
     </Pressable>
   );
+
 };
 
 const basicStyle = StyleSheet.create({
@@ -394,7 +422,14 @@ const basicStyle = StyleSheet.create({
     backgroundColor: '#D3D3D3',
     borderWidth: 2,
     borderRadius: 10,
-  }
+  },
+   tagLabel: {
+     fontSize: 45,
+     fontWeight: 'bold',
+     marginTop: 15,
+     marginBottom: 20,
+   },
+
 });
 
 const lightStyle = StyleSheet.create({

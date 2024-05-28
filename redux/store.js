@@ -14,12 +14,16 @@ import themeReducer from "./Reducers/themeReducer";
 import imageReducer from "./Reducers/imageReducer";
 import caseReducer from "./Reducers/caseReducer";
 import langReducer from "./Reducers/langReducer";
+import userIdReducer from "./Reducers/userIdReducer";
+import caseNumberReducer from "./Reducers/caseNumberReducer";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
   image: imageReducer,
   case: caseReducer,
   lang: langReducer,
+  userId: userIdReducer,
+  caseNumber: caseNumberReducer,
 });
 
 const persistConfig = {
