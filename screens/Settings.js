@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserId } from "../redux/actions";
+import { updateUserId, updateCaseNumber } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -17,8 +17,16 @@ const Settings = (props) => {
   const dispatch = useDispatch();
   const [showBox, setShowBox] = useState(true);
   const [userId, setUserId] = useState('');
+  const [newCaseNumber, setNewCaseNumber] = useState(0);
 
   const storedUserId = useSelector(state => state.userId.userId);
+  const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+
+  //handle reset casenumber
+  const handleUpdateCaseNumber = (newCaseNumber) => {
+    dispatch(updateCaseNumber(newCaseNumber));
+    Alert.alert("Success", "New case number has been saved!");
+  };
 
   // Handle changing the theme mode
   const handleThemeChange = () => {
@@ -89,6 +97,23 @@ const Settings = (props) => {
         />
         {storedUserId ? <Text>Stored User ID: {storedUserId}</Text> : null}
       </View>
+
+        <View style={styles.userIdContainer}>
+          <TextInput
+            style={styles.input}
+            keyboardType="numeric"
+            placeholder="Enter new case number"
+            onChangeText={(text) => setNewCaseNumber(parseInt(text))}
+          />
+          <Button
+            title="Reset Case Number"
+            onPress={() => handleUpdateCaseNumber(newCaseNumber)}
+            color={SCAN_COLOR}
+          />
+
+        {caseNumber ? <Text>Stored Case number: {caseNumber}</Text> : null}
+
+        </View>
     </View>
   );
 };
@@ -118,7 +143,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   userIdContainer: {
-    marginTop: 20,
+    marginTop: 40,
   },
   label: {
     marginBottom: 10,
