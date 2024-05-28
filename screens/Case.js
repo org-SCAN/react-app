@@ -138,7 +138,7 @@ const Case = (props) => {
 
 
   const save = () => {
-    //if (!isCaseComplete()) return;
+    if (!isCaseComplete()) return;
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
