@@ -20,7 +20,10 @@
     "confirmBack": "Are you sure you want to discard this case ?",
     "addImage": "Please add at least one image",
     "allFields": "Please fill all fields",
-    "noMail": "No email client found"
+    "noMail": "No email client found" ,
+    "noIconAge": "Please select the icon for age" ,
+    "noIconSex": "Please select the icon for sex" ,
+    "noIcons": "Please select the icons for sex and age"
   },
   "consultCases": {
     "title": "Consult cases",

@@ -59,9 +59,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.age,
       value: null,
       icons: [
-        { name: "kid", icon: require("../icons/kid.png") },
-        { name: "man", icon: require("../icons/man.png") },
-        { name: "grandpa", icon: require("../icons/grandpa.png") }
+        { name: "child", icon: require("../icons/child.png") },
+        { name: "adult", icon: require("../icons/adult.png") },
+        { name: "old", icon: require("../icons/old.png") }
       ]
     } 
   ]; 
@@ -119,15 +119,17 @@ const Case = (props) => {
       alert(intlData.messages.Case.addImage);
       return false;
     }
+
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
+
     //if a value is empty send an alert
     const emptyValues = keyValues.filter((element) => {
-      return element[Object.keys(element)[0]] === "";
+      return element[Object.keys(element)[0]] === "" || element[Object.keys(element)[0]] === null;
     });
     if (emptyValues.length > 0) {
-      alert(intlData.messages.Case.allFields);
+      alert(intlData.messages.Case.noIcons);
       return false;
     }
     return true;
