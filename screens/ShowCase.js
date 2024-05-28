@@ -27,7 +27,7 @@ const ShowCase = (props) => {
   const dispatch = useDispatch();
   const { intlData } = props;
   //disable Touchable opacity when swiping
-  const Item = ({ id, date, uri, sex, age, styles, onPress }) => (
+  const Item = ({ id, tag, date, uri, sex, age, styles, onPress }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => {
         const opacity = dragX.interpolate({
@@ -63,7 +63,7 @@ const ShowCase = (props) => {
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
         <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.names}>
-            {sex} {age}
+            {tag}
           </Text>
           <Text style={styles.date}>
             {new Date(date).toLocaleDateString(
@@ -91,6 +91,7 @@ const ShowCase = (props) => {
     const DATA = props.cases.map((caseItem) => {
       return {
         id: caseItem.id,
+        tag: caseItem.tag,
         uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
         date: caseItem.date,
         sex: caseItem.sex,
@@ -113,10 +114,12 @@ const ShowCase = (props) => {
     const renderItem = ({ item }) => {
       const onPress = () => {
         props.navigation.navigate("Case", { caseId: item.id});
+        console.log("le tag passé en param à case est : ", item.tag);
       };
       return (
         <Item
           id={item.id}
+          tag={item.tag}
           date={item.date}
           uri={item.uri}
           sex={item.sex}
@@ -236,6 +239,7 @@ function mapStateToProps(state) {
     theme: state.theme,
     cases: state.case.cases,
     intlData: state.lang,
+    tag: state.tag,
   };
 }
 

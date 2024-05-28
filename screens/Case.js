@@ -33,15 +33,16 @@ const Case = (props) => {
   const [images, setImages] = useState([]);
   const [selectedIconAge, setSelectedIconAge] = useState(null);
   const [selectedIconSex, setSelectedIconSex] = useState(null);
-  //const [tag, setTag] = useState(null);
+  const [tag, setTag] = useState(null);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
   const dispatch = useDispatch();
 
+  const cases = useSelector(state => state.case.cases);
   const userId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
 
-  const tag = `${userId}-${caseNumber}`;
+  //const tag = `${userId}-${caseNumber}`;
 
   const FORM = [
     {
@@ -231,6 +232,7 @@ const Case = (props) => {
         )[0];
         setExistingCase(mcase);
         setCaseID(mcase.id);
+        setTag(mcase.tag); // Set tag from existing case
         const updatedForm = form.map((item) => {
           if (item.key === "age") {
             item.value = mcase.age;
@@ -243,10 +245,11 @@ const Case = (props) => {
         });
         setform(updatedForm);
       } else {
-        setCaseID(uuid.v4());
-        console.log("case number:", caseNumber);
+        const newCaseId = uuid.v4();
+        setCaseID(newCaseId);
+        setTag(`${userId}-${caseNumber}`);
       }
-    }, [props.cases]);
+    }, [cases, props.route.params]);
 
     useEffect(() => {
       if (caseID) {
@@ -458,6 +461,7 @@ function mapStateToProps(state) {
     cases: state.case.cases,
     theme: state.theme,
     intlData: state.lang,
+    //tag: state.tag,
   };
 }
 
