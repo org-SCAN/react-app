@@ -9,3 +9,5 @@ export const EDIT_CASE = "EDIT_CASE";
 export const DELETE_CASE = "DELETE_CASE";
 
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
+
+export const SET_IDENTIFIER = 'SET_IDENTIFIER';

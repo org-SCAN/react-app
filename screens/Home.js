@@ -35,6 +35,14 @@ const Home = (props) => {
         <Text>{intlData.messages.Home.saveCase} ✅</Text>
       </Animated.View>
       <View style={styles.menu}>
+
+        <ScanButton
+          title={intlData.messages.Home.funeralCase}
+          onPress={() => {
+            navigation.navigate("Funeraille");
+          }}
+        />
+
         <ScanButton
           title={intlData.messages.Home.caseButton}
           onPress={() => {
@@ -47,6 +55,8 @@ const Home = (props) => {
             navigation.navigate("ShowCase");
           }}
         />
+
+        
         <View style={styles.hintBox}>
           <View style={styles.hintLine}>
             <Icon name="description" size={22} color="grey" />

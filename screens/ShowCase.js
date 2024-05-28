@@ -25,7 +25,9 @@ const ShowCase = (props) => {
   const [cases, setCases] = useState([]);
   const swipeableRef = useRef(null);
   const dispatch = useDispatch();
-  const { intlData } = props;
+  const { intlData, identifier } = props;
+  const [ident, setIdent] = useState("");
+
   //disable Touchable opacity when swiping
   const Item = ({ id, date, uri, forname, lastname, styles, onPress }) => (
     <Swipeable
@@ -88,6 +90,7 @@ const ShowCase = (props) => {
   useEffect(() => {
     //get first images related to eache cases
     var images = props.images;
+    
     const DATA = props.cases.map((caseItem) => {
       return {
         id: caseItem.id,
@@ -108,10 +111,20 @@ const ShowCase = (props) => {
     }
   }, [props.cases]);
 
+  useEffect(() => {
+    setIdent(props.identifier.identifier || "");
+    console.log(props.identifier.identifier)
+  }, [props.identifier.identifier]);
+
   if (cases.length > 0) {
     const renderItem = ({ item }) => {
       const onPress = () => {
-        props.navigation.navigate("Case", { caseId: item.id });
+        if (ident === "dead"){
+        props.navigation.navigate("Funeraille", { caseId: item.id });
+        }
+        else {
+          props.navigation.navigate("Case", { caseId: item.id });
+        }
       };
       return (
         <Item
@@ -235,6 +248,7 @@ function mapStateToProps(state) {
     theme: state.theme,
     cases: state.case.cases,
     intlData: state.lang,
+    identifier: state.identifier
   };
 }
 

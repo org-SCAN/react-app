@@ -5,6 +5,7 @@ import Settings from "./Settings";
 import ScanCamera from "./Camera";
 import ShowCase from "./ShowCase";
 import Pictures from "./Pictures";
+import Funeraille from "./Funeraille";
 import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
@@ -59,6 +60,11 @@ const MainContent = (props) => {
           name="Case"
           component={Case}
           options={{ title: intlData.messages.Case.title, ...styles.case }}
+        />
+        <Stack.Screen
+          name="Funeraille"
+          component={Funeraille}
+          options={{ title: intlData.messages.Home.funeralCase, ...styles.case }}
         />
       </Stack.Navigator>
     </NavigationContainer>

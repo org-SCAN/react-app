@@ -7,7 +7,10 @@ import {
   DELETE_CASE,
   EDIT_CASE,
   UPDATE_LANGUAGE,
+  SET_IDENTIFIER
 } from "./constants";
+
+
 
 /* LANGUAGE ACTION */
 
@@ -17,6 +20,14 @@ export const updateLanguage = (language) => {
     language,
   };
 };
+
+
+
+
+export const setIdentifier = (identifier) => ({
+  type: SET_IDENTIFIER,
+  payload: identifier,
+});
 
 /* THEME ACTION */
 export const switchMode = (mode) => {

@@ -3,7 +3,8 @@
     "title": "Accueil",
     "caseButton": "Nouveau cas",
     "consultButton": "Consulter les cas",
-    "saveCase": "Cas sauvegardé"
+    "saveCase": "Cas sauvegardé",
+    "funeralCase": "Funeraille"
   },
   "Case": {
     "title": "Cas",
