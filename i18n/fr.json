@@ -20,7 +20,10 @@
     "confirmBack": "Etes vous sûr de vouloir annuler le cas ?",
     "addImage": "Ajouter au moins une photo",
     "allFields": "Veuillez remplir tous les champs",
-    "noMail": "Aucune messagerie n'est installée sur votre appareil"
+    "noMail": "Aucune messagerie n'est installée sur votre appareil",
+    "noIconAge":"Veuillez sélectionner l'icône pour l'âge",
+    "noIconSex":"Veuillez sélectionner l'icône pour le sexe",
+    "noIcons":"Veuillez sélectionner les icônes pour le sexe et l'âge"
   },
   "consultCases": {
     "title": "Consulter les cas",
