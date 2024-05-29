@@ -11,6 +11,9 @@ import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
+import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+
 
 const Settings = (props) => {
   const { intlData } = props;
@@ -53,97 +56,93 @@ const Settings = (props) => {
   };
 
   return (
-    <View style={styles.mainContent}>
-      {showBox}
-      <SettingsToggle
-        style={styles.toggle}
-        onChange={() => {
-          handleThemeChange();
-        }}
-        value={props.theme.mode === "dark"}
-        title={intlData.messages.Settings.lightTheme}
-        description={intlData.messages.Settings.themeDescription}
-      />
-      <View>
-        <LanguagePicker />
-      </View>
-      <View style={styles.bottom}>
-        <Text style={styles.hint}>Debug</Text>
-        <Button
-          title={intlData.messages.Settings.debugMessage}
-          color={SCAN_COLOR}
-          onPress={() =>
-            showConfirmDialog(
-              intlData.messages.Settings.clearCases1,
-              intlData.messages.Settings.clearCases2,
-              clear
-            )
-          }
-        />
-      </View>
-      <View style={styles.userIdContainer}>
-        <Text style={styles.label}>Enter User ID:</Text>
-        <TextInput
-          style={styles.input}
-          keyboardType="alphanumeric"
-          maxLength={10}
-          value={userId}
-          onChangeText={setUserId}
-        />
-        <Button
-          title="Save User ID"
-          onPress={handleSaveUserId}
-          color={SCAN_COLOR}
-        />
-        {storedUserId ? <Text>Stored User ID: {storedUserId}</Text> : null}
-      </View>
-
-        <View style={styles.userIdContainer}>
-          <TextInput
-            style={styles.input}
-            keyboardType="numeric"
-            placeholder="Enter new case number"
-            onChangeText={(text) => setNewCaseNumber(parseInt(text))}
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.mainContent}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <SettingsToggle
+            style={styles.toggle}
+            onChange={handleThemeChange}
+            value={props.theme.mode === "dark"}
+            title={intlData.messages.Settings.lightTheme}
+            description={intlData.messages.Settings.themeDescription}
           />
-          <Button
-            title="Reset Case Number"
-            onPress={() => handleUpdateCaseNumber(newCaseNumber)}
-            color={SCAN_COLOR}
-          />
+          <View>
+            <LanguagePicker />
+          </View>
 
-        {caseNumber ? <Text>Stored Case number: {caseNumber}</Text> : null}
-
-        </View>
-    </View>
+          <View style={styles.userIdContainer}>
+            <Text style={styles.label}>Enter User ID:</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="alphanumeric"
+              maxLength={10}
+              value={userId}
+              onChangeText={setUserId}
+            />
+            <Button
+              title="Save User ID"
+              onPress={handleSaveUserId}
+              color={SCAN_COLOR}
+            />
+            {storedUserId ? <Text>Stored User ID: {storedUserId}</Text> : null}
+          </View>
+          <View style={styles.userIdContainer}>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              placeholder="Enter new case number"
+              onChangeText={(text) => setNewCaseNumber(parseInt(text))}
+            />
+            <Button
+              title="Reset Case Number"
+              onPress={() => handleUpdateCaseNumber(newCaseNumber)}
+              color={SCAN_COLOR}
+            />
+            {caseNumber ? <Text>Stored Case number: {caseNumber}</Text> : null}
+          </View>
+          <View style={styles.bottom}>
+              <Text style={styles.hint}>Debug</Text>
+              <Button
+                title={intlData.messages.Settings.debugMessage}
+                color={SCAN_COLOR}
+                onPress={() =>
+                  showConfirmDialog(
+                    intlData.messages.Settings.clearCases1,
+                    intlData.messages.Settings.clearCases2,
+                    clear
+                  )
+                }
+              />
+          </View>
+        </ScrollView>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
   mainContent: {
+    flex: 1,
     margin: 30,
-    height: "100%",
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'space-between',
   },
   toggle: {
     marginBottom: 20,
   },
-  bottom: {
-    position: "absolute",
-    bottom: 50,
-    width: "100%",
-  },
-  bottomLanguage: {
-    position: "absolute",
-    bottom: 200,
-    width: "100%",
-  },
   hint: {
     fontStyle: "italic",
     color: "#B3B3B3",
-    alignContent: "center",
     textAlign: "center",
+    marginTop: 20,
   },
   userIdContainer: {
-    marginTop: 40,
+    marginTop: 20,
   },
   label: {
     marginBottom: 10,
@@ -155,6 +154,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingLeft: 8,
+  },
+  bottom: {
+    marginTop: 20,
   },
 });
 
