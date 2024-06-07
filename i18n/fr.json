@@ -40,7 +40,11 @@
     "selectLanguage": "Sélectionner la langue",
     "debugMessage": "Effacer les données",
     "clearCases1": "Êtes vous sûr ?",
-    "clearCases2": "Tous les cas seront supprimés"
+    "clearCases2": "Tous les cas seront supprimés",
+    "saveUserID": "Sauvegarder l'ID utilisateur",
+    "newCaseNumber": "Entrer un nouveau numéro de cas",
+    "resetCaseNumber": "Enregistrer le nouveau numéro",
+    "enterUserID": "Entrer un ID utilisateur"
   },
   "Mail": {
     "subject": "[CAS] ",

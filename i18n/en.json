@@ -40,7 +40,11 @@
     "selectLanguage": "Select Language",
     "debugMessage": "Clear all datas",
     "clearCases1": "Are your sure ?",
-    "clearCases2": "All cases will be deleted"
+    "clearCases2": "All cases will be deleted",
+    "saveUserID": "Save User ID",
+    "newCaseNumber": "Enter new case number",
+    "resetCaseNumber": "Reset Case Number",
+    "enterUserID": "Enter User ID"
   },
   "Mail": {
     "subject": "[CASE] ",
