@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
+import ScanButtonCamera from "../components/BasicUI/ScanButtonCamera";
 import LittleScanButton from "../components/BasicUI/LittleScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, useSelector, connect } from "react-redux";
@@ -359,10 +360,12 @@ const handleIconSelectionAge = (selectedIconAge) => {
         scrollEnabled={false}
       />
 
-      <ScanButton
-        title={intlData.messages.Case.photoButton}
+      <ScanButtonCamera
+        // title={intlData.messages.Case.photoButton}
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
-      />
+        imageSource={require('../icons/camera1.png')}
+      >
+      </ScanButtonCamera>
       <Text style={{ fontStyle: "italic" }}>
         {intlData.messages.Case.descriptionPhoto}
       </Text>

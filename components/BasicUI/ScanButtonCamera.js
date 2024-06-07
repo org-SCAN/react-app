@@ -1,30 +1,33 @@
 import { StyleSheet, Text, Pressable, Image } from "react-native";
 import { connect } from "react-redux";
 
-const ScanButton = (props) => {
+const ScanButtonCamera = (props) => {
   var styles = props.theme.mode === "light" ? stylesLight : stylesDark;
   if (props.style) {
     styles.button = { ...styles.button, ...props.style };
   }
   return (
     <Pressable style={styles.button} onPress={props.onPress}>
-      <Text style={styles.text}>{props.title || "default"}</Text>
+      <Image source={props.imageSource} style={styles.image}/>
     </Pressable>
   );
 };
 
 const basicStyles = StyleSheet.create({
   button: {
-    paddingVertical: 12,
-    paddingHorizontal: 40,
+    justifyContent: "center", // Center content vertically
+    alignItems: "center", // Center content horizontally
+    paddingVertical: 5,
+    paddingHorizontal: 10,
     borderRadius: 4,
     elevation: 3,
     borderWidth: 2,
     margin: 10,
-    width: 200,
+    width: 150,
     shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.4,
+    
   },
   text: {
     fontSize: 16,
@@ -33,7 +36,11 @@ const basicStyles = StyleSheet.create({
     letterSpacing: 0.25,
     textAlign: "center",
   },
-  
+  image: {
+    width: 34,
+    height: 34
+    
+  }
 });
 
 const stylesLight = StyleSheet.create({
@@ -66,4 +73,4 @@ function mapStateToProps(state) {
   return { theme: state.theme };
 }
 
-export default connect(mapStateToProps)(ScanButton);
+export default connect(mapStateToProps)(ScanButtonCamera);
