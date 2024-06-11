@@ -43,12 +43,12 @@ const Home = (props) => {
           }}
         />
 
-        <ScanButton
+        {/* <ScanButton
           title={intlData.messages.Home.caseButton}
           onPress={() => {
             navigation.navigate("Case");
           }}
-        />
+        /> */}
         <ScanButton
           title={intlData.messages.Home.consultButton}
           onPress={() => {
