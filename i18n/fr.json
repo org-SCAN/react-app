@@ -44,7 +44,10 @@
     "saveUserID": "Sauvegarder l'ID utilisateur",
     "newCaseNumber": "Entrer un nouveau numéro de cas",
     "resetCaseNumber": "Enregistrer le nouveau numéro",
-    "enterUserID": "Entrer un ID utilisateur"
+    "enterUserID": "Entrer un ID utilisateur",
+    "ServerDescription": "Pour modifier les icônes de l'appli, entrez le lien vers votre serveur ci-dessous",
+    "enterServerURL": "Entrer le lien du serveur",
+    "openServer": "Ouvrir le serveur"
   },
   "Mail": {
     "subject": "[CAS] ",

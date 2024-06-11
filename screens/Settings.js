@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserId, updateCaseNumber } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
@@ -12,6 +12,7 @@ import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
+//import { connect } from "react-redux";
 //import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
@@ -21,6 +22,7 @@ const Settings = (props) => {
   const [showBox, setShowBox] = useState(true);
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
+  const [serverUrl, setServerUrl] = useState("");
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
@@ -55,6 +57,19 @@ const Settings = (props) => {
     Alert.alert("Success", "User ID has been saved!");
   };
 
+  //Lien serveur pour changer les icones
+ const OpenServerUrl = () => {
+    if (serverUrl.trim() !== '') {
+      Linking.openURL(serverUrl)
+        .catch(err => {
+          console.error('Failed to open URL:', err);
+          Alert.alert('Error', 'Failed to open the server URL.');
+        });
+    } else {
+      Alert.alert('Error', 'Please enter a valid server URL.');
+    }
+  };
+
   return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -73,6 +88,24 @@ const Settings = (props) => {
               <LanguagePicker />
             </View>
 
+
+            <View style={styles.serverUrlContainer}>
+              <Text style={styles.description}>
+                {intlData.messages.Settings["ServerDescription"]}
+              </Text>
+              <TextInput
+                style={styles.input}
+                placeholder={intlData.messages.Settings["enterServerURL"]}
+                value={serverUrl}
+                onChangeText={setServerUrl}
+                description={intlData.messages.Settings.themeDescription}
+              />
+              <Button
+                title={intlData.messages.Settings.openServer}
+                onPress={OpenServerUrl}
+                color={SCAN_COLOR}
+              />
+            </View>
             <View style={styles.userIdContainer}>
               <Text style={styles.label}></Text>
               <TextInput
@@ -84,7 +117,7 @@ const Settings = (props) => {
                 onChangeText={setUserId}
               />
               <Button
-                title={intlData.messages.Settings["saveUserID"]}
+                title={intlData.messages.Settings.saveUserID}
                 onPress={handleSaveUserId}
                 color={SCAN_COLOR}
               />
@@ -98,7 +131,7 @@ const Settings = (props) => {
                 onChangeText={(text) => setNewCaseNumber(parseInt(text))}
               />
               <Button
-                title={intlData.messages.Settings["resetCaseNumber"]}
+                title={intlData.messages.Settings.resetCaseNumber}
                 onPress={() => handleUpdateCaseNumber(newCaseNumber)}
                 color={SCAN_COLOR}
               />
@@ -160,6 +193,13 @@ const styles = StyleSheet.create({
     //marginBottom: 10,
     marginTop: 140,
   },
+  serverUrlContainer: {
+    marginTop: 20,
+  },
+  description: {
+    marginBottom: 10,
+    fontSize: 17,
+    color: "black",},
 });
 
 function mapStateToProps(state) {

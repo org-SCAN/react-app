@@ -44,7 +44,10 @@
     "saveUserID": "Save User ID",
     "newCaseNumber": "Enter new case number",
     "resetCaseNumber": "Reset Case Number",
-    "enterUserID": "Enter User ID"
+    "enterUserID": "Enter User ID",
+    "ServerDescription": "To change app icons, enter the link to your server below",
+    "enterServerURL": "Enter Server URL",
+    "openServer": "Open server"
   },
   "Mail": {
     "subject": "[CASE] ",
