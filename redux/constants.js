@@ -11,3 +11,5 @@ export const UPDATE_USER_ID = 'UPDATE_USER_ID';
 export const UPDATE_CASE_NUMBER = 'UPDATE_CASE_NUMBER';
 
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
+export const SET_ICONS = 'SET_ICONS';
+

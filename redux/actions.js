@@ -9,6 +9,7 @@ import {
   UPDATE_LANGUAGE,
   UPDATE_USER_ID,
   UPDATE_CASE_NUMBER,
+  SET_ICONS
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -83,3 +84,8 @@ export const updateCaseNumber = (caseNumber) => {
     payload: caseNumber,
   };
 };
+
+export const setIcons = (key, icons) => ({
+  type: SET_ICONS,
+  payload: { key, icons }
+});
