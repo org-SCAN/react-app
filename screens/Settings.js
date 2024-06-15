@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserId, updateCaseNumber } from "../redux/actions";
+import { updateUserId, updateCaseNumber, setIcons } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -12,8 +12,7 @@ import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
-//import { connect } from "react-redux";
-//import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import JSZip from 'jszip';
 
 
 const Settings = (props) => {
@@ -26,6 +25,42 @@ const Settings = (props) => {
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+
+//load new icons
+
+    const handleLoadIcons = async () => {
+        try {
+          const res = await DocumentPicker.pick({
+            type: [DocumentPicker.types.zip],
+          });
+          const zipFile = res[0];
+          await loadIconsFromZip(zipFile, dispatch, 'sex');
+          await loadIconsFromZip(zipFile, dispatch, 'age');
+          navigation.goBack();
+        } catch (err) {
+          if (DocumentPicker.isCancel(err)) {
+            console.warn('User cancelled the picker');
+          } else {
+            throw err;
+          }
+        }
+    };
+    `
+  const loadIconsFromZip = async (zipFile, dispatch, key) => {
+    const zip = await JSZip.loadAsync(zipFile);
+    const newIcons = [];
+
+    for (const fileName of Object.keys(zip.files)) {
+      const file = zip.files[fileName];
+      const data = await file.async('blob');
+      const iconUrl = URL.createObjectURL(data);
+      const iconName = fileName.replace(/\.[^/.]+$/, ""); // remove file extension
+
+      newIcons.push({ name: iconName, icon: iconUrl });
+    }
+
+    dispatch(setIcons(key, newIcons));
+  };
 
   //handle reset casenumber
   const handleUpdateCaseNumber = (newCaseNumber) => {
@@ -90,19 +125,10 @@ const Settings = (props) => {
 
 
             <View style={styles.serverUrlContainer}>
-              <Text style={styles.description}>
-                {intlData.messages.Settings["ServerDescription"]}
-              </Text>
-              <TextInput
-                style={styles.input}
-                placeholder={intlData.messages.Settings["enterServerURL"]}
-                value={serverUrl}
-                onChangeText={setServerUrl}
-                description={intlData.messages.Settings.themeDescription}
-              />
+
               <Button
-                title={intlData.messages.Settings.openServer}
-                onPress={OpenServerUrl}
+                title={intlData.messages.Settings.loadIcons}
+                onPress={handleLoadIcons}
                 color={SCAN_COLOR}
               />
             </View>

@@ -47,7 +47,8 @@
     "enterUserID": "Enter User ID",
     "ServerDescription": "To change app icons, enter the link to your server below",
     "enterServerURL": "Enter Server URL",
-    "openServer": "Open server"
+    "openServer": "Open server",
+    "loadIcons": "Load new icons",
   },
   "Mail": {
     "subject": "[CASE] ",
