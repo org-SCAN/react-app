@@ -61,9 +61,10 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.age,
       value: null,
       icons: [
-        { name: "child", icon: require("../icons/child.png") },
-        { name: "adult", icon: require("../icons/adult.png") },
-        { name: "old", icon: require("../icons/old.png") }
+        { name: "child", icon: require("../icons/age/child.png") },
+        { name: "adult", icon: require("../icons/age/adult.png") },
+        { name: "old", icon: require("../icons/age/old.png") },
+        { name: "unkown", icon: require("../icons/age/unknown1.png") }
       ]
     } 
   ]; 
