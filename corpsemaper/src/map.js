@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState,  } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import "leaflet/dist/leaflet.css";
@@ -25,14 +25,14 @@ function Map() {
         const blob = await response.blob();
         const zip = await JSZip.loadAsync(blob);
 
-        const jsonFile = zip.file('a6628607-f4b4-4261-9ada-f19a38fb1f6b.json'); // Remplacez par le nom de votre fichier JSON dans le ZIP
-        if (jsonFile) {
-          const jsonText = await jsonFile.async('text');
-          const jsonData = JSON.parse(jsonText);
-
-          // Supposons que le fichier JSON contient un tableau de coordonnées
-          setCoordinates(jsonData.coordinates);
-        }
+        zip.forEach((relativePath, zipEntry) => { // Parcourir tous les fichiers dans le ZIP
+          if (zipEntry.name.endsWith('.json')) {  // Vérifier si le fichier est un fichier JSON
+            zipEntry.async('text').then(jsonText => {    // Extraire le contenu du fichier JSON
+              const jsonData = JSON.parse(jsonText);
+              setCoordinates(jsonData.coordinates);
+            });
+          }
+        });
       } catch (error) {
         console.error("Failed to fetch and unzip file:", error);
       }
