@@ -45,7 +45,7 @@ const Settings = (props) => {
           }
         }
     };
-    `
+
   const loadIconsFromZip = async (zipFile, dispatch, key) => {
     const zip = await JSZip.loadAsync(zipFile);
     const newIcons = [];
@@ -127,7 +127,7 @@ const Settings = (props) => {
             <View style={styles.serverUrlContainer}>
 
               <Button
-                title={intlData.messages.Settings.loadIcons}
+                title="test"//{intlData.messages.Settings.loadIcons}
                 onPress={handleLoadIcons}
                 color={SCAN_COLOR}
               />
@@ -143,7 +143,7 @@ const Settings = (props) => {
                 onChangeText={setUserId}
               />
               <Button
-                title={intlData.messages.Settings.saveUserID}
+                title="test"//{intlData.messages.Settings.saveUserID}
                 onPress={handleSaveUserId}
                 color={SCAN_COLOR}
               />
@@ -157,7 +157,7 @@ const Settings = (props) => {
                 onChangeText={(text) => setNewCaseNumber(parseInt(text))}
               />
               <Button
-                title={intlData.messages.Settings.resetCaseNumber}
+                title="test"//{intlData.messages.Settings.resetCaseNumber}
                 onPress={() => handleUpdateCaseNumber(newCaseNumber)}
                 color={SCAN_COLOR}
               />
@@ -168,7 +168,7 @@ const Settings = (props) => {
         <View style={styles.bottom}>
           <Text style={styles.hint}>Debug</Text>
           <Button
-            title={intlData.messages.Settings.debugMessage}
+            title="test"//{intlData.messages.Settings.debugMessage}
             color={SCAN_COLOR}
             onPress={() =>
               showConfirmDialog(

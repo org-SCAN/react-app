@@ -2,14 +2,14 @@ import { SET_ICONS } from '../constants';
 
 const initialIconsState = {
   sex: [
-    { name: "woman", icon: require("../icons/woman.png") },
-    { name: "man", icon: require("../icons/man.png") },
-    { name: "unknown", icon: require("../icons/unknown.png") }
+    { name: "woman", icon: require("../../icons/woman.png") },
+    { name: "man", icon: require("../../icons/man.png") },
+    { name: "unknown", icon: require("../../icons/unknown.png") }
   ],
   age: [
-    { name: "child", icon: require("../icons/child.png") },
-    { name: "adult", icon: require("../icons/adult.png") },
-    { name: "old", icon: require("../icons/old.png") }
+    { name: "child", icon: require("../../icons/child.png") },
+    { name: "adult", icon: require("../../icons/adult.png") },
+    { name: "old", icon: require("../../icons/old.png") }
   ]
 };
 

@@ -16,7 +16,7 @@ import caseReducer from "./Reducers/caseReducer";
 import langReducer from "./Reducers/langReducer";
 import userIdReducer from "./Reducers/userIdReducer";
 import caseNumberReducer from "./Reducers/caseNumberReducer";
-import iconsReducer from "./Reducers/iconsReducer";
+import iconsReducer from "./Reducers/iconsReducers";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
