@@ -1,4 +1,4 @@
-import React, { useEffect, useState,  } from "react";
+import React, {  useState,  } from "react";
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import "leaflet/dist/leaflet.css";
@@ -11,18 +11,17 @@ import './App.css';
 function Map() {
   const centre = [46.603354, 1.8883335];
   const [coordinates, setCoordinates] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const customIcon = new L.Icon({
     iconUrl: "/logo.png",
     iconSize: [25, 25],
   });
 
-  
-  
-
   const handleFileUpload = async (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
+    let jsonFileFound = false;
     
     reader.onload = async (e) => {
       const arrayBuffer = e.target.result;
@@ -32,11 +31,21 @@ function Map() {
         if (zipEntry.name.endsWith('.json')) {  // Vérifier si le fichier est un fichier JSON
           zipEntry.async('text').then(jsonText => { // Extraire le contenu du fichier JSON
             const jsonData = JSON.parse(jsonText);
-            setCoordinates(jsonData.coordinates);
-          });
+            setCoordinates(jsonData.coordinates); });
+          jsonFileFound = true;
         }
+        
+       
       });
+
+      if (!jsonFileFound) {
+        setCoordinates([]);
+        setErrorMessage('Fichier ZIP erroné : aucun fichier JSON trouvé.');
+      } else {
+        setErrorMessage('');
+      }
     };
+  
     
     reader.readAsArrayBuffer(file);
   };
@@ -55,8 +64,9 @@ function Map() {
 
   return (
     <div  className="div_map_main">
-      <h1>CorspeMaper</h1>
+      <h1>CorpseMaper</h1>
       <input type="file" onChange={handleFileUpload} />
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
     <div className="div_map">
     <MapContainer center={centre} zoom={6} scrollWheelZoom={true}>
       <TileLayer
