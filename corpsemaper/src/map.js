@@ -17,29 +17,29 @@ function Map() {
     iconSize: [25, 25],
   });
 
-  useEffect(() => {
-    // Fonction pour lire le fichier ZIP et extraire le fichier JSON
-    const fetchCoordinates = async () => {
-      try {
-        const response = await fetch('zipFile.zip'); // Remplacez par le chemin de votre fichier ZIP
-        const blob = await response.blob();
-        const zip = await JSZip.loadAsync(blob);
+  
+  
 
-        zip.forEach((relativePath, zipEntry) => { // Parcourir tous les fichiers dans le ZIP
-          if (zipEntry.name.endsWith('.json')) {  // Vérifier si le fichier est un fichier JSON
-            zipEntry.async('text').then(jsonText => {    // Extraire le contenu du fichier JSON
-              const jsonData = JSON.parse(jsonText);
-              setCoordinates(jsonData.coordinates);
-            });
-          }
-        });
-      } catch (error) {
-        console.error("Failed to fetch and unzip file:", error);
-      }
+  const handleFileUpload = async (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    
+    reader.onload = async (e) => {
+      const arrayBuffer = e.target.result;
+      const zip = await JSZip.loadAsync(arrayBuffer);
+
+      zip.forEach((relativePath, zipEntry) => { // Parcourir tous les fichiers dans le ZIP
+        if (zipEntry.name.endsWith('.json')) {  // Vérifier si le fichier est un fichier JSON
+          zipEntry.async('text').then(jsonText => { // Extraire le contenu du fichier JSON
+            const jsonData = JSON.parse(jsonText);
+            setCoordinates(jsonData.coordinates);
+          });
+        }
+      });
     };
-
-    fetchCoordinates();
-  }, []);
+    
+    reader.readAsArrayBuffer(file);
+  };
 
   const createMarkers = () => {
     return coordinates.map((coord, index) => (
@@ -54,6 +54,9 @@ function Map() {
   };
 
   return (
+    <div  className="div_map_main">
+      <h1>CorspeMaper</h1>
+      <input type="file" onChange={handleFileUpload} />
     <div className="div_map">
     <MapContainer center={centre} zoom={6} scrollWheelZoom={true}>
       <TileLayer
@@ -64,7 +67,14 @@ function Map() {
         {createMarkers()}
       </MarkerClusterGroup>
     </MapContainer>
+    
     </div>
+    
+    </div>
+    
+
+
+    
   );
 }
 

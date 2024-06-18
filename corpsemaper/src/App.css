@@ -41,20 +41,30 @@
 }
 
 
-.div_map {
-    width: 800px;
-    height: 600px;
-    padding: 5px;  /* Augmenté pour plus de respirabilité */
-    margin: 10px auto;  /* Centré horizontalement et avec une marge en haut/bas */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Ombre subtile */
-    border-radius: 5px;  /* Coins arrondis */
-    background-color: #fff;  /* Fond blanc pour faire ressortir la carte */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+
 
 .leaflet-container {
   width: 100%;
   height: 100%;
+}
+
+.div_map {
+  width: 800px;
+  height: 600px;
+  padding: 5px;  /* Augmenté pour plus de respirabilité */
+  margin: 10px auto;  /* Centré horizontalement et avec une marge en haut/bas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Ombre subtile */
+  border-radius: 5px;  /* Coins arrondis */
+  background-color: #fff;  /* Fond blanc pour faire ressortir la carte */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.div_map_main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Centre le texte */
 }
