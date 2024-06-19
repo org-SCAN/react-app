@@ -18,36 +18,42 @@ function Map() {
     iconSize: [25, 25],
   });
 
-  const handleFileUpload = async (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
-    let jsonFileFound = false;
-    
-    reader.onload = async (e) => {
-      const arrayBuffer = e.target.result;
-      const zip = await JSZip.loadAsync(arrayBuffer);
+   
+   const DirectoryUpload = async () => {
+    try {
+      const directoryHandle = await window.showDirectoryPicker(); // sélectionner un dossier
+      const coordinatesList = [];
+      let jsonFileFound = false;
 
-      zip.forEach((relativePath, zipEntry) => { // Parcourir tous les fichiers dans le ZIP
-        if (zipEntry.name.endsWith('.json')) {  // Vérifier si le fichier est un fichier JSON
-          zipEntry.async('text').then(jsonText => { // Extraire le contenu du fichier JSON
-            const jsonData = JSON.parse(jsonText);
-            setCoordinates(jsonData.coordinates); });
-          jsonFileFound = true;
+      for await (const entry of directoryHandle.values()) { // Parcourir chaque fichier dans le dossier
+        if (entry.kind === 'file' && entry.name.endsWith('.zip')) {
+          const file = await entry.getFile();
+          const arrayBuffer = await file.arrayBuffer();
+          const zip = await JSZip.loadAsync(arrayBuffer);
+
+          for (const relativePath in zip.files) {  // Parcourir chaque fichier dans le ZIP
+            const zipEntry = zip.files[relativePath];
+            if (zipEntry.name.endsWith('.json')) {
+              const jsonText = await zipEntry.async('text');
+              const jsonData = JSON.parse(jsonText);
+              coordinatesList.push(...jsonData.coordinates);
+              jsonFileFound = true;
+            }
+          }
         }
-        
-       
-      });
+      }
 
-      if (!jsonFileFound) {
+      if (!jsonFileFound) {  // Si aucun fichier JSON n'est trouvé
         setCoordinates([]);
-        setErrorMessage('Fichier ZIP erroné : aucun fichier JSON trouvé.');
+        setErrorMessage('Aucun fichier JSON trouvé !');
       } else {
+        setCoordinates(coordinatesList);
         setErrorMessage('');
       }
-    };
-  
-    
-    reader.readAsArrayBuffer(file);
+    } catch (error) {
+      setErrorMessage('Error selecting folder.');
+    }
+
   };
 
   const createMarkers = () => {
@@ -63,28 +69,22 @@ function Map() {
   };
 
   return (
-    <div  className="div_map_main">
+    <div className="div_map_main">
       <h1>CorpseMaper</h1>
-      <input type="file" onChange={handleFileUpload} />
+      <button onClick={DirectoryUpload}>Select Directory</button>
       {errorMessage && <p className="error-message">{errorMessage}</p>}
-    <div className="div_map">
-    <MapContainer center={centre} zoom={6} scrollWheelZoom={true}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-      />
-      <MarkerClusterGroup chunkedLoading={true} chunkInterval={50} removeOutsideVisibleBounds={true} disableClusteringAtZoom={10}>
-        {createMarkers()}
-      </MarkerClusterGroup>
-    </MapContainer>
-    
+      <div className="div_map">
+        <MapContainer center={centre} zoom={6} scrollWheelZoom={true}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <MarkerClusterGroup chunkedLoading={true} chunkInterval={50} removeOutsideVisibleBounds={true} disableClusteringAtZoom={10}>
+            {createMarkers()}
+          </MarkerClusterGroup>
+        </MapContainer>
+      </div>
     </div>
-    
-    </div>
-    
-
-
-    
   );
 }
 
