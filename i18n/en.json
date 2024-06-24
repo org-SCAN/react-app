@@ -41,14 +41,8 @@
     "debugMessage": "Clear all datas",
     "clearCases1": "Are your sure ?",
     "clearCases2": "All cases will be deleted",
-    "saveUserID": "Save User ID",
-    "newCaseNumber": "Enter new case number",
-    "resetCaseNumber": "Reset Case Number",
-    "enterUserID": "Enter User ID",
-    "ServerDescription": "To change app icons, enter the link to your server below",
-    "enterServerURL": "Enter Server URL",
-    "openServer": "Open server",
-    "loadIcons": "Load new icons",
+    "saveID" : " Save your ID",
+    "resetCaseNumber": "Put a case number"
   },
   "Mail": {
     "subject": "[CASE] ",
