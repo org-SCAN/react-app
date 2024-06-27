@@ -64,7 +64,7 @@ const Case = (props) => {
         { name: "child", icon: require("../icons/age/child.png") },
         { name: "adult", icon: require("../icons/age/adult.png") },
         { name: "old", icon: require("../icons/age/old.png") },
-        { name: "unknown", icon: require("../icons/age/unknown.png") }
+        { name: "unkown", icon: require("../icons/age/unknown1.png") }
       ]
     } 
   ]; 
@@ -89,7 +89,9 @@ const Case = (props) => {
                   text: intlData.messages.yes,
                   onPress: () => {
                     dispatch(deleteCase(caseID));
+                    console.log("caseNumber before: ", caseNumber);
                     handleDeleteCase();
+                    console.log("caseNumber after: ", caseNumber);
 
                     if (images.length > 0) {
                       images.forEach((image) => {
@@ -267,6 +269,7 @@ const handleIconSelectionSex = (selectedIconSex) => {
     const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
     if (selectedIndex !== -1) {
       const selectedIconName = sexItem.icons[selectedIndex].name;
+      console.log(selectedIconName);
       form.find((item) => item.key === "sex").value = selectedIconName;
     }
     return item;
