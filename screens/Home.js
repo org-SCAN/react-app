@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Text, Animated } from "react-native";
+import { StyleSheet, View, Text, Animated, Alert } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
@@ -14,6 +14,7 @@ const Home = (props) => {
 
   const dispatch = useDispatch();
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+  const userId = useSelector(state => state.userId.userId);
 
   const handleCreateCase = () => {
     dispatch(updateCaseNumber(caseNumber+1));
@@ -46,13 +47,17 @@ const Home = (props) => {
         <Text>{intlData.messages.Home.saveCase} ✅</Text>
       </Animated.View>
       <View style={styles.menu}>
-        <ScanButton
-          title={intlData.messages.Home.caseButton}
-          onPress={() => {
+      <ScanButton
+        title={intlData.messages.Home.caseButton}
+        onPress={() => {
+          if (userId === null) {
+            Alert.alert("Error", "Configure userId.");
+          } else {
             handleCreateCase();
             navigation.navigate("Case");
-          }}
-        />
+          }
+        }}
+      />
         <ScanButton
           title={intlData.messages.Home.consultButton}
           onPress={() => {
