@@ -26,7 +26,7 @@ import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 
 
 const Case = (props) => {
-  const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
+  const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
   const { intlData } = props;
   const { navigation } = props;
   const [caseID, setCaseID] = useState(null);
@@ -301,14 +301,13 @@ const handleIconSelectionAge = (selectedIconAge) => {
     if (item.key === "age" || item.key === "sex") {
       return (
         <View style={styles.inputContainer}>
-          <Text style={[styles.placeholder, { marginBottom: 10 }]}>{item.placeholder}</Text>
+          <Text style={[styles.placeholder]}>{item.placeholder}</Text>
           <ScrollView horizontal contentContainerStyle={[styles.iconContainer, { marginBottom: 20 }]}>
             {item.icons.map((iconOption, index) => (
               <TouchableOpacity
                 key={index}
                 style={[
                   styles.iconButton,
-                  { marginRight: 40 },
                   (item.key === "age" && selectedIconAge === iconOption.icon) ||
                   (item.key === "sex" && selectedIconSex === iconOption.icon)
                     ? styles.selectedIconButton
@@ -356,7 +355,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
         ListFooterComponent={<View style={{ height: 20 }} />}
-        style={{ flexGrow: 0, flexShrink: 0 }}
+        style={{ flexGrow: 0, flexShrink: 0}}
         scrollEnabled={false}
       />
 
@@ -366,7 +365,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
         imageSource={require('../icons/camera1.png')}
       >
       </ScanButtonCamera>
-      <Text style={{ fontStyle: "italic" }}>
+      <Text style={styles.descriptionPhoto}>
         {intlData.messages.Case.descriptionPhoto}
       </Text>
       <FlatList
@@ -394,66 +393,121 @@ const handleIconSelectionAge = (selectedIconAge) => {
 
 };
 
-const basicStyle = StyleSheet.create({
+const basicStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
     alignItems: "center",
+    padding: 2,
   },
-  button: {
-    position: "absolute",
-    bottom: 0,
-    flexDirection: "row",
-    justifyContent: "space-around",
+  // IDs
+  tagLabel: {
+    fontSize: 45,
+    fontWeight: "600",
+    marginTop: 20,
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  inputContainer: {
     width: "100%",
   },
-  activityContainer: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1,
-    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  // Description of icons
+  placeholder: {
+    marginBottom: 5, 
+    marginTop: 5,
+    fontSize: 17,
+    fontWeight: "bold",
   },
-  injuries: {
-    height: 90,
-    width: 300,
-    borderWidth: 1,
-    padding: 10,
-    borderRadius: 5,
-    marginBottom: 10,
+  iconContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  iconButton: {
+    padding: 14,
+    borderRadius: 12,
+    borderWidth: 2,
+    marginLeft: 15,
+    marginRight: 15,
   },
   selectedIconButton: {
-    borderColor: '#D3D3D3',
-    backgroundColor: '#D3D3D3',
+    padding: 14,
+    borderRadius: 12,
     borderWidth: 2,
-    borderRadius: 10,
+    marginLeft: 15,
+    marginRight: 15,
   },
-   tagLabel: {
-     fontSize: 45,
-     fontWeight: 'bold',
-     marginTop: 15,
-     marginBottom: 20,
-   },
-
+  icon: {
+    width: 60,
+    height: 60,
+    resizeMode: "contain",
+  },
+  // Description under camera button
+  descriptionPhoto: {
+    fontStyle: "italic",
+    fontSize: 14,
+    textAlign: "center",
+  },
+  // Submit / Save buttons
+  button: {
+    position: "absolute",
+    bottom: 20,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    width: "90%",
+    alignSelf: "center",
+  },
 });
 
-const lightStyle = StyleSheet.create({
-  ...basicStyle,
-  injuries: {
-    ...basicStyle.injuries,
-    borderColor: "#000",
+const lightStyles = StyleSheet.create({
+  ...basicStyles,
+  tagLabel: {
+    ...basicStyles.tagLabel,
+    color: "black",
+  },
+  placeholder: {
+    ...basicStyles.placeholder,
+    color: "#000",
+  },
+  descriptionPhoto: {
+    ...basicStyles.descriptionPhoto,
+    color: "#444",
+  },
+  iconButton: {
+    ...basicStyles.iconButton,
+    borderColor: "#D3D3D3",
+    backgroundColor: "white",
+  },
+  selectedIconButton: {
+    ...basicStyles.selectedIconButton,
+    backgroundColor: "rgba(184, 29, 42, 0.8)",
+    borderColor: "rgba(184, 29, 42, 0.8)",
   },
 });
 
-const darkStyle = StyleSheet.create({
-  ...basicStyle,
-  injuries: {
-    ...basicStyle.injuries,
-    borderColor: "#fff",
-    backgroundColor: "#333333",
+const darkStyles = StyleSheet.create({
+  ...basicStyles,
+  tagLabel: {
+    ...basicStyles.tagLabel,
+    color: "white",
+  },
+  placeholder: {
+    ...basicStyles.placeholder,
+    color: "white",
+  },
+  descriptionPhoto: {
+    ...basicStyles.descriptionPhoto,
+    color: "#b3b3b3",
+  },
+  iconButton: {
+    ...basicStyles.iconButton,
+    borderColor: "#D3D3D3",
+    backgroundColor: "white",
+  },
+  selectedIconButton: {
+    ...basicStyles.selectedIconButton,
+    backgroundColor: "rgba(184, 29, 42, 0.8)",
+    borderColor: "rgba(184, 29, 42, 0.8)",
   },
 });
 

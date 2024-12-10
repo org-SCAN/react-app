@@ -20,7 +20,7 @@ import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
 
 const ShowCase = (props) => {
-  const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
+  const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
   const [DATA, setDATA] = useState([]);
   const [cases, setCases] = useState([]);
   const swipeableRef = useRef(null);
@@ -35,7 +35,6 @@ const ShowCase = (props) => {
           outputRange: [1, 0],
           extrapolate: "clamp",
         });
-
         return (
           <Animated.View style={{ ...styles.deleteContainer, opacity }}>
             <Pressable
@@ -142,13 +141,13 @@ const ShowCase = (props) => {
   } else {
     return (
       <View style={styles.mainContent}>
-        <Text>{intlData.messages.consultCases.noCase}</Text>
+        <Text style={styles.textNoCase}>{intlData.messages.consultCases.noCase}</Text>
       </View>
     );
   }
 };
 
-const basicStyle = StyleSheet.create({
+const basicStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
     justifyContent: "center",
@@ -200,37 +199,67 @@ const basicStyle = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-});
-
-const lightStyle = StyleSheet.create({
-  ...basicStyle,
-  date: {
-    ...basicStyle.date,
-    color: "black",
-  },
-  position: {
-    ...basicStyle.position,
-    color: "black",
-  },
-  id: {
-    ...basicStyle.id,
-    color: "black",
+  textNoCase: {
+    fontSize: 17,
+    fontWeight: "bold",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });
 
-const darkStyle = StyleSheet.create({
-  ...basicStyle,
+const stylesLight = StyleSheet.create({
+  ...basicStyles,
+  names: {
+    ...basicStyles.names,
+    color: "black",
+  },  
   date: {
-    ...basicStyle.date,
+    ...basicStyles.date,
+    color: "black",
+  },
+  hint: {
+    ...basicStyles.hint,
+    color: "black",
+  },
+  position: {
+    ...basicStyles.position,
+    color: "black",
+  },
+  id: {
+    ...basicStyles.id,
+    color: "black",
+  },
+  textNoCase: {
+    ...basicStyles.textNoCase,
+    color: "black",
+  },
+});
+
+const stylesDark = StyleSheet.create({
+  ...basicStyles,
+  names: {
+    ...basicStyles.names,
+    color: "white",
+  },
+  date: {
+    ...basicStyles.date,
+    color: "white",
+  },
+  hint: {
+    ...basicStyles.hint,
     color: "white",
   },
   position: {
-    ...basicStyle.position,
+    ...basicStyles.position,
     color: "white",
   },
   id: {
-    ...basicStyle.id,
+    ...basicStyles.id,
     color: "white",
+  },
+  textNoCase: {
+    ...basicStyles.textNoCase,
+    color : "white",
   },
 });
 function mapStateToProps(state) {

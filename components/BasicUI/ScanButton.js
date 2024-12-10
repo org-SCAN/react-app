@@ -22,9 +22,8 @@ const basicStyles = StyleSheet.create({
     borderWidth: 2,
     margin: 10,
     width: 200,
-    shadowColor: "black",
     shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
+    shadowOpacity: 0.2,
   },
   text: {
     fontSize: 16,
@@ -42,6 +41,7 @@ const stylesLight = StyleSheet.create({
     ...basicStyles.button,
     backgroundColor: "white",
     borderColor: "grey",
+    shadowColor: "black",
   },
   text: {
     ...basicStyles.text,
@@ -55,6 +55,7 @@ const stylesDark = StyleSheet.create({
     ...basicStyles.button,
     backgroundColor: "grey",
     borderColor: "grey",
+    shadowColor: "grey",
   },
   text: {
     ...basicStyles.text,

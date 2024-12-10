@@ -25,6 +25,9 @@ const Settings = (props) => {
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
 
+  const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
+  console.log("Settings: ", styles);
+
   //handle reset casenumber
   const handleUpdateCaseNumber = (newCaseNumber) => {
     dispatch(updateCaseNumber(newCaseNumber));
@@ -58,12 +61,12 @@ const Settings = (props) => {
   return (
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.mainContent}
+        style={baseStyles.mainContent}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <ScrollView contentContainerStyle={baseStyles.scrollViewContent}>
             <SettingsToggle
-              style={styles.toggle}
+              style={baseStyles.toggle}
               onChange={handleThemeChange}
               value={props.theme.mode === "dark"}
               title={intlData.messages.Settings.lightTheme}
@@ -73,10 +76,11 @@ const Settings = (props) => {
               <LanguagePicker />
             </View>
 
-            <View style={styles.userIdContainer}>
-              <Text style={styles.label}></Text>
+            <View style={baseStyles.userIdContainer}>
+              <Text style={baseStyles.label}></Text>
               <TextInput
                 placeholder={intlData.messages.Settings["enterUserID"]}
+                placeholderTextColor={styles.placeholder.color}
                 style={styles.input}
                 keyboardType="alphanumeric"
                 maxLength={10}
@@ -88,13 +92,14 @@ const Settings = (props) => {
                 onPress={handleSaveUserId}
                 color={SCAN_COLOR}
               />
-              {storedUserId ? <Text>Stored User ID: {storedUserId}</Text> : null}
+              {storedUserId ? <Text style={styles.details}>Stored User ID: {storedUserId}</Text> : null}
             </View>
             <View style={styles.userIdContainer}>
               <TextInput
                 style={styles.input}
                 keyboardType="numeric"
                 placeholder={intlData.messages.Settings["newCaseNumber"]}
+                placeholderTextColor={styles.placeholder.color}
                 onChangeText={(text) => setNewCaseNumber(parseInt(text))}
               />
               <Button
@@ -102,11 +107,11 @@ const Settings = (props) => {
                 onPress={() => handleUpdateCaseNumber(newCaseNumber)}
                 color={SCAN_COLOR}
               />
-              {caseNumber ? <Text>Stored Case number: {caseNumber}</Text> : null}
+              {caseNumber ? <Text style={styles.details}>Stored Case number: {caseNumber}</Text> : null}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
-        <View style={styles.bottom}>
+        <View style={baseStyles.bottom}>
           <Text style={styles.hint}>Debug</Text>
           <Button
             title={intlData.messages.Settings.debugMessage}
@@ -124,7 +129,7 @@ const Settings = (props) => {
     );
   };
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
     margin: 30,
@@ -136,12 +141,6 @@ const styles = StyleSheet.create({
   toggle: {
     marginBottom: 20,
   },
-  hint: {
-    fontStyle: "italic",
-    color: "#B3B3B3",
-    textAlign: "center",
-    marginTop: 20,
-  },
   userIdContainer: {
     marginTop: 20,
   },
@@ -149,17 +148,57 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     fontSize: 16,
   },
-  input: {
-    height: 40,
-    borderColor: "gray",
-    borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 8,
-  },
   bottom: {
     //marginBottom: 10,
     marginTop: 140,
   },
+  input: {
+    height: 40,
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingLeft: 8,
+  },
+  hint: {
+    fontStyle: "italic",
+    textAlign: "center",
+    marginTop: 20,
+  },
+});
+
+const stylesLight = StyleSheet.create({
+  hint: {
+    ...baseStyles.hint,
+    color: "#B3B3B3",
+  },
+  input: {
+    ...baseStyles.input,
+    borderColor: "gray",
+    color: "black",
+  },
+  placeholder: {
+    color: "#B3B3B3",
+  },
+  details: {
+    color: "gray",
+  }
+});
+
+const stylesDark = StyleSheet.create({
+  hint: {
+    ...baseStyles.hint,
+    color: "#B3B3B3",
+  },
+  input: {
+    ...baseStyles.input,
+    borderColor: "white",
+    color: "white",
+  },
+  placeholder: {
+    color: "#B3B3B3",
+  },
+  details: {
+    color: "gray",
+  }
 });
 
 function mapStateToProps(state) {
