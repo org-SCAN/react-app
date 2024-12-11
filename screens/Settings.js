@@ -25,10 +25,10 @@ const Settings = (props) => {
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
 
-  //handle reset casenumber
+  //handle new casenumber
   const handleUpdateCaseNumber = (newCaseNumber) => {
     dispatch(updateCaseNumber(newCaseNumber));
-    Alert.alert("Success", "New case number has been saved!");
+    Alert.alert(intlData.messages.Settings.success, intlData.messages.Settings.caseRegistered);
   };
 
   // Handle changing the theme mode
@@ -52,7 +52,7 @@ const Settings = (props) => {
 
   const handleSaveUserId = () => {
     dispatch(updateUserId(userId));
-    Alert.alert("Success", "User ID has been saved!");
+    Alert.alert(intlData.messages.Settings.success,intlData.messages.Settings.userIDRegistered);
   };
 
   return (
@@ -76,7 +76,7 @@ const Settings = (props) => {
             <View style={styles.userIdContainer}>
               <Text style={styles.label}></Text>
               <TextInput
-                placeholder={intlData.messages.Settings["enterUserID"]}
+                placeholder={intlData.messages.Settings.enterUserID}
                 style={styles.input}
                 keyboardType="alphanumeric"
                 maxLength={10}
@@ -84,25 +84,25 @@ const Settings = (props) => {
                 onChangeText={setUserId}
               />
               <Button
-                title={intlData.messages.Settings["saveUserID"]}
+                title={intlData.messages.Settings.saveUserID}
                 onPress={handleSaveUserId}
                 color={SCAN_COLOR}
               />
-              {storedUserId ? <Text>Stored User ID: {storedUserId}</Text> : null}
+              {storedUserId ? <Text>{intlData.messages.Settings.savedUserID} : {storedUserId}</Text> : null}
             </View>
             <View style={styles.userIdContainer}>
               <TextInput
                 style={styles.input}
                 keyboardType="numeric"
-                placeholder={intlData.messages.Settings["newCaseNumber"]}
+                placeholder={intlData.messages.Settings.newCaseNumber}
                 onChangeText={(text) => setNewCaseNumber(parseInt(text))}
               />
               <Button
-                title={intlData.messages.Settings["resetCaseNumber"]}
+                title={intlData.messages.Settings.resetCaseNumber}
                 onPress={() => handleUpdateCaseNumber(newCaseNumber)}
                 color={SCAN_COLOR}
               />
-              {caseNumber ? <Text>Stored Case number: {caseNumber}</Text> : null}
+              {caseNumber ? <Text>{intlData.messages.Settings.storedCaseNumber} : {caseNumber}</Text> : null}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
@@ -115,7 +115,9 @@ const Settings = (props) => {
               showConfirmDialog(
                 intlData.messages.Settings.clearCases1,
                 intlData.messages.Settings.clearCases2,
-                clear
+                clear,
+                intlData.messages.yes,
+                intlData.messages.no
               )
             }
           />

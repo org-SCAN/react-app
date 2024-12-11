@@ -83,7 +83,7 @@ const Case = (props) => {
           {...props}
           onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              Alert.alert(intlData.messages.Case.confirmBack, "", [
+              Alert.alert("",intlData.messages.Case.confirmBack, [
                 {
                   text: intlData.messages.yes,
                   onPress: () => {
@@ -102,7 +102,7 @@ const Case = (props) => {
                   },
                 },
                 {
-                  text: intlData.messages.no,
+                  text: intlData.messages.no
                 },
               ]);
             } else {
@@ -115,30 +115,47 @@ const Case = (props) => {
     });
   }, [navigation, form, images]);
 
-
   const isCaseComplete = () => {
+    // Vérifier si des images ont été ajoutées
     if (images.length === 0) {
-      alert(intlData.messages.Case.addImage);
+      Alert.alert(`⚠️`, `${intlData.messages.Case.addImage}`);
       return false;
     }
-
+  
+    // Vérifier les valeurs pour chaque champ du formulaire
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
-
-    //if a value is empty send an alert
-    const emptyValues = keyValues.filter((element) => {
-      return element[Object.keys(element)[0]] === "" || element[Object.keys(element)[0]] === null;
+  
+    // Vérification globale : si tout est vide
+    const allEmpty = keyValues.every((element) => {
+      const value = Object.values(element)[0];
+      return value === "" || value === null;
     });
-    if (emptyValues.length > 0) {
-      alert(intlData.messages.Case.noIcons);
+  
+    if (allEmpty) {
+      Alert.alert(`⚠️`, `${intlData.messages.Case.noIcons}`); // Tout manquant
       return false;
     }
-    return true;
+  
+    // Vérification spécifique pour "sex"
+    const missingSex = keyValues.find((element) => element.sex === null);
+    if (missingSex) {
+      Alert.alert(`⚠️`, `${intlData.messages.Case.noIconSex}`); // Sexe manquant
+      return false;
+    }
+  
+    // Vérification spécifique pour "age"
+    const missingAge = keyValues.find((element) => element.age === null);
+    if (missingAge) {
+      Alert.alert(`⚠️`, `${intlData.messages.Case.noIconAge}`); // Âge manquant
+      return false;
+    }
+  
+    return true; // Le cas est complet si toutes les validations passent
   };
-
-
-
+  
+  
   const save = () => {
     if (!isCaseComplete()) return;
     const keyValues = form.map((element) => {

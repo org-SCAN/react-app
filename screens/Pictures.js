@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import 'intl'; // Importer le polyfill Intl
+import 'intl/locale-data/jsonp/fr'; // Importer les données locales en français
+import 'intl/locale-data/jsonp/en';
+
 import {
   StyleSheet,
   View,
@@ -9,11 +13,23 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
+// Item pour chaque image
 const Item = ({ date, uri, id, caseID, coords, styles }) => (
   <View style={styles.item}>
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
-      <Text style={styles.date}>{new Date(date).toUTCString()}</Text>
+      {/* Formater la date en français */}
+      <Text style={styles.date}>
+        {new Intl.DateTimeFormat('en-US', {
+          weekday: 'short',  // Jour de la semaine (ex: "mercredi")
+          year: 'numeric',  // Année (ex: "2024")
+          month: 'long',    // Mois complet (ex: "décembre")
+          day: 'numeric',   // Jour (ex: "11")
+          hour: 'numeric',  // Heure (ex: "11")
+          minute: 'numeric',// Minute (ex: "01")
+          second: 'numeric',// Seconde (ex: "46")
+        }).format(new Date(date))}
+      </Text>
       <View style={{ flex: 10 }}>
         <Text style={styles.position}>LAT : {JSON.stringify(coords.lat)}</Text>
         <Text style={styles.position}>LNG : {JSON.stringify(coords.lng)}</Text>
