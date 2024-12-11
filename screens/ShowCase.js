@@ -18,6 +18,20 @@ import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
 import { SCAN_COLOR } from "../theme/constants";
 import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
+import 'intl'; // Importer le polyfill Intl
+import 'intl/locale-data/jsonp/fr'; // Importer les données locales en français
+import 'intl/locale-data/jsonp/en';
+
+const formatDate = (date, intlData) => {
+  const locale = intlData.messages.Pictures.dateFormat; // Exemple : 'fr-FR' ou 'en-US'
+  const options = {
+    year: 'numeric',     // Année complète (ex : 2024)
+    month: 'numeric',    // Mois numérique (ex : 12)
+    day: 'numeric',      // Jour numérique (ex : 11)
+  };
+  return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+};
+
 
 const ShowCase = (props) => {
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
@@ -65,13 +79,7 @@ const ShowCase = (props) => {
             {tag}
           </Text>
           <Text style={styles.date}>
-            {new Date(date).toLocaleDateString(
-              /*"en-GB", comment out to remove multilang problem*/ {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              }
-            )}
+            {formatDate(date, intlData)}
           </Text>
           <Text style={styles.hint}>
             {intlData.messages.consultCases.editMessage}

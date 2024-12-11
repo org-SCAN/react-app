@@ -57,7 +57,8 @@
     "body": "<em>Cet email provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
   },
   "Pictures": {
-    "title": "Photos"
+    "title": "Photos",
+    "dateFormat":"fr-FR"
   },
 
   "yes": "Oui",

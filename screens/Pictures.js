@@ -13,22 +13,27 @@ import {
 } from "react-native";
 import { connect } from "react-redux";
 
-// Item pour chaque image
-const Item = ({ date, uri, id, caseID, coords, styles }) => (
+const formatDate = (date, intlData) => {
+  const locale = intlData?.messages?.Pictures?.dateFormat || 'en'; // Locale par défaut
+  const options = {
+    weekday: 'short',  // Jour de la semaine (ex: "mer.")
+    year: 'numeric',   // Année complète (ex: "2024")
+    month: 'long',     // Mois complet (ex: "décembre")
+    day: 'numeric',    // Jour (ex: "11")
+    hour: 'numeric',   // Heure (ex: "11")
+    minute: 'numeric', // Minute (ex: "01")
+    second: 'numeric', // Seconde (ex: "46")
+  };
+
+  return new Intl.DateTimeFormat(locale, options).format(new Date(date));
+};
+
+const Item = ({ date, uri, id, caseID, coords, styles, intlData }) => (
   <View style={styles.item}>
     <Image style={styles.image} source={{ uri: uri }} />
     <View style={{ flex: 1, marginLeft: 10 }}>
-      {/* Formater la date en français */}
       <Text style={styles.date}>
-        {new Intl.DateTimeFormat('en-US', {
-          weekday: 'short',  // Jour de la semaine (ex: "mercredi")
-          year: 'numeric',  // Année (ex: "2024")
-          month: 'long',    // Mois complet (ex: "décembre")
-          day: 'numeric',   // Jour (ex: "11")
-          hour: 'numeric',  // Heure (ex: "11")
-          minute: 'numeric',// Minute (ex: "01")
-          second: 'numeric',// Seconde (ex: "46")
-        }).format(new Date(date))}
+        {formatDate(date, intlData)}
       </Text>
       <View style={{ flex: 10 }}>
         <Text style={styles.position}>LAT : {JSON.stringify(coords.lat)}</Text>
@@ -42,7 +47,9 @@ const Item = ({ date, uri, id, caseID, coords, styles }) => (
 
 const Pictures = (props) => {
   const styles = props.theme.mode === "light" ? lightStyle : darkStyle;
+  const { intlData = { messages: { Pictures: { dateFormat: 'en' } } } } = props; // Initialisation par défaut
   const [DATA, setDATA] = useState([]);
+
   if (props.images && props.images.length > 0) {
     const renderItem = ({ item }) => (
       <Item
@@ -52,6 +59,7 @@ const Pictures = (props) => {
         caseID={item.caseID}
         coords={item.coords}
         styles={styles}
+        intlData={intlData} // Passe intlData à l'item
       />
     );
 
@@ -165,6 +173,7 @@ function mapStateToProps(state) {
   return {
     images: state.image.image,
     theme: state.theme,
+    intlData: state.lang, // Ajout d'intlData à Redux
   };
 }
 
