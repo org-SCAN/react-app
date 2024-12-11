@@ -101,10 +101,12 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-around",
+    alignItems: "flex-start",
     width: 200,
   },
   hintLine: {
     flexDirection: "row",
+    alignItems: "center",
     marginBottom: 5,
   },
   hintText: {
