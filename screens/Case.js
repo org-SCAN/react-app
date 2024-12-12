@@ -23,6 +23,7 @@ import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
+import CustomAlert from "../components/Case/CustomAlert"; // Import du composant personnalisé
 
 
 const Case = (props) => {
@@ -36,6 +37,10 @@ const Case = (props) => {
   const [selectedIconSex, setSelectedIconSex] = useState(null);
   const [tag, setTag] = useState(null);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
+
+  const [alertVisible, setAlertVisible] = useState(false); // Pour gérer l'état du modal
+  const [alertMessage, setAlertMessage] = useState(''); // Message à afficher dans l'alerte
+  const [alertTitle, setAlertTitle] = useState(''); // Titre de l'alerte
 
   const dispatch = useDispatch();
 
@@ -83,7 +88,7 @@ const Case = (props) => {
           {...props}
           onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              Alert.alert("",intlData.messages.Case.confirmBack, [
+              Alert.alert(intlData.messages.Case.confirmBack, "", [
                 {
                   text: intlData.messages.yes,
                   onPress: () => {
@@ -102,7 +107,7 @@ const Case = (props) => {
                   },
                 },
                 {
-                  text: intlData.messages.no
+                  text: intlData.messages.no,
                 },
               ]);
             } else {
@@ -115,45 +120,50 @@ const Case = (props) => {
     });
   }, [navigation, form, images]);
 
+
   const isCaseComplete = () => {
-    // Vérifier si des images ont été ajoutées
     if (images.length === 0) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.addImage}`);
+      setAlertMessage(`${intlData.messages.Case.addImage}`);
+      setAlertTitle("⚠️");
+      setAlertVisible(true);
       return false;
     }
-  
-    // Vérifier les valeurs pour chaque champ du formulaire
+
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
-  
-    // Vérification globale : si tout est vide
+
     const allEmpty = keyValues.every((element) => {
       const value = Object.values(element)[0];
       return value === "" || value === null;
     });
-  
+
     if (allEmpty) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.noIcons}`); // Tout manquant
+      setAlertMessage(`${intlData.messages.Case.noIcons}`);
+      setAlertTitle("⚠️");
+      setAlertVisible(true);
       return false;
     }
-  
-    // Vérification spécifique pour "sex"
+
     const missingSex = keyValues.find((element) => element.sex === null);
     if (missingSex) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.noIconSex}`); // Sexe manquant
+      setAlertMessage(`${intlData.messages.Case.noIconSex}`);
+      setAlertTitle("⚠️");
+      setAlertVisible(true);
       return false;
     }
-  
-    // Vérification spécifique pour "age"
+
     const missingAge = keyValues.find((element) => element.age === null);
     if (missingAge) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.noIconAge}`); // Âge manquant
+      setAlertMessage(`${intlData.messages.Case.noIconAge}`);
+      setAlertTitle("⚠️");
+      setAlertVisible(true);
       return false;
     }
-  
-    return true; // Le cas est complet si toutes les validations passent
-  };
+
+    return true;
+};
+
   
   
   const save = () => {
@@ -233,6 +243,17 @@ const Case = (props) => {
     } else {
         setImages([]);
     }
+  };
+
+  // Lorsque l'utilisateur clique sur "Cancel" dans le modal
+  const handleCancel = () => {
+    setAlertVisible(false); // Fermer le modal
+  };
+
+  // Lorsque l'utilisateur clique sur "Confirm" dans le modal
+  const handleConfirm = () => {
+    setAlertVisible(false); // Fermer le modal
+    save(); // Effectuer l'action après confirmation
   };
 
   const handleCreateCase = () => {
@@ -365,26 +386,37 @@ const handleIconSelectionAge = (selectedIconAge) => {
       onPress={() => Keyboard.dismiss()}
     >
       <Text style={styles.tagLabel}>{tag}</Text>
-
+  
+      {/* Affichage de l'alerte personnalisée avec un seul bouton OK */}
+      {alertVisible && (
+        <CustomAlert
+          title={alertTitle}         // Titre de l'alerte
+          message={alertMessage}     // Message à afficher dans l'alerte
+          onConfirm={() => setAlertVisible(false)} // Fermer l'alerte sur confirmation
+        />
+      )}
+  
+      {/* Rendu du formulaire */}
       <FlatList
         data={form.filter((item) => item.key !== "injuries")}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
         ListFooterComponent={<View style={{ height: 20 }} />}
-        style={{ flexGrow: 0, flexShrink: 0}}
+        style={{ flexGrow: 0, flexShrink: 0 }}
         scrollEnabled={false}
       />
-
+  
+      {/* Rendu de l'image et des autres éléments */}
       <ScanButtonCamera
-        // title={intlData.messages.Case.photoButton}
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
         imageSource={require('../icons/camera1.png')}
-      >
-      </ScanButtonCamera>
+      />
+  
       <Text style={styles.descriptionPhoto}>
         {intlData.messages.Case.descriptionPhoto}
       </Text>
+  
       <FlatList
         data={images}
         renderItem={renderImage}
@@ -393,6 +425,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
         style={{ flexGrow: 0 }}
         horizontal={true}
       />
+  
       <View style={styles.button}>
         <LittleScanButton
           title={intlData.messages.Case.saveButton}
@@ -402,7 +435,9 @@ const handleIconSelectionAge = (selectedIconAge) => {
         />
         <LittleScanButton
           title={intlData.messages.Case.submitButton}
-          onPress={() =>{submit()}}
+          onPress={() => {
+            submit();
+          }}
         />
       </View>
     </Pressable>
