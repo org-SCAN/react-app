@@ -49,8 +49,8 @@
     "storedCaseNumber":"Stored Case number",
     "enterUserID": "Enter User ID",
     "success":"Success",
-    "userIDRegistered":"User ID has been saved!",
-    "caseRegistered":"New case number has been saved!"
+    "userIDRegistered":"User ID has been saved",
+    "caseRegistered":"New case number has been saved"
   },
   "Mail": {
     "subject": "[CASE] ",

@@ -14,7 +14,7 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import { connect, useDispatch } from "react-redux";
-import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
+import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { SCAN_COLOR } from "../theme/constants";
 import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
@@ -23,24 +23,34 @@ import 'intl/locale-data/jsonp/fr'; // Importer les données locales en françai
 import 'intl/locale-data/jsonp/en';
 
 const formatDate = (date, intlData) => {
-  const locale = intlData.messages.Pictures.dateFormat; // Exemple : 'fr-FR' ou 'en-US'
+  const locale = intlData.messages.Pictures.dateFormat; 
   const options = {
-    year: 'numeric',     // Année complète (ex : 2024)
-    month: 'numeric',    // Mois numérique (ex : 12)
-    day: 'numeric',      // Jour numérique (ex : 11)
+    year: 'numeric',     
+    month: 'numeric',   
+    day: 'numeric',     
   };
   return new Intl.DateTimeFormat(locale, options).format(new Date(date));
 };
-
 
 const ShowCase = (props) => {
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
   const [DATA, setDATA] = useState([]);
   const [cases, setCases] = useState([]);
-  const swipeableRef = useRef(null);
+  const [alertVisibleDelete, setAlertVisibleDelete] = useState(false); 
+  const [selectedCase, setSelectedCase] = useState(null); // Pour garder la trace du cas sélectionné à supprimer
   const dispatch = useDispatch();
   const { intlData } = props;
-  //disable Touchable opacity when swiping
+
+  // Fonction de suppression du cas
+  const handleDelete = async () => {
+    if (selectedCase) {
+      await deleteImageCase(selectedCase);
+      dispatch(deleteCase(selectedCase.id));
+      setAlertVisibleDelete(false); 
+    }
+  };
+
+  // Item à afficher dans la liste
   const Item = ({ id, tag, date, uri, sex, age, styles, onPress }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => {
@@ -54,15 +64,9 @@ const ShowCase = (props) => {
             <Pressable
               style={styles.deleteButton}
               onPress={() => {
-                showConfirmDialog(
-                  intlData.messages.consultCases.clearCase1,
-                  intlData.messages.consultCases.clearCase2,
-                  async () => {
-                    let entireCase = props.cases.find((c) => c.id === id);
-                    await deleteImageCase(entireCase);
-                    dispatch(deleteCase(id));
-                  }
-                );
+                // Afficher la confirmation pour supprimer
+                setSelectedCase(props.cases.find((c) => c.id === id)); // Sauvegarder le cas sélectionné
+                setAlertVisibleDelete(true); // Ouvrir l'alerte de confirmation
               }}
             >
               <Icon name="delete" size={30} color="#fff" />
@@ -70,31 +74,22 @@ const ShowCase = (props) => {
           </Animated.View>
         );
       }}
-      ref={swipeableRef}
     >
       <Pressable style={styles.item} onPress={onPress}>
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
         <View style={{ flex: 1, marginLeft: 10 }}>
-          <Text style={styles.names}>
-            {tag}
-          </Text>
-          <Text style={styles.date}>
-            {formatDate(date, intlData)}
-          </Text>
-          <Text style={styles.hint}>
-            {intlData.messages.consultCases.editMessage}
-          </Text>
-          <Text style={styles.hint}>
-            {intlData.messages.consultCases.swipeMessage}
-          </Text>
+          <Text style={styles.names}>{tag}</Text>
+          <Text style={styles.date}>{formatDate(date, intlData)}</Text>
+          <Text style={styles.hint}>{intlData.messages.consultCases.editMessage}</Text>
+          <Text style={styles.hint}>{intlData.messages.consultCases.swipeMessage}</Text>
         </View>
       </Pressable>
     </Swipeable>
   );
 
+  // Charger les données au montage
   useEffect(() => {
-    //get first images related to eache cases
-    var images = props.images;
+    const images = props.images;
     const DATA = props.cases.map((caseItem) => {
       return {
         id: caseItem.id,
@@ -103,7 +98,6 @@ const ShowCase = (props) => {
         date: caseItem.date,
         sex: caseItem.sex,
         age: caseItem.age
-        
       };
     });
     setDATA(DATA);
@@ -117,10 +111,11 @@ const ShowCase = (props) => {
     }
   }, [props.cases]);
 
+  // Rendu de la liste des éléments
   if (cases.length > 0) {
     const renderItem = ({ item }) => {
       const onPress = () => {
-        props.navigation.navigate("Case", { caseId: item.id});
+        props.navigation.navigate("Case", { caseId: item.id });
         console.log("le tag passé en param à case est : ", item.tag);
       };
       return (
@@ -143,6 +138,16 @@ const ShowCase = (props) => {
           data={DATA}
           renderItem={renderItem}
           keyExtractor={(item) => item.id}
+        />
+
+        <CustomAlertTwoButtons
+          visible={alertVisibleDelete}
+          title="⚠️"
+          message={intlData.messages.consultCases.clearCase2}
+          onConfirm={handleDelete}
+          onCancel={() => setAlertVisibleDelete(false)}
+          confirmButtonText={intlData.messages.yes}
+          cancelButtonText={intlData.messages.no}
         />
       </GestureHandlerRootView>
     );

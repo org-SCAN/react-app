@@ -49,8 +49,8 @@
     "storedCaseNumber":"Numéro de cas enregistré",
     "enterUserID": "Entrer un ID utilisateur",
     "success":"Succès",
-    "userIDRegistered":"L'ID utilisateur a été sauvegardé!",
-    "caseRegistered":"Le nouveau numéro de cas a été enregistré!"
+    "userIDRegistered":"L'ID utilisateur a été sauvegardé",
+    "caseRegistered":"Le nouveau numéro de cas a été enregistré"
   },
   "Mail": {
     "subject": "[CAS] ",

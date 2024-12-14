@@ -23,7 +23,8 @@ import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
-import CustomAlert from "../components/Case/CustomAlert"; // Import du composant personnalisé
+import CustomAlert from "../components/Case/CustomAlert";
+import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 
 
 const Case = (props) => {
@@ -38,10 +39,11 @@ const Case = (props) => {
   const [tag, setTag] = useState(null);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
-  const [alertVisible, setAlertVisible] = useState(false); // Pour gérer l'état du modal
-  const [alertMessage, setAlertMessage] = useState(''); // Message à afficher dans l'alerte
-  const [alertTitle, setAlertTitle] = useState(''); // Titre de l'alerte
+  const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState(''); 
+  const [alertTitle, setAlertTitle] = useState('');
 
+  const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
   const dispatch = useDispatch();
 
   const cases = useSelector(state => state.case.cases);
@@ -77,8 +79,12 @@ const Case = (props) => {
   const [form, setform] = useState(FORM)
   
   const isCaseEmpty = () => {
-    return form.every((element) => element.value === "");
+    const allFieldsEmpty = form.every((element) => element.value === null || element.value === "");
+    const noImages = images.length === 0;
+  
+    return allFieldsEmpty && noImages;
   };
+  
 
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
@@ -88,28 +94,7 @@ const Case = (props) => {
           {...props}
           onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              Alert.alert(intlData.messages.Case.confirmBack, "", [
-                {
-                  text: intlData.messages.yes,
-                  onPress: () => {
-                    dispatch(deleteCase(caseID));
-                    console.log("caseNumber before: ", caseNumber);
-                    handleDeleteCase();
-                    console.log("caseNumber after: ", caseNumber);
-
-                    if (images.length > 0) {
-                      images.forEach((image) => {
-                        deleteImageFromMemory(image.id);
-                      });
-                    }
-                    deleteCameraCache();
-                    navigation.goBack();
-                  },
-                },
-                {
-                  text: intlData.messages.no,
-                },
-              ]);
+              setAlertVisibleGoBack(true); 
             } else {
               navigation.goBack();
             }
@@ -119,13 +104,14 @@ const Case = (props) => {
       gestureEnabled: false,
     });
   }, [navigation, form, images]);
+  
 
 
   const isCaseComplete = () => {
     if (images.length === 0) {
       setAlertMessage(`${intlData.messages.Case.addImage}`);
       setAlertTitle("⚠️");
-      setAlertVisible(true);
+      setAlertVisibleFieldMissing(true);
       return false;
     }
 
@@ -141,7 +127,7 @@ const Case = (props) => {
     if (allEmpty) {
       setAlertMessage(`${intlData.messages.Case.noIcons}`);
       setAlertTitle("⚠️");
-      setAlertVisible(true);
+      setAlertVisibleFieldMissing(true);
       return false;
     }
 
@@ -149,7 +135,7 @@ const Case = (props) => {
     if (missingSex) {
       setAlertMessage(`${intlData.messages.Case.noIconSex}`);
       setAlertTitle("⚠️");
-      setAlertVisible(true);
+      setAlertVisibleFieldMissing(true);
       return false;
     }
 
@@ -157,15 +143,13 @@ const Case = (props) => {
     if (missingAge) {
       setAlertMessage(`${intlData.messages.Case.noIconAge}`);
       setAlertTitle("⚠️");
-      setAlertVisible(true);
+      setAlertVisibleFieldMissing(true);
       return false;
     }
 
     return true;
 };
 
-  
-  
   const save = () => {
     if (!isCaseComplete()) return;
     const keyValues = form.map((element) => {
@@ -243,17 +227,6 @@ const Case = (props) => {
     } else {
         setImages([]);
     }
-  };
-
-  // Lorsque l'utilisateur clique sur "Cancel" dans le modal
-  const handleCancel = () => {
-    setAlertVisible(false); // Fermer le modal
-  };
-
-  // Lorsque l'utilisateur clique sur "Confirm" dans le modal
-  const handleConfirm = () => {
-    setAlertVisible(false); // Fermer le modal
-    save(); // Effectuer l'action après confirmation
   };
 
   const handleCreateCase = () => {
@@ -387,14 +360,33 @@ const handleIconSelectionAge = (selectedIconAge) => {
     >
       <Text style={styles.tagLabel}>{tag}</Text>
   
-      {/* Affichage de l'alerte personnalisée avec un seul bouton OK */}
-      {alertVisible && (
-        <CustomAlert
-          title={alertTitle}         // Titre de l'alerte
-          message={alertMessage}     // Message à afficher dans l'alerte
-          onConfirm={() => setAlertVisible(false)} // Fermer l'alerte sur confirmation
-        />
-      )}
+    <CustomAlert
+      title={alertTitle}
+      message={alertMessage}
+      onConfirm={() => setAlertVisibleFieldMissing(false)}
+      visible={alertVisibleFieldMissing}
+    />
+
+    <CustomAlertTwoButtons
+      title="⚠️"
+      message={intlData.messages.Case.confirmBack}
+      onConfirm={() => {
+        setAlertVisibleGoBack(false);
+        dispatch(deleteCase(caseID));
+        handleDeleteCase();
+        images.forEach((image) => deleteImageFromMemory(image.id));
+        deleteCameraCache();
+        navigation.goBack();
+      }}
+      onCancel={() => {
+        setAlertVisibleGoBack(false);
+      }}
+      visible={alertVisibleGoBack}
+      confirmButtonText={intlData.messages.yes}
+      cancelButtonText={intlData.messages.no}
+    />
+
+
   
       {/* Rendu du formulaire */}
       <FlatList

@@ -27,7 +27,7 @@ const languagePicker = (props) => {
 
   return (
     <View>
-      <Text style={styles.mainText}>{intlData.messages.Settings["selectLanguage"]}</Text>
+      <Text style={styles.mainText}>{intlData.messages.Settings.selectLanguage}</Text>
       <Picker
         selectedValue={intlData.locale}
         onValueChange={(itemValue) => dispatch(updateLanguage(itemValue))}

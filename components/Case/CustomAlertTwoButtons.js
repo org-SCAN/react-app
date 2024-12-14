@@ -1,21 +1,24 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CustomAlert = ({ title, message, onConfirm, visible, buttonText = "OK" }) => {
+const CustomAlertTwoButtons = ({title, message, onConfirm, onCancel, visible, confirmButtonText, cancelButtonText}) => {
   return (
     <Modal
       transparent={true}
       animationType="fade"
       visible={visible}
-      onRequestClose={onConfirm}
+      onRequestClose={onCancel}
     >
       <View style={styles.overlay}>
         <View style={styles.alertBox}>
-          <Text style={styles.alertTitle}>{title}</Text>
+          {title ? <Text style={styles.alertTitle}>{title}</Text> : null}
           <Text style={styles.alertMessage}>{message}</Text>
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.button} onPress={onConfirm}>
-              <Text style={styles.buttonText}>{buttonText}</Text>
+            <TouchableOpacity style={[styles.button, styles.confirmButton]} onPress={onConfirm}>
+              <Text style={styles.buttonText}>{confirmButtonText}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.cancelButton]} onPress={onCancel}>
+              <Text style={styles.buttonText}>{cancelButtonText}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -31,9 +34,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', 
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
+    zIndex: 1000,
   },
   alertBox: {
     width: 280,
@@ -60,16 +64,24 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     flexDirection: 'row',
-    justifyContent: 'center', 
+    justifyContent: 'space-between', 
     width: '100%',
+    marginTop: 10,
   },
   button: {
-    backgroundColor: 'rgba(184, 29, 42, 0.8)',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 5,
+    flex: 1,
+    marginHorizontal: 5,
     alignItems: 'center',
-    width: '45%',
+    justifyContent: 'center',
+  },
+  confirmButton: {
+    backgroundColor: 'rgba(184, 29, 42, 0.9)', 
+  },
+  cancelButton: {
+    backgroundColor: 'grey', 
   },
   buttonText: {
     color: 'white',
@@ -79,4 +91,5 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomAlert;
+export default CustomAlertTwoButtons;
+
