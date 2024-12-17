@@ -131,7 +131,6 @@ const basicStyle = StyleSheet.create({
   },
   id: {
     flexWrap: "wrap",
-    textAlign: "justify",
     fontStyle: "italic",
     fontSize: 10,
   },
