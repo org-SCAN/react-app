@@ -49,15 +49,16 @@
     "storedCaseNumber":"Numéro de cas enregistré",
     "enterUserID": "Entrer un ID utilisateur",
     "success":"Succès",
-    "userIDRegistered":"L'ID utilisateur a été sauvegardé!",
-    "caseRegistered":"Le nouveau numéro de cas a été enregistré!"
+    "userIDRegistered":"L'ID utilisateur a été sauvegardé",
+    "caseRegistered":"Le nouveau numéro de cas a été enregistré"
   },
   "Mail": {
     "subject": "[CAS] ",
     "body": "<em>Cet email provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
   },
   "Pictures": {
-    "title": "Photos"
+    "title": "Photos",
+    "dateFormat":"fr-FR"
   },
 
   "yes": "Oui",

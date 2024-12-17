@@ -23,6 +23,8 @@ import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
+import CustomAlert from "../components/Case/CustomAlert";
+import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 
 
 const Case = (props) => {
@@ -37,6 +39,11 @@ const Case = (props) => {
   const [tag, setTag] = useState(null);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
+  const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
+  const [alertMessage, setAlertMessage] = useState(''); 
+  const [alertTitle, setAlertTitle] = useState('');
+
+  const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
   const dispatch = useDispatch();
 
   const cases = useSelector(state => state.case.cases);
@@ -72,8 +79,12 @@ const Case = (props) => {
   const [form, setform] = useState(FORM)
   
   const isCaseEmpty = () => {
-    return form.every((element) => element.value === "");
+    const allFieldsEmpty = form.every((element) => element.value === null || element.value === "");
+    const noImages = images.length === 0;
+  
+    return allFieldsEmpty && noImages;
   };
+  
 
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
@@ -83,28 +94,7 @@ const Case = (props) => {
           {...props}
           onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              Alert.alert("",intlData.messages.Case.confirmBack, [
-                {
-                  text: intlData.messages.yes,
-                  onPress: () => {
-                    dispatch(deleteCase(caseID));
-                    console.log("caseNumber before: ", caseNumber);
-                    handleDeleteCase();
-                    console.log("caseNumber after: ", caseNumber);
-
-                    if (images.length > 0) {
-                      images.forEach((image) => {
-                        deleteImageFromMemory(image.id);
-                      });
-                    }
-                    deleteCameraCache();
-                    navigation.goBack();
-                  },
-                },
-                {
-                  text: intlData.messages.no
-                },
-              ]);
+              setAlertVisibleGoBack(true); 
             } else {
               navigation.goBack();
             }
@@ -114,48 +104,52 @@ const Case = (props) => {
       gestureEnabled: false,
     });
   }, [navigation, form, images]);
+  
+
 
   const isCaseComplete = () => {
-    // Vérifier si des images ont été ajoutées
     if (images.length === 0) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.addImage}`);
+      setAlertMessage(`${intlData.messages.Case.addImage}`);
+      setAlertTitle("⚠️");
+      setAlertVisibleFieldMissing(true);
       return false;
     }
-  
-    // Vérifier les valeurs pour chaque champ du formulaire
+
     const keyValues = form.map((element) => {
       return { [element.key]: element.value };
     });
-  
-    // Vérification globale : si tout est vide
+
     const allEmpty = keyValues.every((element) => {
       const value = Object.values(element)[0];
       return value === "" || value === null;
     });
-  
+
     if (allEmpty) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.noIcons}`); // Tout manquant
+      setAlertMessage(`${intlData.messages.Case.noIcons}`);
+      setAlertTitle("⚠️");
+      setAlertVisibleFieldMissing(true);
       return false;
     }
-  
-    // Vérification spécifique pour "sex"
+
     const missingSex = keyValues.find((element) => element.sex === null);
     if (missingSex) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.noIconSex}`); // Sexe manquant
+      setAlertMessage(`${intlData.messages.Case.noIconSex}`);
+      setAlertTitle("⚠️");
+      setAlertVisibleFieldMissing(true);
       return false;
     }
-  
-    // Vérification spécifique pour "age"
+
     const missingAge = keyValues.find((element) => element.age === null);
     if (missingAge) {
-      Alert.alert(`⚠️`, `${intlData.messages.Case.noIconAge}`); // Âge manquant
+      setAlertMessage(`${intlData.messages.Case.noIconAge}`);
+      setAlertTitle("⚠️");
+      setAlertVisibleFieldMissing(true);
       return false;
     }
-  
-    return true; // Le cas est complet si toutes les validations passent
-  };
-  
-  
+
+    return true;
+};
+
   const save = () => {
     if (!isCaseComplete()) return;
     const keyValues = form.map((element) => {
@@ -365,26 +359,56 @@ const handleIconSelectionAge = (selectedIconAge) => {
       onPress={() => Keyboard.dismiss()}
     >
       <Text style={styles.tagLabel}>{tag}</Text>
+  
+    <CustomAlert
+      title={alertTitle}
+      message={alertMessage}
+      onConfirm={() => setAlertVisibleFieldMissing(false)}
+      visible={alertVisibleFieldMissing}
+    />
 
+    <CustomAlertTwoButtons
+      title="⚠️"
+      message={intlData.messages.Case.confirmBack}
+      onConfirm={() => {
+        setAlertVisibleGoBack(false);
+        dispatch(deleteCase(caseID));
+        handleDeleteCase();
+        images.forEach((image) => deleteImageFromMemory(image.id));
+        deleteCameraCache();
+        navigation.goBack();
+      }}
+      onCancel={() => {
+        setAlertVisibleGoBack(false);
+      }}
+      visible={alertVisibleGoBack}
+      confirmButtonText={intlData.messages.yes}
+      cancelButtonText={intlData.messages.no}
+    />
+
+
+  
+      {/* Rendu du formulaire */}
       <FlatList
         data={form.filter((item) => item.key !== "injuries")}
         renderItem={renderItem}
         keyExtractor={(item) => item.key}
         ListHeaderComponent={<View style={{ height: 20 }} />}
         ListFooterComponent={<View style={{ height: 20 }} />}
-        style={{ flexGrow: 0, flexShrink: 0}}
+        style={{ flexGrow: 0, flexShrink: 0 }}
         scrollEnabled={false}
       />
-
+  
+      {/* Rendu de l'image et des autres éléments */}
       <ScanButtonCamera
-        // title={intlData.messages.Case.photoButton}
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
         imageSource={require('../icons/camera1.png')}
-      >
-      </ScanButtonCamera>
+      />
+  
       <Text style={styles.descriptionPhoto}>
         {intlData.messages.Case.descriptionPhoto}
       </Text>
+  
       <FlatList
         data={images}
         renderItem={renderImage}
@@ -393,6 +417,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
         style={{ flexGrow: 0 }}
         horizontal={true}
       />
+  
       <View style={styles.button}>
         <LittleScanButton
           title={intlData.messages.Case.saveButton}
@@ -402,7 +427,9 @@ const handleIconSelectionAge = (selectedIconAge) => {
         />
         <LittleScanButton
           title={intlData.messages.Case.submitButton}
-          onPress={() =>{submit()}}
+          onPress={() => {
+            submit();
+          }}
         />
       </View>
     </Pressable>

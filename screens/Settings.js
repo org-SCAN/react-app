@@ -5,7 +5,8 @@ import { updateUserId, updateCaseNumber } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
-import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
+import CustomAlert from "../components/Case/CustomAlert";
+import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
@@ -24,6 +25,9 @@ const Settings = (props) => {
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+  const [alertVisibleUserID, setAlertVisibleUserID] = useState(false);
+  const [alertVisibleCaseNumber, setAlertVisibleCaseNumber] = useState(false); 
+  const [alertVisibleClear, setAlertVisibleClear] = useState(false);
 
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
   console.log("Settings: ", styles);
@@ -31,7 +35,11 @@ const Settings = (props) => {
   //handle new casenumber
   const handleUpdateCaseNumber = (newCaseNumber) => {
     dispatch(updateCaseNumber(newCaseNumber));
-    Alert.alert(intlData.messages.Settings.success, intlData.messages.Settings.caseRegistered);
+    setAlertVisibleCaseNumber(true);
+  };
+
+  const showClearDialog = () => {
+    setAlertVisibleClear(true);
   };
 
   // Handle changing the theme mode
@@ -55,10 +63,11 @@ const Settings = (props) => {
 
   const handleSaveUserId = () => {
     dispatch(updateUserId(userId));
-    Alert.alert(intlData.messages.Settings.success,intlData.messages.Settings.userIDRegistered);
+    setAlertVisibleUserID(true);
   };
 
   return (
+    
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={baseStyles.mainContent}
@@ -112,19 +121,37 @@ const Settings = (props) => {
           </ScrollView>
         </TouchableWithoutFeedback>
         <View style={baseStyles.bottom}>
-          <Text style={styles.hint}>Debug</Text>
-          <Button
-            title={intlData.messages.Settings.debugMessage}
-            color={SCAN_COLOR}
-            onPress={() =>
-              showConfirmDialog(
-                intlData.messages.Settings.clearCases1,
-                intlData.messages.Settings.clearCases2,
-                clear,
-                intlData.messages.yes,
-                intlData.messages.no
-              )
-            }
+        <Text style={styles.hint}>Debug</Text>
+        <Button
+          title={intlData.messages.Settings.debugMessage}
+          color={SCAN_COLOR}
+          onPress={showClearDialog}
+        />
+        
+        <CustomAlertTwoButtons
+          title="⚠️"
+          message={intlData.messages.Settings.clearCases2}
+          visible={alertVisibleClear}
+          onConfirm={() => {
+            clear();
+            setAlertVisibleClear(false); 
+          }}
+          onCancel={() => setAlertVisibleClear(false)}
+          confirmButtonText={intlData.messages.yes}
+          cancelButtonText={intlData.messages.no}
+        />
+          <CustomAlert
+            title="✅"
+            message={intlData.messages.Settings.userIDRegistered}
+            onConfirm={() => setAlertVisibleUserID(false)}
+            visible={alertVisibleUserID}
+          />
+
+          <CustomAlert
+            title="✅"
+            message={intlData.messages.Settings.caseRegistered}
+            onConfirm={() => setAlertVisibleCaseNumber(false)}
+            visible={alertVisibleCaseNumber}
           />
         </View>
       </KeyboardAvoidingView>
