@@ -1,6 +1,6 @@
 {
-  "name": "scan-app",
-  "version": "1.2.4",
+  "name": "divilite",
+  "version": "1.4.2",
   "scripts": {
     "start": "expo start -c",
     "android": "expo run:android",
