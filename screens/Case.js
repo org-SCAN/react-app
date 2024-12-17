@@ -9,6 +9,7 @@ import {
   Keyboard,
   Vibration,
   Pressable,
+  Dimensions,
 } from "react-native";
 import ScanInput from "../components/BasicUI/ScanInput";
 import ScanButton from "../components/BasicUI/ScanButton";
@@ -437,18 +438,34 @@ const handleIconSelectionAge = (selectedIconAge) => {
 
 };
 
+const { width, height } = Dimensions.get("window");
+// Reference emulated device
+const baseWidth = 411.42857142857144; 
+const baseHeight = 890.2857142857143; 
+
+function scaleWidth(size) {
+  return Math.round((width / baseWidth) * size);
+}
+
+function scaleHeight(size) {
+  return Math.round((height / baseHeight) * size);
+}
+
+function scale(size) {
+  return Math.round((size * (width / baseWidth + height / baseHeight)) / 2);
+}
 const basicStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
     alignItems: "center",
-    padding: 2,
+    padding: scaleWidth(2),
   },
   // IDs
   tagLabel: {
-    fontSize: 45,
+    fontSize: scale(45),
     fontWeight: "600",
-    marginTop: 20,
-    marginBottom: 20,
+    marginTop: scaleHeight(20),
+    marginBottom: scaleHeight(20),
     textAlign: "center",
   },
   inputContainer: {
@@ -456,46 +473,46 @@ const basicStyles = StyleSheet.create({
   },
   // Description of icons
   placeholder: {
-    marginBottom: 5, 
-    marginTop: 5,
-    fontSize: 17,
+    marginBottom: scaleHeight(5),
+    marginTop: scaleHeight(5),
+    fontSize: scale(17),
     fontWeight: "bold",
   },
   iconContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    marginVertical: 5,
+    marginVertical: scaleHeight(5),
   },
   iconButton: {
-    padding: 14,
-    borderRadius: 12,
-    borderWidth: 2,
-    marginLeft: 15,
-    marginRight: 15,
+    padding: scale(14),
+    borderRadius: scale(12),
+    borderWidth: scaleWidth(2),
+    marginLeft: scaleWidth(15),
+    marginRight: scaleWidth(15),
   },
   selectedIconButton: {
-    padding: 14,
-    borderRadius: 12,
-    borderWidth: 2,
-    marginLeft: 15,
-    marginRight: 15,
+    padding: scale(14),
+    borderRadius: scale(12),
+    borderWidth: scaleWidth(2),
+    marginLeft: scaleWidth(15),
+    marginRight: scaleWidth(15),
   },
   icon: {
-    width: 60,
-    height: 60,
+    width: scaleWidth(60),
+    height: scaleHeight(60),
     resizeMode: "contain",
   },
   // Description under camera button
   descriptionPhoto: {
     fontStyle: "italic",
-    fontSize: 14,
+    fontSize: scale(14),
     textAlign: "center",
   },
   // Submit / Save buttons
   button: {
     position: "absolute",
-    bottom: 20,
+    bottom: scaleHeight(20),
     flexDirection: "row",
     justifyContent: "space-evenly",
     width: "90%",
