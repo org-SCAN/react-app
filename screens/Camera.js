@@ -3,14 +3,17 @@ import { StyleSheet, View, ActivityIndicator } from "react-native";
 import { useDispatch } from "react-redux";
 import { Camera } from "expo-camera";
 import { storeImage } from "../redux/actions";
+import { connect } from "react-redux";
 import IconButton from "../components/BasicUI/IconButton";
 import uuid from "react-native-uuid";
 import * as Location from "expo-location";
+import CustomAlert from "../components/Case/CustomAlert";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { saveImageToMemory } from "../utils/fileHandler";
 
 const ScanCamera = (props) => {
   const { navigation } = props;
+  const { intlData } = props;
   const caseID = props.route.params.caseID;
   const camType = Camera.Constants.Type;
   const [camera, setCamera] = useState(null);
@@ -37,7 +40,7 @@ const ScanCamera = (props) => {
         var location = { coords: { latitude: 0, longitude: 0 } };
         if (status !== "granted") {
           alert(
-            "Permission to access location was denied, photo was saved without location data"
+            intlData.messages.Camera.noLocationPermission
           );
         } else {
           //get location in 5 seconds max
@@ -47,7 +50,7 @@ const ScanCamera = (props) => {
           });
           if (!location) {
             alert(
-              "Could not get location, photo was saved without location data"
+              intlData.messages.Camera.noLocationFound
             );
           }
         }
@@ -147,4 +150,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScanCamera;
+function mapStateToProps(state) {
+  return {
+    intlData: state.lang,
+  };
+}
+
+export default connect(mapStateToProps)(ScanCamera);
