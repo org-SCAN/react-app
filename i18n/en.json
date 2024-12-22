@@ -61,6 +61,11 @@
     "dateFormat":"en-US"
   },
 
+  "Camera": {
+    "noLocationPermission":"Permission to access location was denied, photo was saved without location data",
+    "noLocationFound":"Could not get location, photo was saved without location data"
+  },
+
   "yes": "Yes",
   "no": "No"
 }

@@ -61,6 +61,11 @@
     "dateFormat":"fr-FR"
   },
 
+  "Camera":{
+    "noLocationPermission":"Permission d'accès à la caméra refusée, la photo a été enregistrée sans les données de localisation",
+    "noLocationFound": "Impossible d'obtenir la localisation, la photo a été enregistrée sans les données de localisation"
+  },
+
   "yes": "Oui",
   "no": "Non"
 }

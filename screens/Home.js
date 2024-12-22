@@ -44,7 +44,7 @@ const Home = (props) => {
       <Animated.View
         style={{ ...styles.notification, ...{ opacity: mOpacity } }}
       >
-        <Text>{intlData.messages.Home.saveCase} ✅</Text>
+        <Text>✅</Text>
       </Animated.View>
       <View style={styles.menu}>
         <ScanButton

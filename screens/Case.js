@@ -41,8 +41,8 @@ const Case = (props) => {
   const [readyToSubmit, setReadyToSubmit] = useState(false);
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
-  const [alertMessage, setAlertMessage] = useState(''); 
-  const [alertTitle, setAlertTitle] = useState('');
+  const [alertMessage, setAlertMessage] = useState(false); 
+  const [alertTitle, setAlertTitle] = useState(false);
 
   const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
   const dispatch = useDispatch();
