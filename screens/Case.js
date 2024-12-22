@@ -18,7 +18,7 @@ import LittleScanButton from "../components/BasicUI/LittleScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { saveCase, editCase, deleteCase, updateCaseNumber } from "../redux/actions";
-import { HeaderBackButton } from "react-navigation-stack";
+import { HeaderBackButton } from '@react-navigation/elements';
 import { Alert, ScrollView } from "react-native";
 import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
@@ -76,7 +76,7 @@ const Case = (props) => {
     } 
   ]; 
 
-  
+
   const [form, setform] = useState(FORM)
   
   const isCaseEmpty = () => {
@@ -85,7 +85,6 @@ const Case = (props) => {
   
     return allFieldsEmpty && noImages;
   };
-  
 
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
@@ -94,17 +93,19 @@ const Case = (props) => {
         <HeaderBackButton
           {...props}
           onPress={() => {
+            // Ensure state logic does not trigger re-renders unnecessarily
             if (!existingCase && !isCaseEmpty()) {
-              setAlertVisibleGoBack(true); 
+              setAlertVisibleGoBack(true); // Show alert before navigating back
             } else {
-              navigation.goBack();
+              navigation.goBack(); // Navigate back
             }
           }}
         />
       ),
-      gestureEnabled: false,
+      gestureEnabled: false, // Disable gestures for controlled navigation
     });
-  }, [navigation, form, images]);
+  }, [navigation, existingCase, isCaseEmpty]); // Use minimal dependencies
+
   
 
 
@@ -465,7 +466,6 @@ const basicStyles = StyleSheet.create({
     fontSize: scale(45),
     fontWeight: "600",
     marginTop: scaleHeight(20),
-    marginBottom: scaleHeight(20),
     textAlign: "center",
   },
   inputContainer: {

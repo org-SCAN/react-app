@@ -37,6 +37,7 @@ const Home = (props) => {
       }, 500);
     }
   }, [mOpacity]);
+  console.log("Home: ", props.images);
 
   return (
     <View style={styles.mainContent}>

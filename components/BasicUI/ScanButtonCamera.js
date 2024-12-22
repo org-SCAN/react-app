@@ -39,7 +39,7 @@ const basicStyles = StyleSheet.create({
     borderRadius: scale(4), 
     elevation: 3,
     borderWidth: scaleWidth(2), 
-    margin: scale(10),
+    marginBottom: scale(10),
     width: scaleWidth(150), 
     shadowColor: "black",
     shadowOffset: { width: scaleWidth(1), height: scaleHeight(1) }, 

@@ -67,7 +67,7 @@ const Settings = (props) => {
   };
 
   return (
-    
+  
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={baseStyles.mainContent}
@@ -91,7 +91,7 @@ const Settings = (props) => {
                 placeholder={intlData.messages.Settings.enterUserID}
                 placeholderTextColor={styles.placeholder.color}
                 style={styles.input}
-                keyboardType="alphanumeric"
+                //keyboardType="alphanumeric"
                 maxLength={10}
                 value={userId}
                 onChangeText={setUserId}
@@ -179,7 +179,7 @@ const baseStyles = StyleSheet.create({
   },
   bottom: {
     //marginBottom: 10,
-    marginTop: 140,
+    marginTop: 20,
   },
   input: {
     height: 40,
@@ -190,7 +190,7 @@ const baseStyles = StyleSheet.create({
   hint: {
     fontStyle: "italic",
     textAlign: "center",
-    marginTop: 20,
+    //marginTop: 20,
   },
 });
 
