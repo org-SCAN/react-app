@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserId, updateCaseNumber } from "../redux/actions";
+import { updateUserId, updateCaseNumber, updateEmail } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -13,6 +13,7 @@ import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
+import store from "../redux/store";
 //import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
@@ -20,12 +21,18 @@ const Settings = (props) => {
   const { intlData } = props;
   const dispatch = useDispatch();
   const [showBox, setShowBox] = useState(true);
+
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
+  const [email, setEmail] = useState('');
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+  const storedEmail = useSelector(state => state.email.email);
+
   const [alertVisibleUserID, setAlertVisibleUserID] = useState(false);
+  const [alertVisibleEmailCorrect, setAlertVisibleEmailCorrect] = useState(false);
+  const [alertVisibleEmailError, setAlertVisibleEmailError] = useState(false);
   const [alertVisibleCaseNumber, setAlertVisibleCaseNumber] = useState(false); 
   const [alertVisibleClear, setAlertVisibleClear] = useState(false);
 
@@ -51,7 +58,10 @@ const Settings = (props) => {
     if (storedUserId) {
       setUserId(storedUserId);
     }
-  }, [storedUserId]);
+    if (storedEmail) {
+      setEmail(storedEmail);
+    }
+  }, [storedUserId, storedEmail]);
 
   const clear = () => {
     setShowBox(false);
@@ -66,16 +76,24 @@ const Settings = (props) => {
     setAlertVisibleUserID(true);
   };
 
+  const handleEmailChange = () => {
+    let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/;
+    if (reg.test(email) === false) {
+      setAlertVisibleEmailError(true);
+      return;
+    }
+    dispatch(updateEmail(email));
+    setAlertVisibleEmailCorrect(true);
+  }
   return (
-  
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={baseStyles.mainContent}
+        style={styles.mainContent}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={baseStyles.scrollViewContent}>
+          <ScrollView contentContainerStyle={styles.scrollViewContent}>
             <SettingsToggle
-              style={baseStyles.toggle}
+              style={styles.toggle}
               onChange={handleThemeChange}
               value={props.theme.mode === "dark"}
               title={intlData.messages.Settings.lightTheme}
@@ -85,13 +103,12 @@ const Settings = (props) => {
               <LanguagePicker />
             </View>
 
-            <View style={baseStyles.userIdContainer}>
-              <Text style={baseStyles.label}></Text>
+            <View style={styles.userIdContainer}> 
               <TextInput
                 placeholder={intlData.messages.Settings.enterUserID}
                 placeholderTextColor={styles.placeholder.color}
                 style={styles.input}
-                //keyboardType="alphanumeric"
+                //keyboardType="alphanumeric" crash on ios
                 maxLength={10}
                 value={userId}
                 onChangeText={setUserId}
@@ -100,8 +117,9 @@ const Settings = (props) => {
                 title={intlData.messages.Settings.saveUserID}
                 onPress={handleSaveUserId}
                 color={SCAN_COLOR}
+                style={styles.button}
               />
-              {storedUserId ? <Text style={styles.details}>{intlData.messages.Settings.savedUserID} : {storedUserId}</Text> : null}
+              {storedUserId ? <Text style={styles.details}>{intlData.messages.Settings.savedUserID} : {storedUserId}</Text> : <Text style={styles.details}></Text>}
             </View>
             <View style={styles.userIdContainer}>
               <TextInput
@@ -115,38 +133,68 @@ const Settings = (props) => {
                 title={intlData.messages.Settings.resetCaseNumber}
                 onPress={() => handleUpdateCaseNumber(newCaseNumber)}
                 color={SCAN_COLOR}
+                style={styles.button}
               />
-              {caseNumber ? <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : {caseNumber}</Text> : null}
+              {caseNumber ? <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : {caseNumber}</Text> : <Text style={styles.details}></Text>}
+            </View>
+            <View style={styles.userIdContainer}> 
+              <TextInput
+                placeholder={intlData.messages.Settings.enterEmail}
+                placeholderTextColor={styles.placeholder.color}
+                style={styles.input}
+                //keyboardType="alphanumeric" crash on ios
+                //maxLength={10}
+                value={email}
+                onChangeText={setEmail}
+              />
+              <Button
+                title={intlData.messages.Settings.saveEmail}
+                onPress={handleEmailChange}
+                style={styles.button}
+                color={SCAN_COLOR}
+              />
+              {storedEmail ? <Text style={styles.details}>{intlData.messages.Settings.savedEmail} : {storedEmail}</Text> : <Text style={styles.details}></Text>}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
-        <View style={baseStyles.bottom}>
-        <Text style={styles.hint}>Debug</Text>
-        <Button
-          title={intlData.messages.Settings.debugMessage}
-          color={SCAN_COLOR}
-          onPress={showClearDialog}
-        />
-        
-        <CustomAlertTwoButtons
-          title="⚠️"
-          message={intlData.messages.Settings.clearCases2}
-          visible={alertVisibleClear}
-          onConfirm={() => {
-            clear();
-            setAlertVisibleClear(false); 
-          }}
-          onCancel={() => setAlertVisibleClear(false)}
-          confirmButtonText={intlData.messages.yes}
-          cancelButtonText={intlData.messages.no}
-        />
+        <View style={styles.bottom}>
+          <Text style={styles.hint}>Debug</Text>
+          <Button
+            title={intlData.messages.Settings.debugMessage}
+            color={SCAN_COLOR}
+            onPress={showClearDialog}
+          />
+          
+          <CustomAlertTwoButtons
+            title="⚠️"
+            message={intlData.messages.Settings.clearCases2}
+            visible={alertVisibleClear}
+            onConfirm={() => {
+              clear();
+              setAlertVisibleClear(false); 
+            }}
+            onCancel={() => setAlertVisibleClear(false)}
+            confirmButtonText={intlData.messages.yes}
+            cancelButtonText={intlData.messages.no}
+          />
           <CustomAlert
             title="✅"
             message={intlData.messages.Settings.userIDRegistered}
             onConfirm={() => setAlertVisibleUserID(false)}
             visible={alertVisibleUserID}
           />
-
+          <CustomAlert
+            title="✅"
+            message={intlData.messages.Settings.emailRegistered}
+            onConfirm={() => setAlertVisibleEmailCorrect(false)}
+            visible={alertVisibleEmailCorrect}
+          />
+          <CustomAlert
+            title="❌"
+            message={intlData.messages.Settings.emailParsingError}
+            onConfirm={() => setAlertVisibleEmailError(false)}
+            visible={alertVisibleEmailError}
+          />
           <CustomAlert
             title="✅"
             message={intlData.messages.Settings.caseRegistered}
@@ -168,10 +216,10 @@ const baseStyles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   toggle: {
-    marginBottom: 20,
+    //marginBottom: 20,
   },
   userIdContainer: {
-    marginTop: 20,
+    //marginTop: 20,
   },
   label: {
     marginBottom: 10,
@@ -184,8 +232,12 @@ const baseStyles = StyleSheet.create({
   input: {
     height: 40,
     borderWidth: 1,
+    borderRadius: 5,
     marginBottom: 10,
     paddingLeft: 8,
+  },
+  button: {
+    marginTop: 20,
   },
   hint: {
     fontStyle: "italic",
@@ -195,6 +247,7 @@ const baseStyles = StyleSheet.create({
 });
 
 const stylesLight = StyleSheet.create({
+  ...baseStyles,
   hint: {
     ...baseStyles.hint,
     color: "#B3B3B3",
@@ -213,6 +266,7 @@ const stylesLight = StyleSheet.create({
 });
 
 const stylesDark = StyleSheet.create({
+  ...baseStyles,
   hint: {
     ...baseStyles.hint,
     color: "#B3B3B3",

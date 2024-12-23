@@ -16,6 +16,7 @@ import caseReducer from "./Reducers/caseReducer";
 import langReducer from "./Reducers/langReducer";
 import userIdReducer from "./Reducers/userIdReducer";
 import caseNumberReducer from "./Reducers/caseNumberReducer";
+import emailReducer from "./Reducers/emailReducer";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   lang: langReducer,
   userId: userIdReducer,
   caseNumber: caseNumberReducer,
+  email: emailReducer,
 });
 
 const persistConfig = {

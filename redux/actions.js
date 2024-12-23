@@ -9,6 +9,7 @@ import {
   UPDATE_LANGUAGE,
   UPDATE_USER_ID,
   UPDATE_CASE_NUMBER,
+  UPDATE_EMAIL,
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -83,3 +84,10 @@ export const updateCaseNumber = (caseNumber) => {
     payload: caseNumber,
   };
 };
+
+export const updateEmail = (email) => {
+  return {
+    type: UPDATE_EMAIL,
+    payload: email,
+  };
+}

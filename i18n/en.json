@@ -48,13 +48,18 @@
     "resetCaseNumber": "Save Case Number",
     "storedCaseNumber":"Stored Case number",
     "enterUserID": "Enter User ID",
+    "enterEmail": "Enter Email",
     "success":"Success",
     "userIDRegistered":"User ID has been saved",
-    "caseRegistered":"New case number has been saved"
+    "caseRegistered":"New case number has been saved",
+    "saveEmail": "Save Email",
+    "savedEmail":"Saved Email",
+    "emailRegistered": "Email has been saved",
+    "emailParsingError": "Invalid email format"
   },
   "Mail": {
     "subject": "[CASE] ",
-    "body": "<em>This email comes from the Dividoc application. Please do not respond to it.</em>"
+    "body": "<em>This email comes from the Divilite application. Please do not respond to it.</em>"
   },
   "Pictures": {
     "title": "Pictures",

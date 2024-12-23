@@ -43,18 +43,23 @@
     "clearCases1": "Êtes-vous sûr ?",
     "clearCases2": "Tous les cas seront supprimés",
     "saveUserID": "Sauvegarder l'ID utilisateur",
+    "saveEmail": "Sauvegarder l'email",
     "savedUserID":"ID utilisateur sauvegardé",
+    "savedEmail":"Email sauvegardé",
     "newCaseNumber": "Entrer un nouveau numéro de cas",
     "resetCaseNumber": "Enregistrer le nouveau numéro",
     "storedCaseNumber":"Numéro de cas enregistré",
     "enterUserID": "Entrer un ID utilisateur",
+    "enterEmail": "Entrer un email",
     "success":"Succès",
     "userIDRegistered":"L'ID utilisateur a été sauvegardé",
-    "caseRegistered":"Le nouveau numéro de cas a été enregistré"
+    "caseRegistered":"Le nouveau numéro de cas a été enregistré",
+    "emailRegistered": "L'email a été sauvegardé",
+    "emailParsingError": "Format d'email invalide"
   },
   "Mail": {
     "subject": "[CAS] ",
-    "body": "<em>Cet email provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
+    "body": "<em>Cet email provient de l'application Divilite. S'il vous plaît ne répondez pas.</em>"
   },
   "Pictures": {
     "title": "Photos",

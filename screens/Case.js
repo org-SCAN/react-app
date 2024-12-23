@@ -50,6 +50,7 @@ const Case = (props) => {
   const cases = useSelector(state => state.case.cases);
   const userId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
+  const email = useSelector(state => state.email.email);
 
   //const tag = `${userId}-${caseNumber}`;
 
@@ -209,7 +210,7 @@ const Case = (props) => {
       return;
     }
     MailComposer.composeAsync({
-      recipients: ["sample@gmail.com"],
+      recipients: [email],
       subject: intlData.messages.Mail.subject + caseID,
       body: intlData.messages.Mail.body,
       isHtml: true,

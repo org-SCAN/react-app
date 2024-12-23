@@ -1,15 +1,15 @@
 import { connect, useDispatch } from "react-redux";
-import { View, Text, StyleSheet } from "react-native";
-import { Picker } from "@react-native-picker/picker";
+import { useState } from "react";
+import { View, Text, StyleSheet, Platform } from "react-native";
+import { Picker, PickerIOS } from "@react-native-picker/picker";
 import { updateLanguage } from "../../redux/actions";
 
 const languagePicker = (props) => {
   const dispatch = useDispatch();
-
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
-
-  console.log("LanguagePicker: ", props);
   const { intlData } = props;
+  const [selectedValue, setSelectedValue] = useState(intlData.locale);
+  
   const languages = [
     { code: "en", name: "English" },
     { code: "fr", name: "Français" },
@@ -25,35 +25,74 @@ const languagePicker = (props) => {
     );
   });
 
+  const handleLanguageChange = (itemValue) => {
+    dispatch(updateLanguage(itemValue));
+    setSelectedValue(itemValue);
+  }
+
   return (
     <View>
       <Text style={styles.mainText}>{intlData.messages.Settings.selectLanguage}</Text>
-      <Picker
-        selectedValue={intlData.locale}
-        onValueChange={(itemValue) => dispatch(updateLanguage(itemValue))}
-        style={styles.pickerContainer}
-        dropdownIconColor={styles.dropdownIconColor}
-      >
-        {options}
-      </Picker>
+      <View style={styles.pickerWrapper}>
+        {Platform.OS === "ios" ? (
+          <PickerIOS
+            selectedValue={selectedValue}
+            onValueChange={handleLanguageChange}
+            style={styles.pickerContainer}
+            itemStyle={styles.itemStyle}
+            themeVariant={props.theme.mode}
+          >
+            {options}
+          </PickerIOS>  
+        ) : (
+          <Picker
+            selectedValue={selectedValue}
+            onValueChange={handleLanguageChange}
+            style={styles.pickerContainer}
+            mode={'dropdown'}
+            dropdownIconColor={styles.dropdownIconColor}
+          >
+            {options}
+          </Picker>
+        )}
+      </View>
     </View>
   );
 };
 
 
 const baseStyles = {
-  pickerContainer: {
+  pickerWrapper: {
     borderWidth: 1,
     borderRadius: 5,
-    padding: 10,
+    overflow: "hidden",
+    marginVertical: 10,
+  },
+  pickerContainer: {
+    //height: 100,
+    borderColor: "pink",
+    ...Platform.select({
+      ios: {
+        height: 100,
+        justifyContent: "center",
+      },
+    }),
   },
 };
 
 const stylesLight = StyleSheet.create({
+  ...baseStyles,
   mainText: {
     color: "black",
   },
+  pickerWrapper: {
+    ...baseStyles.pickerWrapper,
+    borderColor: "black",
+  },
   pickerItem: {
+    color: "black",
+  },
+  itemStyle: {
     color: "black",
   },
   pickerContainer: {
@@ -64,15 +103,23 @@ const stylesLight = StyleSheet.create({
 });
 
 const stylesDark = StyleSheet.create({
+  ...baseStyles,
   mainText: {
     color: "white",
   },
   pickerItem: {
     color: "black",
   },
+  itemStyle: {
+    color: "white",
+  },
+  pickerWrapper: {
+    ...baseStyles.pickerWrapper,
+    borderColor: "white",
+  },
   pickerContainer: {
     ...baseStyles.pickerContainer,
-    borderColor: "white",
+    borderColor: "pink",
     color: "white",
   },
   dropdownIconColor: "white",
