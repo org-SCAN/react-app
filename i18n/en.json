@@ -44,6 +44,7 @@
     "clearCases2": "All cases will be deleted",
     "saveUserID": "Save User ID",
     "savedUserID":"Saved User ID",
+    "noSavedUserID":"No saved User ID",
     "newCaseNumber": "Enter new case number",
     "resetCaseNumber": "Save Case Number",
     "storedCaseNumber":"Stored Case number",
@@ -53,7 +54,8 @@
     "userIDRegistered":"User ID has been saved",
     "caseRegistered":"New case number has been saved",
     "saveEmail": "Save Email",
-    "savedEmail":"Saved Email",
+    "savedEmail": "Saved Email",
+    "noSavedEmail": "No saved Email",
     "emailRegistered": "Email has been saved",
     "emailParsingError": "Invalid email format"
   },

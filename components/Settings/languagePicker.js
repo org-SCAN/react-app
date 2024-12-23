@@ -87,7 +87,7 @@ const stylesLight = StyleSheet.create({
   },
   pickerWrapper: {
     ...baseStyles.pickerWrapper,
-    borderColor: "black",
+    borderColor: "gray",
   },
   pickerItem: {
     color: "black",
@@ -97,7 +97,7 @@ const stylesLight = StyleSheet.create({
   },
   pickerContainer: {
     ...baseStyles.pickerContainer,
-    borderColor: "black",
+    borderColor: "gray",
   },
   dropdownIconColor: "black",
 });

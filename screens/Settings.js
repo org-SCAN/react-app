@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback } from "react-native";
+import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserId, updateCaseNumber, updateEmail } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
@@ -54,6 +54,8 @@ const Settings = (props) => {
     dispatch(switchMode(props.theme.mode === "light" ? "dark" : "light"));
   };
 
+  /* Input value set to stored value (not necessary 
+  if we have the details stored value)
   useEffect(() => {
     if (storedUserId) {
       setUserId(storedUserId);
@@ -62,7 +64,7 @@ const Settings = (props) => {
       setEmail(storedEmail);
     }
   }, [storedUserId, storedEmail]);
-
+  */
   const clear = () => {
     setShowBox(false);
     deleteAll();
@@ -73,6 +75,7 @@ const Settings = (props) => {
 
   const handleSaveUserId = () => {
     dispatch(updateUserId(userId));
+    setUserId('');
     setAlertVisibleUserID(true);
   };
 
@@ -113,13 +116,13 @@ const Settings = (props) => {
                 value={userId}
                 onChangeText={setUserId}
               />
-              <Button
-                title={intlData.messages.Settings.saveUserID}
+              <TouchableOpacity
                 onPress={handleSaveUserId}
-                color={SCAN_COLOR}
                 style={styles.button}
-              />
-              {storedUserId ? <Text style={styles.details}>{intlData.messages.Settings.savedUserID} : {storedUserId}</Text> : <Text style={styles.details}></Text>}
+              >
+                <Text style={styles.buttonTitle}>{intlData.messages.Settings.saveUserID}</Text>
+              </TouchableOpacity>
+              {storedUserId ? <Text style={styles.details}>{intlData.messages.Settings.savedUserID} : {storedUserId}</Text> : <Text style={styles.details}>{intlData.messages.Settings.noSavedUserID}</Text>}
             </View>
             <View style={styles.userIdContainer}>
               <TextInput
@@ -129,13 +132,13 @@ const Settings = (props) => {
                 placeholderTextColor={styles.placeholder.color}
                 onChangeText={(text) => setNewCaseNumber(parseInt(text))}
               />
-              <Button
-                title={intlData.messages.Settings.resetCaseNumber}
+              <TouchableOpacity
                 onPress={() => handleUpdateCaseNumber(newCaseNumber)}
-                color={SCAN_COLOR}
                 style={styles.button}
-              />
-              {caseNumber ? <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : {caseNumber}</Text> : <Text style={styles.details}></Text>}
+              >
+                <Text style={styles.buttonTitle}>{intlData.messages.Settings.resetCaseNumber}</Text>
+              </TouchableOpacity>
+              {caseNumber ? <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : {caseNumber}</Text> : <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : 0</Text>}
             </View>
             <View style={styles.userIdContainer}> 
               <TextInput
@@ -147,23 +150,24 @@ const Settings = (props) => {
                 value={email}
                 onChangeText={setEmail}
               />
-              <Button
-                title={intlData.messages.Settings.saveEmail}
+              <TouchableOpacity
                 onPress={handleEmailChange}
                 style={styles.button}
-                color={SCAN_COLOR}
-              />
-              {storedEmail ? <Text style={styles.details}>{intlData.messages.Settings.savedEmail} : {storedEmail}</Text> : <Text style={styles.details}></Text>}
+              >
+                <Text style={styles.buttonTitle}>{intlData.messages.Settings.saveEmail}</Text>
+              </TouchableOpacity>
+              {storedEmail ? <Text style={styles.details}>{intlData.messages.Settings.savedEmail} : {storedEmail}</Text> : <Text style={styles.details}>{intlData.messages.Settings.noSavedEmail}</Text>}
             </View>
           </ScrollView>
         </TouchableWithoutFeedback>
         <View style={styles.bottom}>
           <Text style={styles.hint}>Debug</Text>
-          <Button
-            title={intlData.messages.Settings.debugMessage}
-            color={SCAN_COLOR}
+          <TouchableOpacity
             onPress={showClearDialog}
-          />
+            style={styles.button}
+          >
+            <Text style={styles.buttonTitle}>{intlData.messages.Settings.debugMessage}</Text>
+          </TouchableOpacity>
           
           <CustomAlertTwoButtons
             title="⚠️"
@@ -233,11 +237,27 @@ const baseStyles = StyleSheet.create({
     height: 40,
     borderWidth: 1,
     borderRadius: 5,
-    marginBottom: 10,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
     paddingLeft: 8,
   },
   button: {
-    marginTop: 20,
+    marginTop: 5,
+    marginBottom: 5,
+    height: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: SCAN_COLOR,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: SCAN_COLOR
+  },
+  buttonTitle: {
+    color: 'white',
+    textAlign: 'center',
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    fontSize: 16,
   },
   hint: {
     fontStyle: "italic",
