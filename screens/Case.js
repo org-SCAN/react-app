@@ -99,7 +99,11 @@ const Case = (props) => {
               setAlertVisibleGoBack(true); // Show alert before navigating back
             } else {
               navigation.goBack(); // Navigate back
+              if (!existingCase) {
+                dispatch(updateCaseNumber(caseNumber-1));
+              }
             }
+            console.log("Case number after going back: ", caseNumber);
           }}
         />
       ),
@@ -245,6 +249,7 @@ const Case = (props) => {
         const mcase = props.cases.filter(
           (item) => item.id === props.route.params.caseId
         )[0];
+        console.log("Case: ", mcase);
         setExistingCase(mcase);
         setCaseID(mcase.id);
         setTag(mcase.tag); // Set tag from existing case
@@ -262,7 +267,12 @@ const Case = (props) => {
       } else {
         const newCaseId = uuid.v4();
         setCaseID(newCaseId);
-        setTag(`${userId}-${caseNumber}`);
+        if (userId === '') {
+          setTag(`default-${caseNumber}`);
+        }
+        else {
+          setTag(`${userId}-${caseNumber}`);
+        }
       }
     }, [cases, props.route.params]);
 
@@ -316,29 +326,31 @@ const handleIconSelectionAge = (selectedIconAge) => {
       return (
         <View style={styles.inputContainer}>
           <Text style={[styles.placeholder]}>{item.placeholder}</Text>
-          <ScrollView horizontal contentContainerStyle={[styles.iconContainer, { marginBottom: 20 }]}>
-            {item.icons.map((iconOption, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.iconButton,
-                  (item.key === "age" && selectedIconAge === iconOption.icon) ||
-                  (item.key === "sex" && selectedIconSex === iconOption.icon)
-                    ? styles.selectedIconButton
-                    : null,
-                ]}
-                onPress={() => {
-                  if (item.key === "age") {
-                    handleIconSelectionAge(iconOption.icon);
-                  } else if (item.key === "sex") {
-                    handleIconSelectionSex(iconOption.icon);
-                  }
-                }}
-              >
-                <Image source={iconOption.icon} style={styles.icon} />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
+          <View style={styles.iconContainer}>
+            <ScrollView horizontal>
+              {item.icons.map((iconOption, index) => (
+                <TouchableOpacity
+                  key={index}
+                  style={[
+                    styles.iconButton,
+                    (item.key === "age" && selectedIconAge === iconOption.icon) ||
+                    (item.key === "sex" && selectedIconSex === iconOption.icon)
+                      ? styles.selectedIconButton
+                      : null,
+                  ]}
+                  onPress={() => {
+                    if (item.key === "age") {
+                      handleIconSelectionAge(iconOption.icon);
+                    } else if (item.key === "sex") {
+                      handleIconSelectionSex(iconOption.icon);
+                    }
+                  }}
+                >
+                  <Image source={iconOption.icon} style={styles.icon} />
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+          </View>
         </View>
       );
     }
@@ -481,9 +493,9 @@ const basicStyles = StyleSheet.create({
   },
   iconContainer: {
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "center",
     alignItems: "center",
-    marginVertical: scaleHeight(5),
+    marginBottom: scaleHeight(10),  
   },
   iconButton: {
     padding: scale(14),
@@ -515,8 +527,7 @@ const basicStyles = StyleSheet.create({
     position: "absolute",
     bottom: scaleHeight(20),
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    width: "90%",
+    justifyContent: "center",
     alignSelf: "center",
   },
 });
