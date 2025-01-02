@@ -4,7 +4,11 @@ import ScanButton from "../components/BasicUI/ScanButton";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
-import { updateCaseNumber } from "../redux/actions";
+import { updateCaseNumber, deleteCase } from "../redux/actions";
+import { deleteImageFromMemory } from "../utils/fileHandler";
+import { deleteCameraCache } from "../utils/cacheManager";
+
+
 
 
 const Home = (props) => {
@@ -19,6 +23,23 @@ const Home = (props) => {
     dispatch(updateCaseNumber(caseNumber+1));
   };
 
+  const handleDeleteImage = (item) => {
+    dispatch(deleteCase(item.caseID));
+    deleteImageFromMemory(item.id);
+    //deleteCameraCache();
+  };
+
+  const handleCrashCase = () => {
+    const crashImage = props.images.filter(
+      (image) => !props.cases.some((caseItem) => caseItem.id === image.caseID)
+    );
+    if (crashImage) {
+      
+      console.log("Crash Case: ", crashImage);
+      crashImage.forEach((image) => handleDeleteImage(image));
+      console.log("Crash Images deleted");
+    }
+  };
 
   useEffect(() => {
     if (props.route.params && props.route.params.notification) {
@@ -36,6 +57,7 @@ const Home = (props) => {
         }).start();
       }, 500);
     }
+    handleCrashCase();    
   }, [mOpacity]);
   console.log("Home: ", props.images);
 
