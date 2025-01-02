@@ -10,6 +10,9 @@ const setLanguage = (language) => {
     case "en":
       messages = Object.assign(messages, require(`../../i18n/en.json`));
       break;
+    case "es":
+      messages = Object.assign(messages, require(`../../i18n/es.json`));
+      break;
   }
   return messages;
 };

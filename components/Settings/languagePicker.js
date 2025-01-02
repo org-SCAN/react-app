@@ -13,6 +13,7 @@ const languagePicker = (props) => {
   const languages = [
     { code: "en", name: "English" },
     { code: "fr", name: "Français" },
+    { code: "es", name: "Español" },
   ];
   const options = languages.map((language) => {
     return (

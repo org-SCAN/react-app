@@ -17,7 +17,6 @@ const MainContent = (props) => {
   const styles =
     props.theme.mode == "light" ? navigationStyle.light : navigationStyle.dark;
   const { intlData } = props;
-  console.log(props);
   return (
     <NavigationContainer theme={styles.navigation} ref={navigationRef}>
       <Stack.Navigator>

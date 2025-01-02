@@ -1,0 +1,77 @@
+{
+    "Home": {
+      "title": "Inicio",
+      "caseButton": "Nuevo caso",
+      "consultButton": "Consultar casos",
+      "saveCase": "Caso guardado"
+    },
+    "Case": {
+      "title": "Caso",
+      "forename": "Nombre",
+      "lastname": "Apellido",
+      "sex": "Sexo",
+      "age": "Edad",
+      "injury": "Causa de las lesiones",
+      "photoButton": "Tomar una foto",
+      "descriptionPhoto": "Tome más de 5 fotos si es posible",
+      "saveButton": "Guardar",
+      "submitButton": "Enviar",
+      "backButton": "Atrás",
+      "confirmBack": "¿Está seguro de que desea descartar este caso?",
+      "warning": "Advertencia",
+      "addImage": "Por favor, agregue al menos una imagen",
+      "allFields": "Por favor, complete todos los campos",
+      "noMail": "No se encontró un cliente de correo",
+      "noIconAge": "Por favor, seleccione el ícono para la edad",
+      "noIconSex": "Por favor, seleccione el ícono para el sexo",
+      "noIcons": "Por favor, seleccione los íconos para el sexo y la edad"
+    },
+    "consultCases": {
+      "title": "Consultar casos",
+      "noCase": "No hay casos para mostrar",
+      "editMessage": "Haga clic en el caso para editar o enviar",
+      "swipeMessage": "Deslice hacia la izquierda para eliminar",
+      "clearCase1": "Eliminar caso",
+      "clearCase2": "¿Está seguro de que desea eliminar este caso?"
+    },
+    "Settings": {
+      "title": "Configuraciones",
+      "lightTheme": "Modo oscuro",
+      "themeDescription": "Cambiar el tema de la aplicación",
+      "selectLanguage": "Seleccionar idioma",
+      "debugMessage": "Borrar todos los datos",
+      "clearCases1": "¿Está seguro?",
+      "clearCases2": "Se eliminarán todos los casos",
+      "saveUserID": "Guardar ID de usuario",
+      "savedUserID": "ID de usuario guardado",
+      "noSavedUserID": "No hay ID de usuario guardado",
+      "newCaseNumber": "Ingresar nuevo número de caso",
+      "resetCaseNumber": "Guardar número de caso",
+      "storedCaseNumber": "Número de caso almacenado",
+      "enterUserID": "Ingresar ID de usuario",
+      "enterEmail": "Ingresar correo electrónico",
+      "success": "Éxito",
+      "userIDRegistered": "El ID de usuario ha sido guardado",
+      "caseRegistered": "El nuevo número de caso ha sido guardado",
+      "saveEmail": "Guardar correo electrónico",
+      "savedEmail": "Correo electrónico guardado",
+      "noSavedEmail": "No hay correo electrónico guardado",
+      "emailRegistered": "El correo electrónico ha sido guardado",
+      "emailParsingError": "Formato de correo electrónico inválido"
+    },
+    "Mail": {
+      "subject": "[CASO] ",
+      "body": "<em>Este correo proviene de la aplicación Divilite. Por favor, no responda a él.</em>"
+    },
+    "Pictures": {
+      "title": "Fotos",
+      "dateFormat": "es-ES"
+    },
+    "Camera": {
+      "noLocationPermission": "Se denegó el permiso para acceder a la ubicación, la foto se guardó sin datos de ubicación",
+      "noLocationFound": "No se pudo obtener la ubicación, la foto se guardó sin datos de ubicación"
+    },
+    "yes": "Sí",
+    "no": "No"
+  }
+  

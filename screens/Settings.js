@@ -37,7 +37,6 @@ const Settings = (props) => {
   const [alertVisibleClear, setAlertVisibleClear] = useState(false);
 
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
-  console.log("Settings: ", styles);
 
   //handle new casenumber
   const handleUpdateCaseNumber = (newCaseNumber) => {
