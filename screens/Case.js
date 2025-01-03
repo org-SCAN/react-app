@@ -240,6 +240,15 @@ const Case = (props) => {
     dispatch(updateCaseNumber(caseNumber+1));
   };
 
+  const initializeTag = () => {
+    if (userId === '') {
+      setTag(`default-${caseNumber}`);
+    }
+    else {
+      setTag(`${userId}-${caseNumber}`);
+    }
+  };
+
   const handleDeleteCase = () => {
     dispatch(updateCaseNumber(caseNumber-1));
   };
@@ -264,15 +273,15 @@ const Case = (props) => {
           return item;
         });
         setform(updatedForm);
+      } else if (props.route.params && props.route.params.images) {
+        const crashImage = props.route.params.images
+        setImages(crashImage);
+        setCaseID(crashImage[0].caseID);
+        initializeTag();
       } else {
         const newCaseId = uuid.v4();
         setCaseID(newCaseId);
-        if (userId === '') {
-          setTag(`default-${caseNumber}`);
-        }
-        else {
-          setTag(`${userId}-${caseNumber}`);
-        }
+        initializeTag();
       }
     }, [cases, props.route.params]);
 

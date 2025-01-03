@@ -7,8 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCaseNumber, deleteCase } from "../redux/actions";
 import { deleteImageFromMemory } from "../utils/fileHandler";
 import { deleteCameraCache } from "../utils/cacheManager";
-
-
+import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 
 
 const Home = (props) => {
@@ -19,6 +18,10 @@ const Home = (props) => {
   const dispatch = useDispatch();
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
 
+  const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
+  const [crashImage, setCrashImage] = useState([]);
+  
+
   const handleCreateCase = () => {
     dispatch(updateCaseNumber(caseNumber+1));
   };
@@ -27,18 +30,6 @@ const Home = (props) => {
     dispatch(deleteCase(item.caseID));
     deleteImageFromMemory(item.id);
     //deleteCameraCache();
-  };
-
-  const handleCrashCase = () => {
-    const crashImage = props.images.filter(
-      (image) => !props.cases.some((caseItem) => caseItem.id === image.caseID)
-    );
-    if (crashImage) {
-      
-      console.log("Crash Case: ", crashImage);
-      crashImage.forEach((image) => handleDeleteImage(image));
-      console.log("Crash Images deleted");
-    }
   };
 
   useEffect(() => {
@@ -56,10 +47,27 @@ const Home = (props) => {
           useNativeDriver: true,
         }).start();
       }, 500);
-    }
-    handleCrashCase();    
+    }    
   }, [mOpacity]);
-  console.log("Home: ", props.images);
+
+  useEffect(() => {
+    const routes = navigation.getState()?.routes;
+    const prevRoute = routes[routes.length - 2]; // -2 because -1 is the current route
+  
+    // only check if the previous route is undefined (crash)
+    if (!prevRoute) {
+      const crashImage = props.images.filter(
+        (image) => !props.cases.some((caseItem) => caseItem.id === image.caseID)
+      );
+  
+      if (crashImage.length > 0) {
+        console.log("Crash Case: ", crashImage);
+        setCrashImage(crashImage);
+        setAlertVisibleGoBack(true);
+      }
+    }
+  }, [navigation, props.cases, props.images]);
+  
 
   return (
     <View style={styles.mainContent}>
@@ -68,6 +76,27 @@ const Home = (props) => {
       >
         <Text>✅</Text>
       </Animated.View>
+
+      <CustomAlertTwoButtons
+        title="⚠️"
+        message={intlData.messages.Home.recoverCase}
+        onConfirm={() => {
+          navigation.navigate("Case", { images: crashImage });
+          setCrashImage([]);
+          setAlertVisibleGoBack(false);
+        }}
+        onCancel={() => {
+          crashImage.forEach((image) => handleDeleteImage(image));
+          console.log("Crash Images deleted");
+          setCrashImage([]);
+          setAlertVisibleGoBack(false);
+        }}
+        visible={alertVisibleGoBack}
+        confirmButtonText={intlData.messages.yes}
+        cancelButtonText={intlData.messages.no}
+      />
+
+
       <View style={styles.menu}>
         <ScanButton
           title={intlData.messages.Home.caseButton}

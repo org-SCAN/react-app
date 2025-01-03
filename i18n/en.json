@@ -3,7 +3,8 @@
     "title": "Home",
     "caseButton": "New case",
     "consultButton": "Consult cases",
-    "saveCase ": "Case saved"
+    "saveCase ": "Case saved",
+    "recoverCase": "Do you want to recover the unsaved case ?"
   },
   "Case": {
     "title": "Case",

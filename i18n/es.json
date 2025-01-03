@@ -3,7 +3,9 @@
       "title": "Inicio",
       "caseButton": "Nuevo caso",
       "consultButton": "Consultar casos",
-      "saveCase": "Caso guardado"
+      "saveCase": "Caso guardado",
+      "recoverCase": "¿Quiere recuperar el caso no guardado?"
+
     },
     "Case": {
       "title": "Caso",
