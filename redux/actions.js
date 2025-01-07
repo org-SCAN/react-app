@@ -10,6 +10,7 @@ import {
   UPDATE_USER_ID,
   UPDATE_CASE_NUMBER,
   UPDATE_EMAIL,
+  UPDATE_ICON_URL
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -91,3 +92,11 @@ export const updateEmail = (email) => {
     payload: email,
   };
 }
+
+export const updateIconUrl = (iconUrl) => {
+  return{
+    type: UPDATE_ICON_URL,
+    payload: iconUrl,
+  };
+}
+

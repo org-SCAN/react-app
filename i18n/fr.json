@@ -58,7 +58,11 @@
     "userIDRegistered":"L'ID utilisateur a été sauvegardé",
     "caseRegistered":"Le nouveau numéro de cas a été enregistré",
     "emailRegistered": "Le mail a été sauvegardé",
-    "emailParsingError": "Format du mail invalide"
+    "emailParsingError": "Format du mail invalide",
+    "enterIconUrl": "Entrez l'URL de vos icônes",
+    "saveIconUrl": "Enregistrer l'URL",
+    "savedIconUrl": "URL des icônes enregistrée",
+    "noSavedIconUrl": "Aucune URL d'icônes enregistrée"
   },
   "Mail": {
     "subject": "[CAS] ",

@@ -59,7 +59,11 @@
       "savedEmail": "Correo electrónico guardado",
       "noSavedEmail": "No hay correo electrónico guardado",
       "emailRegistered": "El correo electrónico ha sido guardado",
-      "emailParsingError": "Formato de correo electrónico inválido"
+      "emailParsingError": "Formato de correo electrónico inválido",
+      "enterIconUrl": "Ingrese la URL de sus iconos",
+      "saveIconUrl": "Guardar URL",
+      "savedIconUrl": "URL de iconos guardada",
+      "noSavedIconUrl": "No hay ninguna URL de iconos guardada"
     },
     "Mail": {
       "subject": "[CASO] ",

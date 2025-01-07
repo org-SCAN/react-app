@@ -58,7 +58,11 @@
     "savedEmail": "Saved Email",
     "noSavedEmail": "No saved Email",
     "emailRegistered": "Email has been saved",
-    "emailParsingError": "Invalid email format"
+    "emailParsingError": "Invalid email format",
+    "enterIconUrl": "Enter the URL of your icons",
+    "saveIconUrl": "Save URL",
+    "savedIconUrl": "Saved Icon URL",
+    "noSavedIconUrl": "No Icon URL saved"
   },
   "Mail": {
     "subject": "[CASE] ",

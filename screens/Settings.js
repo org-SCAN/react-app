@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserId, updateCaseNumber, updateEmail } from "../redux/actions";
+import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl } from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -25,16 +25,19 @@ const Settings = (props) => {
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
+  const [iconUrl, setIconUrl] = useState("");
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
+  const storedIconUrl = useSelector((state) => state.iconUrl.url);
 
   const [alertVisibleUserID, setAlertVisibleUserID] = useState(false);
   const [alertVisibleEmailCorrect, setAlertVisibleEmailCorrect] = useState(false);
   const [alertVisibleEmailError, setAlertVisibleEmailError] = useState(false);
   const [alertVisibleCaseNumber, setAlertVisibleCaseNumber] = useState(false); 
   const [alertVisibleClear, setAlertVisibleClear] = useState(false);
+  const [alertVisibleUrl, setAlertVisibleUrl] = useState(false);
 
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
 
@@ -76,6 +79,12 @@ const Settings = (props) => {
     dispatch(updateUserId(userId));
     setUserId('');
     setAlertVisibleUserID(true);
+  };
+
+  const handleUrlChange = () => {
+    dispatch(updateIconUrl(iconUrl));
+    setIconUrl("");
+    setAlertVisibleUrl(true);
   };
 
   const handleEmailChange = () => {
@@ -157,6 +166,23 @@ const Settings = (props) => {
               </TouchableOpacity>
               {storedEmail ? <Text style={styles.details}>{intlData.messages.Settings.savedEmail} : {storedEmail}</Text> : <Text style={styles.details}>{intlData.messages.Settings.noSavedEmail}</Text>}
             </View>
+
+            <View style={styles.userIdContainer}>
+              <TextInput
+                placeholder={intlData.messages.Settings.enterIconUrl}
+                placeholderTextColor={styles.placeholder.color}
+                style={styles.input}
+                value={iconUrl}
+                onChangeText={setIconUrl}
+              />
+              <TouchableOpacity
+                onPress={handleUrlChange}
+                style={styles.button}
+              >
+                <Text style={styles.buttonTitle}>{intlData.messages.Settings.saveIconUrl}</Text>
+              </TouchableOpacity>
+              {storedIconUrl ? <Text style={styles.details}>{intlData.messages.Settings.savedIconUrl}: {storedIconUrl}</Text>:<Text style={styles.details}>{intlData.messages.Settings.noSavedIconUrl}</Text>}
+            </View>
           </ScrollView>
         </TouchableWithoutFeedback>
         <View style={styles.bottom}>
@@ -197,6 +223,12 @@ const Settings = (props) => {
             message={intlData.messages.Settings.emailParsingError}
             onConfirm={() => setAlertVisibleEmailError(false)}
             visible={alertVisibleEmailError}
+          />
+          <CustomAlert
+            title="✅"
+            message={intlData.messages.Settings.savedIconUrl}
+            onConfirm={() => setAlertVisibleUrl(false)}
+            visible={alertVisibleUrl}
           />
           <CustomAlert
             title="✅"
