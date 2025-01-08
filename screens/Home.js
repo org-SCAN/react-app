@@ -101,15 +101,17 @@ const Home = (props) => {
         <ScanButton
           title={intlData.messages.Home.caseButton}
           onPress={() => {
-            handleCreateCase();
+            //handleCreateCase();
             navigation.navigate("Case");
           }}
+          description={"case"}
         />
         <ScanButton
           title={intlData.messages.Home.consultButton}
           onPress={() => {
             navigation.navigate("ShowCase");
           }}
+          description={"showcase"}
         />
         <View style={styles.hintBox}>
           <View style={styles.hintLine}>

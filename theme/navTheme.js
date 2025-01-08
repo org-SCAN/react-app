@@ -42,7 +42,7 @@ const HomeTheme = (props) => {
 
 const CameraTheme = {
   ...Screen,
-  headerShown: false,
+  //headerShown: false,
   headerStyle: { backgroundColor: "black" },
 };
 

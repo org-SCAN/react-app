@@ -1,5 +1,7 @@
 import { StyleSheet, Text, Pressable, Image, Dimensions } from "react-native";
 import { connect } from "react-redux";
+import { Icon } from "@rneui/themed";
+
 
 const ScanButtonCamera = (props) => {
   var styles = props.theme.mode === "light" ? stylesLight : stylesDark;
@@ -8,7 +10,13 @@ const ScanButtonCamera = (props) => {
   }
   return (
     <Pressable style={styles.button} onPress={props.onPress}>
-      <Image source={props.imageSource} style={styles.image}/>
+      <Icon 
+       name="add-a-photo" 
+       size={34}
+       style={styles.image} 
+       color={props.theme.mode === "light" ? "black" : "white"} 
+       type="material-icons"
+      />
     </Pressable>
   );
 };
@@ -35,7 +43,6 @@ const basicStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: scaleHeight(5), 
-    paddingHorizontal: scaleWidth(10), 
     borderRadius: scale(4), 
     elevation: 3,
     borderWidth: scaleWidth(2), 
@@ -53,8 +60,9 @@ const basicStyles = StyleSheet.create({
     textAlign: "center",
   },
   image: {
-    width: scaleWidth(34), 
-    height: scaleHeight(34),
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
   },
 });
 
