@@ -1,5 +1,7 @@
 import { StyleSheet, Text, Pressable, Dimensions } from "react-native";
 import { connect } from "react-redux";
+import { Icon } from "@rneui/themed";
+
 
 const LittleScanButton = (props) => {
   var styles = props.theme.mode === "light" ? stylesLight : stylesDark;
@@ -8,6 +10,12 @@ const LittleScanButton = (props) => {
   }
   return (
     <Pressable style={styles.button} onPress={props.onPress}>
+      <Icon 
+       name={props.description === "save" ? "save-alt" : "email"} 
+       size={30} 
+       color={props.theme.mode === "light" ? "black" : "white"} 
+       type={props.description === "save" ? "material-icons" : "material-icons-outlined"} 
+      />
       <Text style={styles.text}>{props.title || "default"}</Text>
     </Pressable>
   );
@@ -44,7 +52,7 @@ const basicStyles = StyleSheet.create({
     shadowOpacity: 0.4,
   },
   text: {
-    fontSize: scale(16),
+    fontSize: scale(13),
     lineHeight: 21,
     fontWeight: "bold",
     textAlign: "center",

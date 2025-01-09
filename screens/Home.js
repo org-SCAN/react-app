@@ -5,9 +5,11 @@ import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCaseNumber, deleteCase } from "../redux/actions";
-import { deleteImageFromMemory } from "../utils/fileHandler";
+import { deleteImageFromMemory, openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
 import { deleteCameraCache } from "../utils/cacheManager";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import * as FileSystem from "expo-file-system";
+import { Asset } from 'expo-asset';
 
 
 const Home = (props) => {
@@ -101,8 +103,28 @@ const Home = (props) => {
         <ScanButton
           title={intlData.messages.Home.caseButton}
           onPress={() => {
-            handleCreateCase();
+            //handleCreateCase();
             navigation.navigate("Case");
+          }}
+          description={"case"}
+        />
+        <ScanButton
+          title={"test"}
+          onPress={() => {
+            (async () => {
+              try {
+                const zipUrl = "https://raw.githubusercontent.com/andeuxun/zipi/main/man.zip"; 
+
+                await downloadZipFile(zipUrl);
+
+                const zipPath = FileSystem.documentDirectory + "zip/icons.zip";
+                const extractedIconsPath = await openZipAndExtractIcons(zipPath);
+
+                console.log("Icons extracted to:", extractedIconsPath);
+              } catch (error) {
+                console.error("Failed to extract icons:", error);
+              }
+            })();
           }}
         />
         <ScanButton
@@ -110,6 +132,7 @@ const Home = (props) => {
           onPress={() => {
             navigation.navigate("ShowCase");
           }}
+          description={"showcase"}
         />
         <View style={styles.hintBox}>
           <View style={styles.hintLine}>

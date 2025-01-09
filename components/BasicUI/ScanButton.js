@@ -1,5 +1,7 @@
 import { StyleSheet, Text, Pressable, Image } from "react-native";
 import { connect } from "react-redux";
+import { Icon } from "@rneui/themed";
+
 
 const ScanButton = (props) => {
   var styles = props.theme.mode === "light" ? stylesLight : stylesDark;
@@ -8,6 +10,12 @@ const ScanButton = (props) => {
   }
   return (
     <Pressable style={styles.button} onPress={props.onPress}>
+      <Icon 
+       name={props.description === "case" ? "create-new-folder" : "folder-search"} 
+       size={45} 
+       color={props.theme.mode === "light" ? "black" : "white"} 
+       type={props.description === "case" ? "material-icons" : "material-community"} 
+      />
       <Text style={styles.text}>{props.title || "default"}</Text>
     </Pressable>
   );
@@ -16,7 +24,7 @@ const ScanButton = (props) => {
 const basicStyles = StyleSheet.create({
   button: {
     paddingVertical: 12,
-    paddingHorizontal: 40,
+    paddingHorizontal: 20,
     borderRadius: 4,
     elevation: 3,
     borderWidth: 2,

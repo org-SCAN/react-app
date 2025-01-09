@@ -26,7 +26,10 @@ import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 import CustomAlert from "../components/Case/CustomAlert";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import { Icon } from "@rneui/themed";
 import * as FileSystem from "expo-file-system";
+
+
 
 
 const Case = (props) => {
@@ -54,7 +57,7 @@ const Case = (props) => {
   const email = useSelector(state => state.email.email);
   const iconPath = useSelector(state => state.iconPath.iconPath);
 
-  //const tag = `${userId}-${caseNumber}`;
+  const [personalizedIcons, setPersonalizedIcons] = useState(false); 
 
   const FORM = [
     {
@@ -93,8 +96,13 @@ const Case = (props) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerLeft: (props) => (
-        <HeaderBackButton
+        <Icon
           {...props}
+          //label={"asasa"}
+          name={existingCase ? "folder-search" : "home"} 
+          size={35} 
+          color="white"
+          type={existingCase ? "material-community" : "material-icons-outlined"} 
           onPress={() => {
             // Ensure state logic does not trigger re-renders unnecessarily
             if (!existingCase && !isCaseEmpty()) {
@@ -102,7 +110,7 @@ const Case = (props) => {
             } else {
               navigation.goBack(); // Navigate back
               if (!existingCase) {
-                dispatch(updateCaseNumber(caseNumber-1));
+                //dispatch(updateCaseNumber(caseNumber-1));
               }
             }
             console.log("Case number after going back: ", caseNumber);
@@ -112,7 +120,6 @@ const Case = (props) => {
       gestureEnabled: false, // Disable gestures for controlled navigation
     });
   }, [navigation, existingCase, isCaseEmpty]); // Use minimal dependencies
-
   
 
 
@@ -179,6 +186,7 @@ const Case = (props) => {
       navigation.navigate("ShowCase");
     } else {
       dispatch(saveCase(data));
+      handleCreateCase();
       navigation.navigate("Home", { notification: true });
     }
   };
@@ -367,6 +375,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
     }
   };
   const renderImage = ({ item }) => (
+    console.log("item", item.data),
     <Pressable
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
     >
@@ -399,7 +408,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
       onConfirm={() => {
         setAlertVisibleGoBack(false);
         dispatch(deleteCase(caseID));
-        handleDeleteCase();
+        //handleDeleteCase();
         images.forEach((image) => deleteImageFromMemory(image.id));
         deleteCameraCache();
         navigation.goBack();
@@ -447,12 +456,14 @@ const handleIconSelectionAge = (selectedIconAge) => {
       <View style={styles.button}>
         <LittleScanButton
           title={intlData.messages.Case.saveButton}
+          description={"save"}
           onPress={() => {
             save();
           }}
         />
         <LittleScanButton
           title={intlData.messages.Case.submitButton}
+          description={"submit"}
           onPress={() => {
             submit();
           }}
