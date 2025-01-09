@@ -27,6 +27,8 @@ import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 import CustomAlert from "../components/Case/CustomAlert";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { Icon } from "@rneui/themed";
+import * as FileSystem from "expo-file-system";
+
 
 
 
@@ -54,7 +56,7 @@ const Case = (props) => {
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const email = useSelector(state => state.email.email);
 
-  //const tag = `${userId}-${caseNumber}`;
+  const [personalizedIcons, setPersonalizedIcons] = useState(false); 
 
   const FORM = [
     {
@@ -62,9 +64,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.sex,
       value: null,
       icons: [
-        { name: "woman", icon: require("../icons/woman.png") },
-        { name: "man", icon: require("../icons/man.png") },
-        { name: "unknown", icon: require("../icons/unknown.png") }
+        { name: "woman", icon: personalizedIcons ? `${FileSystem.documentDirectory}/icons/woman.png` : require("../icons/woman.png") },
+        { name: "man", icon: personalizedIcons ? `${FileSystem.documentDirectory}/icons/man.png` : require("../icons/man.png") },
+        { name: "unknown", icon: personalizedIcons ? `${FileSystem.documentDirectory}/icons/unknown.png` : require("../icons/unknown.png") }
       ]
     },
     {
@@ -72,9 +74,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.age,
       value: null,
       icons: [
-        { name: "child", icon: require("../icons/child.png") },
-        { name: "adult", icon: require("../icons/adult.png") },
-        { name: "old", icon: require("../icons/old.png") }
+        { name: "child", icon: personalizedIcons ? `${FileSystem.documentDirectory}/icons/child.png` : require("../icons/child.png") },
+        { name: "adult", icon: personalizedIcons ? `${FileSystem.documentDirectory}/icons/adult.png` : require("../icons/adult.png") },
+        { name: "old", icon: personalizedIcons ? `${FileSystem.documentDirectory}/icons/old.png` : require("../icons/old.png") }
       ]
     } 
   ]; 
@@ -362,7 +364,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
                     }
                   }}
                 >
-                  <Image source={iconOption.icon} style={styles.icon} />
+                  <Image source={personalizedIcons ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -372,6 +374,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
     }
   };
   const renderImage = ({ item }) => (
+    console.log("item", item.data),
     <Pressable
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
     >
