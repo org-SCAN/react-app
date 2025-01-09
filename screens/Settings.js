@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl } from "../redux/actions";
+import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPath} from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -13,6 +13,8 @@ import { deleteCameraCache } from "../utils/cacheManager";
 import { deleteAll } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
+import {openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
+import * as FileSystem from "expo-file-system";
 import store from "../redux/store";
 //import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
@@ -25,12 +27,14 @@ const Settings = (props) => {
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
-  const [iconUrl, setIconUrl] = useState("");
+  const [iconUrl, setIconUrl] = useState(true);
+  const [iconPath, setIconPath] = useState(true);
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
   const storedIconUrl = useSelector((state) => state.iconUrl.url);
+  const storedIconPath = useSelector((state) => state.iconPath.iconPath);
 
   const [alertVisibleUserID, setAlertVisibleUserID] = useState(false);
   const [alertVisibleEmailCorrect, setAlertVisibleEmailCorrect] = useState(false);
@@ -81,10 +85,27 @@ const Settings = (props) => {
     setAlertVisibleUserID(true);
   };
 
-  const handleUrlChange = () => {
-    dispatch(updateIconUrl(iconUrl));
-    setIconUrl("");
-    setAlertVisibleUrl(true);
+  const handleUrlChange = async () => {
+    // Mettre à jour l'URL globale dans Redux
+    dispatch(updateIconUrl(iconUrl)); // Cela enregistre l'URL fournie par l'utilisateur dans Redux
+  
+    if (iconUrl) {
+      try {
+        await downloadZipFile(iconUrl);
+
+        const zipPath = FileSystem.documentDirectory + "zip/icons.zip";
+        const iconPath = await openZipAndExtractIcons(zipPath);  
+        // Enregistrer le chemin local dans Redux
+        dispatch(saveIconPath(iconPath));  // Sauvegarder le chemin local (iconPath) dans Redux
+        console.log(iconPath);
+        Alert.alert("Succès", "Icône téléchargée avec succès !");
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Erreur", "Une erreur s'est produite lors du téléchargement.");
+      }
+    }
+  
+    setIconUrl("");  // Réinitialiser le champ de l'URL de l'icône après l'upload
   };
 
   const handleEmailChange = () => {

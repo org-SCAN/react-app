@@ -26,6 +26,7 @@ import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 import CustomAlert from "../components/Case/CustomAlert";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import * as FileSystem from "expo-file-system";
 
 
 const Case = (props) => {
@@ -51,6 +52,7 @@ const Case = (props) => {
   const userId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const email = useSelector(state => state.email.email);
+  const iconPath = useSelector(state => state.iconPath.iconPath);
 
   //const tag = `${userId}-${caseNumber}`;
 
@@ -60,9 +62,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.sex,
       value: null,
       icons: [
-        { name: "woman", icon: require("../icons/woman.png") },
-        { name: "man", icon: require("../icons/man.png") },
-        { name: "unknown", icon: require("../icons/unknown.png") }
+        { name: "woman", icon: iconPath ? `${FileSystem.documentDirectory}/icons/woman.png` : require("../icons/woman.png") },
+        { name: "man", icon: iconPath ? `${FileSystem.documentDirectory}/icons/man.png` : require("../icons/man.png") },
+        { name: "uunknown", icon: iconPath ? `${FileSystem.documentDirectory}/icons/unknown.png` : require("../icons/unknown.png") },
       ]
     },
     {
@@ -70,9 +72,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.age,
       value: null,
       icons: [
-        { name: "child", icon: require("../icons/child.png") },
-        { name: "adult", icon: require("../icons/adult.png") },
-        { name: "old", icon: require("../icons/old.png") }
+        { name: "child", icon: iconPath ? `${FileSystem.documentDirectory}/icons/child.png` : require("../icons/child.png") },
+        { name: "adult", icon: iconPath ? `${FileSystem.documentDirectory}/icons/adult.png` : require("../icons/adult.png") },
+        { name: "old", icon: iconPath ? `${FileSystem.documentDirectory}/icons/old.png` : require("../icons/old.png") }
       ]
     } 
   ]; 
@@ -355,7 +357,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
                     }
                   }}
                 >
-                  <Image source={iconOption.icon} style={styles.icon} />
+                  <Image source={iconPath ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
                 </TouchableOpacity>
               ))}
             </ScrollView>

@@ -10,7 +10,8 @@ import {
   UPDATE_USER_ID,
   UPDATE_CASE_NUMBER,
   UPDATE_EMAIL,
-  UPDATE_ICON_URL
+  UPDATE_ICON_URL,
+  SAVE_ICON_PATH
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -99,4 +100,10 @@ export const updateIconUrl = (iconUrl) => {
     payload: iconUrl,
   };
 }
+
+export const saveIconPath = (iconPath) => ({
+  type: SAVE_ICON_PATH,
+  payload: iconPath,
+});
+
 
