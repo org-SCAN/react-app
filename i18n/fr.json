@@ -60,7 +60,8 @@
     "emailRegistered": "Le mail a été sauvegardé",
     "emailParsingError": "Format du mail invalide",
     "enterIconUrl": "Entrez l'URL de vos icônes",
-    "saveIconUrl": "Enregistrer l'URL",
+    "saveIconUrl": "Enregistrer",
+    "resetIconUrl": "Réinitialiser",
     "savedIconUrl": "URL des icônes enregistrée",
     "noSavedIconUrl": "Aucune URL d'icônes enregistrée"
   },

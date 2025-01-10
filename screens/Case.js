@@ -56,8 +56,7 @@ const Case = (props) => {
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const email = useSelector(state => state.email.email);
   const iconPath = useSelector(state => state.iconPath.iconPath);
-
-  const [personalizedIcons, setPersonalizedIcons] = useState(false); 
+  const iconPersonalized = useSelector(state => state.icon.icon);
 
   const FORM = [
     {
@@ -65,9 +64,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.sex,
       value: null,
       icons: [
-        { name: "woman", icon: iconPath ? `${FileSystem.documentDirectory}/icons/woman.png` : require("../icons/woman.png") },
-        { name: "man", icon: iconPath ? `${FileSystem.documentDirectory}/icons/man.png` : require("../icons/man.png") },
-        { name: "uunknown", icon: iconPath ? `${FileSystem.documentDirectory}/icons/unknown.png` : require("../icons/unknown.png") },
+        { name: "woman", icon: iconPersonalized ? `${iconPath}woman.png` : require("../icons/woman.png") },
+        { name: "man", icon: iconPersonalized ? `${iconPath}man.png` : require("../icons/man.png") },
+        { name: "unknown", icon: iconPersonalized ? `${iconPath}unknown.png` : require("../icons/unknown.png") },
       ]
     },
     {
@@ -75,9 +74,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.age,
       value: null,
       icons: [
-        { name: "child", icon: iconPath ? `${FileSystem.documentDirectory}/icons/child.png` : require("../icons/child.png") },
-        { name: "adult", icon: iconPath ? `${FileSystem.documentDirectory}/icons/adult.png` : require("../icons/adult.png") },
-        { name: "old", icon: iconPath ? `${FileSystem.documentDirectory}/icons/old.png` : require("../icons/old.png") }
+        { name: "child", icon: iconPersonalized ? `${iconPath}child.png` : require("../icons/child.png") },
+        { name: "adult", icon: iconPersonalized ? `${iconPath}adult.png` : require("../icons/adult.png") },
+        { name: "old", icon: iconPersonalized ? `${iconPath}old.png` : require("../icons/old.png") }
       ]
     } 
   ]; 
@@ -365,7 +364,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
                     }
                   }}
                 >
-                  <Image source={iconPath ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
+                  <Image source={iconPersonalized ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
                 </TouchableOpacity>
               ))}
             </ScrollView>
@@ -375,7 +374,6 @@ const handleIconSelectionAge = (selectedIconAge) => {
     }
   };
   const renderImage = ({ item }) => (
-    console.log("item", item.data),
     <Pressable
       onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
     >

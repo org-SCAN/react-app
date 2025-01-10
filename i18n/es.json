@@ -61,7 +61,8 @@
       "emailRegistered": "El correo electrónico ha sido guardado",
       "emailParsingError": "Formato de correo electrónico inválido",
       "enterIconUrl": "Ingrese la URL de sus iconos",
-      "saveIconUrl": "Guardar URL",
+      "saveIconUrl": "Guardar",
+      "resetIconUrl": "Restablecer",
       "savedIconUrl": "URL de iconos guardada",
       "noSavedIconUrl": "No hay ninguna URL de iconos guardada"
     },

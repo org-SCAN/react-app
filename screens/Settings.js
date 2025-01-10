@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPath} from "../redux/actions";
+import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPath, updateIcon} from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { SCAN_COLOR } from "../theme/constants";
@@ -10,12 +10,11 @@ import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
-import { deleteAll } from "../utils/fileHandler";
+import { deleteAll, deleteIcons } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 import {openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
 import * as FileSystem from "expo-file-system";
-import store from "../redux/store";
 //import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
@@ -27,14 +26,12 @@ const Settings = (props) => {
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
-  const [iconUrl, setIconUrl] = useState(true);
-  const [iconPath, setIconPath] = useState(true);
+  const [iconUrl, setIconUrl] = useState('');
 
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
   const storedIconUrl = useSelector((state) => state.iconUrl.url);
-  const storedIconPath = useSelector((state) => state.iconPath.iconPath);
 
   const [alertVisibleUserID, setAlertVisibleUserID] = useState(false);
   const [alertVisibleEmailCorrect, setAlertVisibleEmailCorrect] = useState(false);
@@ -85,27 +82,32 @@ const Settings = (props) => {
     setAlertVisibleUserID(true);
   };
 
-  const handleUrlChange = async () => {
-    // Mettre à jour l'URL globale dans Redux
-    dispatch(updateIconUrl(iconUrl)); // Cela enregistre l'URL fournie par l'utilisateur dans Redux
-  
+  const handleUrlReset = () => {
+    dispatch(updateIcon(false));
+    deleteIcons();
+    setIconUrl("");
+    dispatch(updateIconUrl(null));
+  };
+  const handleUrlSave = async () => {
+    dispatch(updateIcon(true));
     if (iconUrl) {
       try {
+        console.log(iconUrl);
         await downloadZipFile(iconUrl);
 
         const zipPath = FileSystem.documentDirectory + "zip/icons.zip";
         const iconPath = await openZipAndExtractIcons(zipPath);  
-        // Enregistrer le chemin local dans Redux
+       
         dispatch(saveIconPath(iconPath));  // Sauvegarder le chemin local (iconPath) dans Redux
         console.log(iconPath);
         Alert.alert("Succès", "Icône téléchargée avec succès !");
+        dispatch(updateIconUrl(iconUrl));
+        setIconUrl(""); 
       } catch (error) {
         console.error(error);
         Alert.alert("Erreur", "Une erreur s'est produite lors du téléchargement.");
       }
     }
-  
-    setIconUrl("");  // Réinitialiser le champ de l'URL de l'icône après l'upload
   };
 
   const handleEmailChange = () => {
@@ -123,7 +125,7 @@ const Settings = (props) => {
         style={styles.mainContent}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={styles.scrollViewContent}>
+          <ScrollView contentContainerStyle={styles.scrollViewContent} automaticallyAdjustKeyboardInsets={true}>
             <SettingsToggle
               style={styles.toggle}
               onChange={handleThemeChange}
@@ -135,7 +137,7 @@ const Settings = (props) => {
               <LanguagePicker />
             </View>
 
-            <View style={styles.userIdContainer}> 
+            <View style={styles.fieldContainer}> 
               <TextInput
                 placeholder={intlData.messages.Settings.enterUserID}
                 placeholderTextColor={styles.placeholder.color}
@@ -153,7 +155,7 @@ const Settings = (props) => {
               </TouchableOpacity>
               {storedUserId ? <Text style={styles.details}>{intlData.messages.Settings.savedUserID} : {storedUserId}</Text> : <Text style={styles.details}>{intlData.messages.Settings.noSavedUserID}</Text>}
             </View>
-            <View style={styles.userIdContainer}>
+            <View style={styles.fieldContainer}>
               <TextInput
                 style={styles.input}
                 keyboardType="numeric"
@@ -169,7 +171,7 @@ const Settings = (props) => {
               </TouchableOpacity>
               {caseNumber ? <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : {caseNumber}</Text> : <Text style={styles.details}>{intlData.messages.Settings.storedCaseNumber} : 0</Text>}
             </View>
-            <View style={styles.userIdContainer}> 
+            <View style={styles.fieldContainer}> 
               <TextInput
                 placeholder={intlData.messages.Settings.enterEmail}
                 placeholderTextColor={styles.placeholder.color}
@@ -188,7 +190,7 @@ const Settings = (props) => {
               {storedEmail ? <Text style={styles.details}>{intlData.messages.Settings.savedEmail} : {storedEmail}</Text> : <Text style={styles.details}>{intlData.messages.Settings.noSavedEmail}</Text>}
             </View>
 
-            <View style={styles.userIdContainer}>
+            <View style={styles.fieldContainer}>
               <TextInput
                 placeholder={intlData.messages.Settings.enterIconUrl}
                 placeholderTextColor={styles.placeholder.color}
@@ -196,25 +198,31 @@ const Settings = (props) => {
                 value={iconUrl}
                 onChangeText={setIconUrl}
               />
-              <TouchableOpacity
-                onPress={handleUrlChange}
-                style={styles.button}
-              >
-                <Text style={styles.buttonTitle}>{intlData.messages.Settings.saveIconUrl}</Text>
-              </TouchableOpacity>
+              <View style={styles.twoButtonsContainer}>
+                <TouchableOpacity
+                  onPress={handleUrlSave}
+                  style={styles.twoButtonsLeft}
+                >
+                  <Text style={styles.buttonTitle}>{intlData.messages.Settings.saveIconUrl}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={handleUrlReset}
+                  style={styles.twoButtonsRight}
+                >
+                  <Text style={styles.buttonTitle}>{intlData.messages.Settings.resetIconUrl}</Text>
+                </TouchableOpacity>
+              </View>
               {storedIconUrl ? <Text style={styles.details}>{intlData.messages.Settings.savedIconUrl}: {storedIconUrl}</Text>:<Text style={styles.details}>{intlData.messages.Settings.noSavedIconUrl}</Text>}
             </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-        <View style={styles.bottom}>
-          <Text style={styles.hint}>Debug</Text>
-          <TouchableOpacity
+            <TouchableOpacity
             onPress={showClearDialog}
             style={styles.button}
           >
             <Text style={styles.buttonTitle}>{intlData.messages.Settings.debugMessage}</Text>
           </TouchableOpacity>
-          
+          </ScrollView>
+        </TouchableWithoutFeedback>
+        <View style={styles.bottom}>          
           <CustomAlertTwoButtons
             title="⚠️"
             message={intlData.messages.Settings.clearCases2}
@@ -265,17 +273,18 @@ const Settings = (props) => {
 const baseStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    margin: 30,
   },
   scrollViewContent: {
     flexGrow: 1,
+    padding: 25,
     justifyContent: 'space-between',
   },
   toggle: {
-    //marginBottom: 20,
+    marginBottom: 20,
   },
-  userIdContainer: {
-    //marginTop: 20,
+  fieldContainer: {
+    marginTop: 10,
+    marginBottom : 10,
   },
   label: {
     marginBottom: 10,
@@ -283,7 +292,7 @@ const baseStyles = StyleSheet.create({
   },
   bottom: {
     //marginBottom: 10,
-    marginTop: 20,
+    //marginTop: 20,
   },
   input: {
     height: 40,
@@ -304,6 +313,41 @@ const baseStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: SCAN_COLOR
   },
+  twoButtonsContainer: { 
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  twoButtonsRight: {
+    flex: 1,
+    marginTop: 5,
+    marginBottom: 5,
+    height: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: SCAN_COLOR,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: SCAN_COLOR,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 5,
+  },
+  twoButtonsLeft: {
+    flex: 1,
+    marginTop: 5,
+    marginBottom: 5,
+    height: 40,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: SCAN_COLOR,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: SCAN_COLOR,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 5,
+  },
   buttonTitle: {
     color: 'white',
     textAlign: 'center',
@@ -315,6 +359,10 @@ const baseStyles = StyleSheet.create({
     fontStyle: "italic",
     textAlign: "center",
     //marginTop: 20,
+  },
+  details: {
+    marginBottom: 5,
+    color: "gray",
   },
 });
 
@@ -333,6 +381,7 @@ const stylesLight = StyleSheet.create({
     color: "#B3B3B3",
   },
   details: {
+    ...baseStyles.details,
     color: "gray",
   }
 });
@@ -352,6 +401,7 @@ const stylesDark = StyleSheet.create({
     color: "#B3B3B3",
   },
   details: {
+    ...baseStyles.details,
     color: "gray",
   }
 });
