@@ -65,7 +65,10 @@
     "savedIconUrl": "URL des icônes enregistrée",
     "noSavedIconUrl": "Aucune URL d'icônes enregistrée",
     "downloadError":"Une erreur s'est produite lors du téléchargement",
-    "downloadSuccess":"Icônes téléchargées avec succès"
+    "missingIcons": "Une ou plusieurs icônes sont manquantes. Veuillez vérifier la documentation.",
+    "missingIconsConfirm": "OK",
+    "missingIconsOpenDoc": "DOC",
+    "docButton": "Documentation"
   },
   "Mail": {
     "subject": "[CAS] ",

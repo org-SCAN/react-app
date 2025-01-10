@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
   alertMessage: {
     fontSize: 16,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 5,
   },
   buttonContainer: {
     flexDirection: 'row',

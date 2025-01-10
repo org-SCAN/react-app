@@ -1,5 +1,6 @@
 import * as FileSystem from "expo-file-system";
 import JSZip from "jszip";
+import { useEffect } from "react";
 
 export async function saveImageToMemory(data, imageId) {
   await FileSystem.makeDirectoryAsync(FileSystem.documentDirectory + "images", {
@@ -36,6 +37,14 @@ export async function deleteAll() {
 
 export async function deleteIcons() {
   await FileSystem.deleteAsync(FileSystem.documentDirectory + "icons").catch(
+    (err) => {
+      console.log(err);
+    }
+  );
+}
+
+export async function deleteZipIcons() {
+  await FileSystem.deleteAsync(FileSystem.documentDirectory + "zip").catch(
     (err) => {
       console.log(err);
     }
@@ -88,35 +97,49 @@ export async function openZipAndExtractIcons(zipPath) {
     const iconsFolder = FileSystem.documentDirectory + "icons/";
     await FileSystem.makeDirectoryAsync(iconsFolder, { intermediates: true });
 
-    // Extract EACH ICON file
+    const expectedIcons = ["woman", "man", "unknown", "child", "adult", "old"];
+    const extractedIcons = {};
+
     for (const fileName of Object.keys(zipData.files)) {
       const file = zipData.files[fileName];
 
-      // to do - trouver un standart pour les icons 
-      if (fileName.match(/\.(png|jpg|jpeg|svg)$/i)) {
-        const fileData = await file.async("base64"); 
+      const match = fileName.match(/([^/]+)(?=\.\w+$)/);
+      if (match && /\.(png|jpg|jpeg)$/i.test(fileName)) {
+        const baseName = match[0]; 
+        const extension = ".png"; 
 
-        const filePath = iconsFolder + fileName;
+        if (expectedIcons.includes(baseName)) {
+          const fileData = await file.async("base64");
+          const filePath = `${iconsFolder}${baseName}${extension}`;
 
-        // Save the icon
-        await FileSystem.writeAsStringAsync(filePath, fileData, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
+          await FileSystem.writeAsStringAsync(filePath, fileData, {
+            encoding: FileSystem.EncodingType.Base64,
+          });
 
-        console.log(`Extracted icon: ${filePath}`);
-      } else {
-        console.log(`Skipped non-icon file: ${fileName}`);
+          extractedIcons[baseName] = filePath;
+          console.log(`Extracted icon: ${baseName}`);
+        } else {
+          console.log(`Skipped non-matching icon: ${fileName}`);
+        }
       }
     }
 
-    console.log("Icons extraction completed:", iconsFolder);
-    return iconsFolder;
+    // Log missing icons
+    const missingIcons = expectedIcons.filter((icon) => !extractedIcons[icon]);
+    if (missingIcons.length > 0) {
+      console.warn("Missing icons:", missingIcons);
+    } else {
+      console.log("All expected icons were extracted successfully.");
+    }
 
+    console.log("Icons extraction completed:", iconsFolder);
+    return [iconsFolder, extractedIcons, missingIcons];
   } catch (error) {
     console.error("Error extracting icons from ZIP file:", error);
     throw error;
   }
 }
+
 
 export async function downloadZipFile(zipUrl) { 
   const destinationDir = FileSystem.documentDirectory + "zip"; 

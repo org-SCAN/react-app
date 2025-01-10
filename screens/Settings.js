@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity, Linking } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPath, updateIcon} from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
-import { SCAN_COLOR } from "../theme/constants";
+import { SCAN_COLOR, SCAN_DOC } from "../theme/constants";
 import CustomAlert from "../components/Case/CustomAlert";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { switchMode, updateLanguage } from "../redux/actions";
@@ -15,6 +15,7 @@ import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 import {openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
 import * as FileSystem from "expo-file-system";
+import { Link } from "@react-navigation/native";
 //import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
@@ -40,6 +41,7 @@ const Settings = (props) => {
   const [alertVisibleClear, setAlertVisibleClear] = useState(false);
   const [alertVisibleUrl, setAlertVisibleUrl] = useState(false);
   const [alertVisibleDownloadCorrect, setAlertVisibleDownloadCorrect] = useState(false);
+  const [alertVisibleMissingIcons, setAlertVisibleMissingIcons] = useState(false);
   const [alertVisibleDownloadError, setAlertVisibleDownloadError] = useState(false);
 
 
@@ -53,6 +55,12 @@ const Settings = (props) => {
 
   const showClearDialog = () => {
     setAlertVisibleClear(true);
+  };
+
+  const openDocumentation = () => {
+    Linking.openURL(SCAN_DOC).catch((err) =>
+      console.error('Failed to open URL:', err)
+    );
   };
 
   // Handle changing the theme mode
@@ -93,24 +101,28 @@ const Settings = (props) => {
     dispatch(updateIconUrl(null));
   };
   const handleUrlSave = async () => {
-    dispatch(updateIcon(true));
     if (iconUrl) {
       try {
         console.log(iconUrl);
         await downloadZipFile(iconUrl);
 
         const zipPath = FileSystem.documentDirectory + "zip/icons.zip";
-        const iconPath = await openZipAndExtractIcons(zipPath);  
-       
-        dispatch(saveIconPath(iconPath));  // Sauvegarder le chemin local (iconPath) dans Redux
-        console.log(iconPath);
-        setAlertVisibleDownloadCorrect(true);
-        dispatch(updateIconUrl(iconUrl));
-        setIconUrl(""); 
+        const [iconPath, extractedIcons, missingIcons] = await openZipAndExtractIcons(zipPath);  
+        
+        if (missingIcons.length > 0) {
+          setAlertVisibleMissingIcons(true);
+        }
+        else {
+          dispatch(saveIconPath(iconPath)); 
+          setAlertVisibleDownloadCorrect(true);
+          dispatch(updateIconUrl(iconUrl));
+          setIconUrl("");
+          dispatch(updateIcon(true));
+        } 
         deleteZipIcons();
       } catch (error) {
         console.error(error);
-        setAlertVisibleDownloadError(true)
+        setAlertVisibleDownloadError(true);
       }
     }
   };
@@ -220,11 +232,17 @@ const Settings = (props) => {
               {storedIconUrl ? <Text style={styles.details}>{intlData.messages.Settings.savedIconUrl}: {storedIconUrl}</Text>:<Text style={styles.details}>{intlData.messages.Settings.noSavedIconUrl}</Text>}
             </View>
             <TouchableOpacity
-            onPress={showClearDialog}
-            style={styles.button}
-          >
-            <Text style={styles.buttonTitle}>{intlData.messages.Settings.debugMessage}</Text>
-          </TouchableOpacity>
+              onPress={openDocumentation}
+              style={styles.button}
+            >
+              <Text style={styles.buttonTitle}>{intlData.messages.Settings.docButton}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={showClearDialog}
+              style={styles.button}
+            >
+              <Text style={styles.buttonTitle}>{intlData.messages.Settings.debugMessage}</Text>
+            </TouchableOpacity>
           </ScrollView>
         </TouchableWithoutFeedback>
         <View style={styles.bottom}>          
@@ -258,17 +276,39 @@ const Settings = (props) => {
             onConfirm={() => setAlertVisibleEmailError(false)}
             visible={alertVisibleEmailError}
           />
+          <CustomAlertTwoButtons
+            title="❌"
+            message={intlData.messages.Settings.missingIcons}
+            visible={alertVisibleMissingIcons}
+            onConfirm={() => {
+              setAlertVisibleMissingIcons(false); 
+            }}
+            onCancel={() => {
+              openDocumentation();
+              setAlertVisibleMissingIcons(false);
+            }}
+            confirmButtonText={intlData.messages.Settings.missingIconsConfirm}
+            cancelButtonText={intlData.messages.Settings.missingIconsOpenDoc}
+          />
           <CustomAlert
             title="✅"
             message={intlData.messages.Settings.savedIconUrl}
             onConfirm={() => setAlertVisibleUrl(false)}
             visible={alertVisibleUrl}
           />
-          <CustomAlert
+          <CustomAlertTwoButtons
             title="❌"
             message={intlData.messages.Settings.downloadError}
-            onConfirm={() => setAlertVisibleDownloadError(false)}
             visible={alertVisibleDownloadError}
+            onConfirm={() => {
+              setAlertVisibleDownloadError(false); 
+            }}
+            onCancel={() => {
+              openDocumentation();
+              setAlertVisibleDownloadError(false);
+            }}
+            confirmButtonText={intlData.messages.Settings.missingIconsConfirm}
+            cancelButtonText={intlData.messages.Settings.missingIconsOpenDoc}
           />
           <CustomAlert
             title="✅"

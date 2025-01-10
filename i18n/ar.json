@@ -65,7 +65,11 @@
       "savedIconUrl": "تم حفظ رابط الأيقونات",
       "noSavedIconUrl": "لم يتم حفظ أي رابط للأيقونات",
       "downloadError": "حدث خطأ أثناء التحميل",
-      "downloadSuccess": "تم تحميل الأيقونات بنجاح"
+      "downloadSuccess": "تم تحميل الأيقونات بنجاح",
+      "missingIcons": "أيقونة أو أكثر مفقودة. يرجى مراجعة الوثائق:",
+      "missingIconsConfirm": "حسنًا",
+      "missingIconsOpenDoc": "فتح الوثائق",
+      "docButton": "توثيق"
     },
     "Mail": {
       "subject": "[حالة] ",

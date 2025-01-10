@@ -65,7 +65,11 @@
     "savedIconUrl": "Saved Icon URL",
     "noSavedIconUrl": "No Icon URL saved",
     "downloadError": "An error occurred during the download",
-    "downloadSuccess": "Icons downloaded successfully"
+    "downloadSuccess": "Icons downloaded successfully",
+    "missingIcons": "One or more icons are missing. Please check the documentation.",
+    "missingIconsConfirm": "OK",
+    "missingIconsOpenDoc": "DOC",
+    "docButton": "Documentation"
   },
   "Mail": {
     "subject": "[CASE] ",

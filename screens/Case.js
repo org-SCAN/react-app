@@ -262,43 +262,43 @@ const Case = (props) => {
     dispatch(updateCaseNumber(caseNumber-1));
   };
 
-    useEffect(() => {
-      if (props.route.params && props.route.params.caseId) {
-        const mcase = props.cases.filter(
-          (item) => item.id === props.route.params.caseId
-        )[0];
-        console.log("Case: ", mcase);
-        setExistingCase(mcase);
-        setCaseID(mcase.id);
-        setTag(mcase.tag); // Set tag from existing case
-        const updatedForm = form.map((item) => {
-          if (item.key === "age") {
-            item.value = mcase.age;
-            setSelectedIconAge(item.icons.find(icon => icon.name === mcase.age).icon);
-          } else if (item.key === "sex") {
-            item.value = mcase.sex;
-            setSelectedIconSex(item.icons.find(icon => icon.name === mcase.sex).icon);
-          }
-          return item;
-        });
-        setform(updatedForm);
-      } else if (props.route.params && props.route.params.images) {
-        const crashImage = props.route.params.images
-        setImages(crashImage);
-        setCaseID(crashImage[0].caseID);
-        initializeTag();
-      } else {
-        const newCaseId = uuid.v4();
-        setCaseID(newCaseId);
-        initializeTag();
-      }
-    }, [cases, props.route.params]);
+  useEffect(() => {
+    if (props.route.params && props.route.params.caseId) {
+      const mcase = props.cases.filter(
+        (item) => item.id === props.route.params.caseId
+      )[0];
+      console.log("Case: ", mcase);
+      setExistingCase(mcase);
+      setCaseID(mcase.id);
+      setTag(mcase.tag); // Set tag from existing case
+      const updatedForm = form.map((item) => {
+        if (item.key === "age") {
+          item.value = mcase.age;
+          setSelectedIconAge(item.icons.find(icon => icon.name === mcase.age).icon);
+        } else if (item.key === "sex") {
+          item.value = mcase.sex;
+          setSelectedIconSex(item.icons.find(icon => icon.name === mcase.sex).icon);
+        }
+        return item;
+      });
+      setform(updatedForm);
+    } else if (props.route.params && props.route.params.images) {
+      const crashImage = props.route.params.images
+      setImages(crashImage);
+      setCaseID(crashImage[0].caseID);
+      initializeTag();
+    } else {
+      const newCaseId = uuid.v4();
+      setCaseID(newCaseId);
+      initializeTag();
+    }
+  }, [cases, props.route.params]);
 
-    useEffect(() => {
-      if (caseID) {
-        setCaseImages();
-      }
-    }, [caseID, props.images]);
+  useEffect(() => {
+    if (caseID) {
+      setCaseImages();
+    }
+  }, [caseID, props.images]);
 
 
 //function called when an icon is selected for the sex
@@ -518,23 +518,23 @@ const basicStyles = StyleSheet.create({
     marginBottom: scaleHeight(10),  
   },
   iconButton: {
-    padding: scale(14),
+    padding: scale(10),
     borderRadius: scale(12),
     borderWidth: scaleWidth(2),
     marginLeft: scaleWidth(15),
     marginRight: scaleWidth(15),
   },
   selectedIconButton: {
-    padding: scale(14),
+    padding: scale(10),
     borderRadius: scale(12),
     borderWidth: scaleWidth(2),
     marginLeft: scaleWidth(15),
     marginRight: scaleWidth(15),
   },
   icon: {
-    width: scaleWidth(60),
-    height: scaleHeight(60),
-    resizeMode: "contain",
+    width: scaleWidth(70),
+    height: scaleHeight(70),
+    resizeMode: "stretch",
   },
   // Description under camera button
   descriptionPhoto: {
