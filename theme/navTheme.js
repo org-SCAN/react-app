@@ -6,6 +6,7 @@ import * as RootNavigation from "../RootNavigation";
 const Screen = {
   headerStyle: { backgroundColor: SCAN_COLOR },
   headerTintColor: "#fff",
+  headerTitleAlign: "center",
   headerTitleStyle: {
     fontSize: 20,
   },

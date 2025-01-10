@@ -10,7 +10,7 @@ import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";
-import { deleteAll, deleteIcons } from "../utils/fileHandler";
+import { deleteAll, deleteIcons, deleteZipIcons } from "../utils/fileHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 import {openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
@@ -88,6 +88,7 @@ const Settings = (props) => {
   const handleUrlReset = () => {
     dispatch(updateIcon(false));
     deleteIcons();
+    deleteZipIcons();
     setIconUrl("");
     dispatch(updateIconUrl(null));
   };
@@ -106,6 +107,7 @@ const Settings = (props) => {
         setAlertVisibleDownloadCorrect(true);
         dispatch(updateIconUrl(iconUrl));
         setIconUrl(""); 
+        deleteZipIcons();
       } catch (error) {
         console.error(error);
         setAlertVisibleDownloadError(true)

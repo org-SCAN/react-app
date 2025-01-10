@@ -250,7 +250,7 @@ const Case = (props) => {
   };
 
   const initializeTag = () => {
-    if (userId === '') {
+    if (userId === '' || userId === null) {
       setTag(`default-${caseNumber}`);
     }
     else {
