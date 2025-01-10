@@ -14,6 +14,8 @@ export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
 
 export const UPDATE_EMAIL = "UPDATE_EMAIL";
 
+export const UPDATE_ICON = "UPDATE_ICON";
+
 export const UPDATE_ICON_URL = "UPDATE_ICON_URL";
 
 export const SAVE_ICON_PATH = "SAVE_ICON_PATH";

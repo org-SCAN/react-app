@@ -19,6 +19,7 @@ import caseNumberReducer from "./Reducers/caseNumberReducer";
 import emailReducer from "./Reducers/emailReducer";
 import iconUrlReducer from "./Reducers/iconUrlReducer";
 import iconPathReducer from "./Reducers/iconPathReducer";
+import iconReducer from "./Reducers/iconReducer";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
@@ -28,8 +29,9 @@ const rootReducer = combineReducers({
   userId: userIdReducer,
   caseNumber: caseNumberReducer,
   email: emailReducer,
+  icon: iconReducer,
   iconUrl: iconUrlReducer,
-  iconPath:iconPathReducer
+  iconPath: iconPathReducer,
 });
 
 const persistConfig = {
