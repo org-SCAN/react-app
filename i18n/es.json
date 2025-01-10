@@ -64,7 +64,9 @@
       "saveIconUrl": "Guardar",
       "resetIconUrl": "Restablecer",
       "savedIconUrl": "URL de iconos guardada",
-      "noSavedIconUrl": "No hay ninguna URL de iconos guardada"
+      "noSavedIconUrl": "No hay ninguna URL de iconos guardada",
+      "downloadError": "Ocurrió un error durante la descarga",
+      "downloadSuccess": "Íconos descargados con éxito"
     },
     "Mail": {
       "subject": "[CASO] ",

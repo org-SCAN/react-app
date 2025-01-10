@@ -39,6 +39,9 @@ const Settings = (props) => {
   const [alertVisibleCaseNumber, setAlertVisibleCaseNumber] = useState(false); 
   const [alertVisibleClear, setAlertVisibleClear] = useState(false);
   const [alertVisibleUrl, setAlertVisibleUrl] = useState(false);
+  const [alertVisibleDownloadCorrect, setAlertVisibleDownloadCorrect] = useState(false);
+  const [alertVisibleDownloadError, setAlertVisibleDownloadError] = useState(false);
+
 
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
 
@@ -100,12 +103,12 @@ const Settings = (props) => {
        
         dispatch(saveIconPath(iconPath));  // Sauvegarder le chemin local (iconPath) dans Redux
         console.log(iconPath);
-        Alert.alert("Succès", "Icône téléchargée avec succès !");
+        setAlertVisibleDownloadCorrect(true);
         dispatch(updateIconUrl(iconUrl));
         setIconUrl(""); 
       } catch (error) {
         console.error(error);
-        Alert.alert("Erreur", "Une erreur s'est produite lors du téléchargement.");
+        setAlertVisibleDownloadError(true)
       }
     }
   };
@@ -258,6 +261,18 @@ const Settings = (props) => {
             message={intlData.messages.Settings.savedIconUrl}
             onConfirm={() => setAlertVisibleUrl(false)}
             visible={alertVisibleUrl}
+          />
+          <CustomAlert
+            title="❌"
+            message={intlData.messages.Settings.downloadError}
+            onConfirm={() => setAlertVisibleDownloadError(false)}
+            visible={alertVisibleDownloadError}
+          />
+          <CustomAlert
+            title="✅"
+            message={intlData.messages.Settings.downloadSuccess}
+            onConfirm={() => setAlertVisibleDownloadCorrect(false)}
+            visible={alertVisibleDownloadCorrect}
           />
           <CustomAlert
             title="✅"

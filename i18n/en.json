@@ -63,7 +63,9 @@
     "saveIconUrl": "Save",
     "resetIconUrl": "Reset",
     "savedIconUrl": "Saved Icon URL",
-    "noSavedIconUrl": "No Icon URL saved"
+    "noSavedIconUrl": "No Icon URL saved",
+    "downloadError": "An error occurred during the download",
+    "downloadSuccess": "Icons downloaded successfully"
   },
   "Mail": {
     "subject": "[CASE] ",
