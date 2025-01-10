@@ -31,7 +31,7 @@ const ScanCamera = (props) => {
     try {
       if (camera) {
         const data = await camera.takePictureAsync({
-          quality: 0.25,
+          quality: 0.40,
           base64: true,
         });
         if (data && data.base64) {
