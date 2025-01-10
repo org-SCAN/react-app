@@ -1,0 +1,85 @@
+{
+    "Home": {
+      "title": "الصفحة الرئيسية",
+      "caseButton": "حالة جديدة",
+      "consultButton": "عرض الحالات",
+      "saveCase": "تم حفظ الحالة",
+      "recoverCase": "هل تريد استعادة الحالة غير المحفوظة؟"
+    },
+    "Case": {
+      "title": "الحالة",
+      "forename": "الاسم الأول",
+      "lastname": "اللقب",
+      "sex": "الجنس",
+      "age": "العمر",
+      "injury": "سبب الإصابات",
+      "photoButton": "التقاط صورة",
+      "descriptionPhoto": "حاول التقاط 5 صور على الأقل إن أمكن",
+      "saveButton": "حفظ",
+      "submitButton": "إرسال",
+      "backButton": "رجوع",
+      "confirmBack": "هل أنت متأكد أنك تريد إلغاء الحالة؟",
+      "warning": "تحذير",
+      "addImage": "يرجى إضافة صورة واحدة على الأقل",
+      "allFields": "يرجى ملء جميع الحقول",
+      "noMail": "لا يوجد تطبيق بريد مثبت على جهازك",
+      "noIconAge": "يرجى اختيار أيقونة للعمر",
+      "noIconSex": "يرجى اختيار أيقونة للجنس",
+      "noIcons": "يرجى اختيار الأيقونات للجنس والعمر"
+    },
+    "consultCases": {
+      "title": "عرض الحالات",
+      "noCase": "لا توجد حالات للعرض",
+      "editMessage": "اضغط للتعديل أو الإرسال",
+      "swipeMessage": "اسحب لليسار للحذف",
+      "clearCase1": "حذف حالة",
+      "clearCase2": "هل أنت متأكد أنك تريد حذف هذه الحالة؟"
+    },
+    "Settings": {
+      "title": "الإعدادات",
+      "lightTheme": "الوضع المظلم",
+      "themeDescription": "تغيير مظهر التطبيق",
+      "selectLanguage": "اختر اللغة",
+      "debugMessage": "مسح البيانات",
+      "clearCases1": "هل أنت متأكد؟",
+      "clearCases2": "سيتم حذف جميع الحالات",
+      "saveUserID": "حفظ معرف المستخدم",
+      "saveEmail": "حفظ البريد الإلكتروني",
+      "savedUserID": "تم حفظ معرف المستخدم",
+      "noSavedUserID": "لم يتم حفظ معرف مستخدم",
+      "savedEmail": "تم حفظ البريد الإلكتروني",
+      "noSavedEmail": "لم يتم حفظ بريد إلكتروني",
+      "newCaseNumber": "أدخل رقم حالة جديد",
+      "resetCaseNumber": "حفظ الرقم الجديد",
+      "storedCaseNumber": "تم حفظ رقم الحالة",
+      "enterUserID": "أدخل معرف المستخدم",
+      "enterEmail": "أدخل البريد الإلكتروني",
+      "success": "تم بنجاح",
+      "userIDRegistered": "تم حفظ معرف المستخدم",
+      "caseRegistered": "تم تسجيل رقم الحالة الجديد",
+      "emailRegistered": "تم حفظ البريد الإلكتروني",
+      "emailParsingError": "تنسيق البريد الإلكتروني غير صالح",
+      "enterIconUrl": "أدخل رابط الأيقونات",
+      "saveIconUrl": "حفظ",
+      "resetIconUrl": "إعادة تعيين",
+      "savedIconUrl": "تم حفظ رابط الأيقونات",
+      "noSavedIconUrl": "لم يتم حفظ أي رابط للأيقونات",
+      "downloadError": "حدث خطأ أثناء التحميل",
+      "downloadSuccess": "تم تحميل الأيقونات بنجاح"
+    },
+    "Mail": {
+      "subject": "[حالة] ",
+      "body": "<em>هذا البريد مرسل من تطبيق Divilite. يُرجى عدم الرد.</em>"
+    },
+    "Pictures": {
+      "title": "الصور",
+      "dateFormat": "ar-EG"
+    },
+    "Camera": {
+      "noLocationPermission": "تم رفض إذن الوصول إلى الكاميرا، تم حفظ الصورة بدون بيانات الموقع",
+      "noLocationFound": "تعذر الحصول على الموقع، تم حفظ الصورة بدون بيانات الموقع"
+    },
+    "yes": "نعم",
+    "no": "لا"
+  }
+  
