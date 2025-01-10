@@ -109,25 +109,6 @@ const Home = (props) => {
           description={"case"}
         />
         <ScanButton
-          title={"test"}
-          onPress={() => {
-            (async () => {
-              try {
-                const zipUrl = "https://raw.githubusercontent.com/andeuxun/zipi/main/man.zip"; 
-
-                await downloadZipFile(zipUrl);
-
-                const zipPath = FileSystem.documentDirectory + "zip/icons.zip";
-                const extractedIconsPath = await openZipAndExtractIcons(zipPath);
-
-                console.log("Icons extracted to:", extractedIconsPath);
-              } catch (error) {
-                console.error("Failed to extract icons:", error);
-              }
-            })();
-          }}
-        />
-        <ScanButton
           title={intlData.messages.Home.consultButton}
           onPress={() => {
             navigation.navigate("ShowCase");
