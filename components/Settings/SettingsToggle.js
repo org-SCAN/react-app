@@ -15,7 +15,7 @@ const SettingsToggle = (props) => {
         <Text style={styles.description}>{props.description || "None"}</Text>
       </View>
       <View>
-        <Switch {...props} trackColor={{ true: THEME_COLOR.SCAN, false: "grey" }}/>
+        <Switch {...props} trackColor={{ true: THEME_COLOR.DARK.SETTINGS_BUTTON_BACKGROUND, false: "grey" }}/>
       </View>
     </View>
   );

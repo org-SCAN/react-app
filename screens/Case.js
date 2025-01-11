@@ -62,9 +62,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.sex,
       value: null,
       icons: [
-        { name: "woman", icon: iconPersonalized ? `${iconPath}woman.png` : require("../icons/woman.png") },
-        { name: "man", icon: iconPersonalized ? `${iconPath}man.png` : require("../icons/man.png") },
-        { name: "unknown", icon: iconPersonalized ? `${iconPath}unknown.png` : require("../icons/unknown.png") },
+        { name: "woman", icon: iconPersonalized ? `${iconPath}woman.png` : require("../icons/woman.png") }, // Credit to https://www.flaticon.com/authors/vitaly-gorbachev
+        { name: "man", icon: iconPersonalized ? `${iconPath}man.png` : require("../icons/man.png") }, // Credit to https://www.flaticon.com/authors/vitaly-gorbachev
+        { name: "unknown", icon: iconPersonalized ? `${iconPath}unknown.png` : require("../icons/unknown.png") }, // Credit to https://www.flaticon.com/authors/freepik
       ]
     },
     {
@@ -72,9 +72,9 @@ const Case = (props) => {
       placeholder: intlData.messages.Case.age,
       value: null,
       icons: [
-        { name: "child", icon: iconPersonalized ? `${iconPath}child.png` : require("../icons/child.png") },
-        { name: "adult", icon: iconPersonalized ? `${iconPath}adult.png` : require("../icons/adult.png") },
-        { name: "old", icon: iconPersonalized ? `${iconPath}old.png` : require("../icons/old.png") }
+        { name: "child", icon: iconPersonalized ? `${iconPath}child.png` : require("../icons/child.png") }, // Credit to https://www.flaticon.com/authors/edtim
+        { name: "adult", icon: iconPersonalized ? `${iconPath}adult.png` : require("../icons/adult.png") }, // Credit to https://www.flaticon.com/authors/leremy
+        { name: "old", icon: iconPersonalized ? `${iconPath}old.png` : require("../icons/old.png") } // Credit to https://www.flaticon.com/authors/freepik
       ]
     } 
   ]; 
@@ -433,7 +433,6 @@ const handleIconSelectionAge = (selectedIconAge) => {
       {/* Rendu de l'image et des autres éléments */}
       <ScanButtonCamera
         onPress={() => navigation.navigate("Camera", { caseID: caseID })}
-        imageSource={require('../icons/camera1.png')}
       />
   
       <Text style={styles.descriptionPhoto}>

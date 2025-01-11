@@ -41,7 +41,7 @@ function scale(size) {
 
 const basicStyles = StyleSheet.create({
   button: {
-    borderRadius: 2,
+    borderRadius: 4,
     elevation: 3,
     borderWidth: 2,
     margin: 10,
