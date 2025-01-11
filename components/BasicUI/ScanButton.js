@@ -1,6 +1,7 @@
 import { StyleSheet, Text, Pressable, Image } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
+import { THEME_COLOR } from "../../theme/constants";
 
 
 const ScanButton = (props) => {
@@ -13,7 +14,7 @@ const ScanButton = (props) => {
       <Icon 
        name={props.description === "case" ? "create-new-folder" : "folder-search"} 
        size={45} 
-       color={props.theme.mode === "light" ? "black" : "white"} 
+       color={props.theme.mode === "light" ? THEME_COLOR.LIGHT.BUTTON_TEXT : THEME_COLOR.DARK.BUTTON_TEXT} 
        type={props.description === "case" ? "material-icons" : "material-community"} 
       />
       <Text style={styles.text}>{props.title || "default"}</Text>
@@ -30,8 +31,9 @@ const basicStyles = StyleSheet.create({
     borderWidth: 2,
     margin: 10,
     width: 200,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.2,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
   },
   text: {
     fontSize: 16,
@@ -47,13 +49,13 @@ const stylesLight = StyleSheet.create({
   ...basicStyles,
   button: {
     ...basicStyles.button,
-    backgroundColor: "white",
-    borderColor: "grey",
-    shadowColor: "black",
+    backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
   },
   text: {
     ...basicStyles.text,
-    color: "black",
+    color: THEME_COLOR.LIGHT.BUTTON_TEXT,
   },
 });
 
@@ -61,14 +63,14 @@ const stylesDark = StyleSheet.create({
   ...basicStyles,
   button: {
     ...basicStyles.button,
-    backgroundColor: "grey",
-    borderColor: "grey",
-    shadowColor: "grey",
+    backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
   },
   text: {
     ...basicStyles.text,
-    color: "white",
-  }
+    color: THEME_COLOR.DARK.BUTTON_TEXT,
+  },
 });
 
 function mapStateToProps(state) {

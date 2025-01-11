@@ -5,11 +5,9 @@ import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { updateCaseNumber, deleteCase } from "../redux/actions";
-import { deleteImageFromMemory, openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
-import { deleteCameraCache } from "../utils/cacheManager";
+import { deleteImageFromMemory } from "../utils/fileHandler";
+import { THEME_COLOR } from "../theme/constants";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
-import * as FileSystem from "expo-file-system";
-import { Asset } from 'expo-asset';
 
 
 const Home = (props) => {

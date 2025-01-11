@@ -1,6 +1,7 @@
 import { StyleSheet, Text, Pressable, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
+import { THEME_COLOR } from "../../theme/constants";
 
 
 const LittleScanButton = (props) => {
@@ -13,7 +14,7 @@ const LittleScanButton = (props) => {
       <Icon 
        name={props.description === "save" ? "save-alt" : "email"} 
        size={30} 
-       color={props.theme.mode === "light" ? "black" : "white"} 
+       color={props.theme.mode === "light" ? THEME_COLOR.LIGHT.BUTTON_TEXT : THEME_COLOR.DARK.BUTTON_TEXT}  
        type={props.description === "save" ? "material-icons" : "material-icons-outlined"} 
       />
       <Text style={styles.text}>{props.title || "default"}</Text>
@@ -47,9 +48,9 @@ const basicStyles = StyleSheet.create({
     width: scaleWidth(160),
     height: scaleHeight(50),
     justifyContent: "center",
-    shadowColor: "black",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
   },
   text: {
     fontSize: scale(13),
@@ -63,12 +64,13 @@ const stylesLight = StyleSheet.create({
   ...basicStyles,
   button: {
     ...basicStyles.button,
-    backgroundColor: "white",
-    borderColor: "grey",
+    backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
   },
   text: {
     ...basicStyles.text,
-    color: "black",
+    color: THEME_COLOR.LIGHT.BUTTON_TEXT,
   },
 });
 
@@ -76,12 +78,13 @@ const stylesDark = StyleSheet.create({
   ...basicStyles,
   button: {
     ...basicStyles.button,
-    backgroundColor: "grey",
-    borderColor: "grey",
+    backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
   },
   text: {
     ...basicStyles.text,
-    color: "white",
+    color: THEME_COLOR.DARK.BUTTON_TEXT,
   },
 });
 

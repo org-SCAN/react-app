@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPath, updateIcon} from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
-import { SCAN_COLOR, SCAN_DOC } from "../theme/constants";
+import {SCAN_DOC, THEME_COLOR } from "../theme/constants";
 import CustomAlert from "../components/Case/CustomAlert";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { switchMode, updateLanguage } from "../redux/actions";
@@ -15,7 +15,6 @@ import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 import {openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
 import * as FileSystem from "expo-file-system";
-import { Link } from "@react-navigation/native";
 //import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
@@ -365,10 +364,8 @@ const baseStyles = StyleSheet.create({
     height: 40,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: SCAN_COLOR,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: SCAN_COLOR
   },
   twoButtonsContainer: { 
     flexDirection: "row",
@@ -382,10 +379,8 @@ const baseStyles = StyleSheet.create({
     height: 40,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: SCAN_COLOR,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: SCAN_COLOR,
     alignItems: "center",
     justifyContent: "center",
     marginLeft: 5,
@@ -397,25 +392,17 @@ const baseStyles = StyleSheet.create({
     height: 40,
     paddingTop: 10,
     paddingBottom: 10,
-    backgroundColor: SCAN_COLOR,
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: SCAN_COLOR,
     alignItems: "center",
     justifyContent: "center",
     marginRight: 5,
   },
   buttonTitle: {
-    color: 'white',
     textAlign: 'center',
     textTransform: 'uppercase',
     fontWeight: '600',
     fontSize: 16,
-  },
-  hint: {
-    fontStyle: "italic",
-    textAlign: "center",
-    //marginTop: 20,
   },
   details: {
     marginBottom: 5,
@@ -425,41 +412,73 @@ const baseStyles = StyleSheet.create({
 
 const stylesLight = StyleSheet.create({
   ...baseStyles,
-  hint: {
-    ...baseStyles.hint,
-    color: "#B3B3B3",
-  },
   input: {
     ...baseStyles.input,
-    borderColor: "gray",
-    color: "black",
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
+    color: THEME_COLOR.LIGHT.INPUT_TEXT,
   },
   placeholder: {
-    color: "#B3B3B3",
+    color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
   },
   details: {
     ...baseStyles.details,
-    color: "gray",
+    color: THEME_COLOR.LIGHT.SECONDARY_TEXT,
+  },
+  button: {
+    ...baseStyles.button,
+    backgroundColor: THEME_COLOR.LIGHT.SETTINGS_BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.SETTINGS_BUTTON_BORDER,
+  },
+  twoButtonsLeft: {
+    ...baseStyles.twoButtonsLeft,
+    backgroundColor: THEME_COLOR.LIGHT.SETTINGS_BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.SETTINGS_BUTTON_BORDER,
+  },
+  twoButtonsRight: {
+    ...baseStyles.twoButtonsRight,
+    backgroundColor: THEME_COLOR.LIGHT.SETTINGS_BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.SETTINGS_BUTTON_BORDER,
+  },
+  buttonTitle: {
+    ...baseStyles.buttonTitle,
+    color: THEME_COLOR.LIGHT.SETTINGS_BUTTON_TEXT,
   }
 });
 
 const stylesDark = StyleSheet.create({
   ...baseStyles,
-  hint: {
-    ...baseStyles.hint,
-    color: "#B3B3B3",
-  },
   input: {
     ...baseStyles.input,
-    borderColor: "white",
-    color: "white",
+    borderColor: THEME_COLOR.DARK.INPUT,
+    backgroundColor: THEME_COLOR.DARK.INPUT,
+    color: THEME_COLOR.DARK.INPUT_TEXT,
   },
   placeholder: {
-    color: "#B3B3B3",
+    color: THEME_COLOR.DARK.INPUT_PLACE_HOLDER,
   },
   details: {
     ...baseStyles.details,
-    color: "gray",
+    color: THEME_COLOR.DARK.SECONDARY_TEXT,
+  },
+  button: {
+    ...baseStyles.button,
+    backgroundColor: THEME_COLOR.DARK.SETTINGS_BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.SETTINGS_BUTTON_BORDER,
+  },
+  twoButtonsLeft: {
+    ...baseStyles.twoButtonsLeft,
+    backgroundColor: THEME_COLOR.DARK.SETTINGS_BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.SETTINGS_BUTTON_BORDER,
+  },
+  twoButtonsRight: {
+    ...baseStyles.twoButtonsRight,
+    backgroundColor: THEME_COLOR.DARK.SETTINGS_BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.SETTINGS_BUTTON_BORDER,
+  },
+  buttonTitle: {
+    ...baseStyles.buttonTitle,
+    color: THEME_COLOR.DARK.SETTINGS_BUTTON_TEXT,
   }
 });
 

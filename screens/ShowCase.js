@@ -15,7 +15,7 @@ import {
 } from "react-native-gesture-handler";
 import { connect, useDispatch } from "react-redux";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
-import { SCAN_COLOR } from "../theme/constants";
+import { THEME_COLOR } from "../theme/constants";
 import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
 import 'intl'; // Importer le polyfill Intl
@@ -188,11 +188,6 @@ const basicStyles = StyleSheet.create({
     fontSize: 25,
     fontWeight: "bold",
   },
-  position: {
-    flexWrap: "wrap",
-    textAlign: "right",
-    fontSize: 12,
-  },
   hint: {
     flexWrap: "wrap",
     textAlign: "justify",
@@ -204,7 +199,7 @@ const basicStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 120,
-    backgroundColor: SCAN_COLOR,
+    backgroundColor: THEME_COLOR.SCAN,
   },
   deleteButton: {
     width: 120,
@@ -224,27 +219,19 @@ const stylesLight = StyleSheet.create({
   ...basicStyles,
   names: {
     ...basicStyles.names,
-    color: "black",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },  
   date: {
     ...basicStyles.date,
-    color: "black",
+    color: THEME_COLOR.LIGHT.SECONDARY_TEXT,
   },
   hint: {
     ...basicStyles.hint,
-    color: "black",
-  },
-  position: {
-    ...basicStyles.position,
-    color: "black",
-  },
-  id: {
-    ...basicStyles.id,
-    color: "black",
+    color: THEME_COLOR.LIGHT.TERTIARY_TEXT,
   },
   textNoCase: {
     ...basicStyles.textNoCase,
-    color: "black",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
 });
 
@@ -252,27 +239,19 @@ const stylesDark = StyleSheet.create({
   ...basicStyles,
   names: {
     ...basicStyles.names,
-    color: "white",
-  },
+    color: THEME_COLOR.DARK.MAIN_TEXT,
+  },  
   date: {
     ...basicStyles.date,
-    color: "white",
+    color: THEME_COLOR.DARK.SECONDARY_TEXT,
   },
   hint: {
     ...basicStyles.hint,
-    color: "white",
-  },
-  position: {
-    ...basicStyles.position,
-    color: "white",
-  },
-  id: {
-    ...basicStyles.id,
-    color: "white",
+    color: THEME_COLOR.DARK.TERTIARY_TEXT,
   },
   textNoCase: {
     ...basicStyles.textNoCase,
-    color : "white",
+    color: THEME_COLOR.DARK.MAIN_TEXT,
   },
 });
 function mapStateToProps(state) {

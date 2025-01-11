@@ -1,5 +1,7 @@
 import { StyleSheet, View, Text, Switch } from "react-native";
 import { connect } from "react-redux";
+import { THEME_COLOR } from "../../theme/constants";
+
 
 const SettingsToggle = (props) => {
   const mainStyle = { ...props.style, ...baseStyles.settingsLine };
@@ -13,7 +15,7 @@ const SettingsToggle = (props) => {
         <Text style={styles.description}>{props.description || "None"}</Text>
       </View>
       <View>
-        <Switch {...props} trackColor={{ true: "#BF0413", false: "grey" }}/>
+        <Switch {...props} trackColor={{ true: THEME_COLOR.SCAN, false: "grey" }}/>
       </View>
     </View>
   );
@@ -29,11 +31,11 @@ const baseStyles = StyleSheet.create({
 
 const stylesLight = StyleSheet.create({
   mainText: {
-    color: "#000",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
     fontSize: 25,
   },
   description: {
-    color: "#666",
+    color: THEME_COLOR.LIGHT.SECONDARY_TEXT,
     fontStyle: "italic",
     fontSize: 17,
   },
@@ -41,11 +43,11 @@ const stylesLight = StyleSheet.create({
 
 const stylesDark = StyleSheet.create({
   mainText: {
-    color: "#fff",
+    color: THEME_COLOR.DARK.MAIN_TEXT,
     fontSize: 25,
   },
   description: {
-    color: "#ccc",
+    color: THEME_COLOR.DARK.SECONDARY_TEXT,
     fontStyle: "italic",
     fontSize: 17,
   },

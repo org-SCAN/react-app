@@ -11,15 +11,12 @@ import {
   Pressable,
   Dimensions,
 } from "react-native";
-import ScanInput from "../components/BasicUI/ScanInput";
-import ScanButton from "../components/BasicUI/ScanButton";
 import ScanButtonCamera from "../components/BasicUI/ScanButtonCamera";
 import LittleScanButton from "../components/BasicUI/LittleScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { saveCase, editCase, deleteCase, updateCaseNumber } from "../redux/actions";
-import { HeaderBackButton } from '@react-navigation/elements';
-import { Alert, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
@@ -27,7 +24,8 @@ import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 import CustomAlert from "../components/Case/CustomAlert";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { Icon } from "@rneui/themed";
-import * as FileSystem from "expo-file-system";
+import { THEME_COLOR } from "../theme/constants";
+
 
 
 
@@ -556,25 +554,25 @@ const lightStyles = StyleSheet.create({
   ...basicStyles,
   tagLabel: {
     ...basicStyles.tagLabel,
-    color: "black",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
   placeholder: {
     ...basicStyles.placeholder,
-    color: "#000",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
   descriptionPhoto: {
     ...basicStyles.descriptionPhoto,
-    color: "#444",
+    color: THEME_COLOR.LIGHT.TERTIARY_TEXT,
   },
   iconButton: {
     ...basicStyles.iconButton,
-    borderColor: "#D3D3D3",
-    backgroundColor: "white",
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
   },
   selectedIconButton: {
     ...basicStyles.selectedIconButton,
-    backgroundColor: "rgba(184, 29, 42, 0.8)",
-    borderColor: "rgba(184, 29, 42, 0.8)",
+    backgroundColor: THEME_COLOR.LIGHT.ICON_SELECTED,
+    borderColor: THEME_COLOR.LIGHT.ICON_SELECTED,
   },
 });
 
@@ -582,25 +580,25 @@ const darkStyles = StyleSheet.create({
   ...basicStyles,
   tagLabel: {
     ...basicStyles.tagLabel,
-    color: "white",
+    color: THEME_COLOR.DARK.MAIN_TEXT,
   },
   placeholder: {
     ...basicStyles.placeholder,
-    color: "white",
+    color: THEME_COLOR.DARK.MAIN_TEXT,
   },
   descriptionPhoto: {
     ...basicStyles.descriptionPhoto,
-    color: "#b3b3b3",
+    color: THEME_COLOR.DARK.TERTIARY_TEXT,
   },
   iconButton: {
     ...basicStyles.iconButton,
-    borderColor: "#D3D3D3",
-    backgroundColor: "white",
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
   },
   selectedIconButton: {
     ...basicStyles.selectedIconButton,
-    backgroundColor: "rgba(184, 29, 42, 0.8)",
-    borderColor: "rgba(184, 29, 42, 0.8)",
+    backgroundColor: THEME_COLOR.DARK.ICON_SELECTED,
+    borderColor: THEME_COLOR.DARK.ICON_SELECTED,
   },
 });
 

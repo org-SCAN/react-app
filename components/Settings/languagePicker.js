@@ -1,5 +1,6 @@
 import { connect, useDispatch } from "react-redux";
 import { useState } from "react";
+import { THEME_COLOR } from "../../theme/constants";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { Picker, PickerIOS } from "@react-native-picker/picker";
 import { updateLanguage } from "../../redux/actions";
@@ -72,7 +73,6 @@ const baseStyles = {
   },
   pickerContainer: {
     //height: 100,
-    borderColor: "pink",
     ...Platform.select({
       ios: {
         height: 100,
@@ -85,21 +85,23 @@ const baseStyles = {
 const stylesLight = StyleSheet.create({
   ...baseStyles,
   mainText: {
-    color: "black",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
   pickerWrapper: {
     ...baseStyles.pickerWrapper,
-    borderColor: "gray",
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
   },
   pickerItem: {
-    color: "black",
+    color: THEME_COLOR.LIGHT.INPUT_TEXT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
   },
   itemStyle: {
-    color: "black",
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
   pickerContainer: {
     ...baseStyles.pickerContainer,
-    borderColor: "gray",
+    color: THEME_COLOR.LIGHT.INPUT_TEXT,
   },
   dropdownIconColor: "black",
 });
@@ -107,22 +109,23 @@ const stylesLight = StyleSheet.create({
 const stylesDark = StyleSheet.create({
   ...baseStyles,
   mainText: {
-    color: "white",
+    color: THEME_COLOR.DARK.MAIN_TEXT,
   },
   pickerItem: {
-    color: "black",
+    color: THEME_COLOR.DARK.INPUT_TEXT,
+    backgroundColor: THEME_COLOR.DARK.INPUT,
   },
   itemStyle: {
-    color: "white",
+    color: THEME_COLOR.DARK.INPUT_TEXT,
   },
   pickerWrapper: {
     ...baseStyles.pickerWrapper,
-    borderColor: "white",
+    borderColor: THEME_COLOR.DARK.INPUT,
+    backgroundColor: THEME_COLOR.DARK.INPUT,
   },
   pickerContainer: {
     ...baseStyles.pickerContainer,
-    borderColor: "pink",
-    color: "white",
+    color: THEME_COLOR.DARK.INPUT_TEXT,
   },
   dropdownIconColor: "white",
 });

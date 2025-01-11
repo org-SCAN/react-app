@@ -1,6 +1,8 @@
 import { StyleSheet, Text, Pressable, Image, Dimensions } from "react-native";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
+import { THEME_COLOR } from "../../theme/constants";
+
 
 
 const ScanButtonCamera = (props) => {
@@ -14,7 +16,7 @@ const ScanButtonCamera = (props) => {
        name="add-a-photo" 
        size={34}
        style={styles.image} 
-       color={props.theme.mode === "light" ? "black" : "white"} 
+       color={props.theme.mode === "light" ? THEME_COLOR.LIGHT.BUTTON_TEXT : THEME_COLOR.DARK.BUTTON_TEXT} 
        type="material-icons"
       />
     </Pressable>
@@ -48,9 +50,9 @@ const basicStyles = StyleSheet.create({
     borderWidth: scaleWidth(2), 
     marginBottom: scale(10),
     width: scaleWidth(150), 
-    shadowColor: "black",
-    shadowOffset: { width: scaleWidth(1), height: scaleHeight(1) }, 
-    shadowOpacity: 0.4,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
   },
   text: {
     fontSize: scale(16),
@@ -70,12 +72,13 @@ const stylesLight = StyleSheet.create({
   ...basicStyles,
   button: {
     ...basicStyles.button,
-    backgroundColor: "white",
-    borderColor: "grey",
+    backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
   },
   text: {
     ...basicStyles.text,
-    color: "black",
+    color: THEME_COLOR.LIGHT.BUTTON_TEXT,
   },
 });
 
@@ -83,13 +86,14 @@ const stylesDark = StyleSheet.create({
   ...basicStyles,
   button: {
     ...basicStyles.button,
-    backgroundColor: "grey",
-    borderColor: "grey",
+    backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
   },
   text: {
     ...basicStyles.text,
-    color: "white",
-  }
+    color: THEME_COLOR.DARK.BUTTON_TEXT,
+  },
 });
 
 function mapStateToProps(state) {
