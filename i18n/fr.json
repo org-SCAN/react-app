@@ -65,6 +65,7 @@
     "savedIconUrl": "URL des icônes enregistrée",
     "noSavedIconUrl": "Aucune URL d'icônes enregistrée",
     "downloadError":"Une erreur s'est produite lors du téléchargement",
+    "downloadSuccess": "Icônes téléchargées avec succès",
     "missingIcons": "Une ou plusieurs icônes sont manquantes. Veuillez vérifier la documentation.",
     "missingIconsConfirm": "OK",
     "missingIconsOpenDoc": "DOC",
@@ -80,7 +81,7 @@
   },
 
   "Camera":{
-    "noLocationPermission":"Permission d'accès à la caméra refusée, la photo a été enregistrée sans les données de localisation",
+    "noLocationPermission":"Permission d'accès à la localisation refusée, la photo a été enregistrée sans les données de localisation",
     "noLocationFound": "Impossible d'obtenir la localisation, la photo a été enregistrée sans les données de localisation"
   },
 
