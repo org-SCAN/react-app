@@ -36,4 +36,4 @@ export const THEME_COLOR = {
     },
 }
 
-export const SCAN_DOC = "https://example.com";
+export const SCAN_DOC = "https://github.com/org-SCAN/doc/blob/0c76609313172dcade8a01bc92a8ec000d4ecba3/iconFolder.md";
