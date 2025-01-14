@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity, Linking } from "react-native";
+import { StyleSheet, View, Button, Text, TextInput, Alert, TouchableWithoutFeedback, TouchableOpacity, Linking, ActivityIndicator } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPath, updateIcon} from "../redux/actions";
 import { clearImage, clearCase } from "../redux/actions";
@@ -42,6 +42,8 @@ const Settings = (props) => {
   const [alertVisibleDownloadCorrect, setAlertVisibleDownloadCorrect] = useState(false);
   const [alertVisibleMissingIcons, setAlertVisibleMissingIcons] = useState(false);
   const [alertVisibleDownloadError, setAlertVisibleDownloadError] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
 
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
@@ -100,6 +102,7 @@ const Settings = (props) => {
     dispatch(updateIconUrl(null));
   };
   const handleUrlSave = async () => {
+    setLoading(true)
     if (iconUrl) {
       try {
         console.log(iconUrl);
@@ -124,6 +127,7 @@ const Settings = (props) => {
         setAlertVisibleDownloadError(true);
       }
     }
+    setLoading(false)
   };
 
   const handleEmailChange = () => {
@@ -140,6 +144,11 @@ const Settings = (props) => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.mainContent}
       >
+                  {loading && (
+            <View style={styles.activityContainer}>
+              <ActivityIndicator size="large" color="white" />
+            </View>
+          )}  
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView contentContainerStyle={styles.scrollViewContent} automaticallyAdjustKeyboardInsets={true}>
             <SettingsToggle
@@ -244,7 +253,7 @@ const Settings = (props) => {
             </TouchableOpacity>
           </ScrollView>
         </TouchableWithoutFeedback>
-        <View style={styles.bottom}>          
+        <View style={styles.bottom}>        
           <CustomAlertTwoButtons
             title="⚠️"
             message={intlData.messages.Settings.clearCases2}
@@ -327,6 +336,17 @@ const Settings = (props) => {
   };
 
 const baseStyles = StyleSheet.create({
+  activityContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+    backgroundColor: "rgba(52, 52, 52, 0.8)",
+  },
   mainContent: {
     flex: 1,
   },
