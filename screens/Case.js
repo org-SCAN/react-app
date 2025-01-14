@@ -100,7 +100,7 @@ const Case = (props) => {
           size={35} 
           color="white"
           type={existingCase ? "material-community" : "material-icons-outlined"} 
-          onPress={() => {
+          onPressIn={() => {
             // Ensure state logic does not trigger re-renders unnecessarily
             if (!existingCase && !isCaseEmpty()) {
               setAlertVisibleGoBack(true); // Show alert before navigating back

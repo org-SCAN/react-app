@@ -8,7 +8,7 @@ const IconButton = (props) => {
         name={props.name}
         size={props.size || 30}
         color={props.color ?? "#fff"}
-        onPress={props.onPress}
+        onPressIn={props.onPress}
         
         style={{
           shadowColor: "black",

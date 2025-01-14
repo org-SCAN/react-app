@@ -11,7 +11,7 @@ const ScanButtonCamera = (props) => {
     styles.button = { ...styles.button, ...props.style };
   }
   return (
-    <Pressable style={styles.button} onPress={props.onPress}>
+    <Pressable style={styles.button} onPressIn={props.onPress}>
       <Icon 
        name="add-a-photo" 
        size={34}

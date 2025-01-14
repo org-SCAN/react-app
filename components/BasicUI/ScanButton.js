@@ -10,10 +10,10 @@ const ScanButton = (props) => {
     styles.button = { ...styles.button, ...props.style };
   }
   return (
-    <Pressable style={styles.button} onPress={props.onPress}>
+    <Pressable style={styles.button} onPressIn={props.onPress}>
       <Icon 
        name={props.description === "case" ? "create-new-folder" : "folder-search"} 
-       size={45} 
+       size={45}
        color={props.theme.mode === "light" ? THEME_COLOR.LIGHT.BUTTON_TEXT : THEME_COLOR.DARK.BUTTON_TEXT} 
        type={props.description === "case" ? "material-icons" : "material-community"} 
       />
