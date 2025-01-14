@@ -1,20 +1,22 @@
 import { Icon } from "@rneui/themed";
-import { Pressable } from "react-native";
+import { View } from "react-native";
 
 const IconButton = (props) => {
   return (
-    <Pressable style={props.style ? props.style : {}} onPress={props.onPress}>
+    <View style={props.style}>
       <Icon
         name={props.name}
         size={props.size || 30}
         color={props.color ?? "#fff"}
+        onPress={props.onPress}
+        
         style={{
           shadowColor: "black",
           shadowOffset: { width: 1, height: 1 },
           shadowOpacity: 0.4,
         }}
       />
-    </Pressable>
+    </View>
   );
 };
 
