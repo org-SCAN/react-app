@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-const CustomAlert = ({ title, message, onConfirm, visible, buttonText = "OK" }) => {
+const CustomAlert = ({ title, message, onConfirm, visible, buttonText = "OK " }) => {
   return (
     <Modal
       transparent={true}
