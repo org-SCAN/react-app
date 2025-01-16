@@ -343,29 +343,27 @@ const handleIconSelectionAge = (selectedIconAge) => {
         <View style={styles.inputContainer}>
           <Text style={[styles.placeholder]}>{item.placeholder}</Text>
           <View style={styles.iconContainer}>
-            <ScrollView horizontal>
-              {item.icons.map((iconOption, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={[
-                    styles.iconButton,
-                    (item.key === "age" && selectedIconAge === iconOption.icon) ||
-                    (item.key === "sex" && selectedIconSex === iconOption.icon)
-                      ? styles.selectedIconButton
-                      : null,
-                  ]}
-                  onPress={() => {
-                    if (item.key === "age") {
-                      handleIconSelectionAge(iconOption.icon);
-                    } else if (item.key === "sex") {
-                      handleIconSelectionSex(iconOption.icon);
-                    }
-                  }}
-                >
-                  <Image source={iconPersonalized ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
-                </TouchableOpacity>
-              ))}
-            </ScrollView>
+            {item.icons.map((iconOption, index) => (
+              <TouchableOpacity
+                key={index}
+                style={[
+                  styles.iconButton,
+                  (item.key === "age" && selectedIconAge === iconOption.icon) ||
+                  (item.key === "sex" && selectedIconSex === iconOption.icon)
+                    ? styles.selectedIconButton
+                    : null,
+                ]}
+                onPressOut={() => {
+                  if (item.key === "age") {
+                    handleIconSelectionAge(iconOption.icon);
+                  } else if (item.key === "sex") {
+                    handleIconSelectionSex(iconOption.icon);
+                  }
+                }}
+              >
+                <Image source={iconPersonalized ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
       );
@@ -389,81 +387,81 @@ const handleIconSelectionAge = (selectedIconAge) => {
       activeOpacity={1}
       onPress={() => Keyboard.dismiss()}
     >
-      <Text style={styles.tagLabel}>{tag}</Text>
-  
-    <CustomAlert
-      title={alertTitle}
-      message={alertMessage}
-      onConfirm={() => setAlertVisibleFieldMissing(false)}
-      visible={alertVisibleFieldMissing}
-    />
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <View style={styles.fixedContainer}>
+          <Text style={styles.tagLabel}>{tag}</Text>
+          {/* Rendu du formulaire */}
+          <FlatList
+            data={form.filter((item) => item.key !== "injuries")}
+            renderItem={renderItem}
+            keyExtractor={(item) => item.key}
+            ListHeaderComponent={<View style={{ height: 20 }} />}
+            ListFooterComponent={<View style={{ height: 20 }} />}
+            style={{ flexGrow: 0 }}
+            scrollEnabled={false}
+          />
 
-    <CustomAlertTwoButtons
-      title="⚠️"
-      message={intlData.messages.Case.confirmBack}
-      onConfirm={() => {
-        setAlertVisibleGoBack(false);
-        dispatch(deleteCase(caseID));
-        //handleDeleteCase();
-        images.forEach((image) => deleteImageFromMemory(image.id));
-        deleteCameraCache();
-        navigation.goBack();
-      }}
-      onCancel={() => {
-        setAlertVisibleGoBack(false);
-      }}
-      visible={alertVisibleGoBack}
-      confirmButtonText={intlData.messages.yes}
-      cancelButtonText={intlData.messages.no}
-    />
+          {/* Rendu de l'image et des autres éléments */}
+          <ScanButtonCamera
+            onPress={() => navigation.navigate("Camera", { caseID: caseID })}
+          />
 
+          <Text style={styles.descriptionPhoto}>
+            {intlData.messages.Case.descriptionPhoto}
+          </Text>
 
-  
-      {/* Rendu du formulaire */}
-      <FlatList
-        data={form.filter((item) => item.key !== "injuries")}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.key}
-        ListHeaderComponent={<View style={{ height: 20 }} />}
-        ListFooterComponent={<View style={{ height: 20 }} />}
-        style={{ flexGrow: 0, flexShrink: 0 }}
-        scrollEnabled={false}
+          <FlatList
+            data={images}
+            renderItem={renderImage}
+            keyExtractor={(item) => item.id}
+            ListFooterComponent={<View style={{ height: 50 }} />}
+            style={{ flexGrow: 0, flexShrink: 0 }}
+            horizontal={true}
+          />
+        </View>
+
+        <View style={styles.button}>
+          <LittleScanButton
+            title={intlData.messages.Case.saveButton}
+            description={"save"}
+            onPress={() => {
+              save();
+            }}
+          />
+          <LittleScanButton
+            title={intlData.messages.Case.submitButton}
+            description={"submit"}
+            onPress={() => {
+              submit();
+            }}
+          />
+        </View>
+      </ScrollView>
+      <CustomAlert
+        title={alertTitle}
+        message={alertMessage}
+        onConfirm={() => setAlertVisibleFieldMissing(false)}
+        visible={alertVisibleFieldMissing}
       />
-  
-      {/* Rendu de l'image et des autres éléments */}
-      <ScanButtonCamera
-        onPress={() => navigation.navigate("Camera", { caseID: caseID })}
+
+      <CustomAlertTwoButtons
+        title="⚠️"
+        message={intlData.messages.Case.confirmBack}
+        onConfirm={() => {
+          setAlertVisibleGoBack(false);
+          dispatch(deleteCase(caseID));
+          //handleDeleteCase();
+          images.forEach((image) => deleteImageFromMemory(image.id));
+          deleteCameraCache();
+          navigation.goBack();
+        }}
+        onCancel={() => {
+          setAlertVisibleGoBack(false);
+        }}
+        visible={alertVisibleGoBack}
+        confirmButtonText={intlData.messages.yes}
+        cancelButtonText={intlData.messages.no}
       />
-  
-      <Text style={styles.descriptionPhoto}>
-        {intlData.messages.Case.descriptionPhoto}
-      </Text>
-  
-      <FlatList
-        data={images}
-        renderItem={renderImage}
-        keyExtractor={(item) => item.id}
-        ListFooterComponent={<View style={{ height: 50 }} />}
-        style={{ flexGrow: 0 }}
-        horizontal={true}
-      />
-  
-      <View style={styles.button}>
-        <LittleScanButton
-          title={intlData.messages.Case.saveButton}
-          description={"save"}
-          onPress={() => {
-            save();
-          }}
-        />
-        <LittleScanButton
-          title={intlData.messages.Case.submitButton}
-          description={"submit"}
-          onPress={() => {
-            submit();
-          }}
-        />
-      </View>
     </Pressable>
   );
 
@@ -490,6 +488,13 @@ const basicStyles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: scaleWidth(2),
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+  },
+  fixedContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
   // IDs
   tagLabel: {
