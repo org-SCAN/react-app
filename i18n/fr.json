@@ -23,6 +23,7 @@
     "addImage": "Ajouter au moins une photo",
     "allFields": "Veuillez remplir tous les champs",
     "noMail": "Aucune messagerie n'est installée sur votre appareil",
+    "noMailAddress": "Veuillez entrer une adresse email de destination dans les paramètres",
     "noIconAge":"Veuillez sélectionner l'icône pour l'âge",
     "noIconSex":"Veuillez sélectionner l'icône pour le sexe",
     "noIcons":"Veuillez sélectionner les icônes pour le sexe et l'âge"
