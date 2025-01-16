@@ -45,6 +45,8 @@ const Case = (props) => {
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(false); 
   const [alertTitle, setAlertTitle] = useState(false);
+  const [alertVisibleNoMail, setAlertVisibleNoMail] = useState(false);
+  const [alertVisibleNoMailAddress, setAlertVisibleNoMailAddress] = useState(false);
 
   const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
   const dispatch = useDispatch();
@@ -100,7 +102,7 @@ const Case = (props) => {
           size={35} 
           color="white"
           type={existingCase ? "material-community" : "material-icons-outlined"} 
-          onPressIn={() => {
+          onPress={() => {
             // Ensure state logic does not trigger re-renders unnecessarily
             if (!existingCase && !isCaseEmpty()) {
               setAlertVisibleGoBack(true); // Show alert before navigating back
@@ -190,21 +192,14 @@ const Case = (props) => {
 
   const submit = async () => {
     if (!isCaseComplete()) return;
-    const keyValues = form.map((element) => {
-      return { [element.key]: element.value };
-    });
-    //handleCreateCase();
+    const keyValues = form.map((element) => ({ [element.key]: element.value }));
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
-    const coordinates = images.map((image) => {
-      return {
-        id: image.id,
-        latitude: image.lat,
-        longitude: image.lng,
-      };
-    });
-    console.log("user id =", userId)
-    console.log("tag= ", tag)
+    const coordinates = images.map((image) => ({
+      id: image.id,
+      latitude: image.lat,
+      longitude: image.lng,
+    }));
     const data = {
       id: caseID,
       tag: tag,
@@ -214,25 +209,34 @@ const Case = (props) => {
       coordinates: coordinates,
     };
     const path = await createZip(data);
-    //Check if mail is available
-    const isAvailable = await MailComposer.isAvailableAsync();
-    if (!isAvailable) {
-      alert(intlData.messages.Case.noMail);
+    if (!path) {
+      console.error("Attachment path is invalid.");
       return;
     }
-    MailComposer.composeAsync({
-      recipients: [email],
-      subject: intlData.messages.Mail.subject + caseID,
-      body: intlData.messages.Mail.body,
-      isHtml: true,
-      attachments: [path],
-    }).then(() => {
+    const isAvailable = await MailComposer.isAvailableAsync();
+    if (!isAvailable) {
+      setAlertVisibleNoMail(true);
+      return;
+    }
+    if (!email || email.trim() === "") {
+      setAlertVisibleNoMailAddress(true);
+      return;
+    }
+    try {
+      await MailComposer.composeAsync({
+        recipients: [email],
+        subject: intlData.messages.Mail.subject + caseID,
+        body: intlData.messages.Mail.body,
+        isHtml: true,
+        attachments: [path],
+      });
       deleteZip(caseID);
-    });
-    console.log("Updated FORM finalee:", form);
-    setReadyToSubmit(false); // reset the readyToSubmit state
-
+    } catch (error) {
+      console.error("Failed to send email:", error);
+    }
+    setReadyToSubmit(false); // Reset the readyToSubmit state
   };
+  
 
   const setCaseImages = () => {
     if (props.images && props.images.length > 0) {
@@ -259,6 +263,8 @@ const Case = (props) => {
   const handleDeleteCase = () => {
     dispatch(updateCaseNumber(caseNumber-1));
   };
+
+
 
   useEffect(() => {
     if (props.route.params && props.route.params.caseId) {
@@ -396,6 +402,18 @@ const handleIconSelectionAge = (selectedIconAge) => {
       message={alertMessage}
       onConfirm={() => setAlertVisibleFieldMissing(false)}
       visible={alertVisibleFieldMissing}
+    />
+    <CustomAlert
+      title="⚠️"
+      message={intlData.messages.Case.noMail}
+      onConfirm={() => setAlertVisibleNoMail(false)}
+      visible={alertVisibleNoMail}
+    />
+    <CustomAlert
+      title="⚠️"
+      message={intlData.messages.Case.noMailAddress}
+      onConfirm={() => setAlertVisibleNoMailAddress(false)}
+      visible={alertVisibleNoMailAddress}
     />
 
     <CustomAlertTwoButtons
