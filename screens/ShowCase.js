@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -10,70 +10,65 @@ import {
 } from "react-native";
 import { Icon } from "@rneui/themed";
 import {
-  Swipeable,
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
+import SwipeableItem from "react-native-swipeable-item";
 import { connect, useDispatch } from "react-redux";
 import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
 import { THEME_COLOR } from "../theme/constants";
 import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
-import 'intl'; // Importer le polyfill Intl
-import 'intl/locale-data/jsonp/fr'; // Importer les données locales en français
-import 'intl/locale-data/jsonp/en';
+import "intl"; 
+import "intl/locale-data/jsonp/fr"; 
+import "intl/locale-data/jsonp/en";
 
 const formatDate = (date, intlData) => {
-  const locale = intlData.messages.Pictures.dateFormat; 
+  const locale = intlData.messages.Pictures.dateFormat;
   const options = {
-    year: 'numeric',     
-    month: 'numeric',   
-    day: 'numeric',     
+    year: "numeric",
+    month: "numeric",
+    day: "numeric",
   };
   return new Intl.DateTimeFormat(locale, options).format(new Date(date));
 };
 
 const ShowCase = (props) => {
-  const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
+  const styles = props.theme.mode === "dark" ? stylesDark : stylesLight;
   const [DATA, setDATA] = useState([]);
   const [cases, setCases] = useState([]);
-  const [alertVisibleDelete, setAlertVisibleDelete] = useState(false); 
-  const [selectedCase, setSelectedCase] = useState(null); // Pour garder la trace du cas sélectionné à supprimer
+  const [alertVisibleDelete, setAlertVisibleDelete] = useState(false);
+  const [selectedCase, setSelectedCase] = useState(null);
   const dispatch = useDispatch();
   const { intlData } = props;
 
-  // Fonction de suppression du cas
   const handleDelete = async () => {
     if (selectedCase) {
       await deleteImageCase(selectedCase);
       dispatch(deleteCase(selectedCase.id));
-      setAlertVisibleDelete(false); 
+      setAlertVisibleDelete(false);
     }
   };
 
-  // Item à afficher dans la liste
-  const Item = ({ id, tag, date, uri, sex, age, description, styles, onPress }) => (
-    <Swipeable
-      renderRightActions={(progress, dragX) => {
-        const opacity = dragX.interpolate({
-          inputRange: [-120, 0],
-          outputRange: [1, 0],
-          extrapolate: "clamp",
-        });
-        return (
-          <Animated.View style={{ ...styles.deleteContainer, opacity }}>
-            <Pressable
-              style={styles.deleteButton}
-              onPress={() => {
-                // Afficher la confirmation pour supprimer
-                setSelectedCase(props.cases.find((c) => c.id === id)); // Sauvegarder le cas sélectionné
-                setAlertVisibleDelete(true); // Ouvrir l'alerte de confirmation
-              }}
-            >
-              <Icon name="delete" size={30} color="#fff" />
-            </Pressable>
-          </Animated.View>
-        );
+  const Item = ({ id, tag, date, uri, styles, onPress }) => (
+    <SwipeableItem
+      item={{ id }}
+      onSwipeableRightOpen={() => {
+        setSelectedCase(props.cases.find((c) => c.id === id));
+        setAlertVisibleDelete(true);
       }}
+      renderUnderlayRight={() => (
+        <View style={styles.deleteContainer}>
+          <Pressable
+            style={styles.deleteButton}
+            onPress={() => {
+              setSelectedCase(props.cases.find((c) => c.id === id));
+              setAlertVisibleDelete(true);
+            }}
+          >
+            <Icon name="delete" size={30} color="#fff" />
+          </Pressable>
+        </View>
+      )}
     >
       <Pressable style={styles.item} onPress={onPress}>
         <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
@@ -84,40 +79,28 @@ const ShowCase = (props) => {
           <Text style={styles.hint}>{intlData.messages.consultCases.swipeMessage}</Text>
         </View>
       </Pressable>
-    </Swipeable>
+    </SwipeableItem>
   );
 
-  // Charger les données au montage
   useEffect(() => {
     const images = props.images;
-    const DATA = props.cases.map((caseItem) => {
-      return {
-        id: caseItem.id,
-        tag: caseItem.tag,
-        uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
-        date: caseItem.date,
-        sex: caseItem.sex,
-        age: caseItem.age,
-        description: caseItem.description
-      };
-    });
+    const DATA = props.cases.map((caseItem) => ({
+      id: caseItem.id,
+      tag: caseItem.tag,
+      uri: images.find((image) => image.caseID === caseItem.id)?.data,
+      date: caseItem.date,
+    }));
     setDATA(DATA);
   }, [props.images, props.cases]);
 
   useEffect(() => {
-    if (props.cases && props.cases.length > 0) {
-      setCases(props.cases);
-    } else {
-      setCases([]);
-    }
+    setCases(props.cases || []);
   }, [props.cases]);
 
-  // Rendu de la liste des éléments
   if (cases.length > 0) {
     const renderItem = ({ item }) => {
       const onPress = () => {
         props.navigation.navigate("Case", { caseId: item.id });
-        console.log("le tag passé en param à case est : ", item.tag);
       };
       return (
         <Item
@@ -125,11 +108,8 @@ const ShowCase = (props) => {
           tag={item.tag}
           date={item.date}
           uri={item.uri}
-          sex={item.sex}
-          age={item.age}
-          description={item.description}
           styles={styles}
-          onPress={() => onPress()}
+          onPress={onPress}
         />
       );
     };
@@ -156,7 +136,9 @@ const ShowCase = (props) => {
   } else {
     return (
       <View style={styles.mainContent}>
-        <Text style={styles.textNoCase}>{intlData.messages.consultCases.noCase}</Text>
+        <Text style={styles.textNoCase}>
+          {intlData.messages.consultCases.noCase}
+        </Text>
       </View>
     );
   }
