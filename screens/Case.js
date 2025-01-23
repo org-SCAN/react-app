@@ -452,6 +452,7 @@ const Case = (props) => {
                   textAlignVertical="top"
                   value={description}
                   multiline={true}
+                  scrollEnabled={false}
                   onChangeText={setDescription}
                   onBlur={handleDescriptionChange}
                 />
