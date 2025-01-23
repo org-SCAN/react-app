@@ -15,7 +15,6 @@ import LanguagePicker from "../components/Settings/languagePicker";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 import {openZipAndExtractIcons, downloadZipFile } from "../utils/fileHandler";
 import * as FileSystem from "expo-file-system";
-//import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 
 const Settings = (props) => {
@@ -150,7 +149,12 @@ const Settings = (props) => {
             </View>
           )}  
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView contentContainerStyle={styles.scrollViewContent} automaticallyAdjustKeyboardInsets={true}>
+          <ScrollView 
+            contentContainerStyle={styles.scrollViewContent} 
+            automaticallyAdjustKeyboardInsets={true}
+            showsHorizontalScrollIndicator={false}
+            showsVerticalScrollIndicator={false}
+          >
             <SettingsToggle
               style={styles.toggle}
               onChange={handleThemeChange}
