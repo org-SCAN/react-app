@@ -27,7 +27,9 @@
       "noMailAddress": "Por favor, introduzca un correo electrónico de destino en la configuración",
       "noIconAge": "Por favor, seleccione el ícono para la edad",
       "noIconSex": "Por favor, seleccione el ícono para el sexo",
-      "noIcons": "Por favor, seleccione los íconos para el sexo y la edad"
+      "noIcons": "Por favor, seleccione los íconos para el sexo y la edad",
+      "description": "Agregue información adicional...",
+      "descriptionTitle": "Descripción"
     },
     "consultCases": {
       "title": "Consultar casos",

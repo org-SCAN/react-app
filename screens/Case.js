@@ -10,6 +10,10 @@ import {
   Vibration,
   Pressable,
   Dimensions,
+  TextInput,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Platform,
 } from "react-native";
 import ScanButtonCamera from "../components/BasicUI/ScanButtonCamera";
 import LittleScanButton from "../components/BasicUI/LittleScanButton";
@@ -41,6 +45,7 @@ const Case = (props) => {
   const [selectedIconSex, setSelectedIconSex] = useState(null);
   const [tag, setTag] = useState(null);
   const [readyToSubmit, setReadyToSubmit] = useState(false);
+  const [description, setDescription] = useState("");
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(false); 
@@ -78,7 +83,13 @@ const Case = (props) => {
         { name: "adult", icon: iconPersonalized ? `${iconPath}adult.png` : require("../icons/adult.png") }, // Credit to https://www.flaticon.com/authors/leremy
         { name: "old", icon: iconPersonalized ? `${iconPath}old.png` : require("../icons/old.png") } // Credit to https://www.flaticon.com/authors/freepik
       ]
-    } 
+    },
+    {
+      key: "description",
+      placeholder: intlData.messages.Case.description,
+      placeholderTitle: intlData.messages.Case.descriptionTitle,
+      value: null,
+    }
   ]; 
 
 
@@ -177,6 +188,7 @@ const Case = (props) => {
       tag: tag,
       ...keyValuesObject,
       images: imageIDs,
+      description: description,
       date: new Date().toISOString(),
     };
     Vibration.vibrate();
@@ -275,6 +287,7 @@ const Case = (props) => {
       setExistingCase(mcase);
       setCaseID(mcase.id);
       setTag(mcase.tag); // Set tag from existing case
+      setDescription(mcase.description);
       const updatedForm = form.map((item) => {
         if (item.key === "age") {
           item.value = mcase.age;
@@ -305,43 +318,54 @@ const Case = (props) => {
   }, [caseID, props.images]);
 
 
-//function called when an icon is selected for the sex
-const handleIconSelectionSex = (selectedIconSex) => {
-  const updatedForm = form.map((item ) => {
-    // Set the selected icon value
-    setSelectedIconSex(selectedIconSex);
-    const sexItem = form.find((item) => item.key === "sex");
-    const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
-    if (selectedIndex !== -1) {
-      const selectedIconName = sexItem.icons[selectedIndex].name;
-      console.log(selectedIconName);
-      form.find((item) => item.key === "sex").value = selectedIconName;
-    }
-    return item;
+  //function called when an icon is selected for the sex
+  const handleIconSelectionSex = (selectedIconSex) => {
+    const updatedForm = form.map((item) => {
+      // Set the selected icon value
+      setSelectedIconSex(selectedIconSex);
+      const sexItem = form.find((item) => item.key === "sex");
+      const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
+      if (selectedIndex !== -1) {
+        const selectedIconName = sexItem.icons[selectedIndex].name;
+        console.log(selectedIconName);
+        form.find((item) => item.key === "sex").value = selectedIconName;
+      }
+      return item;
+      });
+    setform(updatedForm);  
+    console.log("Updated FORM:", updatedForm);
+  };
+
+
+  //function called when an icon is selected for the age
+  const handleIconSelectionAge = (selectedIconAge) => {
+    const updatedForm = form.map((item) => {
+      // Set the selected icon value
+      setSelectedIconAge(selectedIconAge);
+      const ageItem = form.find((item) => item.key === "age");
+      const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
+      if (selectedIndex !== -1) {
+        const selectedIconName = ageItem.icons[selectedIndex].name;
+        console.log(selectedIconName);
+        form.find((item) => item.key === "age").value = selectedIconName;
+      }
+      return item;
     });
-  setform(updatedForm);  
-  console.log("Updated FORM:", updatedForm);
-};
+    setform(updatedForm);  
+    console.log("Updated FORM:", updatedForm)
+  };
 
 
-//function called when an icon is selected for the age
-const handleIconSelectionAge = (selectedIconAge) => {
-  const updatedForm = form.map((item ) => {
-    // Set the selected icon value
-    setSelectedIconAge(selectedIconAge);
-    const ageItem = form.find((item) => item.key === "age");
-    const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
-    if (selectedIndex !== -1) {
-      const selectedIconName = ageItem.icons[selectedIndex].name;
-      console.log(selectedIconName);
-      form.find((item) => item.key === "age").value = selectedIconName;
-    }
-    return item;
-  });
-  setform(updatedForm);  
-  console.log("Updated FORM:", updatedForm)
-};
-
+  const handleDescriptionChange = () => {
+    const updatedForm = form.map((item) => {
+      if (item.key === "description") {
+        item.value = description;
+      }
+      return item;
+    });
+    setform(updatedForm);
+    console.log("Updated FORM:", updatedForm)
+  };
 
   const renderItem = ({ item }) => {
     if (item.key === "age" || item.key === "sex") {
@@ -376,73 +400,101 @@ const handleIconSelectionAge = (selectedIconAge) => {
     }
   };
   const renderImage = ({ item }) => (
-    <Pressable
-      onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
-    >
-      <Image
-        source={{ uri: item.data }}
-        style={{ width: 150, height: 150, margin: 10 }}
-        blurRadius={100}
-      />
-    </Pressable>
+      <Pressable
+        onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
+      >
+        <Image
+          source={{ uri: item.data }}
+          style={styles.imageCase}
+          blurRadius={60}
+        />
+      </Pressable>
   );
 
+  const handleScroll = (event) => {
+    const offsetY = event.nativeEvent.contentOffset.y;
+    if (offsetY < 0) {
+      Keyboard.dismiss();
+    }
+  };
+
   return (
-    <Pressable
+    <View
       style={styles.mainContent}
-      activeOpacity={1}
-      onPress={() => Keyboard.dismiss()}
     >
-      <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        <View style={styles.fixedContainer}>
-          <Text style={styles.tagLabel}>{tag}</Text>
-          {/* Rendu du formulaire */}
-          <FlatList
-            data={form.filter((item) => item.key !== "injuries")}
-            renderItem={renderItem}
-            keyExtractor={(item) => item.key}
-            ListHeaderComponent={<View style={{ height: 20 }} />}
-            ListFooterComponent={<View style={{ height: 20 }} />}
-            style={{ flexGrow: 0 }}
-            scrollEnabled={false}
-          />
+        <ScrollView 
+          contentContainerStyle={styles.scrollViewContent}
+          keyboardShouldPersistTaps="handled"
+          automaticallyAdjustKeyboardInsets={true}
+          showsVerticalScrollIndicator={false}
+          showsHorizontalScrollIndicator={false}
+          onScroll={handleScroll}
+          scrollEventThrottle={16}
+        >
+          <View style={styles.multipleFieldsContainer}>
+            <Text style={styles.tagLabel}>{tag}</Text>
+            {/* Rendu du formulaire Age et Sex */}
+            <FlatList
+              data={form.filter((item) => item.key !== "injuries")}
+              renderItem={renderItem}
+              keyExtractor={(item) => item.key}
+              style={{ flexGrow: 0 }}
+              scrollEnabled={false}
+            />
+            {/* Description */}
+            <View style={styles.inputContainer}> 
+              <Text style={styles.placeholder}>{form.find((item) => item.key === "description").placeholderTitle}</Text>
+              <View style={styles.iconContainer}>
+                <TextInput
+                  placeholder={form.find((item) => item.key === "description").placeholder}
+                  placeholderTextColor={styles.placeholderDescripton.color}
+                  style={styles.input}
+                  textAlignVertical="top"
+                  value={description}
+                  multiline={true}
+                  onChangeText={setDescription}
+                  onBlur={handleDescriptionChange}
+                />
+              </View>
+            </View>
 
-          {/* Rendu de l'image et des autres éléments */}
-          <ScanButtonCamera
-            onPress={() => navigation.navigate("Camera", { caseID: caseID })}
-          />
+            {/* Rendu de l'image et des autres éléments */}
+            <ScanButtonCamera
+              onPress={() => navigation.navigate("Camera", { caseID: caseID })}
+            />
 
-          <Text style={styles.descriptionPhoto}>
-            {intlData.messages.Case.descriptionPhoto}
-          </Text>
+            <Text style={styles.descriptionPhoto}>
+              {intlData.messages.Case.descriptionPhoto}
+            </Text>
 
-          <FlatList
-            data={images}
-            renderItem={renderImage}
-            keyExtractor={(item) => item.id}
-            ListFooterComponent={<View style={{ height: 50 }} />}
-            style={{ flexGrow: 0, flexShrink: 0 }}
-            horizontal={true}
-          />
-        </View>
-
-        <View style={styles.button}>
-          <LittleScanButton
-            title={intlData.messages.Case.saveButton}
-            description={"save"}
-            onPress={() => {
-              save();
-            }}
-          />
-          <LittleScanButton
-            title={intlData.messages.Case.submitButton}
-            description={"submit"}
-            onPress={() => {
-              submit();
-            }}
-          />
-        </View>
-      </ScrollView>
+            <FlatList
+              data={images}
+              renderItem={renderImage}
+              showsVerticalScrollIndicator={false}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => item.id}
+              ListFooterComponent={<View style={styles.imageContainer} />}
+              style={{ flexGrow: 0, flexShrink: 0 }}
+              horizontal={true}
+            />
+            <View style={styles.twoButtonsContainer}>
+              <LittleScanButton
+                title={intlData.messages.Case.saveButton}
+                description={"save"}
+                onPress={() => {
+                save();
+                }}
+              />
+              <LittleScanButton
+                title={intlData.messages.Case.submitButton}
+                description={"submit"}
+                onPress={() => {
+                submit();
+                }}
+              />
+            </View>
+          </View>
+        </ScrollView>
       <CustomAlert
         title={alertTitle}
         message={alertMessage}
@@ -480,7 +532,7 @@ const handleIconSelectionAge = (selectedIconAge) => {
         onConfirm={() => setAlertVisibleNoMailAddress(false)}
         visible={alertVisibleNoMailAddress}
       />
-    </Pressable>
+    </View>
   );
 
 };
@@ -501,16 +553,19 @@ function scaleHeight(size) {
 function scale(size) {
   return Math.round((size * (width / baseWidth + height / baseHeight)) / 2);
 }
+
+function responsiveInput() {
+  return Math.round(scaleWidth(272)/scaleWidth(300)*100);
+}
 const basicStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
-    alignItems: "center",
-    padding: scaleWidth(2),
   },
   scrollViewContent: {
     flexGrow: 1,
+    alignItems: "center",
   },
-  fixedContainer: {
+  multipleFieldsContainer: {
     flex: 1,
     alignItems: 'center',
   },
@@ -518,23 +573,35 @@ const basicStyles = StyleSheet.create({
   tagLabel: {
     fontSize: scale(45),
     fontWeight: "600",
-    marginTop: scaleHeight(20),
+    marginVertical: scaleHeight(20),
     textAlign: "center",
   },
   inputContainer: {
     width: "100%",
+    marginVertical: scaleHeight(2),
+  },
+  input: {
+    width: `${responsiveInput()}%`,
+    borderWidth: 1,
+    borderRadius: 5,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
+    paddingLeft: 8,
+    paddingTop: 8, 
+    paddingBottom: 8,
+    minHeight: scaleHeight(40),
   },
   // Description of icons
   placeholder: {
-    marginBottom: scaleHeight(5),
-    marginTop: scaleHeight(5),
+    marginBottom: scaleHeight(7),
+    marginTop: scaleHeight(7),
     fontSize: scale(17),
     fontWeight: "bold",
   },
   iconContainer: {
+    alignItems: "flex-start",
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
     marginBottom: scaleHeight(10),  
   },
   iconButton: {
@@ -562,10 +629,22 @@ const basicStyles = StyleSheet.create({
     fontSize: scale(14),
     textAlign: "center",
   },
+  // Images
+  imageContainer: {
+    height: scaleHeight(120),
+    marginTop: scaleHeight(15),
+    marginBottom: scaleHeight(10),
+  },
+  imageCase: {
+    width: scaleWidth(120),
+    height: scaleHeight(120),
+    marginHorizontal: scaleWidth(5),
+    marginTop: scaleHeight(15),
+    marginBottom: scaleHeight(10),
+    borderRadius: scale(5),
+  },
   // Submit / Save buttons
-  button: {
-    position: "absolute",
-    bottom: scaleHeight(20),
+  twoButtonsContainer: {
     flexDirection: "row",
     justifyContent: "center",
     alignSelf: "center",
@@ -581,6 +660,15 @@ const lightStyles = StyleSheet.create({
   placeholder: {
     ...basicStyles.placeholder,
     color: THEME_COLOR.LIGHT.MAIN_TEXT,
+  },
+  input: {
+    ...basicStyles.input,
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
+    color: THEME_COLOR.LIGHT.INPUT_TEXT,
+  },
+  placeholderDescripton: {
+    color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
   },
   descriptionPhoto: {
     ...basicStyles.descriptionPhoto,
@@ -603,6 +691,15 @@ const darkStyles = StyleSheet.create({
   tagLabel: {
     ...basicStyles.tagLabel,
     color: THEME_COLOR.DARK.MAIN_TEXT,
+  },
+  input: {
+    ...basicStyles.input,
+    borderColor: THEME_COLOR.DARK.INPUT,
+    backgroundColor: THEME_COLOR.DARK.INPUT,
+    color: THEME_COLOR.DARK.INPUT_TEXT,
+  },
+  placeholderDescripton: {
+    color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
   },
   placeholder: {
     ...basicStyles.placeholder,

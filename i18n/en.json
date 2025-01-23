@@ -26,7 +26,9 @@
     "noMailAddress": "Please enter a destination email in the settings",
     "noIconAge": "Please select the icon for age" ,
     "noIconSex": "Please select the icon for sex" ,
-    "noIcons": "Please select the icons for sex and age"
+    "noIcons": "Please select the icons for sex and age",
+    "description": "Add additional information...",
+    "descriptionTitle": "Description"
   },
   "consultCases": {
     "title": "Consult cases",

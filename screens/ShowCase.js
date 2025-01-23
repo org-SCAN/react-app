@@ -51,7 +51,7 @@ const ShowCase = (props) => {
   };
 
   // Item à afficher dans la liste
-  const Item = ({ id, tag, date, uri, sex, age, styles, onPress }) => (
+  const Item = ({ id, tag, date, uri, sex, age, description, styles, onPress }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => {
         const opacity = dragX.interpolate({
@@ -97,7 +97,8 @@ const ShowCase = (props) => {
         uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
         date: caseItem.date,
         sex: caseItem.sex,
-        age: caseItem.age
+        age: caseItem.age,
+        description: caseItem.description
       };
     });
     setDATA(DATA);
@@ -126,6 +127,7 @@ const ShowCase = (props) => {
           uri={item.uri}
           sex={item.sex}
           age={item.age}
+          description={item.description}
           styles={styles}
           onPress={() => onPress()}
         />

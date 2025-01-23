@@ -48,7 +48,7 @@ const basicStyles = StyleSheet.create({
     borderRadius: scale(4), 
     elevation: 3,
     borderWidth: scaleWidth(2), 
-    marginBottom: scale(10),
+    marginVertical: scaleHeight(10),
     width: scaleWidth(150), 
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1,
