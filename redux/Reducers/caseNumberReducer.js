@@ -4,7 +4,7 @@ const initialState = {
   caseNumber: 1
 };
 
-const caseNumberReducer = (state = { caseNumber: null }, action) => {
+const caseNumberReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_CASE_NUMBER:
       return { ...state, caseNumber: action.payload };

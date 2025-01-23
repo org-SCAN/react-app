@@ -84,7 +84,7 @@
       "dateFormat": "es-ES"
     },
     "Camera": {
-      "noLocationPermission": "Se denegó el permiso para acceder a la ubicación, la foto se guardó sin datos de ubicación",
+      "noLocationPermission": "Permiso de acceso a la ubicación denegado, las fotos se guardarán sin los datos de ubicación.",
       "noLocationFound": "No se pudo obtener la ubicación, la foto se guardó sin datos de ubicación"
     },
     "yes": "Sí",

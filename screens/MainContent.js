@@ -5,6 +5,7 @@ import Settings from "./Settings";
 import ScanCamera from "./Camera";
 import ShowCase from "./ShowCase";
 import Pictures from "./Pictures";
+import LocationUpdater from "../utils/locationUpdater";
 import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
@@ -19,6 +20,7 @@ const MainContent = (props) => {
   const { intlData } = props;
   return (
     <NavigationContainer theme={styles.navigation} ref={navigationRef}>
+      <LocationUpdater />
       <Stack.Navigator>
         <Stack.Screen
           name="Home"

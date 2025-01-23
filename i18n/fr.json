@@ -84,7 +84,7 @@
   },
 
   "Camera":{
-    "noLocationPermission":"Permission d'accès à la localisation refusée, la photo a été enregistrée sans les données de localisation",
+    "noLocationPermission":"Permission d'accès à la localisation refusée. \nLes photos seront enregistrées sans les données de localisation.",
     "noLocationFound": "Impossible d'obtenir la localisation, la photo a été enregistrée sans les données de localisation"
   },
 

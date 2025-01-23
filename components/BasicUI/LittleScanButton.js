@@ -13,7 +13,7 @@ const LittleScanButton = (props) => {
     <Pressable style={styles.button} onPressIn={props.onPress}>
       <Icon 
        name={props.description === "save" ? "save-alt" : "email"} 
-       size={30} 
+       size={styles.icon.size} 
        color={props.theme.mode === "light" ? THEME_COLOR.LIGHT.BUTTON_TEXT : THEME_COLOR.DARK.BUTTON_TEXT}  
        type={props.description === "save" ? "material-icons" : "material-icons-outlined"} 
       />
@@ -45,12 +45,16 @@ const basicStyles = StyleSheet.create({
     elevation: 3,
     borderWidth: 2,
     margin: 10,
+    marginBottom: 30,
     width: scaleWidth(160),
-    height: scaleHeight(50),
+    height: scaleHeight(55),
     justifyContent: "center",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 1,
     shadowRadius: 4,
+  },
+  icon: {
+    size: scale(30),
   },
   text: {
     fontSize: scale(13),

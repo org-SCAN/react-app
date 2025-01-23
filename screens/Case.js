@@ -54,6 +54,9 @@ const Case = (props) => {
   const [alertVisibleNoMailAddress, setAlertVisibleNoMailAddress] = useState(false);
 
   const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
+  const [alertVisibleNoLocationPermission, setAlertVisibleNoLocationPermission] = useState(false);
+  const [alertVisibleNoLocation, setAlertVisibleNoLocation] = useState(false);
+  
   const dispatch = useDispatch();
 
   const cases = useSelector(state => state.case.cases);
@@ -62,6 +65,8 @@ const Case = (props) => {
   const email = useSelector(state => state.email.email);
   const iconPath = useSelector(state => state.iconPath.iconPath);
   const iconPersonalized = useSelector(state => state.icon.icon);
+  const coords = useSelector(state => state.location.coords);
+  const permissionStatus = useSelector(state => state.location.permissionStatus);
 
   const FORM = [
     {
@@ -132,6 +137,12 @@ const Case = (props) => {
   }, [navigation, existingCase, isCaseEmpty]); // Use minimal dependencies
   
 
+
+  useEffect(() => {
+    if (permissionStatus === "denied") {
+      setAlertVisibleNoLocationPermission(true);
+    }
+  }, [permissionStatus]);
 
   const isCaseComplete = () => {
     if (images.length === 0) {
@@ -418,6 +429,13 @@ const Case = (props) => {
     }
   };
 
+  const navigateToCamera = () => {
+    navigation.navigate("Camera", { caseID: caseID });
+    navigation.setOptions({
+      noLocationFound: setAlertVisibleNoLocation, 
+    });
+  };
+
   return (
     <View
       style={styles.mainContent}
@@ -461,7 +479,7 @@ const Case = (props) => {
 
             {/* Rendu de l'image et des autres éléments */}
             <ScanButtonCamera
-              onPress={() => navigation.navigate("Camera", { caseID: caseID })}
+              onPress={navigateToCamera}
             />
 
             <Text style={styles.descriptionPhoto}>
@@ -532,6 +550,18 @@ const Case = (props) => {
         message={intlData.messages.Case.noMailAddress}
         onConfirm={() => setAlertVisibleNoMailAddress(false)}
         visible={alertVisibleNoMailAddress}
+      />
+      <CustomAlert
+        title="⚠️"
+        message={intlData.messages.Camera.noLocationFound}
+        onConfirm={() => setAlertVisibleNoLocation(false)}
+        visible={alertVisibleNoLocation}
+      />
+      <CustomAlert
+        title="❌📍"
+        message={intlData.messages.Camera.noLocationPermission}
+        onConfirm={() => setAlertVisibleNoLocationPermission(false)}
+        visible={alertVisibleNoLocationPermission}
       />
     </View>
   );

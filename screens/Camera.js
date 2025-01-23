@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View, ActivityIndicator, Text, Button } from "react-native";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { storeImage } from "../redux/actions";
+import { storeImage, updateLocation } from "../redux/actions";
 import { connect } from "react-redux";
 import IconButton from "../components/BasicUI/IconButton";
 import uuid from "react-native-uuid";
@@ -18,8 +18,10 @@ const ScanCamera = (props) => {
 
   const [camera, setCamera] = useState(null);
   const [facing, setFacing] = useState("back");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);  
 
+  const coords = useSelector(state => state.location.coords);
+   
   const dispatch = useDispatch();
 
   const saveImage = (data) => {
@@ -36,24 +38,9 @@ const ScanCamera = (props) => {
         });
         if (data && data.base64) {
           const imageId = uuid.v4();
-          // Get location permission status
-          const { status } = await Location.requestForegroundPermissionsAsync();
-          let location = { coords: { latitude: 0, longitude: 0 } };
-          if (status !== "granted") {
-            alert(
-              intlData.messages.Camera.noLocationPermission
-            );
-          } else {
-            // Get location within 5 seconds max
-            location = await Location.getCurrentPositionAsync({
-              accuracy: Location.Accuracy.Balanced,
-              timeout: 5000,
-            });
-            if (!location) {
-              alert(
-                intlData.messages.Camera.noLocationFound
-              );
-            }
+          let location = { coords: coords };
+          if ((location.coords.latitude === 0 && location.coords.longitude === 0)) {
+            //props.route.params.noLocationFound(true);
           }
           // Save image to file system
           const path = await saveImageToMemory(data.base64, imageId);
