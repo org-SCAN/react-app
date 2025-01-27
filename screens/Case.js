@@ -14,6 +14,7 @@ import {
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
+  Linking,
 } from "react-native";
 import ScanButtonCamera from "../components/BasicUI/ScanButtonCamera";
 import LittleScanButton from "../components/BasicUI/LittleScanButton";
@@ -236,11 +237,17 @@ const Case = (props) => {
       console.error("Attachment path is invalid.");
       return;
     }
-    const isAvailable = await MailComposer.isAvailableAsync();
-    if (!isAvailable) {
+    const isMailAvailable =
+      Platform.OS === 'ios'
+        ? await MailComposer.isAvailableAsync()
+        : await Linking.canOpenURL('mailto:');
+  
+    console.log(isMailAvailable);
+    if (!isMailAvailable) {
       setAlertVisibleNoMail(true);
       return;
     }
+
     if (!email || email.trim() === "") {
       setAlertVisibleNoMailAddress(true);
       return;
@@ -253,7 +260,9 @@ const Case = (props) => {
         isHtml: true,
         attachments: [path],
       });
+      setTimeout(() => {
       deleteZip(caseID);
+      }, 3000); // Pause de 3 secondes
     } catch (error) {
       console.error("Failed to send email:", error);
     }
