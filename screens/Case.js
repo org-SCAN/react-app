@@ -227,6 +227,7 @@ const Case = (props) => {
     const data = {
       id: caseID,
       tag: tag,
+      description: description,
       ...keyValuesObject,
       images: imageIDs,
       date: new Date().toISOString(),
