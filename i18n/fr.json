@@ -4,7 +4,7 @@
     "caseButton": "Nouveau cas",
     "consultButton": "Consulter les cas",
     "saveCase": "Cas sauvegardé",
-    "recoverCase": "Voulez-vous récupérer le cas non-sauvegardé ?"
+    "recoverCase": "Voulez-vous récupérer le cas non sauvegardé ?"
   },
   "Case": {
     "title": "Cas",
@@ -19,55 +19,55 @@
     "submitButton": "Soumettre",
     "backButton": "Retour",
     "confirmBack": "Êtes-vous sûr de vouloir annuler le cas ?",
-    "warning":"Attention",
-    "addImage": "Ajouter au moins une photo",
+    "warning": "Attention",
+    "addImage": "Ajoutez au moins une photo",
     "allFields": "Veuillez remplir tous les champs",
     "noMail": "Aucune messagerie n'est installée sur votre appareil",
     "noMailAddress": "Veuillez entrer une adresse email de destination dans les paramètres",
-    "noIconAge":"Veuillez sélectionner l'icône pour l'âge",
-    "noIconSex":"Veuillez sélectionner l'icône pour le sexe",
-    "noIcons":"Veuillez sélectionner les icônes pour le sexe et l'âge",
-    "description": "Ajoutez des informations complémentaires...",
+    "noIconAge": "Veuillez sélectionner l'icône pour l'âge",
+    "noIconSex": "Veuillez sélectionner l'icône pour le sexe",
+    "noIcons": "Veuillez sélectionner les icônes pour le sexe et l'âge",
+    "description": "Ajouter des informations...",
     "descriptionTitle": "Description"
   },
   "consultCases": {
     "title": "Consulter les cas",
     "noCase": "Pas de cas à afficher",
-    "editMessage": "Cliquez pour modifier ou soumettre",
-    "swipeMessage": "Glissez vers la gauche pour supprimer",
+    "editMessage": "Cliquer pour modifier ou soumettre",
+    "swipeMessage": "Glisser vers la gauche pour supprimer",
     "clearCase1": "Supprimer un cas",
     "clearCase2": "Êtes-vous sûr de vouloir supprimer ce cas ?"
   },
   "Settings": {
     "title": "Paramètres",
     "lightTheme": "Mode sombre",
-    "themeDescription": "Change le thème de l'application",
+    "themeDescription": "Changer le thème de l'application",
     "selectLanguage": "Sélectionner la langue",
     "debugMessage": "Effacer les données",
     "clearCases1": "Êtes-vous sûr ?",
     "clearCases2": "Tous les cas seront supprimés",
     "saveUserID": "Sauvegarder l'ID utilisateur",
     "saveEmail": "Sauvegarder le mail",
-    "savedUserID":"ID utilisateur sauvegardé",
-    "noSavedUserID":"Aucun ID utilisateur sauvegardé",
-    "savedEmail":"Mail sauvegardé",
-    "noSavedEmail":"Aucun mail sauvegardé",
+    "savedUserID": "ID utilisateur sauvegardé",
+    "noSavedUserID": "Aucun ID utilisateur sauvegardé",
+    "savedEmail": "Mail sauvegardé",
+    "noSavedEmail": "Aucun mail sauvegardé",
     "newCaseNumber": "Entrer un nouveau numéro de cas",
     "resetCaseNumber": "Enregistrer le nouveau numéro",
-    "storedCaseNumber":"Numéro de cas enregistré",
+    "storedCaseNumber": "Numéro de cas enregistré",
     "enterUserID": "Entrer un ID utilisateur",
     "enterEmail": "Entrer un mail",
-    "success":"Succès",
-    "userIDRegistered":"L'ID utilisateur a été sauvegardé",
-    "caseRegistered":"Le nouveau numéro de cas a été enregistré",
+    "success": "Succès",
+    "userIDRegistered": "L'ID utilisateur a été sauvegardé",
+    "caseRegistered": "Le nouveau numéro de cas a été enregistré",
     "emailRegistered": "Le mail a été sauvegardé",
     "emailParsingError": "Format du mail invalide",
-    "enterIconUrl": "Entrez l'URL de vos icônes",
+    "enterIconUrl": "Entrer l'URL de vos icônes",
     "saveIconUrl": "Enregistrer",
     "resetIconUrl": "Réinitialiser",
     "savedIconUrl": "URL des icônes enregistrée",
     "noSavedIconUrl": "Aucune URL d'icônes enregistrée",
-    "downloadError":"Une erreur s'est produite lors du téléchargement",
+    "downloadError": "Une erreur s'est produite lors du téléchargement",
     "downloadSuccess": "Icônes téléchargées avec succès",
     "missingIcons": "Une ou plusieurs icônes sont manquantes. Veuillez vérifier la documentation.",
     "missingIconsConfirm": "OK",
@@ -80,14 +80,12 @@
   },
   "Pictures": {
     "title": "Photos",
-    "dateFormat":"fr-FR"
+    "dateFormat": "fr-FR"
   },
-
-  "Camera":{
-    "noLocationPermission":"Permission d'accès à la localisation refusée. \nLes photos seront enregistrées sans les données de localisation.",
+  "Camera": {
+    "noLocationPermission": "Permission d'accès à la localisation refusée. \nLes photos seront enregistrées sans les données de localisation.",
     "noLocationFound": "Impossible d'obtenir la localisation, la photo a été enregistrée sans les données de localisation"
   },
-
   "yes": "Oui",
   "no": "Non"
 }

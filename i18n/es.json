@@ -1,93 +1,91 @@
 {
-    "Home": {
-      "title": "Inicio",
-      "caseButton": "Nuevo caso",
-      "consultButton": "Consultar casos",
-      "saveCase": "Caso guardado",
-      "recoverCase": "¿Quiere recuperar el caso no guardado?"
-
-    },
-    "Case": {
-      "title": "Caso",
-      "forename": "Nombre",
-      "lastname": "Apellido",
-      "sex": "Sexo",
-      "age": "Edad",
-      "injury": "Causa de las lesiones",
-      "photoButton": "Tomar una foto",
-      "descriptionPhoto": "Tome más de 5 fotos si es posible",
-      "saveButton": "Guardar",
-      "submitButton": "Enviar",
-      "backButton": "Atrás",
-      "confirmBack": "¿Está seguro de que desea descartar este caso?",
-      "warning": "Advertencia",
-      "addImage": "Por favor, agregue al menos una imagen",
-      "allFields": "Por favor, complete todos los campos",
-      "noMail": "No se encontró un cliente de correo",
-      "noMailAddress": "Por favor, introduzca un correo electrónico de destino en la configuración",
-      "noIconAge": "Por favor, seleccione el ícono para la edad",
-      "noIconSex": "Por favor, seleccione el ícono para el sexo",
-      "noIcons": "Por favor, seleccione los íconos para el sexo y la edad",
-      "description": "Agregue información adicional...",
-      "descriptionTitle": "Descripción"
-    },
-    "consultCases": {
-      "title": "Consultar casos",
-      "noCase": "No hay casos para mostrar",
-      "editMessage": "Haga clic en el caso para editar o enviar",
-      "swipeMessage": "Deslice hacia la izquierda para eliminar",
-      "clearCase1": "Eliminar caso",
-      "clearCase2": "¿Está seguro de que desea eliminar este caso?"
-    },
-    "Settings": {
-      "title": "Configuraciones",
-      "lightTheme": "Modo oscuro",
-      "themeDescription": "Cambiar el tema de la aplicación",
-      "selectLanguage": "Seleccionar idioma",
-      "debugMessage": "Borrar todos los datos",
-      "clearCases1": "¿Está seguro?",
-      "clearCases2": "Se eliminarán todos los casos",
-      "saveUserID": "Guardar ID de usuario",
-      "savedUserID": "ID de usuario guardado",
-      "noSavedUserID": "No hay ID de usuario guardado",
-      "newCaseNumber": "Ingresar nuevo número de caso",
-      "resetCaseNumber": "Guardar número de caso",
-      "storedCaseNumber": "Número de caso almacenado",
-      "enterUserID": "Ingresar ID de usuario",
-      "enterEmail": "Ingresar correo electrónico",
-      "success": "Éxito",
-      "userIDRegistered": "El ID de usuario ha sido guardado",
-      "caseRegistered": "El nuevo número de caso ha sido guardado",
-      "saveEmail": "Guardar correo electrónico",
-      "savedEmail": "Correo electrónico guardado",
-      "noSavedEmail": "No hay correo electrónico guardado",
-      "emailRegistered": "El correo electrónico ha sido guardado",
-      "emailParsingError": "Formato de correo electrónico inválido",
-      "enterIconUrl": "Ingrese la URL de sus iconos",
-      "saveIconUrl": "Guardar",
-      "resetIconUrl": "Restablecer",
-      "savedIconUrl": "URL de iconos guardada",
-      "noSavedIconUrl": "No hay ninguna URL de iconos guardada",
-      "downloadError": "Ocurrió un error durante la descarga",
-      "downloadSuccess": "Íconos descargados con éxito",
-      "missingIcons": "Falta uno o más iconos. Por favor, revise la documentación.",
-      "missingIconsConfirm": "OK",
-      "missingIconsOpenDoc": "DOC",
-      "docButton": "Documentación"
-    },
-    "Mail": {
-      "subject": "[CASO] ",
-      "body": "<em>Este correo proviene de la aplicación Divilite. Por favor, no responda a él.</em>"
-    },
-    "Pictures": {
-      "title": "Fotos",
-      "dateFormat": "es-ES"
-    },
-    "Camera": {
-      "noLocationPermission": "Permiso de acceso a la ubicación denegado, las fotos se guardarán sin los datos de ubicación.",
-      "noLocationFound": "No se pudo obtener la ubicación, la foto se guardó sin datos de ubicación"
-    },
-    "yes": "Sí",
-    "no": "No"
-  }
-  
+  "Home": {
+    "title": "Inicio",
+    "caseButton": "Nuevo caso",
+    "consultButton": "Ver casos",
+    "saveCase": "Caso guardado",
+    "recoverCase": "¿Desea recuperar el caso no guardado?"
+  },
+  "Case": {
+    "title": "Caso",
+    "forename": "Nombre",
+    "lastname": "Apellido",
+    "sex": "Género",
+    "age": "Edad",
+    "injury": "Causa de la lesión",
+    "photoButton": "Tomar una foto",
+    "descriptionPhoto": "Tome al menos 5 fotos si es posible",
+    "saveButton": "Guardar",
+    "submitButton": "Enviar",
+    "backButton": "Atrás",
+    "confirmBack": "¿Está seguro de que desea cancelar el caso?",
+    "warning": "Advertencia",
+    "addImage": "Agregue al menos una foto",
+    "allFields": "Por favor, complete todos los campos",
+    "noMail": "No hay ninguna aplicación de correo instalada en su dispositivo",
+    "noMailAddress": "Ingrese una dirección de correo en la configuración",
+    "noIconAge": "Seleccione un icono para la edad",
+    "noIconSex": "Seleccione un icono para el género",
+    "noIcons": "Seleccione iconos para el género y la edad",
+    "description": "Agregue información...",
+    "descriptionTitle": "Descripción"
+  },
+  "consultCases": {
+    "title": "Ver casos",
+    "noCase": "No hay casos para mostrar",
+    "editMessage": "Haga clic para editar o enviar",
+    "swipeMessage": "Deslice hacia la izquierda para eliminar",
+    "clearCase1": "Eliminar un caso",
+    "clearCase2": "¿Está seguro de que desea eliminar este caso?"
+  },
+  "Settings": {
+    "title": "Configuración",
+    "lightTheme": "Modo oscuro",
+    "themeDescription": "Cambiar el tema de la aplicación",
+    "selectLanguage": "Seleccionar idioma",
+    "debugMessage": "Borrar datos",
+    "clearCases1": "¿Está seguro?",
+    "clearCases2": "Se eliminarán todos los casos",
+    "saveUserID": "Guardar ID de usuario",
+    "saveEmail": "Guardar correo",
+    "savedUserID": "ID de usuario guardado",
+    "noSavedUserID": "No hay ID de usuario guardado",
+    "savedEmail": "Correo guardado",
+    "noSavedEmail": "No hay correo guardado",
+    "newCaseNumber": "Ingrese un nuevo número de caso",
+    "resetCaseNumber": "Guardar nuevo número",
+    "storedCaseNumber": "Número de caso guardado",
+    "enterUserID": "Ingrese un ID de usuario",
+    "enterEmail": "Ingrese un correo",
+    "success": "Éxito",
+    "userIDRegistered": "El ID de usuario ha sido guardado",
+    "caseRegistered": "El nuevo número de caso ha sido guardado",
+    "emailRegistered": "El correo ha sido guardado",
+    "emailParsingError": "Formato de correo inválido",
+    "enterIconUrl": "Ingrese la URL de sus iconos",
+    "saveIconUrl": "Guardar",
+    "resetIconUrl": "Restablecer",
+    "savedIconUrl": "URL de iconos guardada",
+    "noSavedIconUrl": "No hay URL de iconos guardada",
+    "downloadError": "Ocurrió un error al descargar",
+    "downloadSuccess": "Iconos descargados exitosamente",
+    "missingIcons": "Faltan uno o más iconos. Consulte la documentación.",
+    "missingIconsConfirm": "OK",
+    "missingIconsOpenDoc": "DOC",
+    "docButton": "Documentación"
+  },
+  "Mail": {
+    "subject": "[CASO] ",
+    "body": "<em>Este correo proviene de la aplicación Divilite. Por favor, no responda.</em>"
+  },
+  "Pictures": {
+    "title": "Fotos",
+    "dateFormat": "es-ES"
+  },
+  "Camera": {
+    "noLocationPermission": "Permiso para acceder a la ubicación denegado. \nLas fotos se guardarán sin datos de ubicación.",
+    "noLocationFound": "No se pudo obtener la ubicación, la foto se guardó sin datos de ubicación."
+  },
+  "yes": "Sí",
+  "no": "No"
+}
