@@ -1,6 +1,6 @@
 {
   "name": "divilite",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "scripts": {
     "start": "expo start -c",
     "android": "expo run:android",
