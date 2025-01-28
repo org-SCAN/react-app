@@ -56,7 +56,6 @@ const Case = (props) => {
 
   const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
   const [alertVisibleNoLocationPermission, setAlertVisibleNoLocationPermission] = useState(false);
-  const [alertVisibleNoLocation, setAlertVisibleNoLocation] = useState(false);
   
   const dispatch = useDispatch();
 
@@ -441,9 +440,6 @@ const Case = (props) => {
 
   const navigateToCamera = () => {
     navigation.navigate("Camera", { caseID: caseID });
-    navigation.setOptions({
-      noLocationFound: setAlertVisibleNoLocation, 
-    });
   };
 
   return (
@@ -560,12 +556,6 @@ const Case = (props) => {
         message={intlData.messages.Case.noMailAddress}
         onConfirm={() => setAlertVisibleNoMailAddress(false)}
         visible={alertVisibleNoMailAddress}
-      />
-      <CustomAlert
-        title="⚠️"
-        message={intlData.messages.Camera.noLocationFound}
-        onConfirm={() => setAlertVisibleNoLocation(false)}
-        visible={alertVisibleNoLocation}
       />
       <CustomAlert
         title="❌📍"

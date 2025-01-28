@@ -40,7 +40,9 @@ const ScanCamera = (props) => {
           const imageId = uuid.v4();
           let location = { coords: coords };
           if ((location.coords.latitude === 0 && location.coords.longitude === 0)) {
-            //props.route.params.noLocationFound(true);
+            alert(
+              intlData.messages.Camera.noLocationFound
+            );
           }
           // Save image to file system
           const path = await saveImageToMemory(data.base64, imageId);

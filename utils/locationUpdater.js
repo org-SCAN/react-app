@@ -6,8 +6,6 @@ import { updateLocationCoords, updatePermissionStatus } from "../redux/actions";
 const LocationUpdater = () => {
   const dispatch = useDispatch();
 
-  const permissionStatus = useSelector((state) => state.location.permissionStatus);
-
   useEffect(() => {
     let locationSubscription = null;
 
