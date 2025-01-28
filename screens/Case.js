@@ -307,7 +307,6 @@ const Case = (props) => {
       setExistingCase(mcase);
       setCaseID(mcase.id);
       setTag(mcase.tag); // Set tag from existing case
-      setDescription(mcase.description);
       const updatedForm = form.map((item) => {
         if (item.key === "age") {
           item.value = mcase.age;
@@ -315,6 +314,10 @@ const Case = (props) => {
         } else if (item.key === "sex") {
           item.value = mcase.sex;
           setSelectedIconSex(item.icons.find(icon => icon.name === mcase.sex).icon);
+        }
+        else if (item.key === "description") {
+          item.value = mcase.description;
+          setDescription(mcase.description);
         }
         return item;
       });
