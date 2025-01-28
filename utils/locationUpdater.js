@@ -25,8 +25,7 @@ const LocationUpdater = () => {
         locationSubscription = await Location.watchPositionAsync(
           {
             accuracy: Location.Accuracy.Balanced,
-            //distanceInterval: 20,
-            timeInterval: 100,
+            distanceInterval: 20,
           },
           (location) => {
             if (location?.coords) {
