@@ -5,8 +5,8 @@ import { updateUserId, updateCaseNumber, updateEmail, updateIconUrl, saveIconPat
 import { clearImage, clearCase } from "../redux/actions";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import {SCAN_DOC, THEME_COLOR } from "../theme/constants";
-import CustomAlert from "../components/Case/CustomAlert";
-import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import CustomAlert from "../components/Alert/CustomAlert";
+import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
 import { deleteCameraCache } from "../utils/cacheManager";

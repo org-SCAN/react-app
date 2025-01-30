@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateCaseNumber, deleteCase } from "../redux/actions";
 import { deleteImageFromMemory } from "../utils/fileHandler";
 import { THEME_COLOR } from "../theme/constants";
-import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 
 
 const Home = (props) => {

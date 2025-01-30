@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import IconButton from "../components/BasicUI/IconButton";
 import uuid from "react-native-uuid";
 import * as Location from "expo-location";
-import CustomAlert from "../components/Case/CustomAlert";
+import CustomAlert from "../components/Alert/CustomAlert";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { saveImageToMemory } from "../utils/fileHandler";
 

@@ -26,8 +26,8 @@ import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
-import CustomAlert from "../components/Case/CustomAlert";
-import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import CustomAlert from "../components/Alert/CustomAlert";
+import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { Icon } from "@rneui/themed";
 import { THEME_COLOR } from "../theme/constants";
 

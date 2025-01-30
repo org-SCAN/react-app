@@ -14,7 +14,7 @@ import {
   GestureHandlerRootView,
 } from "react-native-gesture-handler";
 import { connect, useDispatch } from "react-redux";
-import CustomAlertTwoButtons from "../components/Case/CustomAlertTwoButtons";
+import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { THEME_COLOR } from "../theme/constants";
 import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
