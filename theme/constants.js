@@ -15,7 +15,8 @@ export const THEME_COLOR = {
         BUTTON_BORDER: "#CCCCCC",
         BUTTON_TEXT: "#BF0413",
         BUTTON_SHADOW: "rgba(0, 0, 0, 0.1)",
-        ICON_SELECTED: "rgba(184, 29, 42, 0.8)"
+        ICON_SELECTED: "rgba(184, 29, 42, 0.8)",
+        DROPDOWN_ICON_COLOR: "black"
     },
     DARK: {
         BACKGROUND: "#121212", 
@@ -32,7 +33,8 @@ export const THEME_COLOR = {
         BUTTON_BORDER: "#3F3F3F",
         BUTTON_TEXT: "#E0E0E0",
         BUTTON_SHADOW: "rgba(0, 0, 0, 0.5)",
-        ICON_SELECTED: "rgba(184, 29, 42, 0.8)"
+        ICON_SELECTED: "rgba(184, 29, 42, 0.8)",
+        DROPDOWN_ICON_COLOR: "white"
     },
 }
 

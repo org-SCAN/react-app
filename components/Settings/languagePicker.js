@@ -1,14 +1,13 @@
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import { useState } from "react";
 import { THEME_COLOR } from "../../theme/constants";
 import { View, Text, StyleSheet, Platform } from "react-native";
 import { Picker, PickerIOS } from "@react-native-picker/picker";
-import { updateLanguage } from "../../redux/actions";
+import { handleLanguageChange } from "./SettingsHandler";
 
 const languagePicker = (props) => {
-  const dispatch = useDispatch();
-  const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
-  const { intlData } = props;
+  const { intlData, dispatch, theme } = props;
+  const styles = theme.mode == "dark" ? stylesDark : stylesLight;
   const [selectedValue, setSelectedValue] = useState(intlData.locale);
   
   const languages = [
@@ -28,11 +27,6 @@ const languagePicker = (props) => {
     );
   });
 
-  const handleLanguageChange = (itemValue) => {
-    dispatch(updateLanguage(itemValue));
-    setSelectedValue(itemValue);
-  }
-
   return (
     <View>
       <Text style={styles.mainText}>{intlData.messages.Settings.selectLanguage}</Text>
@@ -40,7 +34,7 @@ const languagePicker = (props) => {
         {Platform.OS === "ios" ? (
           <PickerIOS
             selectedValue={selectedValue}
-            onValueChange={handleLanguageChange}
+            onValueChange={(itemValue) => handleLanguageChange(dispatch, itemValue, setSelectedValue)}
             style={styles.pickerContainer}
             itemStyle={styles.itemStyle}
             themeVariant={props.theme.mode}
@@ -50,7 +44,7 @@ const languagePicker = (props) => {
         ) : (
           <Picker
             selectedValue={selectedValue}
-            onValueChange={handleLanguageChange}
+            onValueChange={(itemValue) => handleLanguageChange(dispatch, itemValue, setSelectedValue)}
             style={styles.pickerContainer}
             mode={'dropdown'}
             dropdownIconColor={styles.dropdownIconColor}
@@ -63,7 +57,6 @@ const languagePicker = (props) => {
   );
 };
 
-
 const baseStyles = {
   pickerWrapper: {
     borderWidth: 1,
@@ -72,7 +65,6 @@ const baseStyles = {
     marginVertical: 10,
   },
   pickerContainer: {
-    //height: 100,
     ...Platform.select({
       ios: {
         height: 100,
@@ -103,7 +95,7 @@ const stylesLight = StyleSheet.create({
     ...baseStyles.pickerContainer,
     color: THEME_COLOR.LIGHT.INPUT_TEXT,
   },
-  dropdownIconColor: "black",
+  dropdownIconColor: THEME_COLOR.LIGHT.DROPDOWN_ICON_COLOR,
 });
 
 const stylesDark = StyleSheet.create({
@@ -127,7 +119,7 @@ const stylesDark = StyleSheet.create({
     ...baseStyles.pickerContainer,
     color: THEME_COLOR.DARK.INPUT_TEXT,
   },
-  dropdownIconColor: "white",
+  dropdownIconColor: THEME_COLOR.DARK.DROPDOWN_ICON_COLOR,
 });
 
 
