@@ -11,13 +11,10 @@ import {
   Pressable,
   Dimensions,
   TextInput,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
   Platform,
   Linking,
 } from "react-native";
-import ScanButtonCamera from "../components/BasicUI/ScanButtonCamera";
-import LittleScanButton from "../components/BasicUI/LittleScanButton";
+import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { saveCase, editCase, deleteCase, updateCaseNumber } from "../redux/actions";
@@ -31,10 +28,6 @@ import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { Icon } from "@rneui/themed";
 import { THEME_COLOR } from "../theme/constants";
 
-
-
-
-
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
   const { intlData } = props;
@@ -45,7 +38,6 @@ const Case = (props) => {
   const [selectedIconAge, setSelectedIconAge] = useState(null);
   const [selectedIconSex, setSelectedIconSex] = useState(null);
   const [tag, setTag] = useState(null);
-  const [readyToSubmit, setReadyToSubmit] = useState(false);
   const [description, setDescription] = useState("");
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
@@ -65,7 +57,6 @@ const Case = (props) => {
   const email = useSelector(state => state.email.email);
   const iconPath = useSelector(state => state.iconPath.iconPath);
   const iconPersonalized = useSelector(state => state.icon.icon);
-  const coords = useSelector(state => state.location.coords);
   const permissionStatus = useSelector(state => state.location.permissionStatus);
   const customField = useSelector(state => state.customField.customField);
 
@@ -114,7 +105,6 @@ const Case = (props) => {
       headerLeft: (props) => (
         <Icon
           {...props}
-          //label={"asasa"}
           name={existingCase ? "folder-search" : "home"} 
           size={35} 
           color="white"
@@ -124,10 +114,7 @@ const Case = (props) => {
             if (!existingCase && !isCaseEmpty()) {
               setAlertVisibleGoBack(true); // Show alert before navigating back
             } else {
-              navigation.goBack(); // Navigate back
-              if (!existingCase) {
-                //dispatch(updateCaseNumber(caseNumber-1));
-              }
+              navigation.goBack();
             }
             console.log("Case number after going back: ", caseNumber);
           }}
@@ -269,7 +256,6 @@ const Case = (props) => {
     } catch (error) {
       console.error("Failed to send email:", error);
     }
-    setReadyToSubmit(false); // Reset the readyToSubmit state
   };
   
 
@@ -294,12 +280,6 @@ const Case = (props) => {
       setTag(`${userId}-${caseNumber}`);
     }
   };
-
-  const handleDeleteCase = () => {
-    dispatch(updateCaseNumber(caseNumber-1));
-  };
-
-
 
   useEffect(() => {
     if (props.route.params && props.route.params.caseId) {
@@ -490,8 +470,13 @@ const Case = (props) => {
             </View>
 
             {/* Rendu de l'image et des autres éléments */}
-            <ScanButtonCamera
-              onPress={navigateToCamera}
+            <ScanButton 
+              onPressIn={navigateToCamera}
+              name="add-a-photo"
+              size={34}
+              type="material-icons"
+              styleIcon={styles.cameraIcon}
+              styleButton={styles.cameraButton}
             />
 
             <Text style={styles.descriptionPhoto}>
@@ -509,19 +494,27 @@ const Case = (props) => {
               horizontal={true}
             />
             <View style={styles.twoButtonsContainer}>
-              <LittleScanButton
-                title={intlData.messages.Case.saveButton}
-                description={"save"}
+              <ScanButton
+                subtitle={intlData.messages.Case.saveButton}
                 onPress={() => {
-                save();
+                  save();
                 }}
+                name="save-alt"
+                type="material-icons"
+                styleIcon={styles.bottomIcon}
+                styleText={styles.bottomText}
+                styleButton={styles.bottomButton}
               />
-              <LittleScanButton
-                title={intlData.messages.Case.submitButton}
-                description={"submit"}
+              <ScanButton
+                subtitle={intlData.messages.Case.submitButton}
                 onPress={() => {
-                submit();
+                  submit();
                 }}
+                name="email"
+                type="material-icons"
+                styleIcon={styles.bottomIcon}
+                styleText={styles.bottomText}
+                styleButton={styles.bottomButton}
               />
             </View>
           </View>
@@ -539,7 +532,6 @@ const Case = (props) => {
         onConfirm={() => {
           setAlertVisibleGoBack(false);
           dispatch(deleteCase(caseID));
-          //handleDeleteCase();
           images.forEach((image) => deleteImageFromMemory(image.id));
           deleteCameraCache();
           navigation.goBack();
@@ -686,6 +678,46 @@ const basicStyles = StyleSheet.create({
     justifyContent: "center",
     alignSelf: "center",
   },
+  cameraButton: {
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: scaleHeight(5), 
+    borderRadius: scale(4), 
+    elevation: 3,
+    borderWidth: scaleWidth(2), 
+    marginVertical: scaleHeight(10),
+    width: scaleWidth(150), 
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  cameraIcon: {
+    justifyContent: "center",
+    alignItems: "center",
+    textAlign: "center",
+  },
+  bottomButton: {
+    borderRadius: 4,
+    elevation: 3,
+    borderWidth: 2,
+    margin: 10,
+    marginBottom: 30,
+    width: scaleWidth(175),
+    height: scaleHeight(60),
+    justifyContent: "center",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  bottomIcon: {
+    size: scale(33),
+  },
+  bottomText: {
+    fontSize: scale(14),
+    lineHeight: 21,
+    fontWeight: "bold",
+    textAlign: "center",
+  },
 });
 
 const lightStyles = StyleSheet.create({
@@ -721,6 +753,22 @@ const lightStyles = StyleSheet.create({
     backgroundColor: THEME_COLOR.LIGHT.ICON_SELECTED,
     borderColor: THEME_COLOR.LIGHT.ICON_SELECTED,
   },
+  cameraButton: {
+    ...basicStyles.cameraButton,
+    backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
+  },
+  bottomButton: {
+    ...basicStyles.bottomButton,
+    backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
+  },
+  bottomText: {
+    ...basicStyles.bottomText,
+    color: THEME_COLOR.LIGHT.BUTTON_TEXT,
+  },
 });
 
 const darkStyles = StyleSheet.create({
@@ -755,6 +803,22 @@ const darkStyles = StyleSheet.create({
     ...basicStyles.selectedIconButton,
     backgroundColor: THEME_COLOR.DARK.ICON_SELECTED,
     borderColor: THEME_COLOR.DARK.ICON_SELECTED,
+  },
+  cameraButton: {
+    ...basicStyles.cameraButton,
+    backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
+  },
+  bottomButton: {
+    ...basicStyles.bottomButton,
+    backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
+  },
+  bottomText: {
+    ...basicStyles.bottomText,
+    color: THEME_COLOR.DARK.BUTTON_TEXT,
   },
 });
 

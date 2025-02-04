@@ -14,6 +14,9 @@ const Home = (props) => {
   const navigation = props.navigation;
   const [mOpacity, setOpacity] = useState(new Animated.Value(0));
   const { intlData } = props;
+  console.log("intlData: ", props.theme);
+
+  const styles = props.theme.mode === "light" ? stylesLight : stylesDark;
 
   const dispatch = useDispatch();
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
@@ -96,22 +99,30 @@ const Home = (props) => {
         cancelButtonText={intlData.messages.no}
       />
 
-
       <View style={styles.menu}>
         <ScanButton
-          title={intlData.messages.Home.caseButton}
-          onPress={() => {
-            //handleCreateCase();
+          subtitle={intlData.messages.Home.caseButton}
+          onPressIn={() => {
             navigation.navigate("Case");
           }}
-          description={"case"}
+          size={45}
+          name="create-new-folder"
+          type="material-icons"
+          styleIcon={styles.icon}
+          styleText={styles.text}
+          styleButton={styles.button}
         />
         <ScanButton
-          title={intlData.messages.Home.consultButton}
-          onPress={() => {
+          subtitle={intlData.messages.Home.consultButton}
+          onPressIn={() => {
             navigation.navigate("ShowCase");
           }}
-          description={"showcase"}
+          size={45}
+          name="folder-search"
+          type="material-community"
+          styleIcon={styles.icon}
+          styleText={styles.text}
+          styleButton={styles.button}
         />
         <View style={styles.hintBox}>
           <View style={styles.hintLine}>
@@ -128,7 +139,7 @@ const Home = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const basicStyles = StyleSheet.create({
   menu: {
     flex: 1,
     justifyContent: "center",
@@ -168,12 +179,60 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "grey",
   },
+  button: {
+    paddingVertical: 12,
+    paddingHorizontal: 20,
+    borderRadius: 4,
+    elevation: 3,
+    borderWidth: 2,
+    margin: 10,
+    width: 200,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 1,
+    shadowRadius: 4,
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: "bold",
+    letterSpacing: 0.25,
+    textAlign: "center",
+  },
+});
+
+const stylesLight = StyleSheet.create({
+  ...basicStyles,
+  button: {
+    ...basicStyles.button,
+    backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
+  },
+  text: {
+    ...basicStyles.text,
+    color: THEME_COLOR.LIGHT.BUTTON_TEXT,
+  },
+});
+
+const stylesDark = StyleSheet.create({
+  ...basicStyles,
+  button: {
+    ...basicStyles.button,
+    backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
+    borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
+    shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
+  },
+  text: {
+    ...basicStyles.text,
+    color: THEME_COLOR.DARK.BUTTON_TEXT,
+  },
 });
 
 function mapStateToProps(state) {
   return {
     cases: state.case.cases,
     images: state.image.image,
+    theme: state.theme,
     intlData: state.lang,
   };
 }
