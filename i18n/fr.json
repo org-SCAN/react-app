@@ -72,7 +72,10 @@
     "missingIcons": "Une ou plusieurs icônes sont manquantes. Veuillez vérifier la documentation.",
     "missingIconsConfirm": "OK",
     "missingIconsOpenDoc": "DOC",
-    "docButton": "Documentation"
+    "docButton": "Documentation",
+    "adminSettings": "Configuration Admin",
+    "customFieldTitle": "Champ personnalisé pour JSON output",
+    "customFieldPlaceholder": "Ajoutez un champ personnalisé à chaque JSON output"
   },
   "Mail": {
     "subject": "[CAS] ",

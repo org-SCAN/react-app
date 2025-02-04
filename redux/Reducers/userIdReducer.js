@@ -4,7 +4,7 @@ const initialState = {
   userId: ""
 };
 
-const userIdReducer = (state = { userId: null }, action) => {
+const userIdReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_USER_ID:
       return { ...state, userId: action.payload };

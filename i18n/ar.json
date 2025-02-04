@@ -72,7 +72,10 @@
     "missingIcons": "رمز أو أكثر مفقود. يرجى مراجعة الوثائق.",
     "missingIconsConfirm": "موافق",
     "missingIconsOpenDoc": "الوثائق",
-    "docButton": "الوثائق"
+    "docButton": "الوثائق",
+    "adminSettings": "إعدادات المشرف",
+    "customFieldTitle": "حقل مخصص لـ JSON output",
+    "customFieldPlaceholder": "أضف حقلاً مخصصًا لكل JSON output"
   },
   "Mail": {
     "subject": "[حالة] ",

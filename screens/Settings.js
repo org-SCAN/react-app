@@ -3,8 +3,7 @@ import { StyleSheet, View, TouchableWithoutFeedback, ActivityIndicator } from "r
 import { useDispatch } from "react-redux";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { connect } from "react-redux";
-import { switchMode } from "../redux/actions";
-import { handleThemeChange, openDocumentation } from "../components/Settings/SettingsHandler";
+import { openDocumentation } from "../components/Settings/SettingsHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
 import SettingsForm from "../components/Settings/SettingsForm";
 import SettingsAlerts from "../components/Settings/SettingsAlerts";
@@ -12,8 +11,7 @@ import SettingsButton from "../components/Settings/SettingsButton";
 import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 
 const Settings = (props) => {
-  const { intlData, theme } = props;
-  const dispatch = useDispatch();
+  const { intlData } = props;
   const styles = baseStyles;
 
   const [loading, setLoading] = useState(false);
@@ -46,8 +44,6 @@ const Settings = (props) => {
           showsVerticalScrollIndicator={false}
         >
           <SettingsToggle
-            onValueChange={(value) => dispatch(switchMode(theme.mode === "light" ? "dark" : "light"))}
-            value={theme.mode === "dark"}
             title={intlData.messages.Settings.lightTheme}
             description={intlData.messages.Settings.themeDescription}
             {...props}

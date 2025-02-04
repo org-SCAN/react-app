@@ -72,7 +72,10 @@
     "missingIcons": "One or more icons are missing. Please check the documentation.",
     "missingIconsConfirm": "OK",
     "missingIconsOpenDoc": "DOC",
-    "docButton": "Documentation"
+    "docButton": "Documentation",
+    "adminSettings": "Admin Configuration",
+    "customFieldTitle": "Custom Field for JSON Output",
+    "customFieldPlaceholder": "Add a custom field to every JSON output"
   },
   "Mail": {
     "subject": "[CASE] ",

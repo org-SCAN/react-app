@@ -9,6 +9,7 @@ export const EDIT_CASE = "EDIT_CASE";
 export const DELETE_CASE = "DELETE_CASE";
 export const UPDATE_USER_ID = 'UPDATE_USER_ID';
 export const UPDATE_CASE_NUMBER = 'UPDATE_CASE_NUMBER';
+export const UPDATE_CUSTOM_FIELD = 'UPDATE_CUSTOM_FIELD';
 
 export const UPDATE_LANGUAGE = "UPDATE_LANGUAGE";
 

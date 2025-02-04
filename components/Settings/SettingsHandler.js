@@ -1,4 +1,4 @@
-import { switchMode, updateUserId, updateEmail, updateCaseNumber, updateLanguage } from "../../redux/actions";
+import { switchMode, updateUserId, updateEmail, updateCaseNumber, updateLanguage, updateCustomField } from "../../redux/actions";
 import { clearImage, clearCase } from "../../redux/actions";
 import { saveIconPath, updateIcon, updateIconUrl } from "../../redux/actions";
 import { deleteCameraCache } from "../../utils/cacheManager";
@@ -11,6 +11,11 @@ export const handleSaveUserId = (dispatch, userId, setUserId, setAlertStates) =>
   dispatch(updateUserId(userId));
   setUserId("");
   setAlertStates((prev) => ({ ...prev, userIdUpdate: true }));
+};
+
+export const handleCustomFieldChange = (dispatch, customField, setCustomField) => {
+  dispatch(updateCustomField(customField));
+  setCustomField(customField);
 };
 
 export const handleSaveEmail = (dispatch, email, setAlertStates) => {

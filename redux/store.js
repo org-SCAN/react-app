@@ -21,6 +21,7 @@ import iconUrlReducer from "./Reducers/iconUrlReducer";
 import iconPathReducer from "./Reducers/iconPathReducer";
 import iconReducer from "./Reducers/iconReducer";
 import locationReducer from "./Reducers/locationReducer";
+import customFieldReducer from "./Reducers/customFieldReducer";
 
 const rootReducer = combineReducers({
   theme: themeReducer,
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   iconUrl: iconUrlReducer,
   iconPath: iconPathReducer,
   location: locationReducer,
+  customField: customFieldReducer,
 });
 
 const persistConfig = {

@@ -1,30 +1,42 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset } from "../../components/Settings/SettingsHandler";
+import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange } from "../../components/Settings/SettingsHandler";
 
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
-import SettingsFormTwoButtonField from "../../components/Settings/SettingsFormTwoButtonField";
+import SettingsFormTwoButtonField from "./SettingsFormTwoButtonField";
+import SettingsFormFreeField from "./SettingsFormFreeField";
 
 
 const SettingsForm = (props) => {
   const { intlData, setAlertStates, setLoading, dispatch, theme } = props;
   const styles = theme.mode == "dark" ? stylesDark : stylesLight;
 
-  const [userId, setUserId] = useState('');
-  const [newCaseNumber, setNewCaseNumber] = useState(0);
-  const [email, setEmail] = useState('');
-  const [iconUrl, setIconUrl] = useState('');
-
   const storedUserId = useSelector(state => state.userId.userId);
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
   const storedIconUrl = useSelector((state) => state.iconUrl.url);
+  const storedCustomField = useSelector((state) => state.customField.customField);
+
+  const [userId, setUserId] = useState('');
+  const [newCaseNumber, setNewCaseNumber] = useState(0);
+  const [email, setEmail] = useState('');
+  const [iconUrl, setIconUrl] = useState('');
+  const [customField, setCustomField] = useState(storedCustomField);
 
   return (
     <View>
+      <SettingsFormFreeField
+        title={intlData.messages.Settings.customFieldTitle}
+        placeholder={intlData.messages.Settings.customFieldPlaceholder}
+        value={customField}
+        onChangeText={setCustomField}
+        onBlur={() => handleCustomFieldChange(dispatch, customField, setCustomField)}
+        styles={styles}
+      />
       <SettingsFormField
+        title={intlData.messages.Settings.adminSettings}
         placeholder={intlData.messages.Settings.enterUserID}
         value={userId}
         maxLength={10}
@@ -80,6 +92,18 @@ const baseStyles = StyleSheet.create({
   fieldContainer: {
     marginVertical: 10,
   },
+  title: {
+    fontWeight: "600",
+    marginTop: 10,
+    marginBottom: 4,
+    fontSize: 15,
+  },
+  freeFieldContainer: {
+    marginVertical: 10,
+    alignItems: "flex-start",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   input: {
     height: 40,
     borderWidth: 1,
@@ -87,6 +111,17 @@ const baseStyles = StyleSheet.create({
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.1,
     paddingLeft: 8,
+  },
+  freeInput: {
+    width: `100%`,
+    borderWidth: 1,
+    borderRadius: 5,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
+    paddingLeft: 8,
+    paddingTop: 10, 
+    paddingBottom: 8,
+    minHeight: 40,
   },
   button: {
     marginVertical: 5,
@@ -132,8 +167,18 @@ const baseStyles = StyleSheet.create({
 
 const stylesLight = StyleSheet.create({
   ...baseStyles,
+  title: {
+    ...baseStyles.title,
+    color: THEME_COLOR.LIGHT.MAIN_TEXT,
+  },
   input: {
     ...baseStyles.input,
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
+    color: THEME_COLOR.LIGHT.INPUT_TEXT,
+  },
+  freeInput: {
+    ...baseStyles.freeInput,
     borderColor: THEME_COLOR.LIGHT.INPUT,
     backgroundColor: THEME_COLOR.LIGHT.INPUT,
     color: THEME_COLOR.LIGHT.INPUT_TEXT,
@@ -168,8 +213,18 @@ const stylesLight = StyleSheet.create({
 
 const stylesDark = StyleSheet.create({
   ...baseStyles,
+  title: {
+    ...baseStyles.title,
+    color: THEME_COLOR.DARK.MAIN_TEXT,
+  },
   input: {
     ...baseStyles.input,
+    borderColor: THEME_COLOR.DARK.INPUT,
+    backgroundColor: THEME_COLOR.DARK.INPUT,
+    color: THEME_COLOR.DARK.INPUT_TEXT,
+  },
+  freeInput: {
+    ...baseStyles.freeInput,
     borderColor: THEME_COLOR.DARK.INPUT,
     backgroundColor: THEME_COLOR.DARK.INPUT,
     color: THEME_COLOR.DARK.INPUT_TEXT,

@@ -72,11 +72,17 @@ const baseStyles = {
       },
     }),
   },
+  mainText: {
+    fontWeight: "600",
+    marginBottom: 4,
+    fontSize: 15,
+  },
 };
 
 const stylesLight = StyleSheet.create({
   ...baseStyles,
   mainText: {
+    ...baseStyles.mainText,
     color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
   pickerWrapper: {
@@ -101,6 +107,7 @@ const stylesLight = StyleSheet.create({
 const stylesDark = StyleSheet.create({
   ...baseStyles,
   mainText: {
+    ...baseStyles.mainText,
     color: THEME_COLOR.DARK.MAIN_TEXT,
   },
   pickerItem: {

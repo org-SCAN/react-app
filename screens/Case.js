@@ -67,6 +67,7 @@ const Case = (props) => {
   const iconPersonalized = useSelector(state => state.icon.icon);
   const coords = useSelector(state => state.location.coords);
   const permissionStatus = useSelector(state => state.location.permissionStatus);
+  const customField = useSelector(state => state.customField.customField);
 
   const FORM = [
     {
@@ -226,12 +227,14 @@ const Case = (props) => {
     const data = {
       id: caseID,
       tag: tag,
+      customField: customField,
       description: description,
       ...keyValuesObject,
       images: imageIDs,
       date: new Date().toISOString(),
       coordinates: coordinates,
     };
+    console.log("Data to submit: ", data);
     const path = await createZip(data);
     if (!path) {
       console.error("Attachment path is invalid.");

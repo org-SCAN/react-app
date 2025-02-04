@@ -9,6 +9,7 @@ import {
   UPDATE_LANGUAGE,
   UPDATE_USER_ID,
   UPDATE_CASE_NUMBER,
+  UPDATE_CUSTOM_FIELD,
   UPDATE_EMAIL,
   UPDATE_ICON,
   UPDATE_ICON_URL,
@@ -80,6 +81,13 @@ export const updateUserId = (userId) => {
   return {
     type: UPDATE_USER_ID,
     payload: userId,
+  };
+};
+
+export const updateCustomField = (customField) => {
+  return {
+    type: UPDATE_CUSTOM_FIELD,
+    payload: customField,
   };
 };
 
