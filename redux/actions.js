@@ -15,6 +15,8 @@ import {
   UPDATE_ICON_URL,
   UPDATE_LOCATION,
   UPDATE_PERMISSION_STATUS,
+  UPDATE_TYPE_AVAILABLE,
+  UPDATE_TYPE_URL,
   SAVE_ICON_PATH
 } from "./constants";
 
@@ -130,6 +132,20 @@ export const updatePermissionStatus = (status) => {
   return {
     type: UPDATE_PERMISSION_STATUS,
     payload: status,
+  };
+}
+
+export const updateTypeAvailable = (types) => {
+  return {
+    type: UPDATE_TYPE_AVAILABLE,
+    payload: types,
+  };
+};
+
+export const updateTypeUrl = (url) => {
+  return {
+    type: UPDATE_TYPE_URL,
+    payload: url,
   };
 }
 
