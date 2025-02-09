@@ -143,7 +143,7 @@ const Case = (props) => {
       setAlertVisibleFieldMissing(true);
       return false;
     }
-
+    console.log("Selected types: ", selectedTypes, selectedTypes.length === 0 && types.length > 0, types.length);
     if (selectedTypes.length === 0 && types.length > 0) {
       setAlertMessage(`${intlData.messages.Case.addType}`);
       setAlertTitle("⚠️");
@@ -339,38 +339,48 @@ const Case = (props) => {
 
 
   //function called when an icon is selected for the sex
-  const handleIconSelectionSex = (selectedIconSex) => {
+  const handleIconSelectionSex = (value) => {
     const updatedForm = form.map((item) => {
-      // Set the selected icon value
-      setSelectedIconSex(selectedIconSex);
-      const sexItem = form.find((item) => item.key === "sex");
-      const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
-      if (selectedIndex !== -1) {
-        const selectedIconName = sexItem.icons[selectedIndex].name;
-        form.find((item) => item.key === "sex").value = selectedIconName;
+      // Toggle the selected icon value
+      if (selectedIconSex === value) {
+        setSelectedIconSex(null);
+        form.find((item) => item.key === "sex").value = null;
+      } else {
+        setSelectedIconSex(value);
+        const sexItem = form.find((item) => item.key === "sex");
+        const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === value);
+        if (selectedIndex !== -1) {
+          const selectedIconName = sexItem.icons[selectedIndex].name;
+          form.find((item) => item.key === "sex").value = selectedIconName;
+        }
       }
       return item;
-      });
+    });
     setform(updatedForm);  
     console.log("Updated FORM:", updatedForm);
   };
 
 
   //function called when an icon is selected for the age
-  const handleIconSelectionAge = (selectedIconAge) => {
+  const handleIconSelectionAge = (value) => {
     const updatedForm = form.map((item) => {
-      // Set the selected icon value
-      setSelectedIconAge(selectedIconAge);
-      const ageItem = form.find((item) => item.key === "age");
-      const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
-      if (selectedIndex !== -1) {
-        const selectedIconName = ageItem.icons[selectedIndex].name;
-        form.find((item) => item.key === "age").value = selectedIconName;
+      // Toggle the selected icon value
+      if (selectedIconAge === value) {
+        setSelectedIconAge(null);
+        form.find((item) => item.key === "age").value = null;
+      } else {
+        setSelectedIconAge(value);
+        const ageItem = form.find((item) => item.key === "age");
+        const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === value);
+        if (selectedIndex !== -1) {
+          const selectedIconName = ageItem.icons[selectedIndex].name;
+          form.find((item) => item.key === "age").value = selectedIconName;
+        }
       }
       return item;
     });
     setform(updatedForm);  
-    console.log("Updated FORM:", updatedForm)
+    console.log("Updated FORM:", updatedForm);
   };
 
 
