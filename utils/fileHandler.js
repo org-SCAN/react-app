@@ -140,10 +140,43 @@ export async function openZipAndExtractIcons(zipPath) {
   }
 }
 
+export async function openZipAndExtractTypes(zipPath) {
+  try {
+    const zipContent = await FileSystem.readAsStringAsync(zipPath, {
+      encoding: FileSystem.EncodingType.Base64,
+    });
 
-export async function downloadZipFile(zipUrl) { 
+    const zip = new JSZip();
+    const zipData = await zip.loadAsync(zipContent, { base64: true });
+
+    const labelsFileName = "types.json"; 
+    let labels = [];
+
+    if (zipData.files[labelsFileName]) {
+      const fileData = await zipData.files[labelsFileName].async("text");
+      labels = JSON.parse(fileData); 
+    } else {
+      console.warn(`No types file (${labelsFileName}) found in the ZIP.`);
+      return [] ; 
+    }
+
+    const formattedTypes = labels.map(label => ({
+      label: label,
+      value: label.toLowerCase().replace(/\s+/g, "_").replace(/[^\w_]/g, "")
+    }));
+
+    console.log("Extracted types:", formattedTypes);
+    return formattedTypes;
+
+  } catch (error) {
+    console.error("Error extracting types from ZIP file:", error);
+    throw error;
+  }
+}
+
+export async function downloadZipFile(zipUrl, zipType) { 
   const destinationDir = FileSystem.documentDirectory + "zip"; 
-  const destinationPath = destinationDir + "/icons.zip"; 
+  const destinationPath = destinationDir + zipType; 
 
   try {
     await FileSystem.makeDirectoryAsync(destinationDir, { intermediates: true });
