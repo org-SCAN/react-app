@@ -28,7 +28,10 @@
     "noIconSex": "يرجى اختيار رمز للجنس",
     "noIcons": "يرجى اختيار رموز لكل من الجنس والعمر",
     "description": "أضف معلومات...",
-    "descriptionTitle": "الوصف"
+    "descriptionTitle": "الوصف",
+    "typePlaceholder": "اختر نوعًا",
+    "typeTitle": "النوع",
+    "typeNone": "لم يتم تحميل أي أنواع"
   },
   "consultCases": {
     "title": "عرض الحالات",
@@ -65,9 +68,9 @@
     "enterIconUrl": "أدخل رابط رموزك",
     "saveIconUrl": "حفظ",
     "resetIconUrl": "إعادة تعيين",
-    "savedIconUrl": "تم حفظ رابط الرموز",
+    "savedIconUrl": "تم تنزيل الأيقونات من الرابط",
     "noSavedIconUrl": "لا يوجد رابط رموز محفوظ",
-    "downloadError": "حدث خطأ أثناء التنزيل",
+    "downloadError": "حدث خطأ أثناء تنزيل الأيقونات",
     "downloadSuccess": "تم تنزيل الرموز بنجاح",
     "missingIcons": "رمز أو أكثر مفقود. يرجى مراجعة الوثائق.",
     "missingIconsConfirm": "موافق",
@@ -75,7 +78,13 @@
     "docButton": "الوثائق",
     "adminSettings": "إعدادات المشرف",
     "customFieldTitle": "حقل مخصص لـ JSON output",
-    "customFieldPlaceholder": "أضف حقلاً مخصصًا لكل JSON output"
+    "customFieldPlaceholder": "أضف حقلاً مخصصًا لكل JSON output",
+    "savedTypeUrl": "أنواع تم تنزيلها من الرابط",
+    "noSavedTypeUrl": "لم يتم حفظ أي رابط للنوع",
+    "enterTypeUrl": "أدخل رابط الأنواع الخاصة بك",
+    "downloadTypeError": "حدث خطأ أثناء تنزيل الأنواع",
+    "downloadTypeSuccess": "تم تنزيل الأنواع بنجاح",
+    "missingTypes": "لم يتم العثور على أي أنواع. يرجى مراجعة الوثائق."
   },
   "Mail": {
     "subject": "[حالة] ",

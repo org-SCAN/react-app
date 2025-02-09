@@ -28,7 +28,10 @@
     "noIconSex": "Please select an icon for gender",
     "noIcons": "Please select icons for both gender and age",
     "description": "Add information...",
-    "descriptionTitle": "Description"
+    "descriptionTitle": "Description",
+    "typePlaceholder": "Select a type",
+    "typeTitle": "Type",
+    "typeNone": "No types were loaded"
   },
   "consultCases": {
     "title": "View cases",
@@ -65,9 +68,9 @@
     "enterIconUrl": "Enter the URL for your icons",
     "saveIconUrl": "Save",
     "resetIconUrl": "Reset",
-    "savedIconUrl": "Icon URL saved",
+    "savedIconUrl": "Icons downloaded from URL",
     "noSavedIconUrl": "No icon URL saved",
-    "downloadError": "An error occurred while downloading",
+    "downloadError": "An error occurred while downloading icons",
     "downloadSuccess": "Icons downloaded successfully",
     "missingIcons": "One or more icons are missing. Please check the documentation.",
     "missingIconsConfirm": "OK",
@@ -75,7 +78,13 @@
     "docButton": "Documentation",
     "adminSettings": "Admin Configuration",
     "customFieldTitle": "Custom Field for JSON Output",
-    "customFieldPlaceholder": "Add a custom field to every JSON output"
+    "customFieldPlaceholder": "Add a custom field to every JSON output",
+    "savedTypeUrl": "Types downloaded from URL",
+    "noSavedTypeUrl": "No type URL saved",
+    "enterTypeUrl": "Enter the URL for your types",
+    "downloadTypeError": "An error occurred while downloading types",
+    "downloadTypeSuccess": "Types downloaded successfully",
+    "missingTypes": "No types were found. Please check the documentation."
   },
   "Mail": {
     "subject": "[CASE] ",

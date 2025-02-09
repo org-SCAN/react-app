@@ -28,7 +28,10 @@
     "noIconSex": "Veuillez sélectionner l'icône pour le sexe",
     "noIcons": "Veuillez sélectionner les icônes pour le sexe et l'âge",
     "description": "Ajouter des informations...",
-    "descriptionTitle": "Description"
+    "descriptionTitle": "Description",
+    "typePlaceholder": "Sélectionnez un type",
+    "typeTitle": "Type",
+    "typeNone": "Aucun type n'a été chargé"
   },
   "consultCases": {
     "title": "Consulter les cas",
@@ -65,9 +68,9 @@
     "enterIconUrl": "Entrer l'URL de vos icônes",
     "saveIconUrl": "Enregistrer",
     "resetIconUrl": "Réinitialiser",
-    "savedIconUrl": "URL des icônes enregistrée",
+    "savedIconUrl": "Icônes téléchargées depuis l'URL",
     "noSavedIconUrl": "Aucune URL d'icônes enregistrée",
-    "downloadError": "Une erreur s'est produite lors du téléchargement",
+    "downloadError": "Une erreur est survenue lors du téléchargement des icônes",
     "downloadSuccess": "Icônes téléchargées avec succès",
     "missingIcons": "Une ou plusieurs icônes sont manquantes. Veuillez vérifier la documentation.",
     "missingIconsConfirm": "OK",
@@ -75,7 +78,13 @@
     "docButton": "Documentation",
     "adminSettings": "Configuration Admin",
     "customFieldTitle": "Champ personnalisé pour JSON output",
-    "customFieldPlaceholder": "Ajoutez un champ personnalisé à chaque JSON output"
+    "customFieldPlaceholder": "Ajoutez un champ personnalisé à chaque JSON output",
+    "savedTypeUrl": "Types téléchargés depuis l'URL",
+    "noSavedTypeUrl": "Aucune URL de type enregistrée",
+    "enterTypeUrl": "Entrez l'URL de vos types",
+    "downloadTypeError": "Une erreur est survenue lors du téléchargement des types",
+    "downloadTypeSuccess": "Types téléchargés avec succès",
+    "missingTypes": "Aucun type trouvé. Veuillez consulter la documentation."
   },
   "Mail": {
     "subject": "[CAS] ",
