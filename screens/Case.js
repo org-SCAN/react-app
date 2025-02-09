@@ -97,9 +97,10 @@ const Case = (props) => {
   
   const isCaseEmpty = () => {
     const allFieldsEmpty = form.every((element) => element.value === null || element.value === "");
+    const noTypes = selectedTypes.length === 0;
     const noImages = images.length === 0;
   
-    return allFieldsEmpty && noImages;
+    return allFieldsEmpty && noImages && noTypes;
   };
 
   //Change the back button onpress beahviour and disable swipe back
