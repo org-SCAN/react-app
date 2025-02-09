@@ -83,6 +83,7 @@ const baseStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     zIndex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   mainContent: {
     flex: 1,

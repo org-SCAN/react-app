@@ -13,6 +13,7 @@ import {
   TextInput,
   Platform,
   Linking,
+  ActivityIndicator
 } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
@@ -41,6 +42,7 @@ const Case = (props) => {
   const [tag, setTag] = useState(null);
   const [description, setDescription] = useState("");
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(false); 
@@ -215,6 +217,7 @@ const Case = (props) => {
 
   const submit = async () => {
     if (!isCaseComplete()) return;
+    setLoading(true);
     const keyValues = form.map((element) => ({ [element.key]: element.value }));
     const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
@@ -247,11 +250,13 @@ const Case = (props) => {
   
     console.log(isMailAvailable);
     if (!isMailAvailable) {
+      setLoading(false);
       setAlertVisibleNoMail(true);
       return;
     }
 
     if (!email || email.trim() === "") {
+      setLoading(false);
       setAlertVisibleNoMailAddress(true);
       return;
     }
@@ -263,10 +268,12 @@ const Case = (props) => {
         isHtml: true,
         attachments: [path],
       });
+      setLoading(false);
       setTimeout(() => {
       deleteZip(caseID);
       }, 3000); // Pause de 3 secondes
     } catch (error) {
+      setLoading(false);
       console.error("Failed to send email:", error);
     }
   };
@@ -454,6 +461,11 @@ const Case = (props) => {
     <View
       style={styles.mainContent}
     >
+      {loading && (
+              <View style={styles.activityContainer}>
+                <ActivityIndicator size="large" color="white" />
+              </View>
+            )}
         <ScrollView 
           contentContainerStyle={styles.scrollViewContent}
           keyboardShouldPersistTaps="handled"
@@ -615,6 +627,17 @@ function responsiveInput() {
 const basicStyles = StyleSheet.create({
   mainContent: {
     flex: 1,
+  },
+  activityContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   scrollViewContent: {
     flexGrow: 1,
