@@ -482,17 +482,19 @@ const Case = (props) => {
             <Text style={styles.descriptionPhoto}>
               {intlData.messages.Case.descriptionPhoto}
             </Text>
-
+              {images.length > 0 && (
+                <View style={styles.imageContainer}>
             <FlatList
               data={images}
               renderItem={renderImage}
               showsVerticalScrollIndicator={false}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(item) => item.id}
-              ListFooterComponent={<View style={styles.imageContainer} />}
               style={{ flexGrow: 0, flexShrink: 0 }}
               horizontal={true}
             />
+              </View>)}
+            </View>
             <View style={styles.twoButtonsContainer}>
               <ScanButton
                 subtitle={intlData.messages.Case.saveButton}
@@ -656,24 +658,25 @@ const basicStyles = StyleSheet.create({
   descriptionPhoto: {
     fontStyle: "italic",
     fontSize: scale(14),
+    marginBottom: scaleHeight(15),
     textAlign: "center",
   },
   // Images
   imageContainer: {
-    height: scaleHeight(120),
-    marginTop: scaleHeight(15),
-    marginBottom: scaleHeight(10),
+    borderWidth: 5,
+    borderRadius: 10,
+    shadowOffset: { width: 1, height: 1 },
+    shadowOpacity: 0.1,
   },
   imageCase: {
-    width: scaleWidth(120),
+    width: scaleWidth(80),
     height: scaleHeight(120),
     marginHorizontal: scaleWidth(5),
-    marginTop: scaleHeight(15),
-    marginBottom: scaleHeight(10),
     borderRadius: scale(5),
   },
   // Submit / Save buttons
   twoButtonsContainer: {
+    marginTop: scaleHeight(15),
     flexDirection: "row",
     justifyContent: "center",
     alignSelf: "center",
@@ -759,6 +762,11 @@ const lightStyles = StyleSheet.create({
     borderColor: THEME_COLOR.LIGHT.BUTTON_BORDER,
     shadowColor: THEME_COLOR.LIGHT.BUTTON_SHADOW,
   },
+  imageContainer: {
+    ...basicStyles.imageContainer,
+    borderColor: THEME_COLOR.LIGHT.INPUT,
+    backgroundColor: THEME_COLOR.LIGHT.INPUT,
+  },
   bottomButton: {
     ...basicStyles.bottomButton,
     backgroundColor: THEME_COLOR.LIGHT.BUTTON_BACKGROUND,
@@ -809,6 +817,11 @@ const darkStyles = StyleSheet.create({
     backgroundColor: THEME_COLOR.DARK.BUTTON_BACKGROUND,
     borderColor: THEME_COLOR.DARK.BUTTON_BORDER,
     shadowColor: THEME_COLOR.DARK.BUTTON_SHADOW,
+  },
+  imageContainer: {
+    ...basicStyles.imageContainer,
+    borderColor: THEME_COLOR.DARK.INPUT,
+    backgroundColor: THEME_COLOR.DARK.INPUT,
   },
   bottomButton: {
     ...basicStyles.bottomButton,
