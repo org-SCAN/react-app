@@ -27,6 +27,7 @@ import CustomAlert from "../components/Alert/CustomAlert";
 import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { Icon } from "@rneui/themed";
 import { THEME_COLOR } from "../theme/constants";
+import CasePicker from "../components/Case/CasePicker";
 
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
@@ -39,6 +40,7 @@ const Case = (props) => {
   const [selectedIconSex, setSelectedIconSex] = useState(null);
   const [tag, setTag] = useState(null);
   const [description, setDescription] = useState("");
+  const [selectedTypes, setSelectedTypes] = useState([]);
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(false); 
@@ -185,6 +187,7 @@ const Case = (props) => {
     const data = {
       id: caseID,
       tag: tag,
+      types: selectedTypes,
       ...keyValuesObject,
       images: imageIDs,
       description: description,
@@ -214,6 +217,7 @@ const Case = (props) => {
     const data = {
       id: caseID,
       tag: tag,
+      types: selectedTypes,
       customField: customField,
       description: description,
       ...keyValuesObject,
@@ -289,6 +293,7 @@ const Case = (props) => {
       console.log("Case: ", mcase);
       setExistingCase(mcase);
       setCaseID(mcase.id);
+      setSelectedTypes(mcase.types);
       setTag(mcase.tag); // Set tag from existing case
       const updatedForm = form.map((item) => {
         if (item.key === "age") {
@@ -441,8 +446,10 @@ const Case = (props) => {
           onScroll={handleScroll}
           scrollEventThrottle={16}
         >
-          <View style={styles.multipleFieldsContainer}>
-            <Text style={styles.tagLabel}>{tag}</Text>
+          <Text style={styles.tagLabel}>{tag}</Text>
+            <View style={styles.inputContainer}> 
+               <CasePicker style={styles} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes}/>
+            </View>
             {/* Rendu du formulaire Age et Sex */}
             <FlatList
               data={form.filter((item) => item.key !== "injuries")}
@@ -470,29 +477,30 @@ const Case = (props) => {
             </View>
 
             {/* Rendu de l'image et des autres éléments */}
-            <ScanButton 
-              onPressIn={navigateToCamera}
-              name="add-a-photo"
-              size={34}
-              type="material-icons"
-              styleIcon={styles.cameraIcon}
-              styleButton={styles.cameraButton}
-            />
+            <View style={styles.multipleFieldsContainer}>
+              <ScanButton 
+                onPressIn={navigateToCamera}
+                name="add-a-photo"
+                size={34}
+                type="material-icons"
+                styleIcon={styles.cameraIcon}
+                styleButton={styles.cameraButton}
+              />
 
-            <Text style={styles.descriptionPhoto}>
-              {intlData.messages.Case.descriptionPhoto}
-            </Text>
+              <Text style={styles.descriptionPhoto}>
+                {intlData.messages.Case.descriptionPhoto}
+              </Text>
               {images.length > 0 && (
                 <View style={styles.imageContainer}>
-            <FlatList
-              data={images}
-              renderItem={renderImage}
-              showsVerticalScrollIndicator={false}
-              showsHorizontalScrollIndicator={false}
-              keyExtractor={(item) => item.id}
-              style={{ flexGrow: 0, flexShrink: 0 }}
-              horizontal={true}
-            />
+                  <FlatList
+                    data={images}
+                    renderItem={renderImage}
+                    showsVerticalScrollIndicator={false}
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={(item) => item.id}
+                    style={{ flexGrow: 0, flexShrink: 0 }}
+                    horizontal={true}
+                  />
               </View>)}
             </View>
             <View style={styles.twoButtonsContainer}>
@@ -519,7 +527,6 @@ const Case = (props) => {
                 styleButton={styles.bottomButton}
               />
             </View>
-          </View>
         </ScrollView>
       <CustomAlert
         title={alertTitle}
@@ -586,7 +593,7 @@ function scale(size) {
 }
 
 function responsiveInput() {
-  return Math.round(scaleWidth(272)/scaleWidth(300)*100);
+  return Math.round(scaleWidth(280)/scaleWidth(300)*100);
 }
 const basicStyles = StyleSheet.create({
   mainContent: {
@@ -594,25 +601,29 @@ const basicStyles = StyleSheet.create({
   },
   scrollViewContent: {
     flexGrow: 1,
-    alignItems: "center",
+    padding: scale(20),
+    justifyContent: 'space-between',
   },
   multipleFieldsContainer: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
   // IDs
   tagLabel: {
     fontSize: scale(45),
     fontWeight: "600",
-    marginVertical: scaleHeight(20),
+    marginBottom: scaleHeight(20),
     textAlign: "center",
   },
   inputContainer: {
-    width: "100%",
     marginVertical: scaleHeight(2),
+    flex: 1,
+    //alignItems: "center",
+    //flexDirection: "row",
   },
   input: {
     width: `${responsiveInput()}%`,
+    marginVertical: 5,
     borderWidth: 1,
     borderRadius: 5,
     shadowOffset: { width: 1, height: 1 },
@@ -704,7 +715,7 @@ const basicStyles = StyleSheet.create({
     elevation: 3,
     borderWidth: 2,
     margin: 10,
-    marginBottom: 30,
+    marginBottom: 10,
     width: scaleWidth(175),
     height: scaleHeight(60),
     justifyContent: "center",
