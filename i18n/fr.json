@@ -82,7 +82,7 @@
     "customFieldPlaceholder": "Ajoutez un champ personnalisé à chaque JSON output",
     "savedTypeUrl": "Types téléchargés depuis l'URL",
     "noSavedTypeUrl": "Aucune URL de type enregistrée",
-    "enterTypeUrl": "Entrez l'URL de vos types",
+    "enterTypeUrl": "Entrer l'URL de vos types",
     "downloadTypeError": "Une erreur est survenue lors du téléchargement des types",
     "downloadTypeSuccess": "Types téléchargés avec succès",
     "missingTypes": "Aucun type trouvé. Veuillez consulter la documentation."
