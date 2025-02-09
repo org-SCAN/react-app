@@ -21,6 +21,7 @@
     "confirmBack": "Are you sure you want to cancel the case?",
     "warning": "Warning",
     "addImage": "Add at least one photo",
+    "addType": "Select at least one type",
     "allFields": "Please fill in all fields",
     "noMail": "No mail app is installed on your device",
     "noMailAddress": "Please enter a destination email address in the settings",

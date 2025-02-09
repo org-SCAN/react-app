@@ -21,6 +21,7 @@
     "confirmBack": "¿Está seguro de que desea cancelar el caso?",
     "warning": "Advertencia",
     "addImage": "Agregue al menos una foto",
+    "addType": "Seleccione al menos un tipo",
     "allFields": "Por favor, complete todos los campos",
     "noMail": "No hay ninguna aplicación de correo instalada en su dispositivo",
     "noMailAddress": "Ingrese una dirección de correo en la configuración",

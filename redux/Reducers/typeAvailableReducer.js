@@ -2,7 +2,7 @@ import {UPDATE_TYPE_AVAILABLE} from "../constants";
 import {UPDATE_TYPE_URL} from "../constants";
 
 const initialState = {
-    types: [{ label: "", value: "" }],
+    types: [], // [{ label: "", value: "" }]
     url: "",
   };
   

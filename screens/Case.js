@@ -61,6 +61,7 @@ const Case = (props) => {
   const iconPersonalized = useSelector(state => state.icon.icon);
   const permissionStatus = useSelector(state => state.location.permissionStatus);
   const customField = useSelector(state => state.customField.customField);
+  const types = useSelector(state => state.typeAvailable.types);
 
   const FORM = [
     {
@@ -137,6 +138,13 @@ const Case = (props) => {
   const isCaseComplete = () => {
     if (images.length === 0) {
       setAlertMessage(`${intlData.messages.Case.addImage}`);
+      setAlertTitle("⚠️");
+      setAlertVisibleFieldMissing(true);
+      return false;
+    }
+
+    if (selectedTypes.length === 0 && types.length > 0) {
+      setAlertMessage(`${intlData.messages.Case.addType}`);
       setAlertTitle("⚠️");
       setAlertVisibleFieldMissing(true);
       return false;

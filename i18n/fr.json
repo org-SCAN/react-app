@@ -21,6 +21,7 @@
     "confirmBack": "Êtes-vous sûr de vouloir annuler le cas ?",
     "warning": "Attention",
     "addImage": "Ajoutez au moins une photo",
+    "addType": "Sélectionnez au moins un type",
     "allFields": "Veuillez remplir tous les champs",
     "noMail": "Aucune messagerie n'est installée sur votre appareil",
     "noMailAddress": "Veuillez entrer une adresse email de destination dans les paramètres",
