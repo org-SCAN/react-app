@@ -162,7 +162,7 @@ export async function openZipAndExtractTypes(zipPath) {
 
     const formattedTypes = labels.map(label => ({
       label: label,
-      value: label.toLowerCase().replace(/\s+/g, "_").replace(/[^\w_]/g, "")
+      value: label.toLowerCase().replace(/\s+/g, "_").replace(/[^\p{L}\p{N}_]/gu, "")
     }));
 
     console.log("Extracted types:", formattedTypes);
