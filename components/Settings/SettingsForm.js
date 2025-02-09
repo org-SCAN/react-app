@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange } from "../../components/Settings/SettingsHandler";
-
+import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange, handleTypeSave, handleTypeReset } from "../../components/Settings/SettingsHandler";
 import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
@@ -18,11 +17,13 @@ const SettingsForm = (props) => {
   const storedEmail = useSelector(state => state.email.email);
   const storedIconUrl = useSelector((state) => state.iconUrl.url);
   const storedCustomField = useSelector((state) => state.customField.customField);
+  const storedTypeUrl = useSelector((state) => state.typeAvailable.url);
 
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
   const [iconUrl, setIconUrl] = useState('');
+  const [typeUrl, setTypeUrl] = useState('');
   const [customField, setCustomField] = useState(storedCustomField);
 
   return (
@@ -82,6 +83,19 @@ const SettingsForm = (props) => {
         storedValue={storedIconUrl}
         storedText={intlData.messages.Settings.savedIconUrl}
         noStoredText={intlData.messages.Settings.noSavedIconUrl}
+        styles={styles}
+      />
+      <SettingsFormTwoButtonField
+        placeholder={intlData.messages.Settings.enterTypeUrl}
+        value={typeUrl}
+        onChangeText={setTypeUrl}
+        onPressLeft={() => handleTypeSave(dispatch, typeUrl, setTypeUrl, setAlertStates, setLoading)}
+        onPressRight={() => handleTypeReset(dispatch, setTypeUrl)}
+        buttonTextLeft={intlData.messages.Settings.saveIconUrl}
+        buttonTextRight={intlData.messages.Settings.resetIconUrl}
+        storedValue={storedTypeUrl}
+        storedText={intlData.messages.Settings.savedTypeUrl}
+        noStoredText={intlData.messages.Settings.noSavedTypeUrl}
         styles={styles}
       />
     </View>

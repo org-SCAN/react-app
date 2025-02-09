@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, View, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
-import { useDispatch } from "react-redux";
 import SettingsToggle from "../components/Settings/SettingsToggle";
 import { connect } from "react-redux";
 import { openDocumentation } from "../components/Settings/SettingsHandler";
@@ -24,6 +23,9 @@ const Settings = (props) => {
     iconsDownloadCorrect: false,
     iconsDownloadError: false,
     iconsMissing: false,
+    typesDownloadCorrect: false,
+    typesDownloadError: false,
+    typesMissing: false,
   });
 
   return (
