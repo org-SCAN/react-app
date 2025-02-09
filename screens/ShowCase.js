@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   View,
@@ -51,7 +51,7 @@ const ShowCase = (props) => {
   };
 
   // Item à afficher dans la liste
-  const Item = ({ id, tag, date, uri, sex, age, description, styles, onPress }) => (
+  const Item = ({ id, tag, date, uri, styles, onPress }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => {
         const opacity = dragX.interpolate({
@@ -125,9 +125,6 @@ const ShowCase = (props) => {
           tag={item.tag}
           date={item.date}
           uri={item.uri}
-          sex={item.sex}
-          age={item.age}
-          description={item.description}
           styles={styles}
           onPress={() => onPress()}
         />

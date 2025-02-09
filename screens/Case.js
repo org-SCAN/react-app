@@ -338,7 +338,6 @@ const Case = (props) => {
       const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconSex);
       if (selectedIndex !== -1) {
         const selectedIconName = sexItem.icons[selectedIndex].name;
-        console.log(selectedIconName);
         form.find((item) => item.key === "sex").value = selectedIconName;
       }
       return item;
@@ -357,7 +356,6 @@ const Case = (props) => {
       const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === selectedIconAge);
       if (selectedIndex !== -1) {
         const selectedIconName = ageItem.icons[selectedIndex].name;
-        console.log(selectedIconName);
         form.find((item) => item.key === "age").value = selectedIconName;
       }
       return item;
@@ -618,8 +616,6 @@ const basicStyles = StyleSheet.create({
   inputContainer: {
     marginVertical: scaleHeight(2),
     flex: 1,
-    //alignItems: "center",
-    //flexDirection: "row",
   },
   input: {
     width: `${responsiveInput()}%`,

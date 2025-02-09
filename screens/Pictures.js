@@ -10,7 +10,6 @@ import {
   View,
   Text,
   Image,
-  SafeAreaView,
 } from "react-native";
 import { connect } from "react-redux";
 

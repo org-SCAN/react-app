@@ -87,7 +87,7 @@ const stylesLight = StyleSheet.create({
   },
   pickerWrapper: {
     ...baseStyles.pickerWrapper,
-    borderColor: THEME_COLOR.LIGHT.INPUT,
+    borderColor: THEME_COLOR.LIGHT.BACKGROUND,
     backgroundColor: THEME_COLOR.LIGHT.INPUT,
   },
   pickerItem: {
@@ -119,7 +119,7 @@ const stylesDark = StyleSheet.create({
   },
   pickerWrapper: {
     ...baseStyles.pickerWrapper,
-    borderColor: THEME_COLOR.DARK.INPUT,
+    borderColor: THEME_COLOR.DARK.BACKGROUND,
     backgroundColor: THEME_COLOR.DARK.INPUT,
   },
   pickerContainer: {

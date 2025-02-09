@@ -3,36 +3,27 @@ import { StyleSheet, View, Text, Animated } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 import { connect } from "react-redux";
 import { Icon } from "@rneui/themed";
-import { useDispatch, useSelector } from "react-redux";
-import { updateCaseNumber, deleteCase } from "../redux/actions";
+import { useDispatch } from "react-redux";
+import { deleteCase } from "../redux/actions";
 import { deleteImageFromMemory } from "../utils/fileHandler";
 import { THEME_COLOR } from "../theme/constants";
 import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
-
 
 const Home = (props) => {
   const navigation = props.navigation;
   const [mOpacity, setOpacity] = useState(new Animated.Value(0));
   const { intlData } = props;
-  console.log("intlData: ", props.theme);
 
   const styles = props.theme.mode === "light" ? stylesLight : stylesDark;
 
   const dispatch = useDispatch();
-  const caseNumber = useSelector(state => state.caseNumber.caseNumber);
 
   const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
   const [crashImage, setCrashImage] = useState([]);
   
-
-  const handleCreateCase = () => {
-    dispatch(updateCaseNumber(caseNumber+1));
-  };
-
   const handleDeleteImage = (item) => {
     dispatch(deleteCase(item.caseID));
     deleteImageFromMemory(item.id);
-    //deleteCameraCache();
   };
 
   useEffect(() => {
@@ -154,7 +145,7 @@ const basicStyles = StyleSheet.create({
     position: "absolute",
     top: 100,
     borderWidth: 1,
-    width: 300,
+    width: "90%",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
