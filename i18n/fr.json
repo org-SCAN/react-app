@@ -3,49 +3,102 @@
     "title": "Accueil",
     "caseButton": "Nouveau cas",
     "consultButton": "Consulter les cas",
-    "saveCase": "Cas sauvegardé"
+    "saveCase": "Cas sauvegardé",
+    "recoverCase": "Voulez-vous récupérer le cas non sauvegardé ?"
   },
   "Case": {
     "title": "Cas",
     "forename": "Prénom",
     "lastname": "Nom",
-    "age": "Age",
+    "sex": "Sexe",
+    "age": "Âge",
     "injury": "Cause des blessures",
     "photoButton": "Prendre une photo",
     "descriptionPhoto": "Prendre au moins 5 photos si possible",
     "saveButton": "Sauvegarder",
     "submitButton": "Soumettre",
     "backButton": "Retour",
-    "confirmBack": "Etes vous sûr de vouloir annuler le cas ?",
-    "addImage": "Ajouter au moins une photo",
+    "confirmBack": "Êtes-vous sûr de vouloir annuler le cas ?",
+    "warning": "Attention",
+    "addImage": "Ajoutez au moins une photo",
+    "addType": "Sélectionnez au moins un type",
     "allFields": "Veuillez remplir tous les champs",
-    "noMail": "Aucune messagerie n'est installée sur votre appareil"
+    "noMail": "Aucune messagerie n'est installée sur votre appareil",
+    "noMailAddress": "Veuillez entrer une adresse email de destination dans les paramètres",
+    "noIconAge": "Veuillez sélectionner l'icône pour l'âge",
+    "noIconSex": "Veuillez sélectionner l'icône pour le sexe",
+    "noIcons": "Veuillez sélectionner les icônes pour le sexe et l'âge",
+    "description": "Ajouter des informations...",
+    "descriptionTitle": "Description",
+    "typePlaceholder": "Sélectionnez un type",
+    "typeTitle": "Type",
+    "typeNone": "Aucun type n'a été chargé"
   },
   "consultCases": {
     "title": "Consulter les cas",
     "noCase": "Pas de cas à afficher",
-    "editMessage": "Editer les cas ou les modifier",
+    "editMessage": "Cliquer pour modifier ou soumettre",
     "swipeMessage": "Glisser vers la gauche pour supprimer",
     "clearCase1": "Supprimer un cas",
-    "clearCase2": "Êtes vous sûr de vouloir supprimer ce cas ?"
+    "clearCase2": "Êtes-vous sûr de vouloir supprimer ce cas ?"
   },
   "Settings": {
     "title": "Paramètres",
     "lightTheme": "Mode sombre",
-    "themeDescription": "Change le thème de l'application",
+    "themeDescription": "Changer le thème de l'application",
     "selectLanguage": "Sélectionner la langue",
     "debugMessage": "Effacer les données",
-    "clearCases1": "Êtes vous sûr ?",
-    "clearCases2": "Tous les cas seront supprimés"
+    "clearCases1": "Êtes-vous sûr ?",
+    "clearCases2": "Tous les cas seront supprimés",
+    "saveUserID": "Sauvegarder l'ID utilisateur",
+    "saveEmail": "Sauvegarder le mail",
+    "savedUserID": "ID utilisateur sauvegardé",
+    "noSavedUserID": "Aucun ID utilisateur sauvegardé",
+    "savedEmail": "Mail sauvegardé",
+    "noSavedEmail": "Aucun mail sauvegardé",
+    "newCaseNumber": "Entrer un nouveau numéro de cas",
+    "resetCaseNumber": "Enregistrer le nouveau numéro",
+    "storedCaseNumber": "Numéro de cas enregistré",
+    "enterUserID": "Entrer un ID utilisateur",
+    "enterEmail": "Entrer un mail",
+    "success": "Succès",
+    "userIDRegistered": "L'ID utilisateur a été sauvegardé",
+    "caseRegistered": "Le nouveau numéro de cas a été enregistré",
+    "emailRegistered": "Le mail a été sauvegardé",
+    "emailParsingError": "Format du mail invalide",
+    "enterIconUrl": "Entrer l'URL de vos icônes",
+    "saveIconUrl": "Enregistrer",
+    "resetIconUrl": "Réinitialiser",
+    "savedIconUrl": "Icônes téléchargées depuis l'URL",
+    "noSavedIconUrl": "Aucune URL d'icônes enregistrée",
+    "downloadError": "Une erreur est survenue lors du téléchargement des icônes",
+    "downloadSuccess": "Icônes téléchargées avec succès",
+    "missingIcons": "Une ou plusieurs icônes sont manquantes. Veuillez vérifier la documentation.",
+    "missingIconsConfirm": "OK",
+    "missingIconsOpenDoc": "DOC",
+    "docButton": "Documentation",
+    "adminSettings": "Configuration Admin",
+    "customFieldTitle": "Champ personnalisé pour JSON output",
+    "customFieldPlaceholder": "Ajoutez un champ personnalisé à chaque JSON output",
+    "savedTypeUrl": "Types téléchargés depuis l'URL",
+    "noSavedTypeUrl": "Aucune URL de type enregistrée",
+    "enterTypeUrl": "Entrer l'URL de vos types",
+    "downloadTypeError": "Une erreur est survenue lors du téléchargement des types",
+    "downloadTypeSuccess": "Types téléchargés avec succès",
+    "missingTypes": "Aucun type trouvé. Veuillez consulter la documentation."
   },
   "Mail": {
     "subject": "[CAS] ",
-    "body": "<em>Cet email provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
+    "body": "<em>Ce mail provient de l'application Divilite. S'il vous plaît ne répondez pas.</em>"
   },
   "Pictures": {
-    "title": "Photos"
+    "title": "Photos",
+    "dateFormat": "fr-FR"
   },
-
+  "Camera": {
+    "noLocationPermission": "Permission d'accès à la localisation refusée. \nLes photos seront enregistrées sans les données de localisation.",
+    "noLocationFound": "Impossible d'obtenir la localisation, la photo a été enregistrée sans les données de localisation"
+  },
   "yes": "Oui",
   "no": "Non"
 }

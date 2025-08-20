@@ -1,11 +1,12 @@
 import { DefaultTheme } from "@react-navigation/native";
 import IconButton from "../components/BasicUI/IconButton";
-import { SCAN_COLOR } from "./constants";
+import { THEME_COLOR } from "./constants";
 import * as RootNavigation from "../RootNavigation";
 
 const Screen = {
-  headerStyle: { backgroundColor: SCAN_COLOR },
+  headerStyle: { backgroundColor: THEME_COLOR.SCAN },
   headerTintColor: "#fff",
+  headerTitleAlign: "center",
   headerTitleStyle: {
     fontSize: 20,
   },
@@ -14,7 +15,7 @@ const BasicNavigationThemeLight = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: "#fff",
+    background: THEME_COLOR.LIGHT.BACKGROUND,
   },
 };
 
@@ -22,7 +23,7 @@ const BasicNavigationThemeDark = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    background: "#1C1C1EFF",
+    background: THEME_COLOR.DARK.BACKGROUND,
   },
 };
 
@@ -42,7 +43,7 @@ const HomeTheme = (props) => {
 
 const CameraTheme = {
   ...Screen,
-  headerShown: false,
+  //headerShown: false,
   headerStyle: { backgroundColor: "black" },
 };
 

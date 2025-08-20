@@ -1,65 +1,23 @@
-import { StyleSheet, Text, Pressable } from "react-native";
+import { Text, Pressable } from "react-native";
 import { connect } from "react-redux";
+import { Icon } from "@rneui/themed";
+import { THEME_COLOR } from "../../theme/constants";
+
 
 const ScanButton = (props) => {
-  var styles = props.theme.mode === "light" ? stylesLight : stylesDark;
-  if (props.style) {
-    styles.button = { ...styles.button, ...props.style };
-  }
+  const { size, name, theme, subtitle, onPressIn, styleIcon, onPress, type, styleText, styleButton } = props;
   return (
-    <Pressable style={styles.button} onPress={props.onPress}>
-      <Text style={styles.text}>{props.title || "default"}</Text>
+    <Pressable style={styleButton} onPressIn={onPressIn} onPress={onPress}>
+      <Icon 
+       name={name} 
+       size={size ? size : styleIcon.size}
+       color={theme.mode === "light" ? THEME_COLOR.LIGHT.BUTTON_TEXT : THEME_COLOR.DARK.BUTTON_TEXT} 
+       type={type} 
+      />
+      {subtitle && <Text style={styleText}>{subtitle}</Text>}
     </Pressable>
   );
 };
-
-const basicStyles = StyleSheet.create({
-  button: {
-    paddingVertical: 12,
-    paddingHorizontal: 40,
-    borderRadius: 4,
-    elevation: 3,
-    borderWidth: 2,
-    margin: 10,
-    width: 200,
-    shadowColor: "black",
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.4,
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: "bold",
-    letterSpacing: 0.25,
-    textAlign: "center",
-  },
-});
-
-const stylesLight = StyleSheet.create({
-  ...basicStyles,
-  button: {
-    ...basicStyles.button,
-    backgroundColor: "white",
-    borderColor: "grey",
-  },
-  text: {
-    ...basicStyles.text,
-    color: "black",
-  },
-});
-
-const stylesDark = StyleSheet.create({
-  ...basicStyles,
-  button: {
-    ...basicStyles.button,
-    backgroundColor: "grey",
-    borderColor: "grey",
-  },
-  text: {
-    ...basicStyles.text,
-    color: "white",
-  },
-});
 
 function mapStateToProps(state) {
   return { theme: state.theme };

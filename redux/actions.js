@@ -7,6 +7,17 @@ import {
   DELETE_CASE,
   EDIT_CASE,
   UPDATE_LANGUAGE,
+  UPDATE_USER_ID,
+  UPDATE_CASE_NUMBER,
+  UPDATE_CUSTOM_FIELD,
+  UPDATE_EMAIL,
+  UPDATE_ICON,
+  UPDATE_ICON_URL,
+  UPDATE_LOCATION,
+  UPDATE_PERMISSION_STATUS,
+  UPDATE_TYPE_AVAILABLE,
+  UPDATE_TYPE_URL,
+  SAVE_ICON_PATH
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -67,3 +78,80 @@ export const deleteCase = (id) => {
     payload: id,
   };
 };
+
+export const updateUserId = (userId) => {
+  return {
+    type: UPDATE_USER_ID,
+    payload: userId,
+  };
+};
+
+export const updateCustomField = (customField) => {
+  return {
+    type: UPDATE_CUSTOM_FIELD,
+    payload: customField,
+  };
+};
+
+export const updateCaseNumber = (caseNumber) => {
+  return {
+    type: UPDATE_CASE_NUMBER,
+    payload: caseNumber,
+  };
+};
+
+export const updateEmail = (email) => {
+  return {
+    type: UPDATE_EMAIL,
+    payload: email,
+  };
+}
+
+export const updateIcon = (icon) => {
+  return {
+    type: UPDATE_ICON,
+    payload: icon,
+  };
+}
+
+export const updateIconUrl = (iconUrl) => {
+  return{
+    type: UPDATE_ICON_URL,
+    payload: iconUrl,
+  };
+}
+
+export const updateLocationCoords = (location) => {
+  return {
+    type: UPDATE_LOCATION,
+    payload: location,
+  };
+}
+
+export const updatePermissionStatus = (status) => {
+  return {
+    type: UPDATE_PERMISSION_STATUS,
+    payload: status,
+  };
+}
+
+export const updateTypeAvailable = (types) => {
+  return {
+    type: UPDATE_TYPE_AVAILABLE,
+    payload: types,
+  };
+};
+
+export const updateTypeUrl = (url) => {
+  return {
+    type: UPDATE_TYPE_URL,
+    payload: url,
+  };
+}
+
+export const saveIconPath = (iconPath) => ({
+  type: SAVE_ICON_PATH,
+  payload: iconPath,
+});
+
+

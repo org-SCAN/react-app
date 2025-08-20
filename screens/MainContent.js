@@ -4,7 +4,9 @@ import Home from "./Home";
 import Settings from "./Settings";
 import ScanCamera from "./Camera";
 import ShowCase from "./ShowCase";
+import { View } from "react-native";
 import Pictures from "./Pictures";
+import LocationUpdater from "../utils/locationUpdater";
 import Case from "./Case";
 import React from "react";
 import { connect } from "react-redux";
@@ -17,10 +19,14 @@ const MainContent = (props) => {
   const styles =
     props.theme.mode == "light" ? navigationStyle.light : navigationStyle.dark;
   const { intlData } = props;
-  console.log(props);
   return (
+    <View style={{ flex: 1, backgroundColor: styles.navigation.colors.background }}>
     <NavigationContainer theme={styles.navigation} ref={navigationRef}>
-      <Stack.Navigator>
+      <LocationUpdater />
+      <Stack.Navigator
+       screenOptions={{
+        animation: "slide_from_right"
+       }}>
         <Stack.Screen
           name="Home"
           component={Home}
@@ -62,6 +68,8 @@ const MainContent = (props) => {
         />
       </Stack.Navigator>
     </NavigationContainer>
+    
+    </View>
   );
 };
 

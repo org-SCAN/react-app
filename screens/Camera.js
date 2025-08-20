@@ -1,22 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, View, ActivityIndicator } from "react-native";
-import { useDispatch } from "react-redux";
-import { Camera } from "expo-camera";
-import { storeImage } from "../redux/actions";
+import { StyleSheet, View, ActivityIndicator, Text, Button } from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { storeImage, updateLocation } from "../redux/actions";
+import { connect } from "react-redux";
 import IconButton from "../components/BasicUI/IconButton";
 import uuid from "react-native-uuid";
 import * as Location from "expo-location";
+import CustomAlert from "../components/Alert/CustomAlert";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { saveImageToMemory } from "../utils/fileHandler";
 
 const ScanCamera = (props) => {
   const { navigation } = props;
+  const { intlData } = props;
   const caseID = props.route.params.caseID;
-  const camType = Camera.Constants.Type;
-  const [camera, setCamera] = useState(null);
-  const [type, setType] = useState(camType.back);
-  const [loading, setLoading] = useState(false);
 
+  const [camera, setCamera] = useState(null);
+  const [facing, setFacing] = useState("back");
+  const [loading, setLoading] = useState(false);  
+
+  const coords = useSelector(state => state.location.coords);
+   
   const dispatch = useDispatch();
 
   const saveImage = (data) => {
@@ -25,47 +30,48 @@ const ScanCamera = (props) => {
 
   const takePicture = async () => {
     setLoading(true);
-    if (camera) {
-      const data = await camera.takePictureAsync({
-        quality: 0.25,
-        base64: true,
-      });
-      if (data && data.base64) {
-        const imageId = uuid.v4();
-        //get permission status
-        const { status } = await Location.requestForegroundPermissionsAsync();
-        var location = { coords: { latitude: 0, longitude: 0 } };
-        if (status !== "granted") {
-          alert(
-            "Permission to access location was denied, photo was saved without location data"
-          );
-        } else {
-          //get location in 5 seconds max
-          location = await Location.getCurrentPositionAsync({
-            accuracy: Location.Accuracy.Balanced,
-            timeout: 5000,
-          });
-          if (!location) {
+    try {
+      if (camera) {
+        const data = await camera.takePictureAsync({
+          quality: 0.40,
+          base64: true,
+        });
+        if (data && data.base64) {
+          const imageId = uuid.v4();
+          let location = { coords: coords };
+          if ((location.coords.latitude === 0 && location.coords.longitude === 0)) {
             alert(
-              "Could not get location, photo was saved without location data"
+              intlData.messages.Camera.noLocationFound
             );
           }
+          // Save image to file system
+          const path = await saveImageToMemory(data.base64, imageId);
+          const image = {
+            id: imageId,
+            caseID: caseID,
+            date: new Date().toISOString(),
+            data: path,
+            lat: location.coords.latitude,
+            lng: location.coords.longitude,
+          };
+          saveImage(image);
+          deleteCameraCache();
         }
-        //save image to file system
-        const path = await saveImageToMemory(data.base64, imageId);
-        const image = {
-          id: imageId,
-          caseID: caseID,
-          date: new Date().toISOString(),
-          data: path,
-          lat: location.coords.latitude,
-          lng: location.coords.longitude,
-        };
-        saveImage(image);
-        deleteCameraCache();
       }
+      else {
+        alert("Camera not ready, please try again.");
+      }
+    } catch (error) {
+      console.error("Error taking picture:", error);
+    } finally {
+      setLoading(false);
     }
   };
+
+  const toggleCameraFacing = () => {
+    setFacing((prevFacing) => (prevFacing === "back" ? "front" : "back"));
+  };
+
   return (
     <View style={styles.container}>
       {loading && (
@@ -73,36 +79,34 @@ const ScanCamera = (props) => {
           <ActivityIndicator size="large" color="white" />
         </View>
       )}
-      <Camera
+      <CameraView 
+        style={styles.camera} 
+        facing={facing} 
         ref={(ref) => setCamera(ref)}
-        style={styles.camera}
-        type={type}
         ratio={"1:1"}
         quality={0.25}
-      />
-
-      <View style={styles.control}>
-        <IconButton
-          name="camera"
-          color="white"
-          onPress={() =>
-            takePicture().then(() => {
-              navigation.goBack();
-            })
-          }
-          size={40}
-          style={styles.icon}
-        />
-        <IconButton
-          name="autorenew"
-          color="white"
-          onPress={() => {
-            setType(type === camType.back ? camType.front : camType.back);
-          }}
-          size={40}
-          style={styles.icon}
-        />
-      </View>
+      >
+        <View style={styles.control}>
+          <IconButton
+            name="camera"
+            color="white"
+            onPress={() => {
+              takePicture().then(() => {
+                navigation.goBack();
+              });
+            }}
+            size={40}
+            style={styles.icon}
+          />
+          <IconButton
+            name="autorenew"
+            color="white"
+            onPress={toggleCameraFacing}
+            size={40}
+            style={styles.icon}
+          />
+        </View>
+      </CameraView>
     </View>
   );
 };
@@ -110,29 +114,22 @@ const ScanCamera = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignContent: "center",
     backgroundColor: "black",
   },
   camera: {
-    aspectRatio: 1,
-    flex: 2,
-    marginBottom: 40,
+    flex: 1,
   },
   control: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "transparent",
   },
   icon: {
     marginHorizontal: 30,
-  },
-  preview: {
-    width: 75,
-    height: 75,
-    position: "absolute",
-    bottom: 25,
-    right: 25,
+    marginVertical: 50,
+    alignSelf: 'flex-end',
   },
   activityContainer: {
     position: "absolute",
@@ -147,4 +144,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ScanCamera;
+function mapStateToProps(state) {
+  return {
+    intlData: state.lang,
+  };
+}
+
+export default connect(mapStateToProps)(ScanCamera);

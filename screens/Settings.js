@@ -1,90 +1,97 @@
-import React, { useState, useEffect } from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
-import { useDispatch } from "react-redux";
-import { clearImage, clearCase } from "../redux/actions";
+import React, { useState } from "react";
+import { StyleSheet, View, TouchableWithoutFeedback, ActivityIndicator } from "react-native";
 import SettingsToggle from "../components/Settings/SettingsToggle";
-import { SCAN_COLOR } from "../theme/constants";
-import { showConfirmDialog } from "../components/Settings/ConfirmDialog";
-import { switchMode, updateLanguage } from "../redux/actions";
 import { connect } from "react-redux";
-import { deleteCameraCache } from "../utils/cacheManager";
-import { deleteAll } from "../utils/fileHandler";
+import { openDocumentation } from "../components/Settings/SettingsHandler";
 import LanguagePicker from "../components/Settings/languagePicker";
+import SettingsForm from "../components/Settings/SettingsForm";
+import SettingsAlerts from "../components/Settings/SettingsAlerts";
+import SettingsButton from "../components/Settings/SettingsButton";
+import { KeyboardAvoidingView, Platform, ScrollView, Keyboard } from 'react-native';
 
 const Settings = (props) => {
   const { intlData } = props;
-  const dispatch = useDispatch();
-  const [showBox, setShowBox] = useState(true);
+  const styles = baseStyles;
 
-  // Handle changing the theme mode
-  const handleThemeChange = () => {
-    dispatch(switchMode(props.theme.mode === "light" ? "dark" : "light"));
-  };
-
-  const clear = () => {
-    setShowBox(false);
-    deleteAll();
-    dispatch(clearImage());
-    dispatch(clearCase());
-    deleteCameraCache();
-  };
+  const [loading, setLoading] = useState(false);
+  const [alertStates, setAlertStates] = useState({
+    clearWarning: false,
+    userIdUpdate: false,
+    emailCorrect: false,
+    emailError: false,
+    caseNumberUpdate: false,
+    iconsDownloadCorrect: false,
+    iconsDownloadError: false,
+    iconsMissing: false,
+    typesDownloadCorrect: false,
+    typesDownloadError: false,
+    typesMissing: false,
+  });
 
   return (
-    <View style={styles.mainContent}>
-      {showBox}
-      <SettingsToggle
-        style={styles.toggle}
-        onChange={() => {
-          handleThemeChange();
-        }}
-        value={props.theme.mode === "dark"}
-        title={intlData.messages.Settings.lightTheme}
-        description={intlData.messages.Settings.themeDescription}
-      />
-      <View>
-        <LanguagePicker></LanguagePicker>
-      </View>
-      <View style={styles.bottom}>
-        <Text style={styles.hint}>Debug</Text>
-        <Button
-          title={intlData.messages.Settings.debugMessage}
-          color={SCAN_COLOR}
-          onPress={() =>
-            showConfirmDialog(
-              intlData.messages.Settings.clearCases1,
-              intlData.messages.Settings.clearCases2,
-              clear
-            )
-          }
-        />
-      </View>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      style={styles.mainContent}
+    >
+      {loading && (
+        <View style={styles.activityContainer}>
+          <ActivityIndicator size="large" color="white" />
+        </View>
+      )}  
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <ScrollView 
+          contentContainerStyle={styles.scrollViewContent} 
+          automaticallyAdjustKeyboardInsets={true}
+          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
+        >
+          <SettingsToggle
+            title={intlData.messages.Settings.lightTheme}
+            description={intlData.messages.Settings.themeDescription}
+            {...props}
+          />
+          <LanguagePicker />
+          <SettingsForm
+            setAlertStates={setAlertStates}
+            setLoading={setLoading}
+            {...props}
+          />
+          <SettingsButton
+            onPress={() => setAlertStates((prev) => ({ ...prev, clearWarning: true }))}
+            buttonText={intlData.messages.Settings.debugMessage}
+            {...props}
+          />
+          <SettingsButton
+            onPress={openDocumentation}
+            buttonText={intlData.messages.Settings.docButton}
+            {...props}
+          />
+        </ScrollView>
+      </TouchableWithoutFeedback>
+      <SettingsAlerts alertStates={alertStates} setAlertStates={setAlertStates} {...props}/>
+    </KeyboardAvoidingView>
   );
 };
 
-const styles = StyleSheet.create({
+const baseStyles = StyleSheet.create({
+  activityContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   mainContent: {
-    margin: 30,
-    height: "100%",
+    flex: 1,
   },
-  toggle: {
-    marginBottom: 20,
-  },
-  bottom: {
-    position: "absolute",
-    bottom: 50,
-    width: "100%",
-  },
-  bottomLanguage: {
-    position: "absolute",
-    bottom: 200,
-    width: "100%",
-  },
-  hint: {
-    fontStyle: "italic",
-    color: "#B3B3B3",
-    alignContent: "center",
-    textAlign: "center",
+  scrollViewContent: {
+    flexGrow: 1,
+    padding: 25,
+    justifyContent: 'space-between',
   },
 });
 
