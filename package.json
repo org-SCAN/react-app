@@ -18,7 +18,7 @@
     "@rneui/themed": "^4.0.0-rc.7",
     "expo": "53.0.22",
     "expo-camera": "~16.1.11",
-    "expo-file-system": "^18.0.10",
+    "expo-file-system": "^19.0.14",
     "expo-location": "~18.1.6",
     "expo-mail-composer": "~14.1.6",
     "expo-media-library": "~17.1.7",
