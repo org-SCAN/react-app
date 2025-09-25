@@ -2,7 +2,7 @@ import {
   cacheDirectory,
   deleteAsync,
   readDirectoryAsync,
-} from "expo-file-system";
+} from "expo-file-system/legacy";
 
 export async function displayCameraCache() {
   const cache = await readDirectoryAsync(cacheDirectory);

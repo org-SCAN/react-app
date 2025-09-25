@@ -4,7 +4,7 @@ import { saveIconPath, updateIcon, updateIconUrl, updateTypeUrl, updateTypeAvail
 import { deleteCameraCache } from "../../utils/cacheManager";
 import { deleteAll, deleteIcons, deleteZipIcons, downloadZipFile, openZipAndExtractIcons, openZipAndExtractTypes } from "../../utils/fileHandler";
 import { Linking } from "react-native";
-import * as FileSystem from "expo-file-system";
+import * as FileSystem from "expo-file-system/legacy";
 import { SCAN_DOC } from "../../theme/constants";
 
 export const handleSaveUserId = (dispatch, userId, setUserId, setAlertStates) => {

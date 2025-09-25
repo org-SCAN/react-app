@@ -35,6 +35,9 @@
         "projectId": "33c94eb9-898a-4e16-b177-23ca9a826e0e"
       }
     },
-    "owner": "bbz"
+    "owner": "bbz",
+    "plugins": [
+      "expo-mail-composer"
+    ]
   }
 }
