@@ -26,7 +26,7 @@ import { createZip } from "../utils/fileHandler";
 import { deleteImageFromMemory, deleteZip } from "../utils/fileHandler";
 import CustomAlert from "../components/Alert/CustomAlert";
 import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
-import { Icon } from "@rneui/themed";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { THEME_COLOR } from "../theme/constants";
 import CasePicker from "../components/Case/CasePicker";
 
@@ -108,25 +108,26 @@ const Case = (props) => {
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: (props) => (
-        <Icon
-          {...props}
-          name={existingCase ? "folder-search" : "home"} 
-          size={35} 
-          color="white"
-          type={existingCase ? "material-community" : "material-icons-outlined"} 
-          onPressIn={() => {
-            // Ensure state logic does not trigger re-renders unnecessarily
+      headerLeft: () => (
+        <Pressable
+          onPress={() => {
             if (!existingCase && !isCaseEmpty()) {
-              setAlertVisibleGoBack(true); // Show alert before navigating back
+              setAlertVisibleGoBack(true);
             } else {
               navigation.goBack();
             }
             console.log("Case number after going back: ", caseNumber);
           }}
-        />
+          style={{ paddingHorizontal: 10 }}
+        >
+          {existingCase ? (
+            <MaterialCommunityIcons name="folder-search" size={35} color="white" />
+          ) : (
+            <MaterialIcons name="home" size={35} color="white" />
+          )}
+        </Pressable>
       ),
-      gestureEnabled: false, // Disable gestures for controlled navigation
+      gestureEnabled: false,
     });
   }, [navigation, existingCase, isCaseEmpty]); // Use minimal dependencies
   

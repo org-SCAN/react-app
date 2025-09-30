@@ -95,14 +95,14 @@ const ScanCamera = (props) => {
                 navigation.goBack();
               });
             }}
-            size={40}
+            size={45}
             style={styles.icon}
           />
           <IconButton
             name="autorenew"
             color="white"
             onPress={toggleCameraFacing}
-            size={40}
+            size={45}
             style={styles.icon}
           />
         </View>
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 30,
-    marginVertical: 50,
+    marginBottom: 80,
     alignSelf: 'flex-end',
   },
   activityContainer: {

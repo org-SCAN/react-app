@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Provider as PaperProvider } from "react-native-paper";
 import { Camera } from "expo-camera";
 import * as Location from "expo-location";
 import { Provider } from "react-redux";
@@ -38,7 +39,9 @@ const App = () => {
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <GestureHandlerRootView style={{ flex: 1 }}>
-          <MainContent />
+          <PaperProvider>
+            <MainContent />
+          </PaperProvider>
         </GestureHandlerRootView>
       </PersistGate>
     </Provider>

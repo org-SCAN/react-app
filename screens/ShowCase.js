@@ -8,7 +8,7 @@ import {
   Pressable,
   Animated,
 } from "react-native";
-import { Icon } from "@rneui/themed";
+import { MaterialIcons } from "@expo/vector-icons";
 import {
   Swipeable,
   GestureHandlerRootView,
@@ -69,7 +69,7 @@ const ShowCase = (props) => {
                 setAlertVisibleDelete(true); // Ouvrir l'alerte de confirmation
               }}
             >
-              <Icon name="delete" size={30} color="#fff" />
+              <MaterialIcons name="delete" size={30} color="#fff" />
             </Pressable>
           </Animated.View>
         );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, View, Text, Animated } from "react-native";
 import ScanButton from "../components/BasicUI/ScanButton";
 import { connect } from "react-redux";
-import { Icon } from "@rneui/themed";
+import { MaterialIcons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { deleteCase } from "../redux/actions";
 import { deleteImageFromMemory } from "../utils/fileHandler";
@@ -115,13 +115,13 @@ const Home = (props) => {
           styleText={styles.text}
           styleButton={styles.button}
         />
-        <View style={styles.hintBox}>
+          <View style={styles.hintBox}>
           <View style={styles.hintLine}>
-            <Icon name="description" size={22} color="grey" />
+            <MaterialIcons name="description" size={22} color="grey" />
             <Text style={styles.hintText}> : {props.cases.length}</Text>
           </View>
           <View style={styles.hintLine}>
-            <Icon name="camera-alt" size={22} color="grey" />
+            <MaterialIcons name="camera-alt" size={22} color="grey" />
             <Text style={styles.hintText}> : {props.images.length}</Text>
           </View>
         </View>
