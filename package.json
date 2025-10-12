@@ -27,7 +27,7 @@
     "i18n": "^0.15.2",
     "intl": "^1.2.5",
     "jszip": "^3.10.1",
-    "moment-timezone": "^0.5.46",
+    "moment-timezone": "^0.6.0",
     "react": "19.2.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",
