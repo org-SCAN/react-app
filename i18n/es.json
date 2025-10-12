@@ -44,7 +44,10 @@
     "descriptionTitle": "Descripción",
     "typePlaceholder": "Seleccione un tipo",
     "typeTitle": "Tipo",
-    "typeNone": "No se cargaron tipos"
+    "typeNone": "No se cargaron tipos",
+    "selectOption": "Seleccione una opción",
+    "enterEthnicity": "Ingrese la etnia...",
+    "enterAge": "Ingrese una edad aproximada..."
   },
   "consultCases": {
     "title": "Ver casos",

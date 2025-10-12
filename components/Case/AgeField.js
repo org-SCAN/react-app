@@ -2,20 +2,28 @@ import { connect } from "react-redux";
 import { View, Text, TextInput, StyleSheet } from "react-native";
 import { THEME_COLOR } from "../../theme/constants";
 
-const EthnicityField = (props) => {
+const AgeField = (props) => {
   const { intlData, theme, style, value, onChangeText, onBlur } = props;
   const styles = theme.mode === "dark" ? stylesDark : stylesLight;
 
+  const handleTextChange = (text) => {
+    // Ne permettre que les chiffres
+    const numericValue = text.replace(/[^0-9]/g, '');
+    onChangeText(numericValue);
+  };
+
   return (
     <View style={[styles.inputContainer, { zIndex: -1 }]}>
-      <Text style={styles.placeholder}>{intlData.messages.Case.ethnicity || "Ethnicité"}</Text>
+      <Text style={styles.placeholder}>{intlData.messages.Case.age}</Text>
       <TextInput
-        placeholder={intlData.messages.Case.enterEthnicity}
+        placeholder={intlData.messages.Case.enterAge}
         placeholderTextColor={styles.placeholderText.color}
         style={styles.input}
         value={value}
-        onChangeText={onChangeText}
+        onChangeText={handleTextChange}
         onBlur={onBlur}
+        keyboardType="numeric"
+        maxLength={3}
       />
     </View>
   );
@@ -86,4 +94,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(EthnicityField);
+export default connect(mapStateToProps)(AgeField);

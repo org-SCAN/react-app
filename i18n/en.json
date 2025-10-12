@@ -44,7 +44,10 @@
     "descriptionTitle": "Description",
     "typePlaceholder": "Select a type",
     "typeTitle": "Type",
-    "typeNone": "No types were loaded"
+    "typeNone": "No types were loaded",
+    "selectOption": "Select an option",
+    "enterEthnicity": "Enter ethnicity...",
+    "enterAge": "Enter an approximate age..."
   },
   "consultCases": {
     "title": "View cases",

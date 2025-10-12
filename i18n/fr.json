@@ -40,11 +40,14 @@
     "noIconAge": "Veuillez sélectionner l'icône pour l'âge",
     "noIconSex": "Veuillez sélectionner l'icône pour le sexe",
     "noIcons": "Veuillez sélectionner les icônes pour le sexe et l'âge",
-    "description": "Ajouter des informations...",
+    "description": "Ajoutez des informations...",
     "descriptionTitle": "Description",
     "typePlaceholder": "Sélectionnez un type",
     "typeTitle": "Type",
-    "typeNone": "Aucun type n'a été chargé"
+    "typeNone": "Aucun type n'a été chargé",
+    "selectOption": "Sélectionnez une option",
+    "enterEthnicity": "Entrez l'ethnicité...",
+    "enterAge": "Entrez un âge approximatif..."
   },
   "consultCases": {
     "title": "Consulter les cas",

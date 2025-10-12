@@ -32,6 +32,7 @@ import CasePicker from "../components/Case/CasePicker";
 import SimplePicker from "../components/Case/SimplePicker";
 import EthnicityField from "../components/Case/EthnicityField";
 import DescriptionField from "../components/Case/DescriptionField";
+import AgeField from "../components/Case/AgeField";
 
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
@@ -47,7 +48,7 @@ const Case = (props) => {
   const [description, setDescription] = useState("");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState(null); // null, 'types', 'gender', 'age'
+  const [openDropdown, setOpenDropdown] = useState(null); // null, 'types', 'gender'
 
   // Fonctions pour gérer l'ouverture/fermeture des menus déroulants
   const handleDropdownOpen = (dropdownName) => {
@@ -403,19 +404,12 @@ const Case = (props) => {
               />
             </View>
             
-            {/* Menu déroulant pour l'âge */}
-            <View style={styles.inputContainer}>
-              <SimplePicker 
-                style={styles} 
-                items={ageOptions}
-                selectedValue={selectedAge}
-                setSelectedValue={setSelectedAge}
-                placeholder={intlData.messages.Case.age}
-                isOpen={openDropdown === 'age'}
-                onOpen={() => handleDropdownOpen('age')}
-                onClose={handleDropdownClose}
-              />
-            </View>
+            {/* Champ âge */}
+            <AgeField 
+              style={styles}
+              value={selectedAge}
+              onChangeText={setSelectedAge}
+            />
             
             {/* Champ ethnicité */}
             <EthnicityField 

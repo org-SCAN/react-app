@@ -44,7 +44,10 @@
     "descriptionTitle": "الوصف",
     "typePlaceholder": "اختر نوعًا",
     "typeTitle": "النوع",
-    "typeNone": "لم يتم تحميل أي أنواع"
+    "typeNone": "لم يتم تحميل أي أنواع",
+    "selectOption": "اختر خيارًا",
+    "enterEthnicity": "أدخل العرق...",
+    "enterAge": "أدخل عمرًا تقريبيًا..."
   },
   "consultCases": {
     "title": "عرض الحالات",

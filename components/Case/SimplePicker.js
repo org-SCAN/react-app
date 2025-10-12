@@ -24,7 +24,7 @@ const SimplePicker = (props) => {
       <Text style={style.placeholder}>{placeholder}</Text>
       <DropDownPicker
         listMode="SCROLLVIEW"
-        placeholder="Sélectionnez une option"
+        placeholder={intlData.messages.Case.selectOption}
         placeholderStyle={styles.placeholder}
         multiple={false}
         theme={theme.mode === "dark" ? "DARK" : "LIGHT"}
