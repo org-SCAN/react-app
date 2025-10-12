@@ -4,18 +4,15 @@ import { View, Text, StyleSheet } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
 import { THEME_COLOR } from "../../theme/constants";
 
-const CasePicker = (props) => {
-  const { intlData, theme, style, types, selectedTypes, setSelectedTypes, isOpen, onOpen, onClose } = props;
+const SimplePicker = (props) => {
+  const { intlData, theme, style, items, selectedValue, setSelectedValue, placeholder, isOpen, onOpen, onClose } = props;
   const styles = theme.mode === "dark" ? stylesDark : stylesLight;
   
-  const [items, setItems] = useState(types);
+  const [pickerItems, setPickerItems] = useState(items);
   
-  console.log(items);
-
-  const handleChange = (values) => {
-    setSelectedTypes(values);
+  const handleChange = (value) => {
+    setSelectedValue(value);
     onClose();
-    console.log(values);
   };
 
   const handleOpen = () => {
@@ -24,23 +21,19 @@ const CasePicker = (props) => {
 
   return (
     <View style={{ zIndex: isOpen ? 9999 : 1 }}>
-      <Text style={style.placeholder}>{intlData.messages.Case.typeTitle}</Text>
+      <Text style={style.placeholder}>{placeholder}</Text>
       <DropDownPicker
         listMode="SCROLLVIEW"
-        placeholder={intlData.messages.Case.typePlaceholder}
+        placeholder="Sélectionnez une option"
         placeholderStyle={styles.placeholder}
-        multiple={true}
-        min={0}
+        multiple={false}
         theme={theme.mode === "dark" ? "DARK" : "LIGHT"}
         open={isOpen}
-        mode="BADGE"
-        value={selectedTypes}
-        items={items}
-        extendableBadgeContainer={true} 
-        showBadgeDot={true} 
+        value={selectedValue}
+        items={pickerItems}
         setOpen={handleOpen}
-        setValue={setSelectedTypes}
-        setItems={setItems}
+        setValue={setSelectedValue}
+        setItems={setPickerItems}
         onChangeValue={handleChange}
         listItemLabelStyle={styles.pickerListItem}
         style={styles.pickerContainer}
@@ -54,15 +47,9 @@ const CasePicker = (props) => {
           }) => (
             <View style={listMessageContainerStyle}>
                 <Text style={listMessageTextStyle}>
-                  {intlData.messages.Case.typeNone}
+                  Aucune option disponible
                 </Text>
             </View>
-        )}
-        renderBadgeItem={(item) => (
-          <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 5 }}>
-            <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: THEME_COLOR.SCAN, marginRight: 5 }} />
-            <Text style={styles.pickerItem}>{item.label}</Text>
-          </View>
         )}
       />
     </View>
@@ -96,9 +83,6 @@ const baseStyles = {
   pickerListItem: {
     //fontWeight: "600",
   },
-  pickerItem: {
-    fontWeight: "bold",
-  },
 };
 
 const stylesLight = StyleSheet.create({
@@ -125,11 +109,6 @@ const stylesLight = StyleSheet.create({
   pickerListItem: {
     ...baseStyles.pickerListItem,
     color: THEME_COLOR.LIGHT.INPUT_TEXT,
-  },
-  pickerItem: {
-    ...baseStyles.pickerItem,
-    color: THEME_COLOR.LIGHT.INPUT_TEXT,
-    backgroundColor: THEME_COLOR.LIGHT.INPUT,
   },
   mainText: {
     ...baseStyles.mainText,
@@ -162,11 +141,6 @@ const stylesDark = StyleSheet.create({
     ...baseStyles.pickerListItem,
     color: THEME_COLOR.DARK.INPUT_TEXT,
   },
-  pickerItem: {
-    ...baseStyles.pickerItem,
-    color: THEME_COLOR.DARK.INPUT_TEXT,
-    backgroundColor: THEME_COLOR.DARK.INPUT,
-  },
   mainText: {
     ...baseStyles.mainText,
     color: THEME_COLOR.DARK.MAIN_TEXT,
@@ -177,8 +151,8 @@ function mapStateToProps(state) {
   return {
     intlData: state.lang,
     theme: state.theme,
-    types: state.typeAvailable.types,
   };
 }
 
-export default connect(mapStateToProps)(CasePicker);
+export default connect(mapStateToProps)(SimplePicker);
+

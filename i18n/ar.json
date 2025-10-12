@@ -12,6 +12,18 @@
     "lastname": "اللقب",
     "sex": "الجنس",
     "age": "العمر",
+    "ethnicity": "العرق",
+    "genderOptions": {
+      "woman": "أنثى",
+      "man": "ذكر",
+      "unknown": "غير معروف"
+    },
+    "ageOptions": {
+      "child": "طفل (0-12 سنة)",
+      "teen": "مراهق (13-17 سنة)",
+      "adult": "بالغ (18-64 سنة)",
+      "senior": "مسن (65+ سنة)"
+    },
     "injury": "سبب الإصابة",
     "photoButton": "التقاط صورة",
     "descriptionPhoto": "التقط خمس صور على الأقل إن أمكن",

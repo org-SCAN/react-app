@@ -29,6 +29,9 @@ import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { THEME_COLOR } from "../theme/constants";
 import CasePicker from "../components/Case/CasePicker";
+import SimplePicker from "../components/Case/SimplePicker";
+import EthnicityField from "../components/Case/EthnicityField";
+import DescriptionField from "../components/Case/DescriptionField";
 
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
@@ -37,12 +40,29 @@ const Case = (props) => {
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
-  const [selectedIconAge, setSelectedIconAge] = useState(null);
-  const [selectedIconSex, setSelectedIconSex] = useState(null);
+  const [selectedGender, setSelectedGender] = useState(null);
+  const [selectedAge, setSelectedAge] = useState(null);
+  const [ethnicity, setEthnicity] = useState("");
   const [tag, setTag] = useState(null);
   const [description, setDescription] = useState("");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null); // null, 'types', 'gender', 'age'
+
+  // Fonctions pour gérer l'ouverture/fermeture des menus déroulants
+  const handleDropdownOpen = (dropdownName) => {
+    // Si le menu est déjà ouvert, on le ferme
+    if (openDropdown === dropdownName) {
+      setOpenDropdown(null);
+    } else {
+      // Sinon, on ouvre le nouveau menu
+      setOpenDropdown(dropdownName);
+    }
+  };
+
+  const handleDropdownClose = () => {
+    setOpenDropdown(null);
+  };
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(false); 
@@ -65,44 +85,29 @@ const Case = (props) => {
   const customField = useSelector(state => state.customField.customField);
   const types = useSelector(state => state.typeAvailable.types);
 
-  const FORM = [
-    {
-      key: "sex",
-      placeholder: intlData.messages.Case.sex,
-      value: null,
-      icons: [
-        { name: "woman", icon: iconPersonalized ? `${iconPath}woman.png` : require("../icons/woman.png") }, // Credit to https://www.flaticon.com/authors/vitaly-gorbachev
-        { name: "man", icon: iconPersonalized ? `${iconPath}man.png` : require("../icons/man.png") }, // Credit to https://www.flaticon.com/authors/vitaly-gorbachev
-        { name: "unknown", icon: iconPersonalized ? `${iconPath}unknown.png` : require("../icons/unknown.png") }, // Credit to https://www.flaticon.com/authors/freepik
-      ]
-    },
-    {
-      key: "age",
-      placeholder: intlData.messages.Case.age,
-      value: null,
-      icons: [
-        { name: "child", icon: iconPersonalized ? `${iconPath}child.png` : require("../icons/child.png") }, // Credit to https://www.flaticon.com/authors/edtim
-        { name: "adult", icon: iconPersonalized ? `${iconPath}adult.png` : require("../icons/adult.png") }, // Credit to https://www.flaticon.com/authors/leremy
-        { name: "old", icon: iconPersonalized ? `${iconPath}old.png` : require("../icons/old.png") } // Credit to https://www.flaticon.com/authors/freepik
-      ]
-    },
-    {
-      key: "description",
-      placeholder: intlData.messages.Case.description,
-      placeholderTitle: intlData.messages.Case.descriptionTitle,
-      value: null,
-    }
-  ]; 
+  // Options pour les menus déroulants avec vérification de sécurité
+  const genderOptions = [
+    { label: intlData.messages.Case.genderOptions?.woman || "Femme", value: "woman" },
+    { label: intlData.messages.Case.genderOptions?.man || "Homme", value: "man" },
+    { label: intlData.messages.Case.genderOptions?.unknown || "Inconnu", value: "unknown" }
+  ];
 
-
-  const [form, setform] = useState(FORM)
+  const ageOptions = [
+    { label: intlData.messages.Case.ageOptions?.child || "Enfant (0-12 ans)", value: "child" },
+    { label: intlData.messages.Case.ageOptions?.teen || "Adolescent (13-17 ans)", value: "teen" },
+    { label: intlData.messages.Case.ageOptions?.adult || "Adulte (18-64 ans)", value: "adult" },
+    { label: intlData.messages.Case.ageOptions?.senior || "Senior (65+ ans)", value: "senior" }
+  ];
   
   const isCaseEmpty = () => {
-    const allFieldsEmpty = form.every((element) => element.value === null || element.value === "");
+    const noGender = selectedGender === null;
+    const noAge = selectedAge === null;
+    const noEthnicity = ethnicity === "";
+    const noDescription = description === "";
     const noTypes = selectedTypes.length === 0;
     const noImages = images.length === 0;
   
-    return allFieldsEmpty && noImages && noTypes;
+    return noGender && noAge && noEthnicity && noDescription && noImages && noTypes;
   };
 
   //Change the back button onpress beahviour and disable swipe back
@@ -111,9 +116,20 @@ const Case = (props) => {
       headerLeft: () => (
         <Pressable
           onPress={() => {
+            console.log("existingCase:", existingCase);
+            console.log("isCaseEmpty():", isCaseEmpty());
+            console.log("selectedGender:", selectedGender);
+            console.log("selectedAge:", selectedAge);
+            console.log("ethnicity:", ethnicity);
+            console.log("description:", description);
+            console.log("selectedTypes:", selectedTypes);
+            console.log("images:", images);
+            
             if (!existingCase && !isCaseEmpty()) {
+              console.log("Afficher l'alerte de confirmation");
               setAlertVisibleGoBack(true);
             } else {
+              console.log("Retour direct sans alerte");
               navigation.goBack();
             }
             console.log("Case number after going back: ", caseNumber);
@@ -129,7 +145,7 @@ const Case = (props) => {
       ),
       gestureEnabled: false,
     });
-  }, [navigation, existingCase, isCaseEmpty]); // Use minimal dependencies
+  }, [navigation, existingCase, selectedGender, selectedAge, ethnicity, description, selectedTypes, images]); // Use minimal dependencies
   
 
 
@@ -154,32 +170,14 @@ const Case = (props) => {
       return false;
     }
 
-    const keyValues = form.map((element) => {
-      return { [element.key]: element.value };
-    });
-
-    const allEmpty = keyValues.every((element) => {
-      const value = Object.values(element)[0];
-      return value === "" || value === null;
-    });
-
-    if (allEmpty) {
-      setAlertMessage(`${intlData.messages.Case.noIcons}`);
-      setAlertTitle("⚠️");
-      setAlertVisibleFieldMissing(true);
-      return false;
-    }
-
-    const missingSex = keyValues.find((element) => element.sex === null);
-    if (missingSex) {
+    if (selectedGender === null) {
       setAlertMessage(`${intlData.messages.Case.noIconSex}`);
       setAlertTitle("⚠️");
       setAlertVisibleFieldMissing(true);
       return false;
     }
 
-    const missingAge = keyValues.find((element) => element.age === null);
-    if (missingAge) {
+    if (selectedAge === null) {
       setAlertMessage(`${intlData.messages.Case.noIconAge}`);
       setAlertTitle("⚠️");
       setAlertVisibleFieldMissing(true);
@@ -191,16 +189,14 @@ const Case = (props) => {
 
   const save = () => {
     if (!isCaseComplete()) return;
-    const keyValues = form.map((element) => {
-      return { [element.key]: element.value };
-    });
-    const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const data = {
       id: caseID,
       tag: tag,
       types: selectedTypes,
-      ...keyValuesObject,
+      sex: selectedGender,
+      age: selectedAge,
+      ethnicity: ethnicity,
       images: imageIDs,
       description: description,
       date: new Date().toISOString(),
@@ -219,8 +215,6 @@ const Case = (props) => {
   const submit = async () => {
     if (!isCaseComplete()) return;
     setLoading(true);
-    const keyValues = form.map((element) => ({ [element.key]: element.value }));
-    const keyValuesObject = Object.assign({}, ...keyValues);
     const imageIDs = images.map((image) => image.id);
     const coordinates = images.map((image) => ({
       id: image.id,
@@ -233,7 +227,9 @@ const Case = (props) => {
       types: selectedTypes,
       customField: customField,
       description: description,
-      ...keyValuesObject,
+      sex: selectedGender,
+      age: selectedAge,
+      ethnicity: ethnicity,
       images: imageIDs,
       date: new Date().toISOString(),
       coordinates: coordinates,
@@ -312,21 +308,10 @@ const Case = (props) => {
       setCaseID(mcase.id);
       setSelectedTypes(mcase.types);
       setTag(mcase.tag); // Set tag from existing case
-      const updatedForm = form.map((item) => {
-        if (item.key === "age") {
-          item.value = mcase.age;
-          setSelectedIconAge(item.icons.find(icon => icon.name === mcase.age).icon);
-        } else if (item.key === "sex") {
-          item.value = mcase.sex;
-          setSelectedIconSex(item.icons.find(icon => icon.name === mcase.sex).icon);
-        }
-        else if (item.key === "description") {
-          item.value = mcase.description;
-          setDescription(mcase.description);
-        }
-        return item;
-      });
-      setform(updatedForm);
+      setSelectedGender(mcase.sex);
+      setSelectedAge(mcase.age);
+      setEthnicity(mcase.ethnicity || "");
+      setDescription(mcase.description || "");
     } else if (props.route.params && props.route.params.images) {
       const crashImage = props.route.params.images
       setImages(crashImage);
@@ -346,95 +331,11 @@ const Case = (props) => {
   }, [caseID, props.images]);
 
 
-  //function called when an icon is selected for the sex
-  const handleIconSelectionSex = (value) => {
-    const updatedForm = form.map((item) => {
-      // Toggle the selected icon value
-      if (selectedIconSex === value) {
-        setSelectedIconSex(null);
-        form.find((item) => item.key === "sex").value = null;
-      } else {
-        setSelectedIconSex(value);
-        const sexItem = form.find((item) => item.key === "sex");
-        const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === value);
-        if (selectedIndex !== -1) {
-          const selectedIconName = sexItem.icons[selectedIndex].name;
-          form.find((item) => item.key === "sex").value = selectedIconName;
-        }
-      }
-      return item;
-    });
-    setform(updatedForm);  
-    console.log("Updated FORM:", updatedForm);
-  };
-
-
-  //function called when an icon is selected for the age
-  const handleIconSelectionAge = (value) => {
-    const updatedForm = form.map((item) => {
-      // Toggle the selected icon value
-      if (selectedIconAge === value) {
-        setSelectedIconAge(null);
-        form.find((item) => item.key === "age").value = null;
-      } else {
-        setSelectedIconAge(value);
-        const ageItem = form.find((item) => item.key === "age");
-        const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === value);
-        if (selectedIndex !== -1) {
-          const selectedIconName = ageItem.icons[selectedIndex].name;
-          form.find((item) => item.key === "age").value = selectedIconName;
-        }
-      }
-      return item;
-    });
-    setform(updatedForm);  
-    console.log("Updated FORM:", updatedForm);
-  };
-
-
   const handleDescriptionChange = () => {
-    const updatedForm = form.map((item) => {
-      if (item.key === "description") {
-        item.value = description;
-      }
-      return item;
-    });
-    setform(updatedForm);
-    console.log("Updated FORM:", updatedForm)
+    // La description est déjà gérée par l'état local
+    console.log("Description updated:", description);
   };
 
-  const renderItem = ({ item }) => {
-    if (item.key === "age" || item.key === "sex") {
-      return (
-        <View style={styles.inputContainer}>
-          <Text style={[styles.placeholder]}>{item.placeholder}</Text>
-          <View style={styles.iconContainer}>
-            {item.icons.map((iconOption, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.iconButton,
-                  (item.key === "age" && selectedIconAge === iconOption.icon) ||
-                  (item.key === "sex" && selectedIconSex === iconOption.icon)
-                    ? styles.selectedIconButton
-                    : null,
-                ]}
-                onPressOut={() => {
-                  if (item.key === "age") {
-                    handleIconSelectionAge(iconOption.icon);
-                  } else if (item.key === "sex") {
-                    handleIconSelectionSex(iconOption.icon);
-                  }
-                }}
-              >
-                <Image source={iconPersonalized ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-      );
-    }
-  };
   const renderImage = ({ item }) => (
       <Pressable
         onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}
@@ -478,33 +379,58 @@ const Case = (props) => {
         >
           <Text style={styles.tagLabel}>{tag}</Text>
             <View style={styles.inputContainer}> 
-               <CasePicker style={styles} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes}/>
+               <CasePicker 
+                 style={styles} 
+                 selectedTypes={selectedTypes} 
+                 setSelectedTypes={setSelectedTypes}
+                 isOpen={openDropdown === 'types'}
+                 onOpen={() => handleDropdownOpen('types')}
+                 onClose={handleDropdownClose}
+               />
             </View>
-            {/* Rendu du formulaire Age et Sex */}
-            <FlatList
-              data={form.filter((item) => item.key !== "injuries")}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.key}
-              style={{ flexGrow: 0 }}
-              scrollEnabled={false}
+            
+            {/* Menu déroulant pour le sexe */}
+            <View style={styles.inputContainer}>
+              <SimplePicker 
+                style={styles} 
+                items={genderOptions}
+                selectedValue={selectedGender}
+                setSelectedValue={setSelectedGender}
+                placeholder={intlData.messages.Case.sex}
+                isOpen={openDropdown === 'gender'}
+                onOpen={() => handleDropdownOpen('gender')}
+                onClose={handleDropdownClose}
+              />
+            </View>
+            
+            {/* Menu déroulant pour l'âge */}
+            <View style={styles.inputContainer}>
+              <SimplePicker 
+                style={styles} 
+                items={ageOptions}
+                selectedValue={selectedAge}
+                setSelectedValue={setSelectedAge}
+                placeholder={intlData.messages.Case.age}
+                isOpen={openDropdown === 'age'}
+                onOpen={() => handleDropdownOpen('age')}
+                onClose={handleDropdownClose}
+              />
+            </View>
+            
+            {/* Champ ethnicité */}
+            <EthnicityField 
+              style={styles}
+              value={ethnicity}
+              onChangeText={setEthnicity}
             />
+            
             {/* Description */}
-            <View style={styles.inputContainer}> 
-              <Text style={styles.placeholder}>{form.find((item) => item.key === "description").placeholderTitle}</Text>
-              <View style={styles.iconContainer}>
-                <TextInput
-                  placeholder={form.find((item) => item.key === "description").placeholder}
-                  placeholderTextColor={styles.placeholderDescripton.color}
-                  style={styles.input}
-                  textAlignVertical="top"
-                  value={description}
-                  multiline={true}
-                  scrollEnabled={false}
-                  onChangeText={setDescription}
-                  onBlur={handleDescriptionChange}
-                />
-              </View>
-            </View>
+            <DescriptionField 
+              style={styles}
+              value={description}
+              onChangeText={setDescription}
+              onBlur={handleDescriptionChange}
+            />
 
             {/* Rendu de l'image et des autres éléments */}
             <View style={styles.multipleFieldsContainer}>

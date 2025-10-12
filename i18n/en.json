@@ -12,6 +12,18 @@
     "lastname": "Last name",
     "sex": "Gender",
     "age": "Age",
+    "ethnicity": "Ethnicity",
+    "genderOptions": {
+      "woman": "Female",
+      "man": "Male",
+      "unknown": "Unknown"
+    },
+    "ageOptions": {
+      "child": "Child (0-12 years)",
+      "teen": "Teen (13-17 years)",
+      "adult": "Adult (18-64 years)",
+      "senior": "Senior (65+ years)"
+    },
     "injury": "Injury cause",
     "photoButton": "Take a photo",
     "descriptionPhoto": "Take at least 5 photos if possible",
