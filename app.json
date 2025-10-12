@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Divilite",
-    "slug": "divilite",
-    "version": "1.4.4",
+    "name": "Dividoc",
+    "slug": "dividoc",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
