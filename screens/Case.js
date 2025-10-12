@@ -212,7 +212,7 @@ const Case = (props) => {
     } else {
       dispatch(saveCase(data));
       handleCreateCase();
-      navigation.navigate("Home", { notification: true });
+      navigation.replace('Home', { notification: true, noCrashCheck: true })
     }
   };
 

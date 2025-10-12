@@ -18,19 +18,38 @@ const Home = (props) => {
 
   const dispatch = useDispatch();
 
-  const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false); 
+  const [alertVisibleGoBack, setAlertVisibleGoBack] = useState(false);
   const [crashImage, setCrashImage] = useState([]);
-  
+
   const handleDeleteImage = (item) => {
     dispatch(deleteCase(item.caseID));
     deleteImageFromMemory(item.id);
   };
 
   useEffect(() => {
-    if (props.route.params && props.route.params.notification) {
+    navigation.setOptions({
+      headerBackVisible: false,
+      gestureEnabled: false,
+      headerLeft: () => null,
+    });
+  }, [navigation]);
+
+  useEffect(() => {
+    const unsub = navigation.addListener("beforeRemove", (e) => {
+      const state = navigation.getState();
+      const prev = state.routes[state.index - 1];
+      if (prev?.name === "Case") {
+        e.preventDefault(); 
+      }
+    });
+    return unsub;
+  }, [navigation]);
+
+  useEffect(() => {
+    if (props.route?.params && props.route.params.notification) {
       setOpacity(new Animated.Value(1));
     }
-  }, [props.route.params]);
+  }, [props.route?.params]);
 
   useEffect(() => {
     if (mOpacity._value === 1) {
@@ -41,33 +60,32 @@ const Home = (props) => {
           useNativeDriver: true,
         }).start();
       }, 500);
-    }    
+    }
   }, [mOpacity]);
 
   useEffect(() => {
+    const skipCrashCheck = props.route?.params?.noCrashCheck;
+    if (skipCrashCheck) return;
+
     const routes = navigation.getState()?.routes;
-    const prevRoute = routes[routes.length - 2]; // -2 because -1 is the current route
-  
-    // only check if the previous route is undefined (crash)
+    const prevRoute = routes[routes.length - 2]; 
+
     if (!prevRoute) {
-      const crashImage = props.images.filter(
+      const _crashImage = props.images.filter(
         (image) => !props.cases.some((caseItem) => caseItem.id === image.caseID)
       );
-  
-      if (crashImage.length > 0) {
-        console.log("Crash Case: ", crashImage);
-        setCrashImage(crashImage);
+
+      if (_crashImage.length > 0) {
+        console.log("Crash Case: ", _crashImage);
+        setCrashImage(_crashImage);
         setAlertVisibleGoBack(true);
       }
     }
-  }, [navigation, props.cases, props.images]);
-  
+  }, [navigation, props.cases, props.images, props.route?.params?.noCrashCheck]);
 
   return (
     <View style={styles.mainContent}>
-      <Animated.View
-        style={{ ...styles.notification, ...{ opacity: mOpacity } }}
-      >
+      <Animated.View style={{ ...styles.notification, ...{ opacity: mOpacity } }}>
         <Text>✅</Text>
       </Animated.View>
 
@@ -115,7 +133,7 @@ const Home = (props) => {
           styleText={styles.text}
           styleButton={styles.button}
         />
-          <View style={styles.hintBox}>
+        <View style={styles.hintBox}>
           <View style={styles.hintLine}>
             <MaterialIcons name="description" size={22} color="grey" />
             <Text style={styles.hintText}> : {props.cases.length}</Text>
