@@ -9,7 +9,6 @@ const SettingsAlerts = (props) => {
     
     return (
         <View>
-            <CustomAlert title="✅" message={intlData.messages.Settings.userIDRegistered} onConfirm={() => setAlertStates((prev) => ({ ...prev, userIdUpdate: false }))} visible={alertStates.userIdUpdate} />
             <CustomAlert title="✅" message={intlData.messages.Settings.emailRegistered} onConfirm={() => setAlertStates((prev) => ({ ...prev, emailCorrect: false }))} visible={alertStates.emailCorrect} />
             <CustomAlert title="❌" message={intlData.messages.Settings.emailParsingError} onConfirm={() => setAlertStates((prev) => ({ ...prev, emailError: false }))} visible={alertStates.emailError} />
             <CustomAlert title="✅" message={intlData.messages.Settings.downloadSuccess} onConfirm={() => setAlertStates((prev) => ({ ...prev, iconsDownloadCorrect: false }))} visible={alertStates.iconsDownloadCorrect} />

@@ -1,16 +1,16 @@
-import { UPDATE_USER_ID } from "../constants";
+import { UPDATE_CASE_ID } from "../constants";
 
 const initialState = {
-  userId: ""
+  caseId: ""
 };
 
-const userIdReducer = (state = initialState, action) => {
+const caseIdReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE_USER_ID:
-      return { ...state, userId: action.payload };
+    case UPDATE_CASE_ID:
+      return { ...state, caseId: action.payload };
     default:
       return state;
   }
 };
 
-export default userIdReducer;
+export default caseIdReducer;

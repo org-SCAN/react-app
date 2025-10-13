@@ -18,17 +18,13 @@ import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { THEME_COLOR } from "../theme/constants";
 import { deleteImageCase } from "../utils/fileHandler";
 import { deleteCase } from "../redux/actions";
-import 'intl'; // Importer le polyfill Intl
-import 'intl/locale-data/jsonp/fr'; // Importer les données locales en français
-import 'intl/locale-data/jsonp/en';
+import "intl";
+import "intl/locale-data/jsonp/fr";
+import "intl/locale-data/jsonp/en";
 
 const formatDate = (date, intlData) => {
-  const locale = intlData.messages.Pictures.dateFormat; 
-  const options = {
-    year: 'numeric',     
-    month: 'numeric',   
-    day: 'numeric',     
-  };
+  const locale = intlData.messages.Pictures.dateFormat;
+  const options = { year: "numeric", month: "numeric", day: "numeric" };
   return new Intl.DateTimeFormat(locale, options).format(new Date(date));
 };
 
@@ -36,22 +32,22 @@ const ShowCase = (props) => {
   const styles = props.theme.mode == "dark" ? stylesDark : stylesLight;
   const [DATA, setDATA] = useState([]);
   const [cases, setCases] = useState([]);
-  const [alertVisibleDelete, setAlertVisibleDelete] = useState(false); 
-  const [selectedCase, setSelectedCase] = useState(null); // Pour garder la trace du cas sélectionné à supprimer
+  const [alertVisibleDelete, setAlertVisibleDelete] = useState(false);
+  const [selectedCase, setSelectedCase] = useState(null);
   const dispatch = useDispatch();
   const { intlData } = props;
 
-  // Fonction de suppression du cas
+  // Suppression du cas (images + case)
   const handleDelete = async () => {
     if (selectedCase) {
-      await deleteImageCase(selectedCase);
-      dispatch(deleteCase(selectedCase.id));
-      setAlertVisibleDelete(false); 
+      await deleteImageCase(selectedCase); // suppose un objet case ; ok si ta util le gère
+      dispatch(deleteCase(selectedCase.id)); // UUID technique
+      setAlertVisibleDelete(false);
     }
   };
 
-  // Item à afficher dans la liste
-  const Item = ({ id, tag, date, uri, styles, onPress }) => (
+  // Item de liste
+  const Item = ({ id, caseID, date, uri, styles, onPress }) => (
     <Swipeable
       renderRightActions={(progress, dragX) => {
         const opacity = dragX.interpolate({
@@ -64,9 +60,9 @@ const ShowCase = (props) => {
             <Pressable
               style={styles.deleteButton}
               onPress={() => {
-                // Afficher la confirmation pour supprimer
-                setSelectedCase(props.cases.find((c) => c.id === id)); // Sauvegarder le cas sélectionné
-                setAlertVisibleDelete(true); // Ouvrir l'alerte de confirmation
+                const found = props.cases.find((c) => c.id === id);
+                setSelectedCase(found || null);
+                setAlertVisibleDelete(true);
               }}
             >
               <MaterialIcons name="delete" size={30} color="#fff" />
@@ -76,9 +72,9 @@ const ShowCase = (props) => {
       }}
     >
       <Pressable style={styles.item} onPress={onPress}>
-        <Image style={styles.image} source={{ uri: uri }} blurRadius={100} />
+        {!!uri && <Image style={styles.image} source={{ uri }} blurRadius={100} />}
         <View style={{ flex: 1, marginLeft: 10 }}>
-          <Text style={styles.names}>{tag}</Text>
+          <Text style={styles.names}>{caseID || "(sans identifiant)"}</Text>
           <Text style={styles.date}>{formatDate(date, intlData)}</Text>
           <Text style={styles.hint}>{intlData.messages.consultCases.editMessage}</Text>
           <Text style={styles.hint}>{intlData.messages.consultCases.swipeMessage}</Text>
@@ -87,57 +83,50 @@ const ShowCase = (props) => {
     </Swipeable>
   );
 
-  // Charger les données au montage
+  // Charger les données (construit un dataset prêt pour FlatList)
   useEffect(() => {
-    const images = props.images;
-    const DATA = props.cases.map((caseItem) => {
+    const images = props.images || [];
+    const dataset = (props.cases || []).map((caseItem) => {
+      // L’UUID technique (caseItem.id) lie les images: image.caseID === caseItem.id
+      const firstImage = images.find((image) => image.caseID === caseItem.id);
       return {
-        id: caseItem.id,
-        tag: caseItem.tag,
-        uri: images.filter((image) => image.caseID === caseItem.id)[0].data,
+        id: caseItem.id,                 // UUID technique
+        caseID: caseItem.caseID || "",   // étiquette visible (saisie)
+        uri: firstImage?.data,           // peut être undefined s’il n’y a pas d’image
         date: caseItem.date,
         sex: caseItem.sex,
         age: caseItem.age,
-        description: caseItem.description
+        description: caseItem.description,
       };
     });
-    setDATA(DATA);
+    setDATA(dataset);
   }, [props.images, props.cases]);
 
   useEffect(() => {
-    if (props.cases && props.cases.length > 0) {
-      setCases(props.cases);
-    } else {
-      setCases([]);
-    }
+    setCases(props.cases && props.cases.length > 0 ? props.cases : []);
   }, [props.cases]);
 
-  // Rendu de la liste des éléments
   if (cases.length > 0) {
     const renderItem = ({ item }) => {
       const onPress = () => {
+        // Ouvre l’écran d’édition du cas via son UUID
         props.navigation.navigate("Case", { caseId: item.id });
-        console.log("le tag passé en param à case est : ", item.tag);
       };
       return (
         <Item
           id={item.id}
-          tag={item.tag}
+          caseID={item.caseID}
           date={item.date}
           uri={item.uri}
           styles={styles}
-          onPress={() => onPress()}
+          onPress={onPress}
         />
       );
     };
 
     return (
       <GestureHandlerRootView style={styles.container}>
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id}
-        />
+        <FlatList data={DATA} renderItem={renderItem} keyExtractor={(item) => item.id} />
 
         <CustomAlertTwoButtons
           visible={alertVisibleDelete}
@@ -165,10 +154,7 @@ const basicStyles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  image: {
-    width: 200,
-    height: 200,
-  },
+  image: { width: 200, height: 200 },
   item: {
     padding: 10,
     flexDirection: "row",
@@ -216,50 +202,27 @@ const basicStyles = StyleSheet.create({
 
 const stylesLight = StyleSheet.create({
   ...basicStyles,
-  names: {
-    ...basicStyles.names,
-    color: THEME_COLOR.LIGHT.MAIN_TEXT,
-  },  
-  date: {
-    ...basicStyles.date,
-    color: THEME_COLOR.LIGHT.SECONDARY_TEXT,
-  },
-  hint: {
-    ...basicStyles.hint,
-    color: THEME_COLOR.LIGHT.TERTIARY_TEXT,
-  },
-  textNoCase: {
-    ...basicStyles.textNoCase,
-    color: THEME_COLOR.LIGHT.MAIN_TEXT,
-  },
+  names: { ...basicStyles.names, color: THEME_COLOR.LIGHT.MAIN_TEXT },
+  date: { ...basicStyles.date, color: THEME_COLOR.LIGHT.SECONDARY_TEXT },
+  hint: { ...basicStyles.hint, color: THEME_COLOR.LIGHT.TERTIARY_TEXT },
+  textNoCase: { ...basicStyles.textNoCase, color: THEME_COLOR.LIGHT.MAIN_TEXT },
 });
 
 const stylesDark = StyleSheet.create({
   ...basicStyles,
-  names: {
-    ...basicStyles.names,
-    color: THEME_COLOR.DARK.MAIN_TEXT,
-  },  
-  date: {
-    ...basicStyles.date,
-    color: THEME_COLOR.DARK.SECONDARY_TEXT,
-  },
-  hint: {
-    ...basicStyles.hint,
-    color: THEME_COLOR.DARK.TERTIARY_TEXT,
-  },
-  textNoCase: {
-    ...basicStyles.textNoCase,
-    color: THEME_COLOR.DARK.MAIN_TEXT,
-  },
+  names: { ...basicStyles.names, color: THEME_COLOR.DARK.MAIN_TEXT },
+  date: { ...basicStyles.date, color: THEME_COLOR.DARK.SECONDARY_TEXT },
+  hint: { ...basicStyles.hint, color: THEME_COLOR.DARK.TERTIARY_TEXT },
+  textNoCase: { ...basicStyles.textNoCase, color: THEME_COLOR.DARK.MAIN_TEXT },
 });
+
 function mapStateToProps(state) {
   return {
     images: state.image.image,
     theme: state.theme,
     cases: state.case.cases,
     intlData: state.lang,
-    tag: state.tag,
+    // tag: state.tag, // ❌ plus utilisé ici
   };
 }
 

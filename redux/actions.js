@@ -79,10 +79,10 @@ export const deleteCase = (id) => {
   };
 };
 
-export const updateUserId = (userId) => {
+export const updateCaseId = (caseId) => {
   return {
-    type: UPDATE_USER_ID,
-    payload: userId,
+    type: UPDATE_CASE_ID,
+    payload: caseId,
   };
 };
 
@@ -114,13 +114,6 @@ export const updateIcon = (icon) => {
   };
 }
 
-export const updateIconUrl = (iconUrl) => {
-  return{
-    type: UPDATE_ICON_URL,
-    payload: iconUrl,
-  };
-}
-
 export const updateLocationCoords = (location) => {
   return {
     type: UPDATE_LOCATION,
@@ -148,10 +141,5 @@ export const updateTypeUrl = (url) => {
     payload: url,
   };
 }
-
-export const saveIconPath = (iconPath) => ({
-  type: SAVE_ICON_PATH,
-  payload: iconPath,
-});
 
 

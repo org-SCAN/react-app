@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, StyleSheet } from "react-native";
-import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange, handleTypeSave, handleTypeReset } from "../../components/Settings/SettingsHandler";
+import { handleSaveEmail, handleCustomFieldChange, handleTypeSave, handleTypeReset } from "../../components/Settings/SettingsHandler";
 import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
@@ -12,17 +12,11 @@ const SettingsForm = (props) => {
   const { intlData, setAlertStates, setLoading, dispatch, theme } = props;
   const styles = theme.mode == "dark" ? stylesDark : stylesLight;
 
-  const storedUserId = useSelector(state => state.userId.userId);
-  const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
-  const storedIconUrl = useSelector((state) => state.iconUrl.url);
   const storedCustomField = useSelector((state) => state.customField.customField);
   const storedTypeUrl = useSelector((state) => state.typeAvailable.url);
 
-  const [userId, setUserId] = useState('');
-  const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
-  const [iconUrl, setIconUrl] = useState('');
   const [typeUrl, setTypeUrl] = useState('');
   const [customField, setCustomField] = useState(storedCustomField);
 
@@ -36,31 +30,7 @@ const SettingsForm = (props) => {
         onBlur={() => handleCustomFieldChange(dispatch, customField, setCustomField)}
         styles={styles}
       />
-      <SettingsFormField
-        title={intlData.messages.Settings.adminSettings}
-        placeholder={intlData.messages.Settings.enterUserID}
-        value={userId}
-        maxLength={10}
-        onChangeText={setUserId}
-        onPress={() => handleSaveUserId(dispatch, userId, setUserId, setAlertStates)}
-        buttonText={intlData.messages.Settings.saveUserID}
-        storedValue={storedUserId}
-        storedText={intlData.messages.Settings.savedUserID}
-        noStoredText={intlData.messages.Settings.noSavedUserID}
-        styles={styles}
-      />
-      <SettingsFormField
-        placeholder={intlData.messages.Settings.newCaseNumber}
-        value={newCaseNumber ? newCaseNumber.toString() : ""}
-        keyboardType="numeric"
-        onChangeText={(text) => setNewCaseNumber(parseInt(text))}
-        onPress={() => handleUpdateCaseNumber(dispatch, newCaseNumber, setNewCaseNumber, setAlertStates)}
-        buttonText={intlData.messages.Settings.resetCaseNumber}
-        storedValue={caseNumber}
-        storedText={intlData.messages.Settings.storedCaseNumber}
-        noStoredText={intlData.messages.Settings.storedCaseNumber + " : 0"}
-        styles={styles}
-      />
+
       <SettingsFormField
         placeholder={intlData.messages.Settings.enterEmail}
         value={email}
@@ -72,32 +42,6 @@ const SettingsForm = (props) => {
         noStoredText={intlData.messages.Settings.noSavedEmail}
         styles={styles}
       />   
-      <SettingsFormTwoButtonField
-        placeholder={intlData.messages.Settings.enterIconUrl}
-        value={iconUrl}
-        onChangeText={setIconUrl}
-        onPressLeft={() => handleUrlSave(dispatch, iconUrl, setIconUrl, setAlertStates, setLoading)}
-        onPressRight={() => handleUrlReset(dispatch, setIconUrl)}
-        buttonTextLeft={intlData.messages.Settings.saveIconUrl}
-        buttonTextRight={intlData.messages.Settings.resetIconUrl}
-        storedValue={storedIconUrl}
-        storedText={intlData.messages.Settings.savedIconUrl}
-        noStoredText={intlData.messages.Settings.noSavedIconUrl}
-        styles={styles}
-      />
-      <SettingsFormTwoButtonField
-        placeholder={intlData.messages.Settings.enterTypeUrl}
-        value={typeUrl}
-        onChangeText={setTypeUrl}
-        onPressLeft={() => handleTypeSave(dispatch, typeUrl, setTypeUrl, setAlertStates, setLoading)}
-        onPressRight={() => handleTypeReset(dispatch, setTypeUrl)}
-        buttonTextLeft={intlData.messages.Settings.saveIconUrl}
-        buttonTextRight={intlData.messages.Settings.resetIconUrl}
-        storedValue={storedTypeUrl}
-        storedText={intlData.messages.Settings.savedTypeUrl}
-        noStoredText={intlData.messages.Settings.noSavedTypeUrl}
-        styles={styles}
-      />
     </View>
   );
 };

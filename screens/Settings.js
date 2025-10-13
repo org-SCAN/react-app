@@ -16,7 +16,6 @@ const Settings = (props) => {
   const [loading, setLoading] = useState(false);
   const [alertStates, setAlertStates] = useState({
     clearWarning: false,
-    userIdUpdate: false,
     emailCorrect: false,
     emailError: false,
     caseNumberUpdate: false,

@@ -10,15 +10,14 @@ import {
   REGISTER,
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import themeReducer from "./Reducers/themeReducer";
 import imageReducer from "./Reducers/imageReducer";
 import caseReducer from "./Reducers/caseReducer";
 import langReducer from "./Reducers/langReducer";
-import userIdReducer from "./Reducers/userIdReducer";
+// ❌ removed: import caseIdReducer from "./Reducers/caseIdReducer";
 import caseNumberReducer from "./Reducers/caseNumberReducer";
 import emailReducer from "./Reducers/emailReducer";
-import iconUrlReducer from "./Reducers/iconUrlReducer";
-import iconPathReducer from "./Reducers/iconPathReducer";
 import iconReducer from "./Reducers/iconReducer";
 import locationReducer from "./Reducers/locationReducer";
 import customFieldReducer from "./Reducers/customFieldReducer";
@@ -29,12 +28,10 @@ const rootReducer = combineReducers({
   image: imageReducer,
   case: caseReducer,
   lang: langReducer,
-  userId: userIdReducer,
-  caseNumber: caseNumberReducer,
+  // ❌ removed: caseId: caseIdReducer,
+  caseNumber: caseNumberReducer, // global counter that increments on creation only
   email: emailReducer,
   icon: iconReducer,
-  iconUrl: iconUrlReducer,
-  iconPath: iconPathReducer,
   location: locationReducer,
   customField: customFieldReducer,
   typeAvailable: typeAvailableReducer,
