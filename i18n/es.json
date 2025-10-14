@@ -15,7 +15,6 @@
     "caseIDLabel": "ID de usuario",
     "caseIDPlaceholder": "Ingresa el ID de usuario",
     "caseIDRequired": "Por favor ingresa el ID de usuario.",
-    "ethnicity": "Etnicidad",
     "genderOptions": {
       "woman": "Mujer",
       "man": "Hombre",
@@ -49,7 +48,6 @@
     "typeTitle": "Tipo",
     "typeNone": "No se cargaron tipos",
     "selectOption": "Seleccione una opción",
-    "enterEthnicity": "Ingrese la etnia...",
     "enterAge": "Ingrese una edad aproximada..."
   },
   "consultCases": {

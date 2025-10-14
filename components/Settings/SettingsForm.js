@@ -22,14 +22,16 @@ const SettingsForm = (props) => {
 
   return (
     <View>
-      <SettingsFormFreeField
-        title={intlData.messages.Settings.customFieldTitle}
-        placeholder={intlData.messages.Settings.customFieldPlaceholder}
-        value={customField}
-        onChangeText={setCustomField}
-        onBlur={() => handleCustomFieldChange(dispatch, customField, setCustomField)}
-        styles={styles}
-      />
+      <View style={styles.compactSection}>
+        <SettingsFormFreeField
+          title={intlData.messages.Settings.customFieldTitle}
+          placeholder={intlData.messages.Settings.customFieldPlaceholder}
+          value={customField}
+          onChangeText={setCustomField}
+          onBlur={() => handleCustomFieldChange(dispatch, customField, setCustomField)}
+          styles={styles}
+        />
+      </View>
 
       <SettingsFormField
         placeholder={intlData.messages.Settings.enterEmail}
@@ -47,17 +49,21 @@ const SettingsForm = (props) => {
 };
 
 const baseStyles = StyleSheet.create({
+  compactSection: {
+    marginTop: 0,
+    marginBottom: 5,
+  },
   fieldContainer: {
-    marginVertical: 10,
+    marginVertical: 8,
   },
   title: {
     fontWeight: "600",
-    marginTop: 10,
+    marginTop: 6,
     marginBottom: 4,
     fontSize: 15,
   },
   freeFieldContainer: {
-    marginVertical: 10,
+    marginVertical: 8,
     alignItems: "flex-start",
     flexDirection: "row",
     justifyContent: "center",

@@ -36,35 +36,41 @@ const Settings = (props) => {
         <View style={styles.activityContainer}>
           <ActivityIndicator size="large" color="white" />
         </View>
-      )}  
+      )}
+      
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <ScrollView 
-          contentContainerStyle={styles.scrollViewContent} 
+          contentContainerStyle={styles.scrollViewContent}
           automaticallyAdjustKeyboardInsets={true}
           showsHorizontalScrollIndicator={false}
           showsVerticalScrollIndicator={false}
         >
-          <SettingsToggle
-            title={intlData.messages.Settings.lightTheme}
-            description={intlData.messages.Settings.themeDescription}
-            {...props}
-          />
-          <LanguagePicker />
-          <SettingsForm
-            setAlertStates={setAlertStates}
-            setLoading={setLoading}
-            {...props}
-          />
-          <SettingsButton
-            onPress={() => setAlertStates((prev) => ({ ...prev, clearWarning: true }))}
-            buttonText={intlData.messages.Settings.debugMessage}
-            {...props}
-          />
-          <SettingsButton
-            onPress={openDocumentation}
-            buttonText={intlData.messages.Settings.docButton}
-            {...props}
-          />
+          <View style={styles.topSection}>
+            <SettingsToggle
+              title={intlData.messages.Settings.lightTheme}
+              description={intlData.messages.Settings.themeDescription}
+              {...props}
+            />
+            <LanguagePicker />
+            <SettingsForm
+              setAlertStates={setAlertStates}
+              setLoading={setLoading}
+              {...props}
+            />
+          </View>
+          
+          <View style={styles.bottomSection}>
+            <SettingsButton
+              onPress={() => setAlertStates((prev) => ({ ...prev, clearWarning: true }))}
+              buttonText={intlData.messages.Settings.debugMessage}
+              {...props}
+            />
+            <SettingsButton
+              onPress={openDocumentation}
+              buttonText={intlData.messages.Settings.docButton}
+              {...props}
+            />
+          </View>
         </ScrollView>
       </TouchableWithoutFeedback>
       <SettingsAlerts alertStates={alertStates} setAlertStates={setAlertStates} {...props}/>
@@ -91,6 +97,12 @@ const baseStyles = StyleSheet.create({
     flexGrow: 1,
     padding: 25,
     justifyContent: 'space-between',
+  },
+  topSection: {
+    gap: 16,
+  },
+  bottomSection: {
+    // Les boutons du bas resteront en bas
   },
 });
 
