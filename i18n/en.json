@@ -12,7 +12,6 @@
     "lastname": "Last name",
     "sex": "Gender",
     "age": "Age",
-    "ethnicity": "Ethnicity",
     "caseIDLabel": "User ID",
     "caseIDPlaceholder": "Enter the user ID",
     "caseIDRequired": "Please enter the user ID.",
@@ -49,7 +48,6 @@
     "typeTitle": "Type",
     "typeNone": "No types were loaded",
     "selectOption": "Select an option",
-    "enterEthnicity": "Enter ethnicity...",
     "enterAge": "Enter an approximate age..."
   },
   "consultCases": {

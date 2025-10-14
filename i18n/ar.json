@@ -12,7 +12,6 @@
     "lastname": "اللقب",
     "sex": "الجنس",
     "age": "العمر",
-    "ethnicity": "العرق",
     "caseIDLabel": "مُعرّف المستخدم",
     "caseIDPlaceholder": "أدخل مُعرّف المستخدم",
     "caseIDRequired": "يرجى إدخال مُعرّف المستخدم.",
@@ -49,7 +48,6 @@
     "typeTitle": "النوع",
     "typeNone": "لم يتم تحميل أي أنواع",
     "selectOption": "اختر خيارًا",
-    "enterEthnicity": "أدخل العرق...",
     "enterAge": "أدخل عمرًا تقريبيًا..."
   },
   "consultCases": {

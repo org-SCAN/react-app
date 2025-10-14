@@ -30,8 +30,8 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { THEME_COLOR } from "../theme/constants";
 import CasePicker from "../components/Case/CasePicker";
 import SimplePicker from "../components/Case/SimplePicker";
-import EthnicityField from "../components/Case/EthnicityField";
 import DescriptionField from "../components/Case/DescriptionField";
+import CaseIdField from "../components/Case/CaseIdField";
 import AgeField from "../components/Case/AgeField";
 
 const Case = (props) => {
@@ -47,10 +47,8 @@ const Case = (props) => {
   const [images, setImages] = useState([]);
   const [selectedGender, setSelectedGender] = useState(null);
   const [selectedAge, setSelectedAge] = useState(null);
-  const [ethnicity, setEthnicity] = useState("");
   const [tag, setTag] = useState("");               // miroir de l'étiquette pour compat
   const [description, setDescription] = useState("");
-  const [selectedTypes, setSelectedTypes] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(null); // null, 'types', 'gender'
 
@@ -102,12 +100,10 @@ const Case = (props) => {
   const isCaseEmpty = () => {
     const noGender = selectedGender === null;
     const noAge = selectedAge === null;
-    const noEthnicity = ethnicity === "";
     const noDescription = description === "";
-    const noTypes = selectedTypes.length === 0;
     const noImages = images.length === 0;
     const noCaseLabel = !caseID || caseID.trim() === "";
-    return noGender && noAge && noEthnicity && noDescription && noImages && noTypes && noCaseLabel;
+    return noGender && noAge && noDescription && noImages && noCaseLabel;
   };
 
   // Header back
@@ -133,7 +129,7 @@ const Case = (props) => {
       ),
       gestureEnabled: false,
     });
-  }, [navigation, existingCase, selectedGender, selectedAge, ethnicity, description, selectedTypes, images, caseID]);
+  }, [navigation, existingCase, selectedGender, selectedAge, description, images, caseID]);
 
   useEffect(() => {
     if (permissionStatus === "denied") {
@@ -148,14 +144,8 @@ const Case = (props) => {
       setAlertVisibleFieldMissing(true);
       return false;
     }
-    if (selectedTypes.length === 0 && types.length > 0) {
-      setAlertMessage(`${intlData.messages.Case.addType}`);
-      setAlertTitle("⚠️");
-      setAlertVisibleFieldMissing(true);
-      return false;
-    }
     if (!caseID || caseID.trim() === "") {
-      setAlertMessage(intlData.messages.Case.caseIDRequired || "Veuillez renseigner l’identifiant du cas.");
+      setAlertMessage(`${intlData.messages.Case.caseIDRequired}`);
       setAlertTitle("⚠️");
       setAlertVisibleFieldMissing(true);
       return false;
@@ -181,10 +171,8 @@ const Case = (props) => {
     const data = {
       id: caseUUID,              // ✅ UUID technique
       tag: tag,                  // miroir de l’étiquette (optionnel)
-      types: selectedTypes,
       sex: selectedGender,
       age: selectedAge,
-      ethnicity: ethnicity,
       images: imageIDs,
       caseID: caseID,            // ✅ étiquette saisie
       description: description,
@@ -213,12 +201,10 @@ const Case = (props) => {
     const data = {
       id: caseUUID,              // ✅ UUID technique
       tag: tag,
-      types: selectedTypes,
       customField: customField,
       description: description,
       sex: selectedGender,
       age: selectedAge,
-      ethnicity: ethnicity,
       images: imageIDs,
       caseID: caseID,            // ✅ étiquette saisie
       date: new Date().toISOString(),
@@ -286,11 +272,9 @@ const Case = (props) => {
       )[0];
       setExistingCase(mcase);
       setCaseUUID(mcase.id);                               // UUID sauvé
-      setSelectedTypes(mcase.types);
       setCaseID(mcase.caseID || mcase.tag || "");          // étiquette visible (fallback ancien tag)
       setSelectedGender(mcase.sex);
       setSelectedAge(mcase.age);
-      setEthnicity(mcase.ethnicity || "");
       setDescription(mcase.description || "");
     } else if (props.route.params && props.route.params.images) {
       // ---- Nouveau via images (crash) ----
@@ -355,32 +339,11 @@ const Case = (props) => {
         onScroll={handleScroll}
         scrollEventThrottle={16}
       >
-        {/* Champ étiquette du cas */}
-        <View style={styles.inputContainer}>
-          <Text style={styles.placeholder}>
-            {intlData?.messages?.Case?.caseIDLabel || "Identifiant du cas"}
-          </Text>
-          <TextInput
-            style={styles.input}
-            value={caseID}
-            onChangeText={setCaseID}
-            placeholder={intlData?.messages?.Case?.caseIDPlaceholder || "Saisir l’identifiant du cas"}
-            placeholderTextColor={styles.placeholderDescripton?.color || "#888"}
-            autoCapitalize="none"
-            autoCorrect={false}
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <CasePicker
-            style={styles}
-            selectedTypes={selectedTypes}
-            setSelectedTypes={setSelectedTypes}
-            isOpen={openDropdown === 'types'}
-            onOpen={() => handleDropdownOpen('types')}
-            onClose={handleDropdownClose}
-          />
-        </View>
+        <CaseIdField
+          value={caseID}
+          onChangeText={setCaseID}
+          onBlur={() => {}}
+        />
 
         {/* Sexe */}
         <View style={styles.inputContainer}>
@@ -401,13 +364,6 @@ const Case = (props) => {
           style={styles}
           value={selectedAge}
           onChangeText={setSelectedAge}
-        />
-
-        {/* Ethnicité */}
-        <EthnicityField
-          style={styles}
-          value={ethnicity}
-          onChangeText={setEthnicity}
         />
 
         {/* Description */}
@@ -539,7 +495,7 @@ const basicStyles = StyleSheet.create({
     fontSize: scale(45), fontWeight: "600",
     marginBottom: scaleHeight(20), textAlign: "center",
   },
-  inputContainer: { marginVertical: scaleHeight(2), flex: 1 },
+  inputContainer: { marginVertical: scaleHeight(2)},
   input: {
     width: `${responsiveInput()}%`, marginVertical: 5,
     borderWidth: 1, borderRadius: 5, shadowOffset: { width: 1, height: 1 },

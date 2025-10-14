@@ -12,10 +12,9 @@
     "lastname": "Nom",
     "sex": "Sexe",
     "age": "Âge",
-    "ethnicity": "Ethnicité",
     "caseIDLabel": "Identifiant utilisateur",
-    "userIDPlaceholder": "Saisir l'identifiant utilisateur",
-    "userIDRequired": "Veuillez renseigner l'identifiant utilisateur.",
+    "caseIDPlaceholder": "Saisir l'identifiant utilisateur",
+    "caseIDRequired": "Veuillez renseigner l'identifiant utilisateur.",
     "genderOptions": {
       "woman": "Femme",
       "man": "Homme", 
@@ -49,7 +48,6 @@
     "typeTitle": "Type",
     "typeNone": "Aucun type n'a été chargé",
     "selectOption": "Sélectionnez une option",
-    "enterEthnicity": "Entrez l'ethnicité...",
     "enterAge": "Entrez un âge approximatif..."
   },
   "consultCases": {
