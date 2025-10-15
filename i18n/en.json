@@ -75,6 +75,7 @@
     "enterEmail": "Enter an email",
     "success": "Success",
     "caseRegistered": "The new case number has been saved",
+    "emailFieldTitle": "Destination email address",
     "emailRegistered": "Email has been saved",
     "emailParsingError": "Invalid email format",
     "downloadError": "An error occurred while downloading icons",
@@ -94,7 +95,7 @@
   },
   "Mail": {
     "subject": "[CASE] ",
-    "body": "<em>This email comes from the Dividoc application. Please do not reply.</em>"
+    "body": "<em>This email comes from the Divimap application. Please do not reply.</em>"
   },
   "Pictures": {
     "title": "Photos",

@@ -1,5 +1,5 @@
 {
-  "name": "dividoc",
+  "name": "divimap",
   "version": "0.1.0",
   "scripts": {
     "start": "expo start -c",

@@ -72,6 +72,7 @@
     "enterEmail": "Entrer un mail",
     "success": "Succès",
     "caseRegistered": "Le nouveau numéro de cas a été enregistré",
+    "emailFieldTitle": "Address mail de destination",
     "emailRegistered": "Le mail a été sauvegardé",
     "emailParsingError": "Format du mail invalide",
     "downloadError": "Une erreur est survenue lors du téléchargement des icônes",
@@ -92,7 +93,7 @@
   },
   "Mail": {
     "subject": "[CAS] ",
-    "body": "<em>Ce mail provient de l'application Dividoc. S'il vous plaît ne répondez pas.</em>"
+    "body": "<em>Ce mail provient de l'application Divimap. S'il vous plaît ne répondez pas.</em>"
   },
   "Pictures": {
     "title": "Photos",

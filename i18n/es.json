@@ -72,6 +72,7 @@
     "enterEmail": "Ingrese un correo",
     "success": "Éxito",
     "caseRegistered": "El nuevo número de caso ha sido guardado",
+    "emailFieldTitle": "Dirección de correo electrónico de destino",
     "emailRegistered": "El correo ha sido guardado",
     "emailParsingError": "Formato de correo inválido",
     "downloadError": "Ocurrió un error al descargar los íconos",

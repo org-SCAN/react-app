@@ -34,6 +34,7 @@ const SettingsForm = (props) => {
       </View>
 
       <SettingsFormField
+        title={intlData.messages.Settings.emailFieldTitle}
         placeholder={intlData.messages.Settings.enterEmail}
         value={email}
         onChangeText={setEmail}
