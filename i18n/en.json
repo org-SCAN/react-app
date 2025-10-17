@@ -12,9 +12,9 @@
     "lastname": "Last name",
     "sex": "Gender",
     "age": "Age",
-    "caseIDLabel": "User ID",
-    "caseIDPlaceholder": "Enter the user ID",
-    "caseIDRequired": "Please enter the user ID.",
+    "caseIDLabel": "Case ID",
+    "caseIDPlaceholder": "Enter the case ID",
+    "caseIDRequired": "Please provide the case ID.",
     "genderOptions": {
       "woman": "Female",
       "man": "Male",

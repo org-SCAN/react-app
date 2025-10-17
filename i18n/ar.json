@@ -12,9 +12,9 @@
     "lastname": "اللقب",
     "sex": "الجنس",
     "age": "العمر",
-    "caseIDLabel": "مُعرّف المستخدم",
-    "caseIDPlaceholder": "أدخل مُعرّف المستخدم",
-    "caseIDRequired": "يرجى إدخال مُعرّف المستخدم.",
+    "caseIDLabel": "معرّف القضية",
+    "caseIDPlaceholder": "أدخل معرّف القضية",
+    "caseIDRequired": "يرجى إدخال معرّف القضية.",
     "genderOptions": {
       "woman": "أنثى",
       "man": "ذكر",

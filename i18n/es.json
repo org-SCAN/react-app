@@ -12,9 +12,9 @@
     "lastname": "Apellido",
     "sex": "Género",
     "age": "Edad",
-    "caseIDLabel": "ID de usuario",
-    "caseIDPlaceholder": "Ingresa el ID de usuario",
-    "caseIDRequired": "Por favor ingresa el ID de usuario.",
+    "caseIDLabel": "Identificador del caso",
+    "caseIDPlaceholder": "Introduzca el identificador del caso",
+    "caseIDRequired": "Por favor, introduzca el identificador del caso.",
     "genderOptions": {
       "woman": "Mujer",
       "man": "Hombre",
@@ -93,7 +93,7 @@
   },
   "Mail": {
     "subject": "[CASO] ",
-    "body": "<em>Este correo proviene de la aplicación Dividoc. Por favor, no responda.</em>"
+    "body": "<em>Este correo proviene de la aplicación Divimap. Por favor, no responda.</em>"
   },
   "Pictures": {
     "title": "Fotos",
