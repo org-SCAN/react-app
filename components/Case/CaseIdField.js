@@ -10,10 +10,10 @@ const CaseIdField = (props) => {
   return (
     <View style={[styles.inputContainer, { zIndex: -1 }]}>
       <Text style={styles.placeholder}>
-        {intlData?.messages?.Case?.caseIDLabel || "Identifiant du cas"}
+        {intlData?.messages?.Case?.caseIDLabel}
       </Text>
       <TextInput
-        placeholder={intlData?.messages?.Case?.caseIDPlaceholder || "Saisir l’identifiant du cas"}
+        placeholder={intlData?.messages?.Case?.caseIDPlaceholder}
         placeholderTextColor={styles.placeholderText.color}
         style={styles.input}
         value={value}

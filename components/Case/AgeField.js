@@ -8,7 +8,7 @@ const AgeField = (props) => {
 
   const handleTextChange = (text) => {
     // Ne permettre que les chiffres
-    const numericValue = text.replace(/[^0-9]/g, '');
+    const numericValue = text.replace(/[^0-9]/g, '').slice(0, 3);
     onChangeText(numericValue);
   };
 
