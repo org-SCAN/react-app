@@ -21,11 +21,12 @@ const SimplePicker = (props) => {
 
   return (
     <View style={{ zIndex: isOpen ? 9999 : 1 }}>
-      <Text style={style.placeholder}>{placeholder}</Text>
+      <Text style={styles.mainText}>{placeholder}</Text>
       <DropDownPicker
         listMode="SCROLLVIEW"
-        placeholder={intlData.messages.Case.selectOption}
+        placeholder={intlData.messages.Case.sexPlaceholder}
         placeholderStyle={styles.placeholder}
+        textStyle={styles.inputText}
         multiple={false}
         theme={theme.mode === "dark" ? "DARK" : "LIGHT"}
         open={isOpen}
@@ -42,14 +43,12 @@ const SimplePicker = (props) => {
         listMessageTextStyle={styles.listMessageTextStyle}
         zIndex={9999}
         zIndexInverse={9999}
-        ListEmptyComponent={({
-            listMessageContainerStyle, listMessageTextStyle
-          }) => (
-            <View style={listMessageContainerStyle}>
-                <Text style={listMessageTextStyle}>
-                  Aucune option disponible
-                </Text>
-            </View>
+        ListEmptyComponent={({ listMessageContainerStyle, listMessageTextStyle }) => (
+          <View style={listMessageContainerStyle}>
+              <Text style={listMessageTextStyle}>
+                Aucune option disponible
+              </Text>
+          </View>
         )}
       />
     </View>
@@ -67,22 +66,23 @@ const baseStyles = {
   dropDownContainer: {
     borderRadius: 5,
     zIndex: 9999,
-    elevation: 9999, // Pour Android
+    elevation: 9999, // Android
   },
+
   mainText: {
-    fontWeight: "600",
-    marginBottom: 4,
-    fontSize: 15,
+    fontWeight: "bold",
+    fontSize: 17,
+    marginBottom: 7,
+    marginTop: 7,
   },
+
   listMessageContainerStyle: {
     padding: 20,
   },
   listMessageTextStyle: {
     textAlign: "center",
   },
-  pickerListItem: {
-    //fontWeight: "600",
-  },
+  pickerListItem: {},
 };
 
 const stylesLight = StyleSheet.create({
@@ -96,8 +96,6 @@ const stylesLight = StyleSheet.create({
     ...baseStyles.dropDownContainer,
     backgroundColor: THEME_COLOR.LIGHT.INPUT,
     borderColor: THEME_COLOR.LIGHT.BACKGROUND,
-    zIndex: 9999,
-    elevation: 9999, // Pour Android
   },
   listMessageTextStyle: {
     ...baseStyles.listMessageTextStyle,
@@ -127,8 +125,6 @@ const stylesDark = StyleSheet.create({
     ...baseStyles.dropDownContainer,
     backgroundColor: THEME_COLOR.DARK.INPUT,
     borderColor: THEME_COLOR.DARK.BACKGROUND,
-    zIndex: 9999,
-    elevation: 9999, // Pour Android
   },
   listMessageTextStyle: {
     ...baseStyles.listMessageTextStyle,
@@ -155,4 +151,3 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps)(SimplePicker);
-
