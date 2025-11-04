@@ -8,7 +8,7 @@ const EthnicityField = (props) => {
 
   return (
     <View style={[styles.inputContainer, { zIndex: -1 }]}>
-      <Text style={styles.placeholder}>{intlData.messages.Case.ethnicity || "Ethnicité"}</Text>
+      <Text style={styles.placeholder}>{intlData.messages.Case.ethnicity}</Text>
       <TextInput
         placeholder={intlData.messages.Case.enterEthnicity}
         placeholderTextColor={styles.placeholderText.color}

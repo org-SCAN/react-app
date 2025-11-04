@@ -384,6 +384,7 @@ const Case = (props) => {
                  style={styles} 
                  selectedTypes={selectedTypes} 
                  setSelectedTypes={setSelectedTypes}
+                 placeholder={intlData.messages.Case.type}
                  isOpen={openDropdown === 'types'}
                  onOpen={() => handleDropdownOpen('types')}
                  onClose={handleDropdownClose}

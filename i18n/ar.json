@@ -11,6 +11,7 @@
     "forename": "الاسم الأول",
     "lastname": "اللقب",
     "sex": "الجنس",
+    "type": "النوع",
     "age": "العمر",
     "ethnicity": "العرق",
     "genderOptions": {
@@ -43,9 +44,8 @@
     "description": "أضف معلومات...",
     "descriptionTitle": "الوصف",
     "typePlaceholder": "اختر نوعًا",
-    "typeTitle": "النوع",
     "typeNone": "لم يتم تحميل أي أنواع",
-    "selectOption": "اختر خيارًا",
+    "sexPlaceholder": "اختر الجنس",
     "enterEthnicity": "أدخل العرق...",
     "enterAge": "أدخل عمرًا تقريبيًا..."
   },

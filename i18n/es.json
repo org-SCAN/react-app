@@ -11,6 +11,7 @@
     "forename": "Nombre",
     "lastname": "Apellido",
     "sex": "Género",
+    "type": "Tipo",
     "age": "Edad",
     "ethnicity": "Etnicidad",
     "genderOptions": {
@@ -43,9 +44,8 @@
     "description": "Agregue información...",
     "descriptionTitle": "Descripción",
     "typePlaceholder": "Seleccione un tipo",
-    "typeTitle": "Tipo",
     "typeNone": "No se cargaron tipos",
-    "selectOption": "Seleccione una opción",
+    "sexPlaceholder": "Seleccione un género",
     "enterEthnicity": "Ingrese la etnia...",
     "enterAge": "Ingrese una edad aproximada..."
   },

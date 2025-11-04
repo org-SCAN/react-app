@@ -5,7 +5,7 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { THEME_COLOR } from "../../theme/constants";
 
 const CasePicker = (props) => {
-  const { intlData, theme, style, types, selectedTypes, setSelectedTypes, isOpen, onOpen, onClose } = props;
+  const { intlData, theme, style, types, selectedTypes, setSelectedTypes, placeholder, isOpen, onOpen, onClose } = props;
   const styles = theme.mode === "dark" ? stylesDark : stylesLight;
   
   const [items, setItems] = useState(types);
@@ -24,7 +24,8 @@ const CasePicker = (props) => {
 
   return (
     <View style={{ zIndex: isOpen ? 9999 : 1 }}>
-      <Text style={style.placeholder}>{intlData.messages.Case.typeTitle}</Text>
+      <Text style={styles.mainText}>{placeholder}</Text>
+
       <DropDownPicker
         listMode="SCROLLVIEW"
         placeholder={intlData.messages.Case.typePlaceholder}
@@ -49,14 +50,12 @@ const CasePicker = (props) => {
         listMessageTextStyle={styles.listMessageTextStyle}
         zIndex={9999}
         zIndexInverse={9999}
-        ListEmptyComponent={({
-            listMessageContainerStyle, listMessageTextStyle
-          }) => (
-            <View style={listMessageContainerStyle}>
-                <Text style={listMessageTextStyle}>
-                  {intlData.messages.Case.typeNone}
-                </Text>
-            </View>
+        ListEmptyComponent={({ listMessageContainerStyle, listMessageTextStyle }) => (
+          <View style={listMessageContainerStyle}>
+              <Text style={listMessageTextStyle}>
+                {intlData.messages.Case.typeNone}
+              </Text>
+          </View>
         )}
         renderBadgeItem={(item) => (
           <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 5 }}>
@@ -83,9 +82,10 @@ const baseStyles = {
     elevation: 9999, // Pour Android
   },
   mainText: {
-    fontWeight: "600",
-    marginBottom: 4,
-    fontSize: 15,
+    fontWeight: "bold",
+    fontSize: 17,
+    marginBottom: 7,
+    marginTop: 7,
   },
   listMessageContainerStyle: {
     padding: 20,
