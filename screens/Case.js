@@ -30,9 +30,8 @@ import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { THEME_COLOR } from "../theme/constants";
 import CasePicker from "../components/Case/CasePicker";
 import SimplePicker from "../components/Case/SimplePicker";
-import EthnicityField from "../components/Case/EthnicityField";
-import DescriptionField from "../components/Case/DescriptionField";
-import AgeField from "../components/Case/AgeField";
+import LabeledTextInput from "../components/Case/LabeledTextInput";
+
 
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
@@ -406,25 +405,32 @@ const Case = (props) => {
             </View>
             
             {/* Champ âge */}
-            <AgeField 
-              style={styles}
+            <LabeledTextInput
+              label={intlData.messages.Case.age}
+              placeholder={intlData.messages.Case.enterAge}
               value={selectedAge}
               onChangeText={setSelectedAge}
+              numberOnly
+              maxLength={3}
             />
             
             {/* Champ ethnicité */}
-            <EthnicityField 
-              style={styles}
-              value={ethnicity}
-              onChangeText={setEthnicity}
+            <LabeledTextInput
+            label={intlData.messages.Case.ethnicity}
+            placeholder={intlData.messages.Case.enterEthnicity}
+            value={ethnicity}
+            onChangeText={setEthnicity}
             />
+
             
-            {/* Description */}
-            <DescriptionField 
-              style={styles}
+            <LabeledTextInput
+              label={intlData.messages.Case.descriptionTitle}
+              placeholder={intlData.messages.Case.description}
               value={description}
               onChangeText={setDescription}
               onBlur={handleDescriptionChange}
+              multiline
+              textAlignVertical="top"
             />
 
             {/* Rendu de l'image et des autres éléments */}
