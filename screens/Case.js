@@ -28,8 +28,7 @@ import CustomAlert from "../components/Alert/CustomAlert";
 import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { THEME_COLOR } from "../theme/constants";
-import CasePicker from "../components/Case/CasePicker";
-import SimplePicker from "../components/Case/SimplePicker";
+import ConnectedBasePicker from "../components/Case/ConnectedBasePicker";
 import LabeledTextInput from "../components/Case/LabeledTextInput";
 
 
@@ -379,25 +378,40 @@ const Case = (props) => {
         >
           <Text style={styles.tagLabel}>{tag}</Text>
             <View style={styles.inputContainer}> 
-               <CasePicker 
-                 style={styles} 
-                 selectedTypes={selectedTypes} 
-                 setSelectedTypes={setSelectedTypes}
-                 placeholder={intlData.messages.Case.type}
+              <ConnectedBasePicker
+                label={intlData.messages.Case.type}
+                dropdownPlaceholder={intlData.messages.Case.typePlaceholder}
+                emptyText={intlData.messages.Case.typeNone}
+                items={types}
+                value={selectedTypes}
+                setValue={setSelectedTypes}
+                multiple={true}
+                mode="BADGE"
+                min={0}
                  isOpen={openDropdown === 'types'}
                  onOpen={() => handleDropdownOpen('types')}
                  onClose={handleDropdownClose}
+                extendableBadgeContainer={true}
+                showBadgeDot={true}
+                renderBadgeItem={(item) => (
+                  <View style={{ flexDirection: "row", alignItems: "center", paddingHorizontal: 5 }}>
+                    <View style={{ width: 8, height: 8, borderRadius: 4, backgroundColor: THEME_COLOR.SCAN, marginRight: 5 }} />
+                    <Text style={{ fontWeight: "bold" }}>{item.label}</Text>
+                  </View>
+                )}
                />
             </View>
             
             {/* Menu déroulant pour le sexe */}
             <View style={styles.inputContainer}>
-              <SimplePicker 
-                style={styles} 
+              <ConnectedBasePicker
+                label={intlData.messages.Case.sex}
+                dropdownPlaceholder={intlData.messages.Case.sexPlaceholder}
+                emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
                 items={genderOptions}
-                selectedValue={selectedGender}
-                setSelectedValue={setSelectedGender}
-                placeholder={intlData.messages.Case.sex}
+                value={selectedGender}
+                setValue={setSelectedGender}
+                multiple={false}
                 isOpen={openDropdown === 'gender'}
                 onOpen={() => handleDropdownOpen('gender')}
                 onClose={handleDropdownClose}
