@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect, useLayoutEffect, useMemo, useCallback } from "react";
 import {
   StyleSheet,
   View,
@@ -28,7 +28,20 @@ import CustomAlert from "../components/Alert/CustomAlert";
 import CustomAlertTwoButtons from "../components/Alert/CustomAlertTwoButtons";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { THEME_COLOR } from "../theme/constants";
-import CasePicker from "../components/Case/CasePicker";
+import ConnectedBasePicker from "../components/Case/ConnectedBasePicker";
+import IconSelector from "../components/Case/IconSelector";
+import LabeledTextInput from "../components/Case/LabeledTextInput";
+import formConfig from "../utils/formConfig.json";
+
+// Static asset map for Metro bundler (no dynamic require)
+const assetIconMap = {
+  "icons/woman.png": require("../icons/woman.png"),
+  "icons/man.png": require("../icons/man.png"),
+  "icons/unknown.png": require("../icons/unknown.png"),
+  "icons/child.png": require("../icons/child.png"),
+  "icons/adult.png": require("../icons/adult.png"),
+  "icons/old.png": require("../icons/old.png"),
+};
 
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
@@ -37,10 +50,30 @@ const Case = (props) => {
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
-  const [selectedIconAge, setSelectedIconAge] = useState(null);
-  const [selectedIconSex, setSelectedIconSex] = useState(null);
+  const configFields = formConfig.fields || [];
+  const defaultFieldValues = useMemo(() => {
+    const acc = {};
+    (configFields || []).forEach((f) => {
+      if (f.multiple) {
+        acc[f.key] = [];
+      } else if (f.type === "text" || f.type === "textarea") {
+        acc[f.key] = "";
+      } else {
+        acc[f.key] = null;
+      }
+    });
+    return acc;
+  }, [configFields]);
+  const [fieldValues, setFieldValues] = useState(defaultFieldValues);
+  
+  // Helper function to get field label from config
+  const getFieldLabel = (fieldKey) => {
+    const field = configFields.find((f) => f.key === fieldKey);
+    return field ? field.label : fieldKey;
+  };
+  // Track open state for each dropdown individually
+  const [openDropdowns, setOpenDropdowns] = useState({});
   const [tag, setTag] = useState(null);
-  const [description, setDescription] = useState("");
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -65,45 +98,25 @@ const Case = (props) => {
   const customField = useSelector(state => state.customField.customField);
   const types = useSelector(state => state.typeAvailable.types);
 
-  const FORM = [
-    {
-      key: "sex",
-      placeholder: intlData.messages.Case.sex,
-      value: null,
-      icons: [
-        { name: "woman", icon: iconPersonalized ? `${iconPath}woman.png` : require("../icons/woman.png") }, // Credit to https://www.flaticon.com/authors/vitaly-gorbachev
-        { name: "man", icon: iconPersonalized ? `${iconPath}man.png` : require("../icons/man.png") }, // Credit to https://www.flaticon.com/authors/vitaly-gorbachev
-        { name: "unknown", icon: iconPersonalized ? `${iconPath}unknown.png` : require("../icons/unknown.png") }, // Credit to https://www.flaticon.com/authors/freepik
-      ]
-    },
-    {
-      key: "age",
-      placeholder: intlData.messages.Case.age,
-      value: null,
-      icons: [
-        { name: "child", icon: iconPersonalized ? `${iconPath}child.png` : require("../icons/child.png") }, // Credit to https://www.flaticon.com/authors/edtim
-        { name: "adult", icon: iconPersonalized ? `${iconPath}adult.png` : require("../icons/adult.png") }, // Credit to https://www.flaticon.com/authors/leremy
-        { name: "old", icon: iconPersonalized ? `${iconPath}old.png` : require("../icons/old.png") } // Credit to https://www.flaticon.com/authors/freepik
-      ]
-    },
-    {
-      key: "description",
-      placeholder: intlData.messages.Case.description,
-      placeholderTitle: intlData.messages.Case.descriptionTitle,
-      value: null,
-    }
-  ]; 
-
-
-  const [form, setform] = useState(FORM)
+  // keep defaults in sync if config changes
+  useEffect(() => {
+    setFieldValues((prev) => {
+      const next = { ...prev };
+      Object.keys(defaultFieldValues).forEach((k) => {
+        if (next[k] === undefined) {
+          next[k] = defaultFieldValues[k];
+        }
+      });
+      return next;
+    });
+  }, [defaultFieldValues]);
   
-  const isCaseEmpty = () => {
-    const allFieldsEmpty = form.every((element) => element.value === null || element.value === "");
+  const isCaseEmptyValue = useMemo(() => {
+    const allFieldsEmpty = Object.values(fieldValues).every((v) => v === null || v === "" || (Array.isArray(v) && v.length === 0));
     const noTypes = selectedTypes.length === 0;
     const noImages = images.length === 0;
-  
     return allFieldsEmpty && noImages && noTypes;
-  };
+  }, [fieldValues, selectedTypes, images]);
 
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
@@ -111,7 +124,7 @@ const Case = (props) => {
       headerLeft: () => (
         <Pressable
           onPress={() => {
-            if (!existingCase && !isCaseEmpty()) {
+            if (!existingCase && !isCaseEmptyValue) {
               setAlertVisibleGoBack(true);
             } else {
               navigation.goBack();
@@ -129,7 +142,7 @@ const Case = (props) => {
       ),
       gestureEnabled: false,
     });
-  }, [navigation, existingCase, isCaseEmpty]); // Use minimal dependencies
+  }, [navigation, existingCase, isCaseEmptyValue]);
   
 
 
@@ -146,44 +159,50 @@ const Case = (props) => {
       setAlertVisibleFieldMissing(true);
       return false;
     }
-    console.log("Selected types: ", selectedTypes, selectedTypes.length === 0 && types.length > 0, types.length);
-    if (selectedTypes.length === 0 && types.length > 0) {
-      setAlertMessage(`${intlData.messages.Case.addType}`);
+    
+    // Check types field from fieldValues (using config field key)
+    const typesFieldValue = fieldValues.types;
+    const typesField = configFields.find((f) => f.key === "types");
+    const hasTypes = Array.isArray(typesFieldValue) ? typesFieldValue.length > 0 : (typesFieldValue !== null && typesFieldValue !== "");
+    
+    if (!hasTypes && types.length > 0 && typesField) {
+      const fieldLabel = getFieldLabel("types");
+      // Use field label from config in the message
+      setAlertMessage(`Veuillez sélectionner au moins un ${fieldLabel.toLowerCase()}`);
       setAlertTitle("⚠️");
       setAlertVisibleFieldMissing(true);
       return false;
     }
 
-    const keyValues = form.map((element) => {
-      return { [element.key]: element.value };
+    // Check all required fields from config
+    const requiredFields = configFields.filter((f) => {
+      // Fields that are required (sex and age are typically required)
+      return f.key === "sex" || f.key === "age";
     });
 
-    const allEmpty = keyValues.every((element) => {
-      const value = Object.values(element)[0];
-      return value === "" || value === null;
-    });
-
-    if (allEmpty) {
-      setAlertMessage(`${intlData.messages.Case.noIcons}`);
-      setAlertTitle("⚠️");
-      setAlertVisibleFieldMissing(true);
-      return false;
-    }
-
-    const missingSex = keyValues.find((element) => element.sex === null);
-    if (missingSex) {
-      setAlertMessage(`${intlData.messages.Case.noIconSex}`);
-      setAlertTitle("⚠️");
-      setAlertVisibleFieldMissing(true);
-      return false;
-    }
-
-    const missingAge = keyValues.find((element) => element.age === null);
-    if (missingAge) {
-      setAlertMessage(`${intlData.messages.Case.noIconAge}`);
-      setAlertTitle("⚠️");
-      setAlertVisibleFieldMissing(true);
-      return false;
+    for (const field of requiredFields) {
+      const value = fieldValues[field.key];
+      const isEmpty = value === null || value === undefined || value === "" || (Array.isArray(value) && value.length === 0);
+      
+      if (isEmpty) {
+        const fieldLabel = getFieldLabel(field.key);
+        let message;
+        if (field.type === "icons") {
+          // Use specific message for icons if available, otherwise use generic with field label
+          const iconMessage = intlData.messages.Case?.[`noIcon${field.key.charAt(0).toUpperCase() + field.key.slice(1)}`];
+          if (iconMessage) {
+            message = iconMessage;
+          } else {
+            message = `Veuillez sélectionner un ${fieldLabel.toLowerCase()}`;
+          }
+        } else {
+          message = `Veuillez remplir le champ ${fieldLabel.toLowerCase()}`;
+        }
+        setAlertMessage(message);
+        setAlertTitle("⚠️");
+        setAlertVisibleFieldMissing(true);
+        return false;
+      }
     }
 
     return true;
@@ -191,18 +210,16 @@ const Case = (props) => {
 
   const save = () => {
     if (!isCaseComplete()) return;
-    const keyValues = form.map((element) => {
-      return { [element.key]: element.value };
-    });
-    const keyValuesObject = Object.assign({}, ...keyValues);
+    const keyValuesObject = { ...fieldValues };
     const imageIDs = images.map((image) => image.id);
+    // Use fieldValues.types directly to avoid sync issues
+    const typesValue = Array.isArray(fieldValues.types) ? fieldValues.types : (fieldValues.types ? [fieldValues.types] : []);
     const data = {
       id: caseID,
       tag: tag,
-      types: selectedTypes,
+      types: typesValue,
       ...keyValuesObject,
       images: imageIDs,
-      description: description,
       date: new Date().toISOString(),
     };
     Vibration.vibrate();
@@ -219,20 +236,20 @@ const Case = (props) => {
   const submit = async () => {
     if (!isCaseComplete()) return;
     setLoading(true);
-    const keyValues = form.map((element) => ({ [element.key]: element.value }));
-    const keyValuesObject = Object.assign({}, ...keyValues);
+    const keyValuesObject = { ...fieldValues };
     const imageIDs = images.map((image) => image.id);
     const coordinates = images.map((image) => ({
       id: image.id,
       latitude: image.lat,
       longitude: image.lng,
     }));
+    // Use fieldValues.types directly to avoid sync issues
+    const typesValue = Array.isArray(fieldValues.types) ? fieldValues.types : (fieldValues.types ? [fieldValues.types] : []);
     const data = {
       id: caseID,
       tag: tag,
-      types: selectedTypes,
+      types: typesValue,
       customField: customField,
-      description: description,
       ...keyValuesObject,
       images: imageIDs,
       date: new Date().toISOString(),
@@ -310,23 +327,28 @@ const Case = (props) => {
       console.log("Case: ", mcase);
       setExistingCase(mcase);
       setCaseID(mcase.id);
-      setSelectedTypes(mcase.types);
+      setSelectedTypes(mcase.types || []);
       setTag(mcase.tag); // Set tag from existing case
-      const updatedForm = form.map((item) => {
-        if (item.key === "age") {
-          item.value = mcase.age;
-          setSelectedIconAge(item.icons.find(icon => icon.name === mcase.age).icon);
-        } else if (item.key === "sex") {
-          item.value = mcase.sex;
-          setSelectedIconSex(item.icons.find(icon => icon.name === mcase.sex).icon);
+      
+      // Dynamically load all fields from config
+      const loadedFieldValues = { ...defaultFieldValues };
+      configFields.forEach((field) => {
+        const fieldKey = field.key;
+        if (mcase[fieldKey] !== undefined) {
+          // Handle different field types
+          if (field.multiple && Array.isArray(mcase[fieldKey])) {
+            loadedFieldValues[fieldKey] = mcase[fieldKey];
+          } else if (field.multiple) {
+            loadedFieldValues[fieldKey] = [];
+          } else if (field.type === "text" || field.type === "textarea") {
+            loadedFieldValues[fieldKey] = mcase[fieldKey] ?? "";
+          } else {
+            loadedFieldValues[fieldKey] = mcase[fieldKey] ?? null;
+          }
         }
-        else if (item.key === "description") {
-          item.value = mcase.description;
-          setDescription(mcase.description);
-        }
-        return item;
       });
-      setform(updatedForm);
+      
+      setFieldValues(loadedFieldValues);
     } else if (props.route.params && props.route.params.images) {
       const crashImage = props.route.params.images
       setImages(crashImage);
@@ -345,95 +367,157 @@ const Case = (props) => {
     }
   }, [caseID, props.images]);
 
-
-  //function called when an icon is selected for the sex
-  const handleIconSelectionSex = (value) => {
-    const updatedForm = form.map((item) => {
-      // Toggle the selected icon value
-      if (selectedIconSex === value) {
-        setSelectedIconSex(null);
-        form.find((item) => item.key === "sex").value = null;
+  // Synchronize selectedTypes with fieldValues.types
+  useEffect(() => {
+    if (fieldValues.types !== undefined) {
+      const typesValue = fieldValues.types;
+      if (Array.isArray(typesValue)) {
+        setSelectedTypes(typesValue);
+      } else if (typesValue !== null && typesValue !== "") {
+        setSelectedTypes([typesValue]);
       } else {
-        setSelectedIconSex(value);
-        const sexItem = form.find((item) => item.key === "sex");
-        const selectedIndex = sexItem.icons.findIndex((iconOption) => iconOption.icon === value);
-        if (selectedIndex !== -1) {
-          const selectedIconName = sexItem.icons[selectedIndex].name;
-          form.find((item) => item.key === "sex").value = selectedIconName;
+        setSelectedTypes([]);
+      }
+    }
+  }, [fieldValues.types]);
+
+
+  const valuesEqual = (a, b) => {
+    if (Array.isArray(a) && Array.isArray(b)) {
+      if (a.length !== b.length) return false;
+      // For arrays, compare element by element (order matters for DropDownPicker)
+      // Use Set for comparison to handle order differences
+      const setA = new Set(a);
+      const setB = new Set(b);
+      if (setA.size !== setB.size) return false;
+      for (const item of setA) {
+        if (!setB.has(item)) return false;
+      }
+      return true;
+    }
+    // Handle case where one is array and other is not
+    if (Array.isArray(a) && !Array.isArray(b)) return false;
+    if (!Array.isArray(a) && Array.isArray(b)) return false;
+    return a === b;
+  };
+
+  const setFieldValue = (key, val) => {
+    setFieldValues((prev) => {
+      const current = prev[key];
+      // Always update if it's a different reference for arrays (to preserve order)
+      if (Array.isArray(current) && Array.isArray(val)) {
+        // Only skip if truly equal (same reference or same content in same order)
+        if (current === val) return prev;
+        // Check if content is the same
+        if (current.length === val.length) {
+          let isEqual = true;
+          for (let i = 0; i < current.length; i++) {
+            if (current[i] !== val[i]) {
+              isEqual = false;
+              break;
+            }
+          }
+          if (isEqual) return prev;
         }
+      } else if (valuesEqual(current, val)) {
+        return prev;
       }
-      return item;
+      console.log(`Updating field ${key}:`, current, '->', val);
+      return { ...prev, [key]: val };
     });
-    setform(updatedForm);  
-    console.log("Updated FORM:", updatedForm);
   };
 
 
-  //function called when an icon is selected for the age
-  const handleIconSelectionAge = (value) => {
-    const updatedForm = form.map((item) => {
-      // Toggle the selected icon value
-      if (selectedIconAge === value) {
-        setSelectedIconAge(null);
-        form.find((item) => item.key === "age").value = null;
-      } else {
-        setSelectedIconAge(value);
-        const ageItem = form.find((item) => item.key === "age");
-        const selectedIndex = ageItem.icons.findIndex((iconOption) => iconOption.icon === value);
-        if (selectedIndex !== -1) {
-          const selectedIconName = ageItem.icons[selectedIndex].name;
-          form.find((item) => item.key === "age").value = selectedIconName;
-        }
-      }
-      return item;
-    });
-    setform(updatedForm);  
-    console.log("Updated FORM:", updatedForm);
-  };
-
-
-  const handleDescriptionChange = () => {
-    const updatedForm = form.map((item) => {
-      if (item.key === "description") {
-        item.value = description;
-      }
-      return item;
-    });
-    setform(updatedForm);
-    console.log("Updated FORM:", updatedForm)
-  };
-
-  const renderItem = ({ item }) => {
-    if (item.key === "age" || item.key === "sex") {
+  const renderField = (field) => {
+    if (field.type === "icons") {
+      const options = (field.options || []).map((opt) => ({
+        label: opt.label,
+        value: opt.value,
+        icon: field.iconSource === "asset"
+          ? assetIconMap[opt.icon]
+          : (iconPersonalized ? `${iconPath}${opt.value}.png` : opt.icon),
+      }));
+    
       return (
-        <View style={styles.inputContainer}>
-          <Text style={[styles.placeholder]}>{item.placeholder}</Text>
-          <View style={styles.iconContainer}>
-            {item.icons.map((iconOption, index) => (
-              <TouchableOpacity
-                key={index}
-                style={[
-                  styles.iconButton,
-                  (item.key === "age" && selectedIconAge === iconOption.icon) ||
-                  (item.key === "sex" && selectedIconSex === iconOption.icon)
-                    ? styles.selectedIconButton
-                    : null,
-                ]}
-                onPressOut={() => {
-                  if (item.key === "age") {
-                    handleIconSelectionAge(iconOption.icon);
-                  } else if (item.key === "sex") {
-                    handleIconSelectionSex(iconOption.icon);
-                  }
-                }}
-              >
-                <Image source={iconPersonalized ? {uri: iconOption.icon} : iconOption.icon} style={styles.icon} />
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
+        <IconSelector
+          key={field.key}
+          label={field.label}
+          options={options}
+          value={fieldValues[field.key] ?? null}
+          onChange={(val) => setFieldValue(field.key, val)}
+          multiple={!!field.multiple}
+        />
       );
     }
+    if (field.type === "dropdown") {
+      let items = [];
+      if (Array.isArray(field.options) && field.options.length > 0) {
+        items = field.options.map((opt) => ({ label: opt.label, value: opt.value }));
+      } else if (field.optionsSource?.type === "redux" && field.optionsSource?.path === "typeAvailable.types") {
+        items = types || [];
+      }
+      
+      // Get current value - ensure array for multiple, null/undefined for single
+      const fieldValue = fieldValues[field.key];
+      const normalizedValue = field.multiple
+        ? (Array.isArray(fieldValue) ? fieldValue : [])
+        : (fieldValue === undefined || fieldValue === "" ? null : fieldValue);
+      
+      // Manage open state per field
+      const isOpen = openDropdowns[field.key] || false;
+      const handleOpen = (open) => {
+        setOpenDropdowns(prev => ({ ...prev, [field.key]: open }));
+      };
+      
+      // Simple value change handler - similar to old CasePicker
+      const handleValueChange = (val) => {
+        console.log(`Picker ${field.key} setting value:`, val);
+        setFieldValue(field.key, val);
+        // Close dropdown after selection for multiple (like old code)
+        if (field.multiple) {
+          handleOpen(false);
+        }
+      };
+      
+      // Direct setValue handler - like old code
+      const handleSetValue = (val) => {
+        setFieldValue(field.key, val);
+      };
+      
+      return (
+        <ConnectedBasePicker
+          key={field.key}
+          label={field.label}
+          dropdownPlaceholder={field.placeholder}
+          emptyText={field.emptyText || intlData.messages.Common?.none || "Aucune option disponible"}
+          items={items}
+          value={normalizedValue}
+          setValue={handleSetValue}
+          setItems={() => {}}
+          multiple={!!field.multiple}
+          mode={field.multiple ? "BADGE" : undefined}
+          isOpen={isOpen}
+          onOpen={() => handleOpen(true)}
+          onClose={() => handleOpen(false)}
+          onChangeValue={handleValueChange}
+        />
+      );
+    }
+    
+    if (field.type === "text" || field.type === "textarea") {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={field.label}
+          placeholder={field.placeholder || field.label}
+          value={String(fieldValues[field.key] ?? "")}
+          onChangeText={(t) => setFieldValue(field.key, t)}
+          multiline={field.type === "textarea"}
+          textAlignVertical={field.type === "textarea" ? "top" : undefined}
+        />
+      );
+    }
+    return null;
   };
   const renderImage = ({ item }) => (
       <Pressable
@@ -477,34 +561,8 @@ const Case = (props) => {
           scrollEventThrottle={16}
         >
           <Text style={styles.tagLabel}>{tag}</Text>
-            <View style={styles.inputContainer}> 
-               <CasePicker style={styles} selectedTypes={selectedTypes} setSelectedTypes={setSelectedTypes}/>
-            </View>
-            {/* Rendu du formulaire Age et Sex */}
-            <FlatList
-              data={form.filter((item) => item.key !== "injuries")}
-              renderItem={renderItem}
-              keyExtractor={(item) => item.key}
-              style={{ flexGrow: 0 }}
-              scrollEnabled={false}
-            />
-            {/* Description */}
-            <View style={styles.inputContainer}> 
-              <Text style={styles.placeholder}>{form.find((item) => item.key === "description").placeholderTitle}</Text>
-              <View style={styles.iconContainer}>
-                <TextInput
-                  placeholder={form.find((item) => item.key === "description").placeholder}
-                  placeholderTextColor={styles.placeholderDescripton.color}
-                  style={styles.input}
-                  textAlignVertical="top"
-                  value={description}
-                  multiline={true}
-                  scrollEnabled={false}
-                  onChangeText={setDescription}
-                  onBlur={handleDescriptionChange}
-                />
-              </View>
-            </View>
+            {/* Dynamic fields from config (includes types dropdown via optionsSource) */}
+            {configFields.map((f) => renderField(f))}
 
             {/* Rendu de l'image et des autres éléments */}
             <View style={styles.multipleFieldsContainer}>

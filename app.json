@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "Divilite",
-    "slug": "divilite",
-    "version": "1.4.4",
+    "name": "Divi",
+    "slug": "divi",
+    "version": "0.0.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -25,7 +25,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.antprn.scanapp"
+      "package": "app.bbz.divi"
     },
     "web": {
       "favicon": "./assets/favicon.png"

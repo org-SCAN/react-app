@@ -1,0 +1,61 @@
+{
+  "fields": [
+    {
+      "key": "types",
+      "label": "Types",
+      "type": "dropdown",
+      "multiple": true,
+      "placeholder": "Select types",
+      "emptyText": "No type available",
+      "options": [],
+      "optionsSource": {
+        "type": "redux",
+        "path": "typeAvailable.types"
+      },
+      "settingsKey": "typesUrl"
+    },
+  
+    {
+      "key": "sex",
+      "label": "Sex",
+      "type": "icons",
+      "multiple": false,
+      "options": [
+        { "value": "woman", "icon": "icons/woman.png" },
+        { "value": "man", "icon": "icons/man.png" },
+        { "value": "unknown", "icon": "icons/unknown.png" }
+      ],
+      "iconSource": "asset"
+    },
+    {
+      "key": "ethnicity",
+      "label": "Ethnicity",
+      "type": "text"
+    },
+     
+    {
+      "key": "description",
+      "label": "Description",
+      "type": "textarea"
+    },
+    {
+      "key": "injury",
+      "label": "Injury",
+      "type": "text"
+    },
+    {
+      "key": "age",
+      "label": "Age",
+      "type": "dropdown",
+      "placeholder": "Select age",
+      "emptyText": "No option",
+      "options": [
+        { "label": "Child", "value": "child" },
+        { "label": "Adult", "value": "adult" },
+        { "label": "Senior", "value": "old" }
+      ]
+    }
+  ]
+}
+
+
