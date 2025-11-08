@@ -32,6 +32,8 @@ import ConnectedBasePicker from "../components/Case/ConnectedBasePicker";
 import IconSelector from "../components/Case/IconSelector";
 import LabeledTextInput from "../components/Case/LabeledTextInput";
 import formConfig from "../utils/formConfig.json";
+import SimplePicker from "../components/Case/SimplePicker";
+
 
 // Static asset map for Metro bundler (no dynamic require)
 const assetIconMap = {
@@ -318,6 +320,21 @@ const Case = (props) => {
       setTag(`${userId}-${caseNumber}`);
     }
   };
+  
+  const normalizeItems = (src) =>
+  (src || []).map((opt, i) => {
+    if (opt && typeof opt === "object" && "label" in opt && "value" in opt) {
+      return { label: String(opt.label), value: opt.value };
+    }
+    if (opt && typeof opt === "object") {
+      const label = opt.label ?? opt.name ?? opt.title ?? String(opt.value ?? opt.id ?? i);
+      const value = opt.value ?? opt.id ?? opt.key ?? label;
+      return { label: String(label), value };
+    }
+    return { label: String(opt), value: opt };
+  });
+
+  
 
   useEffect(() => {
     if (props.route.params && props.route.params.caseId) {
@@ -459,7 +476,7 @@ const Case = (props) => {
       
       // Get current value - ensure array for multiple, null/undefined for single
       const fieldValue = fieldValues[field.key];
-      const normalizedValue = field.multiple
+      const normalizedValue = field.multiple 
         ? (Array.isArray(fieldValue) ? fieldValue : [])
         : (fieldValue === undefined || fieldValue === "" ? null : fieldValue);
       
@@ -488,13 +505,12 @@ const Case = (props) => {
         <ConnectedBasePicker
           key={field.key}
           label={field.label}
-          dropdownPlaceholder={field.placeholder}
+          dropdownPlaceholder={field.placeholder || field.label}
           emptyText={field.emptyText || intlData.messages.Common?.none || "Aucune option disponible"}
           items={items}
           value={normalizedValue}
           setValue={handleSetValue}
-          setItems={() => {}}
-          multiple={!!field.multiple}
+          multiple={field.multiple}
           mode={field.multiple ? "BADGE" : undefined}
           isOpen={isOpen}
           onOpen={() => handleOpen(true)}
@@ -503,7 +519,38 @@ const Case = (props) => {
         />
       );
     }
-    
+   
+   if (field.type === "simpledropdown") {
+  const rawItems = Array.isArray(field.options) && field.options.length > 0 ? field.options : [];
+  const items = normalizeItems(rawItems);
+
+  const raw = fieldValues[field.key];
+  const valueSingle =
+    raw == null || raw === "" ? null : (Array.isArray(raw) ? null : raw);
+
+  const isOpen = !!openDropdowns[field.key];
+  const setOpenForField = (open) => {
+    setOpenDropdowns((prev) =>
+      (prev[field.key] || false) === open ? prev : { ...prev, [field.key]: open }
+    );
+  };
+
+  return (
+    <SimplePicker
+      key={field.key}
+      label={field.label}
+      items={items}
+      value={valueSingle}
+      setValue={(val) => setFieldValue(field.key, val ?? null)}
+      placeholder={field.placeholder || field.label}
+      emptyText={field.emptyText || "No option"}
+      isOpen={isOpen}
+      setOpen={setOpenForField}
+      clearOnSelectSame={true}
+    />
+  );
+}
+
     if (field.type === "text" || field.type === "textarea") {
       return (
         <LabeledTextInput
@@ -519,6 +566,7 @@ const Case = (props) => {
     }
     return null;
   };
+  
   const renderImage = ({ item }) => (
       <Pressable
         onPress={() => navigation.navigate("Pictures", { caseID: item.caseID })}

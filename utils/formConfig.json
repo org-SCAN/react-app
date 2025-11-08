@@ -28,6 +28,18 @@
       "iconSource": "asset"
     },
     {
+      "key": "age",
+      "label": "Age",
+      "type": "simpledropdown",
+      "placeholder": "Select age",
+      "emptyText": "No option",
+      "options": [
+        { "label": "Child", "value": "child" },
+        { "label": "Adult", "value": "adult" },
+        { "label": "Senior", "value": "old" }
+      ]
+    },
+    {
       "key": "ethnicity",
       "label": "Ethnicity",
       "type": "text"
@@ -42,18 +54,6 @@
       "key": "injury",
       "label": "Injury",
       "type": "text"
-    },
-    {
-      "key": "age",
-      "label": "Age",
-      "type": "dropdown",
-      "placeholder": "Select age",
-      "emptyText": "No option",
-      "options": [
-        { "label": "Child", "value": "child" },
-        { "label": "Adult", "value": "adult" },
-        { "label": "Senior", "value": "old" }
-      ]
     }
   ]
 }
