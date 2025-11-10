@@ -23,6 +23,7 @@
       "adult": "بالغ (18-64 سنة)",
       "senior": "مسن (65+ سنة)"
     },
+    "enterAge": "أدخل عمرًا تقريبيًا...",
     "injury": "سبب الإصابة",
     "photoButton": "التقاط صورة",
     "descriptionPhoto": "التقط خمس صور على الأقل إن أمكن",
@@ -43,6 +44,8 @@
     "descriptionTitle": "الوصف",
     "typePlaceholder": "اختر نوعًا",
     "sexPlaceholder": "اختر الجنس",
+    "ethnicity": "العرق",
+    "enterEthnicity": "أدخل العرق",
     "typeTitle": "النوع",
     "typeNone": "لم يتم تحميل أي أنواع"
   },

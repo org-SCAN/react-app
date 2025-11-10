@@ -53,6 +53,8 @@ const Case = (props) => {
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   const [selectedGender, setSelectedGender] = useState(null);
+  const [ethnicity, setEthnicity] = useState("");
+  const [age, setAge] = useState("");
   const configFields = formConfig.fields || [];
   const defaultFieldValues = useMemo(() => {
     const acc = {};
@@ -598,6 +600,32 @@ const Case = (props) => {
     />
     );
     }
+
+     if (field?.key === "age" && field?.personalized === false) {
+    return (
+    <LabeledTextInput
+        key={field.key}
+        label={intlData.messages.Case.age}
+        placeholder={intlData.messages.Case.enterAge}
+        value={age}
+        onChangeText={setAge}
+    />
+    );
+  }
+
+    if (field?.key === "ethnicity" && field?.personalized === false) {
+    return (
+    <LabeledTextInput
+        key={field.key}
+        label={intlData.messages.Case.ethnicity}
+        placeholder={intlData.messages.Case.enterEthnicity}
+        value={ethnicity}
+        onChangeText={setEthnicity}
+    />
+    );
+  }
+
+  
 
     if (field.type === "text" || field.type === "textarea") {
       return (

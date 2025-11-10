@@ -23,7 +23,10 @@
       "adult": "Adulto (18-64 años)",
       "senior": "Mayor (65+ años)"
     },
+    "enterAge": "Ingrese una edad aproximada...",
     "sexPlaceholder": "Seleccione un género",
+    "ethnicity": "Etnicidad",
+    "enterEthnicity": "Ingrese una etnicidad...",
     "injury": "Causa de la lesión",
     "photoButton": "Tomar una foto",
     "descriptionPhoto": "Tome al menos 5 fotos si es posible",

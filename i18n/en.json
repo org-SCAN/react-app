@@ -23,6 +23,7 @@
       "adult": "Adult (18-64 years)",
       "senior": "Senior (65+ years)"
     },
+    "enterAge": "Enter an approximate age...",
     "injury": "Injury cause",
     "photoButton": "Take a photo",
     "descriptionPhoto": "Take at least 5 photos if possible",
@@ -43,6 +44,8 @@
     "descriptionTitle": "Description",
     "typePlaceholder": "Select a type",
     "sexPlaceholder": "Select a gender",
+    "ethnicity": "Ethnicity",
+    "enterEthnicity": "Enter ethnicity",
     "typeTitle": "Type",
     "typeNone": "No types were loaded"
   },

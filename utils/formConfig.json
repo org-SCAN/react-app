@@ -28,7 +28,7 @@
       "iconSource": "asset"
     },
     {
-      "key": "age",
+      "key": "age2",
       "label": "Age",
       "type": "simpledropdown",
       "placeholder": "Select age",
@@ -45,8 +45,11 @@
     },
     {
       "key": "ethnicity",
-      "label": "Ethnicity",
-      "type": "text"
+      "personalized": false
+    },
+    {
+      "key": "age",
+      "personalized": false
     },
      
     {

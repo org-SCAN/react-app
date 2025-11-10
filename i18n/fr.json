@@ -23,6 +23,7 @@
       "adult": "Adulte (18-64 ans)",
       "senior": "Senior (65+ ans)"
     },
+    "enterAge": "Entrez un âge approximatif...",
     "sexPlaceholder": "Sélectionnez un sexe",
     "injury": "Cause des blessures",
     "photoButton": "Prendre une photo",
@@ -43,6 +44,8 @@
     "description": "Ajouter des informations...",
     "descriptionTitle": "Description",
     "typePlaceholder": "Sélectionnez un type",
+    "ethnicity": "Ethnicité",
+    "enterEthnicity": "Entrez une ethnicité...",
     "typeTitle": "Type",
     "typeNone": "Aucun type n'a été chargé"
   },
