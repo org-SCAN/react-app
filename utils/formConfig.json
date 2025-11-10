@@ -16,8 +16,8 @@
     },
   
     {
-      "key": "sex",
-      "label": "Sex",
+      "key": "sex2",
+      "label": "Gender",
       "type": "icons",
       "multiple": false,
       "options": [
@@ -38,6 +38,10 @@
         { "label": "Adult", "value": "adult" },
         { "label": "Senior", "value": "old" }
       ]
+    },
+    {
+      "key": "sex",
+      "personalized": false
     },
     {
       "key": "ethnicity",

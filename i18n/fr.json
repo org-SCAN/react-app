@@ -12,6 +12,18 @@
     "lastname": "Nom",
     "sex": "Sexe",
     "age": "Âge",
+    "genderOptions": {
+      "woman": "Femme",
+      "man": "Homme", 
+      "unknown": "Inconnu"
+    },
+    "ageOptions": {
+      "child": "Enfant (0-12 ans)",
+      "teen": "Adolescent (13-17 ans)",
+      "adult": "Adulte (18-64 ans)",
+      "senior": "Senior (65+ ans)"
+    },
+    "sexPlaceholder": "Sélectionnez un sexe",
     "injury": "Cause des blessures",
     "photoButton": "Prendre une photo",
     "descriptionPhoto": "Prendre au moins 5 photos si possible",

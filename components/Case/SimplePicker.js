@@ -57,25 +57,24 @@ const SimplePicker = ({
   };
 
   const handleSelectItem = (item) => {
-    // Si clearOnSelectSame est activé et qu'on reclique sur la même valeur
-    if (clearOnSelectSame && item.value === value) {
-      setValue(null);
-      if (typeof setOpen === "function") setOpen(false);
-    } else {
-      setValue(item.value);
-      if (typeof setOpen === "function") setOpen(false);
+    const newValue = (clearOnSelectSame && item.value === value) ? null : item.value;
+    
+    // Utiliser safeSetValue pour propager via DropDownPicker
+    safeSetValue(newValue);
+    
+    // Aussi appeler setValue directement pour le parent
+    if (setValue) {
+      setValue(newValue);
+    }
+    
+    // Fermer le dropdown après sélection
+    if (typeof setOpen === "function") {
+      setOpen(false);
     }
   };
 
-  // Vérifier que la valeur correspond à un item existant
-  useEffect(() => {
-    if (value !== null && value !== undefined && pickerItems.length > 0) {
-      const foundItem = pickerItems.find(item => item.value === value);
-      if (!foundItem) {
-        console.warn(`SimplePicker: Value "${value}" not found in items`);
-      }
-    }
-  }, [value, pickerItems]);
+  // Normaliser la valeur pour l'affichage du placeholder
+  const displayValue = value === "" || value === undefined ? null : value;
 
   return (
     <View style={[{ zIndex: isOpen ? 9999 : 1 }, style]}>
@@ -91,13 +90,14 @@ const SimplePicker = ({
         theme={theme.mode === "dark" ? "DARK" : "LIGHT"}
         open={isOpen}
         setOpen={handleSetOpen}
-        value={value === "" || value === undefined ? null : value}
+        value={displayValue}
         setValue={safeSetValue}
         items={pickerItems}
         setItems={setPickerItems}
         onSelectItem={handleSelectItem}
         closeAfterSelecting={false}
         listItemLabelStyle={styles.pickerListItem}
+        selectedItemContainerStyle={{ backgroundColor: 'transparent', opacity: 0.75 }}
         style={styles.pickerContainer}
         dropDownContainerStyle={styles.dropDownContainer}
         listMessageContainerStyle={styles.listMessageContainerStyle}

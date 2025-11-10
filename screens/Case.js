@@ -52,6 +52,7 @@ const Case = (props) => {
   const [caseID, setCaseID] = useState(null);
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
+  const [selectedGender, setSelectedGender] = useState(null);
   const configFields = formConfig.fields || [];
   const defaultFieldValues = useMemo(() => {
     const acc = {};
@@ -78,6 +79,7 @@ const Case = (props) => {
   const [tag, setTag] = useState(null);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(null); // null, 'types', 'gender'
 
   const [alertVisibleFieldMissing, setAlertVisibleFieldMissing] = useState(false); 
   const [alertMessage, setAlertMessage] = useState(false); 
@@ -100,6 +102,13 @@ const Case = (props) => {
   const customField = useSelector(state => state.customField.customField);
   const types = useSelector(state => state.typeAvailable.types);
 
+  // Utilise useMemo pour recalculer genderOptions quand intlData change
+  const genderOptions = useMemo(() => [
+    { label: intlData.messages.Case.genderOptions?.woman || "Woman", value: "woman" },
+    { label: intlData.messages.Case.genderOptions?.man || "Man", value: "man" },
+    { label: intlData.messages.Case.genderOptions?.unknown || "Unknown", value: "unknown" }
+  ], [intlData]);
+
   // keep defaults in sync if config changes
   useEffect(() => {
     setFieldValues((prev) => {
@@ -119,6 +128,20 @@ const Case = (props) => {
     const noImages = images.length === 0;
     return allFieldsEmpty && noImages && noTypes;
   }, [fieldValues, selectedTypes, images]);
+
+   const handleDropdownOpen = (dropdownName) => {
+    // Si le menu est déjà ouvert, on le ferme
+    if (openDropdown === dropdownName) {
+      setOpenDropdown(null);
+    } else {
+      // Sinon, on ouvre le nouveau menu
+      setOpenDropdown(dropdownName);
+    }
+  };
+
+  const handleDropdownClose = () => {
+    setOpenDropdown(null);
+  };
 
   //Change the back button onpress beahviour and disable swipe back
   useLayoutEffect(() => {
@@ -344,6 +367,7 @@ const Case = (props) => {
       console.log("Case: ", mcase);
       setExistingCase(mcase);
       setCaseID(mcase.id);
+      setSelectedGender(mcase.sex);
       setSelectedTypes(mcase.types || []);
       setTag(mcase.tag); // Set tag from existing case
       
@@ -550,6 +574,30 @@ const Case = (props) => {
     />
   );
 }
+
+  if (field?.key === "sex" && field?.personalized === false) {
+    const isOpen = !!openDropdowns[field.key];
+    const setOpenForField = (open) => {
+      setOpenDropdowns((prev) =>
+        (prev[field.key] || false) === open ? prev : { ...prev, [field.key]: open }
+      );
+    };
+
+    return (
+    <SimplePicker
+      key={field.key} // Utilise field.key au lieu de intlData.messages.Case.sex
+      label={intlData.messages.Case.sex}
+      items={genderOptions}
+      value={selectedGender}
+      setValue={setSelectedGender}
+      placeholder={intlData.messages.Case.sexPlaceholder}
+      emptyText={intlData.messages.Common?.none}
+      isOpen={isOpen}
+      setOpen={setOpenForField}
+      clearOnSelectSame={true}
+    />
+    );
+    }
 
     if (field.type === "text" || field.type === "textarea") {
       return (
