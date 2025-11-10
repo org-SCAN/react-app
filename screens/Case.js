@@ -601,16 +601,17 @@ const Case = (props) => {
     );
     }
 
-     if (field?.key === "age" && field?.personalized === false) {
-    return (
-    <LabeledTextInput
-        key={field.key}
-        label={intlData.messages.Case.age}
-        placeholder={intlData.messages.Case.enterAge}
-        value={age}
-        onChangeText={setAge}
-    />
-    );
+    if (field?.key === "age" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+            key={field.key}
+            label={intlData.messages.Case.age}
+            placeholder={intlData.messages.Case.enterAge}
+            value={age}
+            numeric={true}
+            onChangeText={setAge}
+        />
+      );
   }
 
     if (field?.key === "ethnicity" && field?.personalized === false) {

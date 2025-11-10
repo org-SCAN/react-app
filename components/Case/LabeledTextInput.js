@@ -11,19 +11,21 @@ const LabeledTextInput = (props) => {
     value,
     onChangeText,
     maxLength,
-    numberOnly,
+    numeric = false,
     multiline,
+    keyboardType="default",
     textAlignVertical,
   } = props;
 
   const styles = theme.mode === "dark" ? stylesDark : stylesLight;
 
   const handleChange = (text) => {
-    if (numberOnly) {
-      const onlyDigits = text.replace(/[^0-9]/g, "");
-      onChangeText && onChangeText(onlyDigits);
+    if (numeric) {
+      // Ne permettre que les chiffres
+      const numericValue = text.replace(/[^0-9]/g, '').slice(0, maxLength || 3);
+      onChangeText(numericValue);
     } else {
-      onChangeText && onChangeText(text);
+      onChangeText(text);
     }
   };
 
@@ -38,6 +40,7 @@ const LabeledTextInput = (props) => {
         onChangeText={handleChange}
         maxLength={maxLength}
         multiline={multiline}
+        keyboardType={numeric ? "numeric" : keyboardType}
         textAlignVertical={textAlignVertical}
       />
     </View>
