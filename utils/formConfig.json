@@ -5,6 +5,7 @@
       "label": "Types",
       "type": "dropdown",
       "multiple": true,
+      "mandatory": true,
       "placeholder": "Select types",
       "emptyText": "No type available",
       "options": [],
@@ -14,12 +15,12 @@
       },
       "settingsKey": "typesUrl"
     },
-  
     {
-      "key": "sex2",
-      "label": "Gender",
+      "key": "apparence",
+      "label": "Apparence",
       "type": "icons",
       "multiple": false,
+      "mandatory": true,
       "options": [
         { "value": "woman", "icon": "icons/woman.png" },
         { "value": "man", "icon": "icons/man.png" },
@@ -28,9 +29,10 @@
       "iconSource": "asset"
     },
     {
-      "key": "age2",
-      "label": "Age",
+      "key": "age_approx",
+      "label": "Age_approx",
       "type": "simpledropdown",
+      "mandatory": false,
       "placeholder": "Select age",
       "emptyText": "No option",
       "options": [
@@ -41,26 +43,30 @@
     },
     {
       "key": "sex",
-      "personalized": false
+      "personalized": false,
+      "mandatory": true
     },
     {
       "key": "ethnicity",
-      "personalized": false
+      "personalized": false,
+      "mandatory": false
     },
     {
       "key": "age",
-      "personalized": false
+      "personalized": false,
+      "mandatory": true
     },
-     
     {
       "key": "description",
       "label": "Description",
-      "type": "textarea"
+      "type": "textarea",
+      "mandatory": false
     },
     {
       "key": "injury",
       "label": "Injury",
-      "type": "text"
+      "type": "text",
+      "mandatory": false
     }
   ]
 }
