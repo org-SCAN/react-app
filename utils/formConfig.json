@@ -67,6 +67,11 @@
       "label": "Injury",
       "type": "text",
       "mandatory": false
+    },
+    {
+      "key": "tagID",
+      "personalized": false,
+      "mandatory": false
     }
   ]
 }

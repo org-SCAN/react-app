@@ -23,6 +23,8 @@
       "adult": "Adult (18-64 years)",
       "senior": "Senior (65+ years)"
     },
+    "tagID" : "Tag ID",
+    "enterTagID": "Enter a tag ID...",
     "enterAge": "Enter an approximate age...",
     "injury": "Injury cause",
     "photoButton": "Take a photo",

@@ -577,6 +577,30 @@ const Case = (props) => {
       );
     }
 
+    if (field?.key === "ethnicity" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={field.label || intlData.messages.Case.ethnicity}
+          placeholder={field.placeholder || intlData.messages.Case.enterEthnicity}
+          value={fieldValues[field.key] ?? ""}
+          onChangeText={(val) => setFieldValue(field.key, val)}
+        />
+      );
+    }
+
+    if (field?.key === "tagID" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={field.label || intlData.messages.Case.tagID}
+          placeholder={field.placeholder || intlData.messages.Case.enterTagID}
+          value={fieldValues[field.key] ?? ""}
+          onChangeText={(val) => setFieldValue(field.key, val)}
+        />
+      );
+    }
+
     // Text and textarea types
     if (field.type === "text" || field.type === "textarea") {
       return (

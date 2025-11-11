@@ -26,6 +26,8 @@
     "enterAge": "أدخل عمرًا تقريبيًا...",
     "injury": "سبب الإصابة",
     "photoButton": "التقاط صورة",
+    "tagID" : "معرف العلامة",
+    "enterTagID": "أدخل معرف العلامة...",
     "descriptionPhoto": "التقط خمس صور على الأقل إن أمكن",
     "saveButton": "حفظ",
     "submitButton": "إرسال",

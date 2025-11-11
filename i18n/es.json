@@ -24,6 +24,8 @@
       "senior": "Mayor (65+ años)"
     },
     "enterAge": "Ingrese una edad aproximada...",
+    "tagID" : "ID de la etiqueta",
+    "enterTagID": "Ingrese un ID de etiqueta...",
     "sexPlaceholder": "Seleccione un género",
     "ethnicity": "Etnicidad",
     "enterEthnicity": "Ingrese una etnicidad...",

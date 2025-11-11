@@ -26,6 +26,8 @@
     "enterAge": "Entrez un âge approximatif...",
     "sexPlaceholder": "Sélectionnez un sexe",
     "injury": "Cause des blessures",
+    "tagID" : "ID de l'étiquette",
+    "enterTagID": "Entrez un ID d'étiquette...",
     "photoButton": "Prendre une photo",
     "descriptionPhoto": "Prendre au moins 5 photos si possible",
     "saveButton": "Sauvegarder",
