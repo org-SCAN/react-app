@@ -18,12 +18,13 @@
       "unknown": "Desconocido"
     },
     "ageOptions": {
-      "child": "Niño (0-12 años)",
-      "teen": "Adolescente (13-17 años)",
-      "adult": "Adulto (18-64 años)",
-      "senior": "Mayor (65+ años)"
+      "child": "Niño",
+      "teen": "Adolescente",
+      "adult": "Adulto",
+      "old": "Mayor"
     },
     "enterAge": "Ingrese una edad aproximada...",
+    "agePlaceholder": "Seleccione una edad",
     "tagID" : "ID de la etiqueta",
     "enterTagID": "Ingrese un ID de etiqueta...",
     "sexPlaceholder": "Seleccione un género",

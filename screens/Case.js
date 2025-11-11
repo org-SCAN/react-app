@@ -42,6 +42,16 @@ const assetIconMap = {
   "icons/old.png": require("../icons/old.png"),
 };
 
+// Mapping par défaut pour les icônes standard (fallback)
+const defaultIconPaths = {
+  woman: "icons/woman.png",
+  man: "icons/man.png",
+  unknown: "icons/unknown.png",
+  child: "icons/child.png",
+  adult: "icons/adult.png",
+  old: "icons/old.png",
+};
+
 const Case = (props) => {
   const styles = props.theme.mode === "light" ? lightStyles : darkStyles;
   const { intlData } = props;
@@ -104,6 +114,23 @@ const Case = (props) => {
     return field ? field.label : fieldKey;
   };
 
+  // Helper function pour résoudre les icônes (asset ou URI)
+  const resolveIconSource = (value, iconSource) => {
+    // Si iconPersonalized est activé et qu'on a un iconPath, utiliser l'URI
+    if (iconPersonalized && iconPath && iconSource === "uri") {
+      return { uri: `${iconPath}${value}.png` };
+    }
+    
+    // Sinon, utiliser l'asset par défaut
+    const defaultPath = defaultIconPaths[value];
+    if (defaultPath && assetIconMap[defaultPath]) {
+      return assetIconMap[defaultPath];
+    }
+    
+    // Fallback
+    return null;
+  };
+
   // keep defaults in sync if config changes
   useEffect(() => {
     setFieldValues((prev) => {
@@ -164,23 +191,10 @@ const Case = (props) => {
       return false;
     }
     
-    // Check types field from fieldValues
-    const typesFieldValue = fieldValues.types;
-    const typesField = configFields.find((f) => f.key === "types");
-    const hasTypes = Array.isArray(typesFieldValue) ? typesFieldValue.length > 0 : (typesFieldValue !== null && typesFieldValue !== "");
-    
-    if (!hasTypes && types.length > 0 && typesField) {
-      const fieldLabel = getFieldLabel("types") || "type";
-      setAlertMessage(`Veuillez sélectionner au moins un ${fieldLabel.toLowerCase()}`);
-      setAlertTitle("⚠️");
-      setAlertVisibleFieldMissing(true);
-      return false;
-    }
+    // Check mandatory fields from config
+    const mandatoryFields = configFields.filter((f) => f.mandatory === true);
 
-    // Check all required fields from config
-    const requiredFields = configFields.filter((f) => f.key === "sex" || f.key === "age");
-
-    for (const field of requiredFields) {
+    for (const field of mandatoryFields) {
       const value = fieldValues[field.key];
       const isEmpty = value === null || value === undefined || value === "" || 
                      (Array.isArray(value) && value.length === 0);
@@ -260,6 +274,7 @@ const Case = (props) => {
     const path = await createZip(data);
     if (!path) {
       console.error("Attachment path is invalid.");
+      setLoading(false);
       return;
     }
     
@@ -473,8 +488,94 @@ const Case = (props) => {
       );
     }
 
-    // Champ sex standard (non personnalisé) - utilise genderOptions traduits
-    if (field?.key === "sex" && field?.personalized === false) {
+    // Champ sex standard avec icônes URI (personalized: false)
+    if (field?.key === "sex" && field?.personalized === false && field?.type === "icons") {
+      const standardSexOptions = [
+        { label: intlData.messages.Case.genderOptions?.woman || "Woman", value: "woman" },
+        { label: intlData.messages.Case.genderOptions?.man || "Man", value: "man" },
+        { label: intlData.messages.Case.genderOptions?.unknown || "Unknown", value: "unknown" }
+      ];
+
+      const options = standardSexOptions.map((opt) => {
+        const iconSource = resolveIconSource(opt.value, field.iconSource);
+        return {
+          value: opt.value,
+          icon: iconSource,
+        };
+      });
+
+      return (
+        <IconSelector
+          key={field.key}
+          label={intlData.messages.Case.sex}
+          options={options}
+          value={fieldValues[field.key] ?? null}
+          onChange={(val) => setFieldValue(field.key, val)}
+          multiple={!!field.multiple}
+        />
+      );
+    }
+
+    // Champ age standard avec icônes URI (personalized: false)
+    if (field?.key === "age" && field?.personalized === false && field?.type === "icons") {
+      const standardAgeOptions = [
+        { label: intlData.messages.Case.ageOptions?.child || "Child", value: "child" },
+        { label: intlData.messages.Case.ageOptions?.adult || "Adult", value: "adult" },
+        { label: intlData.messages.Case.ageOptions?.old || "Senior", value: "old" }
+      ];
+
+      const options = standardAgeOptions.map((opt) => {
+        const iconSource = resolveIconSource(opt.value, field.iconSource);
+        return {
+          value: opt.value,
+          icon: iconSource,
+        };
+      });
+
+      return (
+        <IconSelector
+          key={field.key}
+          label={intlData.messages.Case.age}
+          options={options}
+          value={fieldValues[field.key] ?? null}
+          onChange={(val) => setFieldValue(field.key, val)}
+          multiple={!!field.multiple}
+        />
+      );
+    }
+
+    // Champ age3 standard (dropdown SimplePicker)
+    if (field?.key === "age3" && field?.personalized === false && field?.type === "simpledropdown") {
+      const isOpen = !!openDropdowns[field.key];
+      const setOpenForField = (open) => {
+        setOpenDropdowns((prev) =>
+          (prev[field.key] || false) === open ? prev : { ...prev, [field.key]: open }
+        );
+      };
+      const ageOptions = [
+        { label: intlData.messages.Case.ageOptions?.child},
+        { label: intlData.messages.Case.ageOptions?.adult},
+        { label: intlData.messages.Case.ageOptions?.old}
+      ];
+
+      return (
+        <SimplePicker
+          key={field.key}
+          label={intlData.messages.Case.age}
+          items={ageOptions}
+          value={fieldValues[field.key] ?? null}
+          setValue={(val) => setFieldValue(field.key, val ?? null)}
+          placeholder={intlData.messages.Case.agePlaceholder}
+          emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
+          isOpen={isOpen}
+          setOpen={setOpenForField}
+          clearOnSelectSame={true}
+        />
+      );
+    }
+
+    // Champ sex2 standard (dropdown SimplePicker)
+    if (field?.key === "sex2" && field?.personalized === false && field?.type === "simpledropdown") {
       const isOpen = !!openDropdowns[field.key];
       const setOpenForField = (open) => {
         setOpenDropdowns((prev) =>
@@ -498,8 +599,8 @@ const Case = (props) => {
       );
     }
 
-    // Champ age standard (non personnalisé)
-    if (field?.key === "age" && field?.personalized === false) {
+    // Champ age2 standard (text input)
+    if (field?.key === "age2" && field?.personalized === false && field?.type === "text") {
       return (
         <LabeledTextInput
           key={field.key}
@@ -525,7 +626,7 @@ const Case = (props) => {
       );
     }
 
-    // Champ ethnicity standard (non personnalisé)
+    // Champ injury standard (non personnalisé)
     if (field?.key === "injury" && field?.personalized === false) {
       return (
         <LabeledTextInput
@@ -538,6 +639,7 @@ const Case = (props) => {
       );
     }
 
+    // Champ description standard (non personnalisé)
     if (field?.key === "description" && field?.personalized === false) {
       return (
         <LabeledTextInput
@@ -567,16 +669,18 @@ const Case = (props) => {
 
     // === CHAMPS CONFIGURABLES (avec type défini) ===
     
-    // Icons type
+    // Icons type - GESTION ASSET/URI
     if (field.type === "icons") {
-      const options = (field.options || []).map((opt) => ({
-        label: opt.label,
-        value: opt.value,
-        icon: field.iconSource === "asset"
-          ? assetIconMap[opt.icon]
-          : (iconPersonalized ? `${iconPath}${opt.value}.png` : opt.icon),
-      }));
-    
+      const options = (field.options || []).map((opt) => {
+        const iconSource = resolveIconSource(opt.value, field.iconSource);
+        
+        return {
+          label: opt.label,
+          value: opt.value,
+          icon: iconSource,
+        };
+      });
+  
       return (
         <IconSelector
           key={field.key}
@@ -665,58 +769,6 @@ const Case = (props) => {
           isOpen={isOpen}
           setOpen={setOpenForField}
           clearOnSelectSame={true}
-        />
-      );
-    }
-
-    // Champ sex standard (non personnalisé) - utilise genderOptions traduits
-    if (field?.key === "sex" && field?.personalized === false) {
-      const isOpen = !!openDropdowns[field.key];
-      const setOpenForField = (open) => {
-        setOpenDropdowns((prev) =>
-          (prev[field.key] || false) === open ? prev : { ...prev, [field.key]: open }
-        );
-      };
-
-      return (
-        <SimplePicker
-          key={field.key}
-          label={field.label || intlData.messages.Case.sex}
-          items={genderOptions}
-          value={fieldValues[field.key] ?? null}
-          setValue={(val) => setFieldValue(field.key, val ?? null)}
-          placeholder={field.placeholder || intlData.messages.Case.sexPlaceholder}
-          emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
-          isOpen={isOpen}
-          setOpen={setOpenForField}
-          clearOnSelectSame={true}
-        />
-      );
-    }
-
-    // Champ age standard (non personnalisé)
-    if (field?.key === "age" && field?.personalized === false) {
-      return (
-        <LabeledTextInput
-          key={field.key}
-          label={field.label || intlData.messages.Case.age}
-          placeholder={field.placeholder || intlData.messages.Case.enterAge}
-          value={fieldValues[field.key] ?? ""}
-          onChangeText={(val) => setFieldValue(field.key, val)}
-          numeric={true}
-        />
-      );
-    }
-
-    // Champ ethnicity standard (non personnalisé)
-    if (field?.key === "ethnicity" && field?.personalized === false) {
-      return (
-        <LabeledTextInput
-          key={field.key}
-          label={field.label || intlData.messages.Case.ethnicity}
-          placeholder={field.placeholder || intlData.messages.Case.enterEthnicity}
-          value={fieldValues[field.key] ?? ""}
-          onChangeText={(val) => setFieldValue(field.key, val)}
         />
       );
     }
@@ -932,53 +984,6 @@ const basicStyles = StyleSheet.create({
     marginBottom: scaleHeight(20),
     textAlign: "center",
   },
-  inputContainer: {
-    marginVertical: scaleHeight(2),
-    flex: 1,
-  },
-  input: {
-    width: `${responsiveInput()}%`,
-    marginVertical: 5,
-    borderWidth: 1,
-    borderRadius: 5,
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.1,
-    paddingLeft: 8,
-    paddingTop: 8, 
-    paddingBottom: 8,
-    minHeight: scaleHeight(40),
-  },
-  placeholder: {
-    marginBottom: scaleHeight(7),
-    marginTop: scaleHeight(7),
-    fontSize: scale(17),
-    fontWeight: "bold",
-  },
-  iconContainer: {
-    alignItems: "flex-start",
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom: scaleHeight(10),  
-  },
-  iconButton: {
-    padding: scale(10),
-    borderRadius: scale(12),
-    borderWidth: scaleWidth(2),
-    marginLeft: scaleWidth(15),
-    marginRight: scaleWidth(15),
-  },
-  selectedIconButton: {
-    padding: scale(10),
-    borderRadius: scale(12),
-    borderWidth: scaleWidth(2),
-    marginLeft: scaleWidth(15),
-    marginRight: scaleWidth(15),
-  },
-  icon: {
-    width: scaleWidth(70),
-    height: scaleHeight(70),
-    resizeMode: "stretch",
-  },
   descriptionPhoto: {
     fontStyle: "italic",
     fontSize: scale(14),
@@ -1051,32 +1056,9 @@ const lightStyles = StyleSheet.create({
     ...basicStyles.tagLabel,
     color: THEME_COLOR.LIGHT.MAIN_TEXT,
   },
-  placeholder: {
-    ...basicStyles.placeholder,
-    color: THEME_COLOR.LIGHT.MAIN_TEXT,
-  },
-  input: {
-    ...basicStyles.input,
-    borderColor: THEME_COLOR.LIGHT.INPUT,
-    backgroundColor: THEME_COLOR.LIGHT.INPUT,
-    color: THEME_COLOR.LIGHT.INPUT_TEXT,
-  },
-  placeholderDescripton: {
-    color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
-  },
   descriptionPhoto: {
     ...basicStyles.descriptionPhoto,
     color: THEME_COLOR.LIGHT.TERTIARY_TEXT,
-  },
-  iconButton: {
-    ...basicStyles.iconButton,
-    borderColor: THEME_COLOR.LIGHT.INPUT,
-    backgroundColor: THEME_COLOR.LIGHT.INPUT,
-  },
-  selectedIconButton: {
-    ...basicStyles.selectedIconButton,
-    backgroundColor: THEME_COLOR.LIGHT.ICON_SELECTED,
-    borderColor: THEME_COLOR.LIGHT.ICON_SELECTED,
   },
   cameraButton: {
     ...basicStyles.cameraButton,
@@ -1107,32 +1089,9 @@ const darkStyles = StyleSheet.create({
     ...basicStyles.tagLabel,
     color: THEME_COLOR.DARK.MAIN_TEXT,
   },
-  input: {
-    ...basicStyles.input,
-    borderColor: THEME_COLOR.DARK.INPUT,
-    backgroundColor: THEME_COLOR.DARK.INPUT,
-    color: THEME_COLOR.DARK.INPUT_TEXT,
-  },
-  placeholderDescripton: {
-    color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
-  },
-  placeholder: {
-    ...basicStyles.placeholder,
-    color: THEME_COLOR.DARK.MAIN_TEXT,
-  },
   descriptionPhoto: {
     ...basicStyles.descriptionPhoto,
     color: THEME_COLOR.DARK.TERTIARY_TEXT,
-  },
-  iconButton: {
-    ...basicStyles.iconButton,
-    borderColor: THEME_COLOR.LIGHT.INPUT,
-    backgroundColor: THEME_COLOR.LIGHT.INPUT,
-  },
-  selectedIconButton: {
-    ...basicStyles.selectedIconButton,
-    backgroundColor: THEME_COLOR.DARK.ICON_SELECTED,
-    borderColor: THEME_COLOR.DARK.ICON_SELECTED,
   },
   cameraButton: {
     ...basicStyles.cameraButton,

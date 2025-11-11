@@ -18,14 +18,15 @@
       "unknown": "Unknown"
     },
     "ageOptions": {
-      "child": "Child (0-12 years)",
-      "teen": "Teen (13-17 years)",
-      "adult": "Adult (18-64 years)",
-      "senior": "Senior (65+ years)"
+      "child": "Child",
+      "teen": "Teen",
+      "adult": "Adult",
+      "old": "Senior"
     },
     "tagID" : "Tag ID",
     "enterTagID": "Enter a tag ID...",
     "enterAge": "Enter an approximate age...",
+    "agePlaceholder": "Select an age",
     "injury": "Injury",
     "enterInjury": "Enter the cause of the injury...",
     "photoButton": "Take a photo",

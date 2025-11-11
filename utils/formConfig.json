@@ -1,61 +1,51 @@
 {
   "fields": [
     {
-      "key": "types_test",
-      "label": "Types",
-      "type": "dropdown",
-      "multiple": true,
-      "mandatory": true,
-      "placeholder": "Select types",
-      "emptyText": "No type available",
-      "options": [],
-      "optionsSource": {
-        "type": "redux",
-        "path": "typeAvailable.types"
-      },
-      "settingsKey": "typesUrl"
-    },
-    {
-      "key": "apparence",
-      "label": "Apparence",
-      "type": "icons",
-      "multiple": false,
-      "mandatory": true,
-      "options": [
-        { "value": "woman", "icon": "icons/woman.png" },
-        { "value": "man", "icon": "icons/man.png" },
-        { "value": "unknown", "icon": "icons/unknown.png" }
-      ],
-      "iconSource": "asset"
-    },
-    {
-      "key": "age_approx",
-      "label": "Age_approx",
-      "type": "simpledropdown",
-      "mandatory": false,
-      "placeholder": "Select age",
-      "emptyText": "No option",
-      "options": [
-        { "label": "Child", "value": "child" },
-        { "label": "Adult", "value": "adult" },
-        { "label": "Senior", "value": "old" }
-      ]
+      "key": "types",
+      "personalized": false,
+      "mandatory": true
     },
     {
       "key": "sex",
+      "type": "icons",
+      "mandatory": true,
+      "personalized": false
+    },
+    {
+      "key": "sex2",
       "personalized": false,
+      "type": "simpledropdown",
       "mandatory": true
+    },
+    {
+      "key": "age",
+      "type": "icons",
+      "mandatory": true,
+      "personalized": false
+    },
+    {
+      "key": "age2",
+      "personalized": false,
+      "mandatory": true,
+      "type": "text"
+    },
+    {
+      "key": "age3",
+      "personalized": false,
+      "mandatory": true,
+      "type": "simpledropdown"
+    },
+    {
+      "key": "tagID",
+      "personalized": false,
+      "mandatory": false
     },
     {
       "key": "ethnicity",
       "personalized": false,
       "mandatory": false
     },
-    {
-      "key": "age",
-      "personalized": false,
-      "mandatory": true
-    },
+    
     {
       "key": "injury",
       "personalized": false,
@@ -65,29 +55,8 @@
       "key": "description",
       "personalized": false,
       "mandatory": true
-    },
-    {
-      "key": "description_test",
-      "label": "Description",
-      "type": "textarea",
-      "mandatory": false
-    },
-    {
-      "key": "injury_test",
-      "label": "Injury",
-      "type": "text",
-      "mandatory": false
-    },
-    {
-      "key": "types",
-      "personalized": false,
-      "mandatory": true
-    },
-    {
-      "key": "tagID",
-      "personalized": false,
-      "mandatory": false
     }
+  
   ]
 }
 
