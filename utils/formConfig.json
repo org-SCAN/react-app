@@ -57,13 +57,23 @@
       "mandatory": true
     },
     {
+      "key": "injury",
+      "personalized": false,
+      "mandatory": true
+    },
+    {
       "key": "description",
+      "personalized": false,
+      "mandatory": true
+    },
+    {
+      "key": "description_test",
       "label": "Description",
       "type": "textarea",
       "mandatory": false
     },
     {
-      "key": "injury",
+      "key": "injury_test",
       "label": "Injury",
       "type": "text",
       "mandatory": false

@@ -485,11 +485,11 @@ const Case = (props) => {
       return (
         <SimplePicker
           key={field.key}
-          label={field.label || intlData.messages.Case.sex}
+          label={intlData.messages.Case.sex}
           items={genderOptions}
           value={fieldValues[field.key] ?? null}
           setValue={(val) => setFieldValue(field.key, val ?? null)}
-          placeholder={field.placeholder || intlData.messages.Case.sexPlaceholder}
+          placeholder={intlData.messages.Case.sexPlaceholder}
           emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
           isOpen={isOpen}
           setOpen={setOpenForField}
@@ -503,8 +503,8 @@ const Case = (props) => {
       return (
         <LabeledTextInput
           key={field.key}
-          label={field.label || intlData.messages.Case.age}
-          placeholder={field.placeholder || intlData.messages.Case.enterAge}
+          label={intlData.messages.Case.age}
+          placeholder={intlData.messages.Case.enterAge}
           value={fieldValues[field.key] ?? ""}
           onChangeText={(val) => setFieldValue(field.key, val)}
           numeric={true}
@@ -517,10 +517,37 @@ const Case = (props) => {
       return (
         <LabeledTextInput
           key={field.key}
-          label={field.label || intlData.messages.Case.ethnicity}
-          placeholder={field.placeholder || intlData.messages.Case.enterEthnicity}
+          label={intlData.messages.Case.ethnicity}
+          placeholder={intlData.messages.Case.enterEthnicity}
           value={fieldValues[field.key] ?? ""}
           onChangeText={(val) => setFieldValue(field.key, val)}
+        />
+      );
+    }
+
+    // Champ ethnicity standard (non personnalisé)
+    if (field?.key === "injury" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={intlData.messages.Case.injury}
+          placeholder={intlData.messages.Case.enterInjury}
+          value={fieldValues[field.key] ?? ""}
+          onChangeText={(val) => setFieldValue(field.key, val)}
+        />
+      );
+    }
+
+    if (field?.key === "description" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={intlData.messages.Case.description}
+          placeholder={intlData.messages.Case.enterDescription}
+          value={String(fieldValues[field.key] ?? "")}
+          onChangeText={(t) => setFieldValue(field.key, t)}
+          multiline={true}
+          textAlignVertical={"top"}
         />
       );
     }
@@ -530,8 +557,8 @@ const Case = (props) => {
       return (
         <LabeledTextInput
           key={field.key}
-          label={field.label || intlData.messages.Case.tagID}
-          placeholder={field.placeholder || intlData.messages.Case.enterTagID}
+          label={intlData.messages.Case.tagID}
+          placeholder={intlData.messages.Case.enterTagID}
           value={fieldValues[field.key] ?? ""}
           onChangeText={(val) => setFieldValue(field.key, val)}
         />
