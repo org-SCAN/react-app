@@ -164,27 +164,36 @@ const Case = (props) => {
       return false;
     }
     
-    // Check all mandatory fields from config
-    const mandatoryFields = configFields.filter((f) => f.mandatory === true);
+    // Check types field from fieldValues
+    const typesFieldValue = fieldValues.types;
+    const typesField = configFields.find((f) => f.key === "types");
+    const hasTypes = Array.isArray(typesFieldValue) ? typesFieldValue.length > 0 : (typesFieldValue !== null && typesFieldValue !== "");
+    
+    if (!hasTypes && types.length > 0 && typesField) {
+      const fieldLabel = getFieldLabel("types") || "type";
+      setAlertMessage(`Veuillez sélectionner au moins un ${fieldLabel.toLowerCase()}`);
+      setAlertTitle("⚠️");
+      setAlertVisibleFieldMissing(true);
+      return false;
+    }
 
-    for (const field of mandatoryFields) {
+    // Check all required fields from config
+    const requiredFields = configFields.filter((f) => f.key === "sex" || f.key === "age");
+
+    for (const field of requiredFields) {
       const value = fieldValues[field.key];
       const isEmpty = value === null || value === undefined || value === "" || 
                      (Array.isArray(value) && value.length === 0);
       
       if (isEmpty) {
-        const fieldLabel = getFieldLabel(field.key) || field.label || field.key;
+        const fieldLabel = getFieldLabel(field.key) || field.key;
         let message;
-        
         if (field.type === "icons") {
           const iconMessage = intlData.messages.Case?.[`noIcon${field.key.charAt(0).toUpperCase() + field.key.slice(1)}`];
           message = iconMessage || `Veuillez sélectionner un ${fieldLabel.toLowerCase()}`;
-        } else if (field.type === "dropdown" || field.type === "simpledropdown") {
-          message = `Veuillez sélectionner au moins un ${fieldLabel.toLowerCase()}`;
         } else {
           message = `Veuillez remplir le champ ${fieldLabel.toLowerCase()}`;
         }
-        
         setAlertMessage(message);
         setAlertTitle("⚠️");
         setAlertVisibleFieldMissing(true);
@@ -423,6 +432,114 @@ const Case = (props) => {
   };
 
   const renderField = (field) => {
+    // === CHAMPS STANDARDS (personalized: false) - À traiter en premier ===
+    
+    // Champ types standard
+    if (field?.key === "types" && field?.personalized === false) {
+      const items = types || [];
+      const fieldValue = fieldValues[field.key];
+      const normalizedValue = Array.isArray(fieldValue) ? fieldValue : [];
+      
+      const isOpen = openDropdowns[field.key] || false;
+      const handleOpen = (open) => {
+        setOpenDropdowns(prev => ({ ...prev, [field.key]: open }));
+      };
+      
+      const handleValueChange = (val) => {
+        setFieldValue(field.key, val);
+        handleOpen(false);
+      };
+      
+      const handleSetValue = (val) => {
+        setFieldValue(field.key, val);
+      };
+      
+      return (
+        <ConnectedBasePicker
+          key={field.key}
+          label={intlData.messages.Case.typeTitle}
+          dropdownPlaceholder={intlData.messages.Case.typePlaceholder}
+          emptyText={field.emptyText || intlData.messages.Case.typeNone}
+          items={items}
+          value={normalizedValue}
+          setValue={handleSetValue}
+          multiple={true}
+          mode="BADGE"
+          isOpen={isOpen}
+          onOpen={() => handleOpen(true)}
+          onClose={() => handleOpen(false)}
+          onChangeValue={handleValueChange}
+        />
+      );
+    }
+
+    // Champ sex standard (non personnalisé) - utilise genderOptions traduits
+    if (field?.key === "sex" && field?.personalized === false) {
+      const isOpen = !!openDropdowns[field.key];
+      const setOpenForField = (open) => {
+        setOpenDropdowns((prev) =>
+          (prev[field.key] || false) === open ? prev : { ...prev, [field.key]: open }
+        );
+      };
+
+      return (
+        <SimplePicker
+          key={field.key}
+          label={field.label || intlData.messages.Case.sex}
+          items={genderOptions}
+          value={fieldValues[field.key] ?? null}
+          setValue={(val) => setFieldValue(field.key, val ?? null)}
+          placeholder={field.placeholder || intlData.messages.Case.sexPlaceholder}
+          emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
+          isOpen={isOpen}
+          setOpen={setOpenForField}
+          clearOnSelectSame={true}
+        />
+      );
+    }
+
+    // Champ age standard (non personnalisé)
+    if (field?.key === "age" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={field.label || intlData.messages.Case.age}
+          placeholder={field.placeholder || intlData.messages.Case.enterAge}
+          value={fieldValues[field.key] ?? ""}
+          onChangeText={(val) => setFieldValue(field.key, val)}
+          numeric={true}
+        />
+      );
+    }
+
+    // Champ ethnicity standard (non personnalisé)
+    if (field?.key === "ethnicity" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={field.label || intlData.messages.Case.ethnicity}
+          placeholder={field.placeholder || intlData.messages.Case.enterEthnicity}
+          value={fieldValues[field.key] ?? ""}
+          onChangeText={(val) => setFieldValue(field.key, val)}
+        />
+      );
+    }
+
+    // Champ tagID standard (non personnalisé)
+    if (field?.key === "tagID" && field?.personalized === false) {
+      return (
+        <LabeledTextInput
+          key={field.key}
+          label={field.label || intlData.messages.Case.tagID}
+          placeholder={field.placeholder || intlData.messages.Case.enterTagID}
+          value={fieldValues[field.key] ?? ""}
+          onChangeText={(val) => setFieldValue(field.key, val)}
+        />
+      );
+    }
+
+    // === CHAMPS CONFIGURABLES (avec type défini) ===
+    
     // Icons type
     if (field.type === "icons") {
       const options = (field.options || []).map((opt) => ({
@@ -571,30 +688,6 @@ const Case = (props) => {
           key={field.key}
           label={field.label || intlData.messages.Case.ethnicity}
           placeholder={field.placeholder || intlData.messages.Case.enterEthnicity}
-          value={fieldValues[field.key] ?? ""}
-          onChangeText={(val) => setFieldValue(field.key, val)}
-        />
-      );
-    }
-
-    if (field?.key === "ethnicity" && field?.personalized === false) {
-      return (
-        <LabeledTextInput
-          key={field.key}
-          label={field.label || intlData.messages.Case.ethnicity}
-          placeholder={field.placeholder || intlData.messages.Case.enterEthnicity}
-          value={fieldValues[field.key] ?? ""}
-          onChangeText={(val) => setFieldValue(field.key, val)}
-        />
-      );
-    }
-
-    if (field?.key === "tagID" && field?.personalized === false) {
-      return (
-        <LabeledTextInput
-          key={field.key}
-          label={field.label || intlData.messages.Case.tagID}
-          placeholder={field.placeholder || intlData.messages.Case.enterTagID}
           value={fieldValues[field.key] ?? ""}
           onChangeText={(val) => setFieldValue(field.key, val)}
         />

@@ -1,7 +1,7 @@
 {
   "fields": [
     {
-      "key": "types",
+      "key": "types_test",
       "label": "Types",
       "type": "dropdown",
       "multiple": true,
@@ -67,6 +67,11 @@
       "label": "Injury",
       "type": "text",
       "mandatory": false
+    },
+    {
+      "key": "types",
+      "personalized": false,
+      "mandatory": true
     },
     {
       "key": "tagID",
