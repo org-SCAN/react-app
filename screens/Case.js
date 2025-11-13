@@ -10,6 +10,7 @@ import {
   Pressable,
   Dimensions,
   Platform,
+  ScrollView,
   Linking,
   ActivityIndicator
 } from "react-native";
@@ -17,7 +18,6 @@ import ScanButton from "../components/BasicUI/ScanButton";
 import uuid from "react-native-uuid";
 import { useDispatch, useSelector, connect } from "react-redux";
 import { saveCase, editCase, deleteCase, updateCaseNumber } from "../redux/actions";
-import { ScrollView } from "react-native";
 import * as MailComposer from "expo-mail-composer";
 import { deleteCameraCache } from "../utils/cacheManager";
 import { createZip } from "../utils/fileHandler";
@@ -29,7 +29,6 @@ import { THEME_COLOR } from "../theme/constants";
 import ConnectedBasePicker from "../components/Case/ConnectedBasePicker";
 import IconSelector from "../components/Case/IconSelector";
 import LabeledTextInput from "../components/Case/LabeledTextInput";
-import formConfig from "../utils/formConfig.json";
 import SimplePicker from "../components/Case/SimplePicker";
 
 // Static asset map for Metro bundler (no dynamic require)
@@ -60,7 +59,10 @@ const Case = (props) => {
   const [existingCase, setExistingCase] = useState(null);
   const [images, setImages] = useState([]);
   
+  // CHANGEMENT ICI : Récupérer la config depuis Redux au lieu d'un import statique
+  const formConfig = useSelector(state => state.config?.formConfig || { fields: [] });
   const configFields = formConfig.fields || [];
+  
   const defaultFieldValues = useMemo(() => {
     const acc = {};
     (configFields || []).forEach((f) => {

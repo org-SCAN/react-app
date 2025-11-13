@@ -104,7 +104,17 @@
     "enterTypeUrl": "أدخل رابط الأنواع الخاصة بك",
     "downloadTypeError": "حدث خطأ أثناء تنزيل الأنواع",
     "downloadTypeSuccess": "تم تنزيل الأنواع بنجاح",
-    "missingTypes": "لم يتم العثور على أي أنواع. يرجى مراجعة الوثائق."
+    "missingTypes": "لم يتم العثور على أي أنواع. يرجى مراجعة الوثائق.",
+    "configFormTitle": "تكوين النموذج",
+    "selectConfig": "اختر تكوينًا",
+    "customConfig": "مخصص",
+    "currentConfig": "التكوين الحالي",
+    "enterConfigUrl": "أدخل عنوان URL لملف JSON الخاص بالتكوين",
+    "loadConfig": "تحميل التكوين",
+    "savedConfigUrl": "تم تحميل التكوين المخصص",
+    "noSavedConfigUrl": "لا يوجد تكوين مخصص",
+    "configLoadSuccess": "تم تحميل التكوين بنجاح",
+    "configLoadError": "حدث خطأ أثناء تحميل التكوين"
   },
   "Mail": {
     "subject": "[حالة] ",

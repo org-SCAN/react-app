@@ -104,7 +104,17 @@
     "enterTypeUrl": "Ingrese la URL de sus tipos",
     "downloadTypeError": "Ocurrió un error al descargar los tipos",
     "downloadTypeSuccess": "Tipos descargados con éxito",
-    "missingTypes": "No se encontraron tipos. Por favor, consulte la documentación."
+    "missingTypes": "No se encontraron tipos. Por favor, consulte la documentación.",
+    "configFormTitle": "Configuración del formulario",
+    "selectConfig": "SSeleccionar una configuración",
+    "customConfig": "Personalizado",
+    "currentConfig": "Configuración actual",
+    "enterConfigUrl": "URL del archivo JSON de configuración",
+    "loadConfig": "Cargar configuración",
+    "savedConfigUrl": "Configuración personalizada cargada",
+    "noSavedConfigUrl": "No hay configuración personalizada",
+    "configLoadSuccess": "Configuración cargada con éxito",
+    "configLoadError": "Error al cargar la configuración"
   },
   "Mail": {
     "subject": "[CASO] ",

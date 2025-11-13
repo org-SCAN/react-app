@@ -1,0 +1,29 @@
+{
+  "fields": [
+    {
+      "key": "types",
+      "personalized": false,
+      "mandatory": true
+    },
+    {
+      "key": "sex",
+      "type": "icons",
+      "mandatory": true,
+      "personalized": false
+    },
+    {
+      "key": "age",
+      "type": "icons",
+      "mandatory": true,
+      "personalized": false
+    },
+    {
+      "key": "description",
+      "personalized": false,
+      "mandatory": true
+    }
+  
+  ]
+}
+
+

@@ -1,0 +1,33 @@
+{
+    "fields": [
+    {
+      "key": "types",
+      "personalized": false,
+      "mandatory": true
+    },
+    {
+      "key": "sex2",
+      "personalized": false,
+      "type": "simpledropdown",
+      "mandatory": true
+    },
+    {
+      "key": "age2",
+      "personalized": false,
+      "mandatory": true,
+      "type": "text"
+    },
+    {
+      "key": "ethnicity",
+      "personalized": false,
+      "mandatory": false
+    },
+    {
+      "key": "description",
+      "personalized": false,
+      "mandatory": true
+    }
+  ]
+}
+
+

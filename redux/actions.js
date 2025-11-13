@@ -17,7 +17,10 @@ import {
   UPDATE_PERMISSION_STATUS,
   UPDATE_TYPE_AVAILABLE,
   UPDATE_TYPE_URL,
-  SAVE_ICON_PATH
+  SAVE_ICON_PATH,
+  SAVE_CONFIG_TYPE,
+  SAVE_CUSTOM_CONFIG_URL,
+  UPDATE_FORM_CONFIG
 } from "./constants";
 
 /* LANGUAGE ACTION */
@@ -154,4 +157,17 @@ export const saveIconPath = (iconPath) => ({
   payload: iconPath,
 });
 
+export const saveConfigType = (configType) => ({
+  type: SAVE_CONFIG_TYPE,
+  payload: configType,
+});
 
+export const saveCustomConfigUrl = (url) => ({
+  type: SAVE_CUSTOM_CONFIG_URL,
+  payload: url,
+});
+
+export const updateFormConfig = (config) => ({
+  type: UPDATE_FORM_CONFIG,
+  payload: config,
+});

@@ -16,6 +16,28 @@ const SettingsAlerts = (props) => {
             <CustomAlert title="✅" message={intlData.messages.Settings.downloadTypeSuccess} onConfirm={() => setAlertStates((prev) => ({ ...prev, typesDownloadCorrect: false }))} visible={alertStates.typesDownloadCorrect} />
             <CustomAlert title="✅" message={intlData.messages.Settings.caseRegistered} onConfirm={() => setAlertStates((prev) => ({ ...prev, caseNumberUpdate: false }))} visible={alertStates.caseNumberUpdate} />
             
+            <CustomAlert
+            title="✅"
+            message={intlData.messages.Settings?.configLoadSuccess || "Configuration chargée avec succès"}
+            onConfirm={() => setAlertStates((prev) => ({ ...prev, configLoadSuccess: false }))}
+            visible={alertStates.configLoadSuccess}
+            />
+
+            <CustomAlert
+            title="❌"
+            message={
+                alertStates.configErrorMessage 
+                ? `${intlData.messages.Settings?.configLoadError || "Erreur lors du chargement"}: ${alertStates.configErrorMessage}`
+                : intlData.messages.Settings?.configLoadError || "Erreur lors du chargement de la configuration"
+            }
+            onConfirm={() => setAlertStates((prev) => ({ 
+                ...prev, 
+                configLoadError: false,
+                configErrorMessage: null 
+            }))}
+            visible={alertStates.configLoadError}
+            />
+            
             <CustomAlertTwoButtons title="⚠️" message={intlData.messages.Settings.clearCases2} visible={alertStates.clearWarning}
                 onConfirm={() => {
                     handleClear(dispatch);

@@ -26,6 +26,9 @@ const Settings = (props) => {
     typesDownloadCorrect: false,
     typesDownloadError: false,
     typesMissing: false,
+    configLoadSuccess: false,      
+    configLoadError: false,        
+    configErrorMessage: null,
   });
 
   return (

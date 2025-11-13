@@ -104,7 +104,17 @@
     "enterTypeUrl": "Enter the URL for your types",
     "downloadTypeError": "An error occurred while downloading types",
     "downloadTypeSuccess": "Types downloaded successfully",
-    "missingTypes": "No types were found. Please check the documentation."
+    "missingTypes": "No types were found. Please check the documentation.",
+    "configFormTitle": "Form Configuration",
+    "selectConfig": "Select a configuration",
+    "customConfig": "Custom",
+    "currentConfig": "Current configuration",
+    "enterConfigUrl": "URL of the configuration JSON file",
+    "loadConfig": "Load configuration",
+    "savedConfigUrl": "Custom configuration loaded",
+    "noSavedConfigUrl": "No custom configuration",
+    "configLoadSuccess": "Configuration loaded successfully",
+    "configLoadError": "Error loading configuration"
   },
   "Mail": {
     "subject": "[CASE] ",

@@ -23,6 +23,7 @@ import iconReducer from "./Reducers/iconReducer";
 import locationReducer from "./Reducers/locationReducer";
 import customFieldReducer from "./Reducers/customFieldReducer";
 import typeAvailableReducer from "./Reducers/typeAvailableReducer";
+import configReducer from './Reducers/configReducer';
 
 const rootReducer = combineReducers({
   theme: themeReducer,
@@ -38,6 +39,7 @@ const rootReducer = combineReducers({
   location: locationReducer,
   customField: customFieldReducer,
   typeAvailable: typeAvailableReducer,
+  config: configReducer,
 });
 
 const persistConfig = {

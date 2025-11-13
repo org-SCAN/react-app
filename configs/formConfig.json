@@ -1,0 +1,172 @@
+{
+  "fields": [
+    {
+      "key": "types",
+      "personalized": false,
+      "mandatory": true
+    },
+    {
+      "key": "types_custom",
+      "label": "Types personnalisés",
+      "type": "dropdown",
+      "multiple": true,
+      "mandatory": false,
+      "placeholder": "Sélectionner des types",
+      "emptyText": "Aucun type disponible",
+      "options": [],
+      "optionsSource": {
+        "type": "redux",
+        "path": "typeAvailable.types"
+      },
+      "settingsKey": "typesUrl"
+    },
+    {
+      "key": "sex",
+      "type": "icons",
+      "iconSource": "uri",
+      "mandatory": true,
+      "personalized": false
+    },
+    {
+      "key": "age",
+      "type": "icons",
+      "iconSource": "uri",
+      "mandatory": true,
+      "personalized": false
+    },
+    {
+      "key": "apparence_custom",
+      "label": "Apparence personnalisée",
+      "type": "icons",
+      "multiple": false,
+      "mandatory": false,
+      "options": [
+        { "label": "Femme", "value": "woman", "icon": "icons/woman.png" },
+        { "label": "Homme", "value": "man", "icon": "icons/man.png" },
+        { "label": "Inconnu", "value": "unknown", "icon": "icons/unknown.png" }
+      ],
+      "iconSource": "asset"
+    },
+    {
+      "key": "age_icons_multi",
+      "label": "Tranches d'âge (multi)",
+      "type": "icons",
+      "multiple": true,
+      "mandatory": false,
+      "options": [
+        { "label": "Enfant", "value": "child", "icon": "icons/child.png" },
+        { "label": "Adulte", "value": "adult", "icon": "icons/adult.png" },
+        { "label": "Senior", "value": "old", "icon": "icons/old.png" }
+      ],
+      "iconSource": "asset"
+    },
+    {
+      "key": "sex2",
+      "personalized": false,
+      "type": "simpledropdown",
+      "mandatory": false
+    },
+    {
+      "key": "age3",
+      "personalized": false,
+      "type": "simpledropdown",
+      "mandatory": false
+    },
+    {
+      "key": "category_simple",
+      "label": "Catégorie",
+      "type": "simpledropdown",
+      "mandatory": false,
+      "placeholder": "Choisir une catégorie",
+      "emptyText": "Aucune option",
+      "options": [
+        { "label": "Catégorie A", "value": "cat_a" },
+        { "label": "Catégorie B", "value": "cat_b" },
+        { "label": "Catégorie C", "value": "cat_c" }
+      ]
+    },
+    {
+      "key": "status_dropdown",
+      "label": "Statut",
+      "type": "simpledropdown",
+      "multiple": false,
+      "mandatory": false,
+      "placeholder": "Sélectionner un statut",
+      "emptyText": "Aucun statut",
+      "options": [
+        { "label": "En cours", "value": "ongoing" },
+        { "label": "Terminé", "value": "completed" },
+        { "label": "En attente", "value": "pending" }
+      ]
+    },
+    {
+      "key": "tags_multi",
+      "label": "Tags multiples",
+      "type": "dropdown",
+      "multiple": true,
+      "mandatory": false,
+      "placeholder": "Ajouter des tags",
+      "emptyText": "Aucun tag",
+      "options": [
+        { "label": "Urgent", "value": "urgent" },
+        { "label": "Important", "value": "important" },
+        { "label": "Archive", "value": "archive" },
+        { "label": "Révision", "value": "review" }
+      ]
+    },
+    {
+      "key": "age2",
+      "personalized": false,
+      "mandatory": false,
+      "type": "text"
+    },
+    {
+      "key": "ethnicity",
+      "personalized": false,
+      "mandatory": false
+    },
+    {
+      "key": "injury",
+      "personalized": false,
+      "mandatory": false
+    },
+    {
+      "key": "tagID",
+      "personalized": false,
+      "mandatory": false
+    },
+    {
+      "key": "reference",
+      "label": "Référence",
+      "type": "text",
+      "mandatory": false,
+      "placeholder": "Entrer une référence"
+    },
+    {
+      "key": "contact",
+      "label": "Contact",
+      "type": "text",
+      "mandatory": false,
+      "placeholder": "Numéro de téléphone ou email"
+    },
+    {
+      "key": "description",
+      "personalized": false,
+      "mandatory": false
+    },
+    {
+      "key": "notes",
+      "label": "Notes supplémentaires",
+      "type": "textarea",
+      "mandatory": false,
+      "placeholder": "Ajouter des notes détaillées..."
+    },
+    {
+      "key": "observations",
+      "label": "Observations",
+      "type": "textarea",
+      "mandatory": false,
+      "placeholder": "Observations terrain"
+    }
+  ]
+}

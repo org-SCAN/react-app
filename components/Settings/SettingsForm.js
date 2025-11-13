@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, StyleSheet } from "react-native";
-import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange, handleTypeSave, handleTypeReset } from "../../components/Settings/SettingsHandler";
+import { View, Text, StyleSheet } from "react-native";
+import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange, handleTypeSave, handleTypeReset, handleLoadConfig } from "../../components/Settings/SettingsHandler";
 import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
 import SettingsFormTwoButtonField from "./SettingsFormTwoButtonField";
 import SettingsFormFreeField from "./SettingsFormFreeField";
-
+import SimplePicker from "../Case/SimplePicker";
 
 const SettingsForm = (props) => {
   const { intlData, setAlertStates, setLoading, dispatch, theme } = props;
@@ -18,6 +18,8 @@ const SettingsForm = (props) => {
   const storedIconUrl = useSelector((state) => state.iconUrl.url);
   const storedCustomField = useSelector((state) => state.customField.customField);
   const storedTypeUrl = useSelector((state) => state.typeAvailable.url);
+  const storedConfigType = useSelector((state) => state.config?.configType || "dividoc");
+  const storedConfigUrl = useSelector((state) => state.config?.customConfigUrl || "");
 
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
@@ -25,9 +27,77 @@ const SettingsForm = (props) => {
   const [iconUrl, setIconUrl] = useState('');
   const [typeUrl, setTypeUrl] = useState('');
   const [customField, setCustomField] = useState(storedCustomField);
+  const [configType, setConfigType] = useState(storedConfigType);
+  const [customConfigUrl, setCustomConfigUrl] = useState('');
+  const [isConfigPickerOpen, setIsConfigPickerOpen] = useState(false);
+
+  // Options de configuration prédéfinies
+  const configOptions = [
+    { label: "DiviDoc", value: "dividoc" },
+    { label: "DiviMap", value: "divimap" },
+    { label: "DiviLite", value: "divilite" },
+    { label: intlData.messages.Settings?.customConfig || "Personnalisé", value: "custom" }
+  ];
+
+  const handleConfigTypeChange = (value) => {
+    setConfigType(value);
+    // Si on sélectionne une config prédéfinie, on la charge immédiatement
+    if (value !== "custom") {
+      handleLoadConfig(dispatch, value, null, setAlertStates, setLoading);
+    }
+  };
+
+  const handleCustomConfigSave = () => {
+    if (configType === "custom" && customConfigUrl.trim() !== "") {
+      handleLoadConfig(dispatch, "custom", customConfigUrl, setAlertStates, setLoading);
+      setCustomConfigUrl('');
+    }
+  };
 
   return (
     <View>
+      {/* Configuration Form Selector */}
+      <View style={styles.fieldContainer}>
+        <SimplePicker
+          label={intlData.messages.Settings?.configFormTitle || "Configuration du formulaire"}
+          items={configOptions}
+          value={configType}
+          setValue={handleConfigTypeChange}
+          placeholder={intlData.messages.Settings?.selectConfig || "Sélectionner une configuration"}
+          emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
+          isOpen={isConfigPickerOpen}
+          setOpen={setIsConfigPickerOpen}
+          clearOnSelectSame={false}
+        />
+        
+        {/* Afficher l'URL actuelle si une config est chargée */}
+        {storedConfigType && (
+          <View style={styles.details}>
+            <Text style={styles.detailsText}>
+              {storedConfigType === "custom" 
+                ? `${intlData.messages.Settings?.currentConfig || "Configuration actuelle"}: ${storedConfigUrl}`
+                : `${intlData.messages.Settings?.currentConfig || "Configuration actuelle"}: ${storedConfigType.toUpperCase()}`
+              }
+            </Text>
+          </View>
+        )}
+      </View>
+
+      {/* Champ URL personnalisée (visible uniquement si "custom" est sélectionné) */}
+      {configType === "custom" && (
+        <SettingsFormField
+          placeholder={intlData.messages.Settings?.enterConfigUrl || "URL du fichier JSON de configuration"}
+          value={customConfigUrl}
+          onChangeText={setCustomConfigUrl}
+          onPress={handleCustomConfigSave}
+          buttonText={intlData.messages.Settings?.loadConfig || "Charger la configuration"}
+          storedValue={storedConfigType === "custom" ? storedConfigUrl : null}
+          storedText={intlData.messages.Settings?.savedConfigUrl || "Configuration personnalisée chargée"}
+          noStoredText={intlData.messages.Settings?.noSavedConfigUrl || "Aucune configuration personnalisée"}
+          styles={styles}
+        />
+      )}
+
       <SettingsFormFreeField
         title={intlData.messages.Settings.customFieldTitle}
         placeholder={intlData.messages.Settings.customFieldPlaceholder}
@@ -174,8 +244,12 @@ const baseStyles = StyleSheet.create({
     fontSize: 16,
   },
   details: {
+    marginTop: 5,
     marginBottom: 5,
-    color: "gray",
+  },
+  detailsText: {
+    fontSize: 12,
+    fontStyle: 'italic',
   },
 });
 
@@ -200,8 +274,8 @@ const stylesLight = StyleSheet.create({
   placeholder: {
     color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
   },
-  details: {
-    ...baseStyles.details,
+  detailsText: {
+    ...baseStyles.detailsText,
     color: THEME_COLOR.LIGHT.SECONDARY_TEXT,
   },
   button: {
@@ -246,8 +320,8 @@ const stylesDark = StyleSheet.create({
   placeholder: {
     color: THEME_COLOR.DARK.INPUT_PLACE_HOLDER,
   },
-  details: {
-    ...baseStyles.details,
+  detailsText: {
+    ...baseStyles.detailsText,
     color: THEME_COLOR.DARK.SECONDARY_TEXT,
   },
   button: {

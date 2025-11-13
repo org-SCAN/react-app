@@ -1,0 +1,28 @@
+{
+  "fields": [
+    {
+      "key": "tagID",
+      "personalized": false,
+      "mandatory": false
+    },
+    {
+      "key": "sex2",
+      "personalized": false,
+      "type": "simpledropdown",
+      "mandatory": true
+    },
+    {
+      "key": "age2",
+      "personalized": false,
+      "mandatory": true,
+      "type": "text"
+    },
+    {
+      "key": "description",
+      "personalized": false,
+      "mandatory": true
+    }
+  ]
+}
+
+
