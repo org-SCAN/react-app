@@ -33,16 +33,16 @@ const SettingsForm = (props) => {
 
   // Options de configuration prédéfinies
   const configOptions = [
-    { label: "DiviDoc", value: "dividoc" },
-    { label: "DiviMap", value: "divimap" },
-    { label: "DiviLite", value: "divilite" },
+    { label: "Dividoc", value: "dividoc" },
+    { label: "Divimap", value: "divimap" },
+    { label: "Divilite", value: "divilite" },
     { label: intlData.messages.Settings?.customConfig || "Personnalisé", value: "custom" }
   ];
 
   const handleConfigTypeChange = (value) => {
     setConfigType(value);
-    // Si on sélectionne une config prédéfinie, on la charge immédiatement
-    if (value !== "custom") {
+    // Si on sélectionne une config prédéfinie et qu'elle est différente de celle stockée, on la charge
+    if (value !== "custom" && value !== storedConfigType) {
       handleLoadConfig(dispatch, value, null, setAlertStates, setLoading);
     }
   };
@@ -58,8 +58,10 @@ const SettingsForm = (props) => {
     <View>
       {/* Configuration Form Selector */}
       <View style={styles.fieldContainer}>
+        <Text style={styles.title}>
+          {intlData.messages.Settings?.configFormTitle || "Configuration du formulaire"}
+        </Text>
         <SimplePicker
-          label={intlData.messages.Settings?.configFormTitle || "Configuration du formulaire"}
           items={configOptions}
           value={configType}
           setValue={handleConfigTypeChange}
@@ -91,8 +93,8 @@ const SettingsForm = (props) => {
           onChangeText={setCustomConfigUrl}
           onPress={handleCustomConfigSave}
           buttonText={intlData.messages.Settings?.loadConfig || "Charger la configuration"}
-          storedValue={storedConfigType === "custom" ? storedConfigUrl : null}
-          storedText={intlData.messages.Settings?.savedConfigUrl || "Configuration personnalisée chargée"}
+          storedValue={storedConfigType === "custom" ? "" : null}
+          storedText=""
           noStoredText={intlData.messages.Settings?.noSavedConfigUrl || "Aucune configuration personnalisée"}
           styles={styles}
         />
@@ -246,6 +248,8 @@ const baseStyles = StyleSheet.create({
   details: {
     marginTop: 5,
     marginBottom: 5,
+    fontSize: 12,
+    fontStyle: 'italic',
   },
   detailsText: {
     fontSize: 12,
@@ -273,6 +277,10 @@ const stylesLight = StyleSheet.create({
   },
   placeholder: {
     color: THEME_COLOR.LIGHT.INPUT_PLACE_HOLDER,
+  },
+  details: {
+    ...baseStyles.details,
+    color: THEME_COLOR.LIGHT.SECONDARY_TEXT,
   },
   detailsText: {
     ...baseStyles.detailsText,
@@ -319,6 +327,10 @@ const stylesDark = StyleSheet.create({
   },
   placeholder: {
     color: THEME_COLOR.DARK.INPUT_PLACE_HOLDER,
+  },
+  details: {
+    ...baseStyles.details,
+    color: THEME_COLOR.DARK.SECONDARY_TEXT,
   },
   detailsText: {
     ...baseStyles.detailsText,

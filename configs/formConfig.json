@@ -28,13 +28,6 @@
       "personalized": false
     },
     {
-      "key": "age",
-      "type": "icons",
-      "iconSource": "uri",
-      "mandatory": true,
-      "personalized": false
-    },
-    {
       "key": "apparence_custom",
       "label": "Apparence personnalisée",
       "type": "icons",
@@ -59,18 +52,6 @@
         { "label": "Senior", "value": "old", "icon": "icons/old.png" }
       ],
       "iconSource": "asset"
-    },
-    {
-      "key": "sex2",
-      "personalized": false,
-      "type": "simpledropdown",
-      "mandatory": false
-    },
-    {
-      "key": "age3",
-      "personalized": false,
-      "type": "simpledropdown",
-      "mandatory": false
     },
     {
       "key": "category_simple",
@@ -115,18 +96,7 @@
       ]
     },
     {
-      "key": "age2",
-      "personalized": false,
-      "mandatory": false,
-      "type": "text"
-    },
-    {
       "key": "ethnicity",
-      "personalized": false,
-      "mandatory": false
-    },
-    {
-      "key": "injury",
       "personalized": false,
       "mandatory": false
     },
