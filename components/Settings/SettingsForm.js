@@ -16,14 +16,12 @@ const SettingsForm = (props) => {
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
   const storedCustomField = useSelector((state) => state.customField.customField);
-  const storedTypeUrl = useSelector((state) => state.typeAvailable.url);
   const storedConfigType = useSelector((state) => state.config?.configType || "dividoc");
   const storedConfigUrl = useSelector((state) => state.config?.customConfigUrl || "");
 
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
-  const [typeUrl, setTypeUrl] = useState('');
   const [customField, setCustomField] = useState(storedCustomField);
   const [configType, setConfigType] = useState(storedConfigType);
   const [customConfigUrl, setCustomConfigUrl] = useState('');
@@ -142,19 +140,6 @@ const SettingsForm = (props) => {
         noStoredText={intlData.messages.Settings.noSavedEmail}
         styles={styles}
       />   
-      <SettingsFormTwoButtonField
-        placeholder={intlData.messages.Settings.enterTypeUrl}
-        value={typeUrl}
-        onChangeText={setTypeUrl}
-        onPressLeft={() => handleTypeSave(dispatch, typeUrl, setTypeUrl, setAlertStates, setLoading)}
-        onPressRight={() => handleTypeReset(dispatch, setTypeUrl)}
-        buttonTextLeft={intlData.messages.Settings.saveIconUrl}
-        buttonTextRight={intlData.messages.Settings.resetIconUrl}
-        storedValue={storedTypeUrl}
-        storedText={intlData.messages.Settings.savedTypeUrl}
-        noStoredText={intlData.messages.Settings.noSavedTypeUrl}
-        styles={styles}
-      />
     </View>
   );
 };

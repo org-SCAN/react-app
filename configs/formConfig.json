@@ -6,21 +6,6 @@
       "mandatory": true
     },
     {
-      "key": "types_custom",
-      "label": "Types personnalisés",
-      "type": "dropdown",
-      "multiple": true,
-      "mandatory": false,
-      "placeholder": "Sélectionner des types",
-      "emptyText": "Aucun type disponible",
-      "options": [],
-      "optionsSource": {
-        "type": "redux",
-        "path": "typeAvailable.types"
-      },
-      "settingsKey": "typesUrl"
-    },
-    {
       "key": "sex",
       "type": "icons",
       "iconSource": "uri",
