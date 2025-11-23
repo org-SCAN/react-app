@@ -117,22 +117,32 @@ const Case = (props) => {
   };
 
   // Helper function pour résoudre les icônes (asset ou URI)
-  const resolveIconSource = (value, iconSource) => {
-    // Si iconPersonalized est activé et qu'on a un iconPath, utiliser l'URI
-    if (iconPersonalized && iconPath && iconSource === "uri") {
-      return { uri: `${iconPath}${value}.png` };
+  const resolveIconSource = (iconValue, iconSource) => {
+  // Pour les assets locaux
+    if (iconSource === "asset") {
+      const assetPath = typeof iconValue === 'string' ? iconValue : iconValue?.icon;
+      if (assetPath && assetIconMap[assetPath]) {
+        return assetIconMap[assetPath];
+      }
     }
     
-    // Sinon, utiliser l'asset par défaut
-    const defaultPath = defaultIconPaths[value];
-    if (defaultPath && assetIconMap[defaultPath]) {
-      return assetIconMap[defaultPath];
+    // Pour les URIs (directement depuis le JSON)
+    if (typeof iconValue === 'string' && (iconValue.startsWith('http://') || iconValue.startsWith('https://'))) {
+      return { uri: iconValue };
     }
     
-    // Fallback
+    // Si c'est un objet avec une propriété icon
+    if (iconValue?.icon) {
+      if (iconValue.icon.startsWith('http://') || iconValue.icon.startsWith('https://')) {
+        return { uri: iconValue.icon };
+      }
+      if (assetIconMap[iconValue.icon]) {
+        return assetIconMap[iconValue.icon];
+      }
+    }
+    
     return null;
   };
-
   // keep defaults in sync if config changes
   useEffect(() => {
     setFieldValues((prev) => {
@@ -490,21 +500,15 @@ const Case = (props) => {
       );
     }
 
-    // Champ sex standard avec icônes URI (personalized: false)
-    if (field?.key === "sex" && field?.personalized === false && field?.type === "icons") {
-      const standardSexOptions = [
-        { label: intlData.messages.Case.genderOptions?.woman || "Woman", value: "woman" },
-        { label: intlData.messages.Case.genderOptions?.man || "Man", value: "man" },
-        { label: intlData.messages.Case.genderOptions?.unknown || "Unknown", value: "unknown" }
-      ];
-
-      const options = standardSexOptions.map((opt) => {
-        const iconSource = resolveIconSource(opt.value, field.iconSource);
-        return {
-          value: opt.value,
-          icon: iconSource,
-        };
-      });
+    // Champ sex standard avec icônes (personalized: false)
+  if (field?.key === "sex" && field?.personalized === false && field?.type === "icons") {
+    // Si le JSON contient des options avec URLs
+    if (field.options && field.options.length > 0) {
+      const options = field.options.map((opt) => ({
+        value: opt.value,
+        icon: opt.icon.startsWith('http') ? { uri: opt.icon } : 
+              (assetIconMap[opt.icon] || null),
+      }));
 
       return (
         <IconSelector
@@ -517,22 +521,46 @@ const Case = (props) => {
         />
       );
     }
+    
+    // Fallback : utiliser les options par défaut traduites
+    const standardSexOptions = [
+      { 
+        label: intlData.messages.Case.genderOptions?.woman || "Woman", 
+        value: "woman",
+        icon: assetIconMap["icons/woman.png"]
+      },
+      { 
+        label: intlData.messages.Case.genderOptions?.man || "Man", 
+        value: "man",
+        icon: assetIconMap["icons/man.png"]
+      },
+      { 
+        label: intlData.messages.Case.genderOptions?.unknown || "Unknown", 
+        value: "unknown",
+        icon: assetIconMap["icons/unknown.png"]
+      }
+    ];
 
-    // Champ age standard avec icônes URI (personalized: false)
-    if (field?.key === "age" && field?.personalized === false && field?.type === "icons") {
-      const standardAgeOptions = [
-        { label: intlData.messages.Case.ageOptions?.child || "Child", value: "child" },
-        { label: intlData.messages.Case.ageOptions?.adult || "Adult", value: "adult" },
-        { label: intlData.messages.Case.ageOptions?.old || "Senior", value: "old" }
-      ];
+    return (
+      <IconSelector
+        key={field.key}
+        label={intlData.messages.Case.sex}
+        options={standardSexOptions}
+        value={fieldValues[field.key] ?? null}
+        onChange={(val) => setFieldValue(field.key, val)}
+        multiple={!!field.multiple}
+      />
+    );
+  }
 
-      const options = standardAgeOptions.map((opt) => {
-        const iconSource = resolveIconSource(opt.value, field.iconSource);
-        return {
-          value: opt.value,
-          icon: iconSource,
-        };
-      });
+  // Même logique pour age
+  if (field?.key === "age" && field?.personalized === false && field?.type === "icons") {
+    if (field.options && field.options.length > 0) {
+      const options = field.options.map((opt) => ({
+        value: opt.value,
+        icon: opt.icon.startsWith('http') ? { uri: opt.icon } : 
+              (assetIconMap[opt.icon] || null),
+      }));
 
       return (
         <IconSelector
@@ -545,6 +573,74 @@ const Case = (props) => {
         />
       );
     }
+    
+    // Fallback
+    const standardAgeOptions = [
+      { 
+        label: intlData.messages.Case.ageOptions?.child || "Child", 
+        value: "child",
+        icon: assetIconMap["icons/child.png"]
+      },
+      { 
+        label: intlData.messages.Case.ageOptions?.adult || "Adult", 
+        value: "adult",
+        icon: assetIconMap["icons/adult.png"]
+      },
+      { 
+        label: intlData.messages.Case.ageOptions?.old || "Senior", 
+        value: "old",
+        icon: assetIconMap["icons/old.png"]
+      }
+    ];
+
+    return (
+      <IconSelector
+        key={field.key}
+        label={intlData.messages.Case.age}
+        options={standardAgeOptions}
+        value={fieldValues[field.key] ?? null}
+        onChange={(val) => setFieldValue(field.key, val)}
+        multiple={!!field.multiple}
+      />
+    );
+  }
+
+  // Champs personnalisés avec type icons
+  if (field.type === "icons") {
+    const options = (field.options || []).map((opt) => {
+      let iconSource;
+      
+      // Si l'URL est complète (http/https)
+      if (opt.icon && (opt.icon.startsWith('http://') || opt.icon.startsWith('https://'))) {
+        iconSource = { uri: opt.icon };
+      } 
+      // Si c'est un asset local
+      else if (opt.icon && assetIconMap[opt.icon]) {
+        iconSource = assetIconMap[opt.icon];
+      }
+      // Sinon null
+      else {
+        iconSource = null;
+      }
+      
+      return {
+        label: opt.label,
+        value: opt.value,
+        icon: iconSource,
+      };
+    });
+
+    return (
+      <IconSelector
+        key={field.key}
+        label={field.label}
+        options={options}
+        value={fieldValues[field.key] ?? null}
+        onChange={(val) => setFieldValue(field.key, val)}
+        multiple={!!field.multiple}
+      />
+    );
+  }
 
     // Champ age3 standard (dropdown SimplePicker)
     if (field?.key === "age3" && field?.personalized === false && field?.type === "simpledropdown") {

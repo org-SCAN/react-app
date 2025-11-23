@@ -34,9 +34,9 @@
       "multiple": false,
       "mandatory": false,
       "options": [
-        { "label": "Femme", "value": "woman", "icon": "icons/woman.png" },
-        { "label": "Homme", "value": "man", "icon": "icons/man.png" },
-        { "label": "Inconnu", "value": "unknown", "icon": "icons/unknown.png" }
+        { "label": "Femme", "value": "woman", "icon": "https://www.dropbox.com/scl/fi/5sdefisb2xfv9vas8u71j/woman.png?rlkey=thnvx7e4zpihbazfyu4mddkan&st=yqexbof8&dl=1" },
+        { "label": "Homme", "value": "man", "icon": "https://www.dropbox.com/scl/fi/m7eh2e55sgegteubcefu6/man.jpg?rlkey=an4o7mu3fyhmoaj5r9hkoa5qz&st=quhro4is&dl=1" },
+        { "label": "Inconnu", "value": "unknown", "icon": "https://www.dropbox.com/scl/fi/dvnqeqnbgxk8wcvhn2ij6/unknown.png?rlkey=dlhvjfvlbml6qz06037qo7sbm&st=0pwkthzu&dl=1" }
       ],
       "iconSource": "asset"
     },
