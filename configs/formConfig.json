@@ -3,81 +3,260 @@
     {
       "key": "types",
       "personalized": false,
-      "mandatory": true
+      "mandatory": true,
+      "options": [
+        {
+          "label": {
+            "fr": "Accident de voiture",
+            "en": "Car accident",
+            "ar": "حادث سيارة",
+            "es": "Accidente de coche"
+          },
+          "value": "car_accident"
+        },
+        {
+          "label": {
+            "fr": "Chute",
+            "en": "Fall",
+            "ar": "سقوط",
+            "es": "Caída"
+          },
+          "value": "fall"
+        },
+        {
+          "label": {
+            "fr": "Brûlure",
+            "en": "Burn",
+            "ar": "حرق",
+            "es": "Quemadura"
+          },
+          "value": "burn"
+        }
+      ]
     },
     {
       "key": "sex",
       "type": "icons",
-      "iconSource": "uri",
       "mandatory": true,
-      "personalized": false
-    },
-    {
-      "key": "apparence_custom",
-      "label": "Apparence personnalisée",
-      "type": "icons",
-      "multiple": false,
-      "mandatory": false,
+      "personalized": false,
       "options": [
-        { "label": "Femme", "value": "woman", "icon": "https://www.dropbox.com/scl/fi/5sdefisb2xfv9vas8u71j/woman.png?rlkey=thnvx7e4zpihbazfyu4mddkan&st=yqexbof8&dl=1" },
-        { "label": "Homme", "value": "man", "icon": "https://www.dropbox.com/scl/fi/m7eh2e55sgegteubcefu6/man.jpg?rlkey=an4o7mu3fyhmoaj5r9hkoa5qz&st=quhro4is&dl=1" },
-        { "label": "Inconnu", "value": "unknown", "icon": "https://www.dropbox.com/scl/fi/dvnqeqnbgxk8wcvhn2ij6/unknown.png?rlkey=dlhvjfvlbml6qz06037qo7sbm&st=0pwkthzu&dl=1" }
-      ],
-      "iconSource": "asset"
-    },
-    {
-      "key": "age_icons_multi",
-      "label": "Tranches d'âge (multi)",
-      "type": "icons",
-      "multiple": true,
-      "mandatory": false,
-      "options": [
-        { "label": "Enfant", "value": "child", "icon": "icons/child.png" },
-        { "label": "Adulte", "value": "adult", "icon": "icons/adult.png" },
-        { "label": "Senior", "value": "old", "icon": "icons/old.png" }
-      ],
-      "iconSource": "asset"
-    },
-    {
-      "key": "category_simple",
-      "label": "Catégorie",
-      "type": "simpledropdown",
-      "mandatory": false,
-      "placeholder": "Choisir une catégorie",
-      "emptyText": "Aucune option",
-      "options": [
-        { "label": "Catégorie A", "value": "cat_a" },
-        { "label": "Catégorie B", "value": "cat_b" },
-        { "label": "Catégorie C", "value": "cat_c" }
+        {
+          "label": {
+            "fr": "Femme",
+            "en": "Woman",
+            "ar": "امرأة",
+            "es": "Mujer"
+          },
+          "value": "woman",
+          "icon": "https://www.dropbox.com/scl/fi/5sdefisb2xfv9vas8u71j/woman.png?rlkey=thnvx7e4zpihbazfyu4mddkan&st=yqexbof8&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Homme",
+            "en": "Man",
+            "ar": "رجل",
+            "es": "Hombre"
+          },
+          "value": "man",
+          "icon": "https://www.dropbox.com/scl/fi/m7eh2e55sgegteubcefu6/man.jpg?rlkey=an4o7mu3fyhmoaj5r9hkoa5qz&st=quhro4is&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Inconnu",
+            "en": "Unknown",
+            "ar": "غير معروف",
+            "es": "Desconocido"
+          },
+          "value": "unknown",
+          "icon": "https://www.dropbox.com/scl/fi/dvnqeqnbgxk8wcvhn2ij6/unknown.png?rlkey=dlhvjfvlbml6qz06037qo7sbm&st=0pwkthzu&dl=1"
+        }
       ]
     },
     {
-      "key": "status_dropdown",
-      "label": "Statut",
-      "type": "simpledropdown",
+      "key": "age",
+      "type": "icons",
+      "mandatory": true,
+      "personalized": false,
+      "options": [
+        {
+          "label": {
+            "fr": "Enfant",
+            "en": "Child",
+            "ar": "طفل",
+            "es": "Niño"
+          },
+          "value": "child",
+          "icon": "icons/child.png"
+        },
+        {
+          "label": {
+            "fr": "Adulte",
+            "en": "Adult",
+            "ar": "بالغ",
+            "es": "Adulto"
+          },
+          "value": "adult",
+          "icon": "icons/adult.png"
+        },
+        {
+          "label": {
+            "fr": "Senior",
+            "en": "Senior",
+            "ar": "كبير السن",
+            "es": "Mayor"
+          },
+          "value": "old",
+          "icon": "icons/old.png"
+        }
+      ]
+    },
+    {
+      "key": "vehicle_type",
+      "label": {
+        "fr": "Type de véhicule",
+        "en": "Vehicle type",
+        "ar": "نوع المركبة",
+        "es": "Tipo de vehículo"
+      },
+      "type": "icons",
       "multiple": false,
       "mandatory": false,
-      "placeholder": "Sélectionner un statut",
-      "emptyText": "Aucun statut",
       "options": [
-        { "label": "En cours", "value": "ongoing" },
-        { "label": "Terminé", "value": "completed" },
-        { "label": "En attente", "value": "pending" }
+        {
+          "label": {
+            "fr": "Voiture",
+            "en": "Car",
+            "ar": "سيارة",
+            "es": "Coche"
+          },
+          "value": "car",
+          "icon": "https://example.com/car.png"
+        },
+        {
+          "label": {
+            "fr": "Moto",
+            "en": "Motorcycle",
+            "ar": "دراجة نارية",
+            "es": "Motocicleta"
+          },
+          "value": "moto",
+          "icon": "https://example.com/moto.png"
+        },
+        {
+          "label": {
+            "fr": "Camion",
+            "en": "Truck",
+            "ar": "شاحنة",
+            "es": "Camión"
+          },
+          "value": "truck",
+          "icon": "https://example.com/truck.png"
+        }
+      ]
+    },
+    {
+      "key": "priority",
+      "label": {
+        "fr": "Priorité",
+        "en": "Priority",
+        "ar": "الأولوية",
+        "es": "Prioridad"
+      },
+      "type": "simpledropdown",
+      "mandatory": true,
+      "placeholder": {
+        "fr": "Sélectionner la priorité",
+        "en": "Select priority",
+        "ar": "حدد الأولوية",
+        "es": "Seleccionar prioridad"
+      },
+      "emptyText": {
+        "fr": "Aucune priorité",
+        "en": "No priority",
+        "ar": "لا توجد أولوية",
+        "es": "Sin prioridad"
+      },
+      "options": [
+        {
+          "label": {
+            "fr": "Haute",
+            "en": "High",
+            "ar": "عالية",
+            "es": "Alta"
+          },
+          "value": "high"
+        },
+        {
+          "label": {
+            "fr": "Moyenne",
+            "en": "Medium",
+            "ar": "متوسطة",
+            "es": "Media"
+          },
+          "value": "medium"
+        },
+        {
+          "label": {
+            "fr": "Basse",
+            "en": "Low",
+            "ar": "منخفضة",
+            "es": "Baja"
+          },
+          "value": "low"
+        }
       ]
     },
     {
       "key": "tags_multi",
-      "label": "Tags multiples",
+      "label": {
+        "fr": "Tags",
+        "en": "Tags",
+        "ar": "العلامات",
+        "es": "Etiquetas"
+      },
       "type": "dropdown",
       "multiple": true,
       "mandatory": false,
-      "placeholder": "Ajouter des tags",
-      "emptyText": "Aucun tag",
+      "placeholder": {
+        "fr": "Ajouter des tags",
+        "en": "Add tags",
+        "ar": "إضافة علامات",
+        "es": "Añadir etiquetas"
+      },
+      "emptyText": {
+        "fr": "Aucun tag",
+        "en": "No tag",
+        "ar": "لا توجد علامات",
+        "es": "Sin etiquetas"
+      },
       "options": [
-        { "label": "Urgent", "value": "urgent" },
-        { "label": "Important", "value": "important" },
-        { "label": "Archive", "value": "archive" },
-        { "label": "Révision", "value": "review" }
+        {
+          "label": {
+            "fr": "Urgent",
+            "en": "Urgent",
+            "ar": "عاجل",
+            "es": "Urgente"
+          },
+          "value": "urgent"
+        },
+        {
+          "label": {
+            "fr": "Important",
+            "en": "Important",
+            "ar": "مهم",
+            "es": "Importante"
+          },
+          "value": "important"
+        },
+        {
+          "label": {
+            "fr": "Archive",
+            "en": "Archive",
+            "ar": "أرشيف",
+            "es": "Archivo"
+          },
+          "value": "archive"
+        }
       ]
     },
     {
@@ -86,23 +265,38 @@
       "mandatory": false
     },
     {
-      "key": "tagID",
-      "personalized": false,
-      "mandatory": false
-    },
-    {
       "key": "reference",
-      "label": "Référence",
+      "label": {
+        "fr": "Référence",
+        "en": "Reference",
+        "ar": "مرجع",
+        "es": "Referencia"
+      },
       "type": "text",
-      "mandatory": false,
-      "placeholder": "Entrer une référence"
+      "mandatory": true,
+      "placeholder": {
+        "fr": "Ex: REF-2024-001",
+        "en": "Ex: REF-2024-001",
+        "ar": "مثال: REF-2024-001",
+        "es": "Ej: REF-2024-001"
+      }
     },
     {
       "key": "contact",
-      "label": "Contact",
+      "label": {
+        "fr": "Contact",
+        "en": "Contact",
+        "ar": "جهة الاتصال",
+        "es": "Contacto"
+      },
       "type": "text",
       "mandatory": false,
-      "placeholder": "Numéro de téléphone ou email"
+      "placeholder": {
+        "fr": "Téléphone ou email",
+        "en": "Phone or email",
+        "ar": "الهاتف أو البريد الإلكتروني",
+        "es": "Teléfono o correo"
+      }
     },
     {
       "key": "description",
@@ -111,17 +305,20 @@
     },
     {
       "key": "notes",
-      "label": "Notes supplémentaires",
+      "label": {
+        "fr": "Notes supplémentaires",
+        "en": "Additional notes",
+        "ar": "ملاحظات إضافية",
+        "es": "Notas adicionales"
+      },
       "type": "textarea",
       "mandatory": false,
-      "placeholder": "Ajouter des notes détaillées..."
-    },
-    {
-      "key": "observations",
-      "label": "Observations",
-      "type": "textarea",
-      "mandatory": false,
-      "placeholder": "Observations terrain"
+      "placeholder": {
+        "fr": "Détails complémentaires...",
+        "en": "Additional details...",
+        "ar": "تفاصيل إضافية...",
+        "es": "Detalles adicionales..."
+      }
     }
   ]
 }
