@@ -505,44 +505,6 @@ const Case = (props) => {
   };
 
   const renderField = (field) => {
-    // === CHAMP types standard ===
-    if (field?.key === "types" && field?.personalized === false) {
-      const items = types || [];
-      const fieldValue = fieldValues[field.key];
-      const normalizedValue = Array.isArray(fieldValue) ? fieldValue : [];
-      
-      const isOpen = openDropdowns[field.key] || false;
-      const handleOpen = (open) => {
-        setOpenDropdowns(prev => ({ ...prev, [field.key]: open }));
-      };
-      
-      const handleValueChange = (val) => {
-        setFieldValue(field.key, val);
-        handleOpen(false);
-      };
-      
-      const handleSetValue = (val) => {
-        setFieldValue(field.key, val);
-      };
-      
-      return (
-        <ConnectedBasePicker
-          key={field.key}
-          label={intlData.messages.Case.typeTitle}
-          dropdownPlaceholder={intlData.messages.Case.typePlaceholder}
-          emptyText={field.emptyText || intlData.messages.Case.typeNone}
-          items={items}
-          value={normalizedValue}
-          setValue={handleSetValue}
-          multiple={true}
-          mode="BADGE"
-          isOpen={isOpen}
-          onOpen={() => handleOpen(true)}
-          onClose={() => handleOpen(false)}
-          onChangeValue={handleValueChange}
-        />
-      );
-    }
 
     // === CHAMP sex standard avec icônes ===
     if (field?.key === "sex" && field?.personalized === false && field?.type === "icons") {

@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleUrlSave, handleUrlReset, handleCustomFieldChange, handleTypeSave, handleTypeReset, handleLoadConfig } from "../../components/Settings/SettingsHandler";
+import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleCustomFieldChange, handleLoadConfig } from "../../components/Settings/SettingsHandler";
 import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
-import SettingsFormTwoButtonField from "./SettingsFormTwoButtonField";
 import SettingsFormFreeField from "./SettingsFormFreeField";
 import SimplePicker from "../Case/SimplePicker";
 

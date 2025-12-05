@@ -79,34 +79,36 @@ const ScanCamera = (props) => {
           <ActivityIndicator size="large" color="white" />
         </View>
       )}
+      
+      {/* CameraView sans enfants */}
       <CameraView 
         style={styles.camera} 
         facing={facing} 
         ref={(ref) => setCamera(ref)}
         ratio={"1:1"}
-        quality={0.25}
-      >
-        <View style={styles.control}>
-          <IconButton
-            name="camera"
-            color="white"
-            onPress={() => {
-              takePicture().then(() => {
-                navigation.goBack();
-              });
-            }}
-            size={45}
-            style={styles.icon}
-          />
-          <IconButton
-            name="autorenew"
-            color="white"
-            onPress={toggleCameraFacing}
-            size={45}
-            style={styles.icon}
-          />
-        </View>
-      </CameraView>
+      />
+      
+      {/* Contrôles par-dessus avec position absolue */}
+      <View style={styles.control}>
+        <IconButton
+          name="camera"
+          color="white"
+          onPress={() => {
+            takePicture().then(() => {
+              navigation.goBack();
+            });
+          }}
+          size={45}
+          style={styles.icon}
+        />
+        <IconButton
+          name="autorenew"
+          color="white"
+          onPress={toggleCameraFacing}
+          size={45}
+          style={styles.icon}
+        />
+      </View>
     </View>
   );
 };
@@ -120,16 +122,19 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   control: {
-    flex: 1,
+    position: 'absolute', // ← CHANGEMENT IMPORTANT
+    bottom: 0,
+    left: 0,
+    right: 0,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "transparent",
+    paddingBottom: 40, // Ajout d'un padding pour éviter la zone de geste iOS
   },
   icon: {
     marginHorizontal: 30,
-    marginBottom: 80,
-    alignSelf: 'flex-end',
+    marginBottom: 40,
   },
   activityContainer: {
     position: "absolute",

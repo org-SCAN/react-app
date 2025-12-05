@@ -119,7 +119,20 @@
     "savedConfigUrl": "Configuration personnalisée chargée",
     "noSavedConfigUrl": "Aucune configuration personnalisée",
     "configLoadSuccess": "Configuration chargée avec succès",
-    "configLoadError": "Erreur lors du chargement de la configuration"
+    "configLoadError": "Erreur lors du chargement de la configuration",
+    "temporaryExportTitle": "Export temporaire (USB)",
+    "noDataToExport": "Aucun cas à exporter",
+    "exportError": "Erreur lors de l'export",
+    "exportingProgress": "Export en cours",
+    "exportActive": "Export actif",
+    "filesExported": "fichier(s) exporté(s)",
+    "deleteExport": "Supprimer l'export",
+    "exportAllCases": "Exporter tous les cas",
+    "confirmDeleteExport": "Voulez-vous vraiment supprimer l'export temporaire ?",
+    "exportDeletedSuccess": "Export supprimé avec succès",
+    "exportDeleteError": "Erreur lors de la suppression",
+    "exportSuccessAndroid": "{count} cas exportés avec succès.\n\n Les fichiers sont disponibles dans le dossier sélectionné.\n\n Expiration dans 30 minutes.",
+    "exportSuccessIOS": "{count} cas exportés avec succès.\n\n Accès via iTunes/Finder :\n1. Connectez votre iPhone au Mac/PC\n2. Ouvrez Finder (Mac) ou iTunes (PC)\n3. Sélectionnez votre iPhone\n4. Allez dans \"Fichiers\" > \"Divi\"\n5. Téléchargez le dossier TempExport\n\n Expiration dans 30 minutes."
   },
   "Mail": {
     "subject": "[CAS] ",

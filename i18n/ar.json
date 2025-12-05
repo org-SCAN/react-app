@@ -120,7 +120,20 @@
     "savedConfigUrl": "تم تحميل التكوين المخصص",
     "noSavedConfigUrl": "لا يوجد تكوين مخصص",
     "configLoadSuccess": "تم تحميل التكوين بنجاح",
-    "configLoadError": "حدث خطأ أثناء تحميل التكوين"
+    "configLoadError": "حدث خطأ أثناء تحميل التكوين",
+    "temporaryExportTitle": "تصدير مؤقت (USB)",
+    "noDataToExport": "لا توجد حالات للتصدير",
+    "exportError": "خطأ أثناء التصدير",
+    "exportingProgress": "التصدير قيد التقدم",
+    "exportActive": "التصدير نشط",
+    "filesExported": "ملف (ملفات) مصدّر",
+    "deleteExport": "حذف التصدير",
+    "exportAllCases": "تصدير جميع الحالات",
+    "confirmDeleteExport": "هل تريد حقاً حذف التصدير المؤقت؟",
+    "exportDeletedSuccess": "تم حذف التصدير بنجاح",
+    "exportDeleteError": "خطأ في حذف التصدير",
+    "exportSuccessAndroid": "تم تصدير {count} حالة بنجاح.\n\n الملفات متاحة في المجلد المحدد.\n\n تنتهي الصلاحية خلال 30 دقيقة.",
+    "exportSuccessIOS": "تم تصدير {count} حالة بنجاح.\n\n الوصول عبر iTunes/Finder:\n1. قم بتوصيل iPhone بجهاز Mac/PC\n2. افتح Finder (Mac) أو iTunes (PC)\n3. حدد iPhone الخاص بك\n4. انتقل إلى \"الملفات\" > \"Divi\"\n5. قم بتنزيل مجلد TempExport\n\n تنتهي الصلاحية خلال 30 دقيقة."
   },
   "Mail": {
     "subject": "[حالة] ",

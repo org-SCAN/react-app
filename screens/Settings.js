@@ -14,7 +14,7 @@ const Settings = (props) => {
   const { intlData, theme } = props;
   const styles = theme.mode === "dark" ? stylesDark : stylesLight;
 
-  const [activeTab, setActiveTab] = useState("preferences"); // "preferences" ou "admin"
+  const [activeTab, setActiveTab] = useState("preferences");
   const [loading, setLoading] = useState(false);
   const [alertStates, setAlertStates] = useState({
     clearWarning: false,
@@ -92,6 +92,7 @@ const Settings = (props) => {
                 setLoading={setLoading}
                 {...props}
               />
+              
               <SettingsButton
                 onPress={() => setAlertStates((prev) => ({ ...prev, clearWarning: true }))}
                 buttonText={intlData.messages.Settings.debugMessage}

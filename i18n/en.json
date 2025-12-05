@@ -120,7 +120,20 @@
     "savedConfigUrl": "Custom configuration loaded",
     "noSavedConfigUrl": "No custom configuration",
     "configLoadSuccess": "Configuration loaded successfully",
-    "configLoadError": "Error loading configuration"
+    "configLoadError": "Error loading configuration",
+    "temporaryExportTitle": "Temporary export (USB)",
+    "noDataToExport": "No cases to export",
+    "exportError": "Error during export",
+    "exportingProgress": "Export in progress",
+    "exportActive": "Export active",
+    "filesExported": "file(s) exported",
+    "deleteExport": "Delete export",
+    "exportAllCases": "Export all cases",
+    "confirmDeleteExport": "Do you really want to delete the temporary export?",
+    "exportDeletedSuccess": "Export successfully deleted",
+    "exportDeleteError": "Error deleting export",
+    "exportSuccessAndroid": "{count} cases successfully exported.\n\nFiles are available in the selected folder.\n\nExpires in 30 minutes.",
+    "exportSuccessIOS": "{count} cases successfully exported.\n\nAccess via iTunes/Finder:\n1. Connect your iPhone to Mac/PC\n2. Open Finder (Mac) or iTunes (PC)\n3. Select your iPhone\n4. Go to \"Files\" > \"Divi\"\n5. Download the TempExport folder\n\nExpires in 30 minutes."
   },
   "Mail": {
     "subject": "[CASE] ",
