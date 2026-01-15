@@ -2,14 +2,15 @@
   "expo": {
     "name": "Divi",
     "slug": "divi",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo_divi.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/logo_divi_splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ffffff",
+      "imageUrl": "./assets/logo_divi_splash.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -27,22 +28,22 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo_divi_splash.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "app.bbz.divi"
+      "package": "app.allisson2.divi"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logo_divi_splash.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "33c94eb9-898a-4e16-b177-23ca9a826e0e"
-      }
-    },
-    "owner": "bbz",
+    "owner": "allisson2",
     "plugins": [
       "expo-mail-composer"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "8ff1fdfb-9997-4807-8f5d-49ff115a28f0"
+      }
+    }
   }
 }

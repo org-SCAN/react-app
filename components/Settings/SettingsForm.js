@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
 import SettingsFormFreeField from "./SettingsFormFreeField";
-import SimplePicker from "../Case/SimplePicker";
 
 const SettingsForm = (props) => {
   const { intlData, setAlertStates, setLoading, dispatch, theme } = props;
@@ -15,35 +14,16 @@ const SettingsForm = (props) => {
   const caseNumber = useSelector(state => state.caseNumber.caseNumber);
   const storedEmail = useSelector(state => state.email.email);
   const storedCustomField = useSelector((state) => state.customField.customField);
-  const storedConfigType = useSelector((state) => state.config?.configType || "dividoc");
   const storedConfigUrl = useSelector((state) => state.config?.customConfigUrl || "");
 
   const [userId, setUserId] = useState('');
   const [newCaseNumber, setNewCaseNumber] = useState(0);
   const [email, setEmail] = useState('');
   const [customField, setCustomField] = useState(storedCustomField);
-  const [configType, setConfigType] = useState(storedConfigType);
   const [customConfigUrl, setCustomConfigUrl] = useState('');
-  const [isConfigPickerOpen, setIsConfigPickerOpen] = useState(false);
-
-  // Options de configuration prédéfinies
-  const configOptions = [
-    { label: "Dividoc", value: "dividoc" },
-    { label: "Divimap", value: "divimap" },
-    { label: "Divilite", value: "divilite" },
-    { label: intlData.messages.Settings?.customConfig || "Personnalisé", value: "custom" }
-  ];
-
-  const handleConfigTypeChange = (value) => {
-    setConfigType(value);
-    // Si on sélectionne une config prédéfinie et qu'elle est différente de celle stockée, on la charge
-    if (value !== "custom" && value !== storedConfigType) {
-      handleLoadConfig(dispatch, value, null, setAlertStates, setLoading);
-    }
-  };
 
   const handleCustomConfigSave = () => {
-    if (configType === "custom" && customConfigUrl.trim() !== "") {
+    if (customConfigUrl.trim() !== "") {
       handleLoadConfig(dispatch, "custom", customConfigUrl, setAlertStates, setLoading);
       setCustomConfigUrl('');
     }
@@ -51,49 +31,19 @@ const SettingsForm = (props) => {
 
   return (
     <View>
-      {/* Configuration Form Selector */}
-      <View style={styles.fieldContainer}>
-        <Text style={styles.title}>
-          {intlData.messages.Settings?.configFormTitle || "Configuration du formulaire"}
-        </Text>
-        <SimplePicker
-          items={configOptions}
-          value={configType}
-          setValue={handleConfigTypeChange}
-          placeholder={intlData.messages.Settings?.selectConfig || "Sélectionner une configuration"}
-          emptyText={intlData.messages.Common?.none || "Aucune option disponible"}
-          isOpen={isConfigPickerOpen}
-          setOpen={setIsConfigPickerOpen}
-          clearOnSelectSame={false}
-        />
-        
-        {/* Afficher l'URL actuelle si une config est chargée */}
-        {storedConfigType && (
-          <View style={styles.details}>
-            <Text style={styles.detailsText}>
-              {storedConfigType === "custom" 
-                ? `${intlData.messages.Settings?.currentConfig || "Configuration actuelle"}: ${storedConfigUrl}`
-                : `${intlData.messages.Settings?.currentConfig || "Configuration actuelle"}: ${storedConfigType.toUpperCase()}`
-              }
-            </Text>
-          </View>
-        )}
-      </View>
-
-      {/* Champ URL personnalisée (visible uniquement si "custom" est sélectionné) */}
-      {configType === "custom" && (
-        <SettingsFormField
-          placeholder={intlData.messages.Settings?.enterConfigUrl || "URL du fichier JSON de configuration"}
-          value={customConfigUrl}
-          onChangeText={setCustomConfigUrl}
-          onPress={handleCustomConfigSave}
-          buttonText={intlData.messages.Settings?.loadConfig || "Charger la configuration"}
-          storedValue={storedConfigType === "custom" ? "" : null}
-          storedText=""
-          noStoredText={intlData.messages.Settings?.noSavedConfigUrl || "Aucune configuration personnalisée"}
-          styles={styles}
-        />
-      )}
+      {/* Configuration Form URL */}
+      <SettingsFormField
+        title={intlData.messages.Settings?.configFormTitle || "Configuration du formulaire"}
+        placeholder={intlData.messages.Settings?.enterConfigUrl || "URL du fichier JSON de configuration"}
+        value={customConfigUrl}
+        onChangeText={setCustomConfigUrl}
+        onPress={handleCustomConfigSave}
+        buttonText={intlData.messages.Settings?.loadConfig || "Charger la configuration"}
+        storedValue={storedConfigUrl}
+        storedText={intlData.messages.Settings?.currentConfig || "Configuration actuelle"}
+        noStoredText={intlData.messages.Settings?.noSavedConfigUrl || "Aucune configuration chargée"}
+        styles={styles}
+      />
 
       <SettingsFormFreeField
         title={intlData.messages.Settings.customFieldTitle}
@@ -103,6 +53,7 @@ const SettingsForm = (props) => {
         onBlur={() => handleCustomFieldChange(dispatch, customField, setCustomField)}
         styles={styles}
       />
+      
       <SettingsFormField
         title={intlData.messages.Settings.adminSettings}
         placeholder={intlData.messages.Settings.enterUserID}
@@ -116,6 +67,7 @@ const SettingsForm = (props) => {
         noStoredText={intlData.messages.Settings.noSavedUserID}
         styles={styles}
       />
+      
       <SettingsFormField
         placeholder={intlData.messages.Settings.newCaseNumber}
         value={newCaseNumber ? newCaseNumber.toString() : ""}
@@ -128,6 +80,7 @@ const SettingsForm = (props) => {
         noStoredText={intlData.messages.Settings.storedCaseNumber + " : 0"}
         styles={styles}
       />
+      
       <SettingsFormField
         placeholder={intlData.messages.Settings.enterEmail}
         value={email}

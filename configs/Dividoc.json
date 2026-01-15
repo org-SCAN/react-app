@@ -2,7 +2,7 @@
     "fields": [
     {
       "key": "types",
-      "personalized": false,
+      "personalized": true,
       "mandatory": true,
       "options": [
         {

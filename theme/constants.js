@@ -38,4 +38,4 @@ export const THEME_COLOR = {
     },
 }
 
-export const SCAN_DOC = "https://github.com/org-SCAN/doc/blob/0c76609313172dcade8a01bc92a8ec000d4ecba3/iconFolder.md";
+export const SCAN_DOC = "https://github.com/org-SCAN/doc/blob/c64d7c72a2889f781e556573799c706ea1557769/user_guide_divi.md";

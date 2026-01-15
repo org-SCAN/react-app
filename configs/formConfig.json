@@ -1,36 +1,108 @@
 {
   "fields": [
     {
-      "key": "types",
-      "personalized": false,
+      "key": "type",
+      "label": {
+        "fr": "Type",
+        "en": "Type",
+        "es": "Tipo",
+        "ar": "النوع"
+      },
+      "type": "icons",
       "mandatory": true,
+      "personalized": false,
+      "placeholder": {
+        "fr": "Sélectionner un type",
+        "en": "Select a type",
+        "es": "Seleccionar un tipo",
+        "ar": "اختر نوعًا"
+      },
+      "emptyText": {
+        "fr": "Aucun type",
+        "en": "No type",
+        "es": "Sin tipo",
+        "ar": "لا يوجد نوع"
+      },
       "options": [
         {
           "label": {
-            "fr": "Accident de voiture",
-            "en": "Car accident",
-            "ar": "حادث سيارة",
-            "es": "Accidente de coche"
+            "fr": "Fosse/inhumation",
+            "en": "Grave/burial",
+            "es": " Fosa/inhumación",
+            "ar": "حفرة/دفن"
           },
-          "value": "car_accident"
+          "value": "grave_burial",
+          "icon": "https://www.dropbox.com/scl/fi/271f7ukozsjs66wpxumhr/fosse-inhumation.png?rlkey=80avfijagxugpyonuepz5q9n0&st=1blbfo7r&dl=1"
         },
         {
           "label": {
-            "fr": "Chute",
-            "en": "Fall",
-            "ar": "سقوط",
-            "es": "Caída"
+            "fr": "Os en surface",
+            "en": "Bones on surface",
+            "es": "Huesos en superficie",
+            "ar":"عظام على السطح"
           },
-          "value": "fall"
+          "value": "bones_surface",
+          "icon":"https://www.dropbox.com/scl/fi/fr5ekn5uu7u7v1k8asb6w/os.png?rlkey=x46kjmp9gn7kj8gqesirb7b1s&st=e0b2p5ua&dl=1"
         },
         {
           "label": {
-            "fr": "Brûlure",
-            "en": "Burn",
-            "ar": "حرق",
-            "es": "Quemadura"
+            "fr": "Cendres/os calcinés en surface",
+            "en": "Ashes/calcined bones on surface",
+            "es": "Cenizas/huesos calcinados en superficie",
+            "ar": "رماد / عظام متفحمة على السطح"
           },
-          "value": "burn"
+          "value": "ashes_calcined_surface",
+          "icon":"https://www.dropbox.com/scl/fi/onmyem0kff4cxzqmex5zu/cendres_surface.png?rlkey=ptqn5mhyefk8rzrnijhxr3um2&st=nt6l6nkc&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Crématorium : cendres/os calcinés dans une structure",
+            "en": "Ashes/calcined bones in a structure",
+            "es": "Crematorio: cenizas/huesos calcinados en estructura",
+            "ar": "محارق: رماد / عظام متفحمة في هيكل"
+          },
+          "value": "ashes_calcined_structure",
+          "icon":"https://www.dropbox.com/scl/fi/7pgxizpflwirjdsikrafg/Crematorium.png?rlkey=d761iez3bsoenb78lrtpwwxxh&st=ac6dtybu&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Fragments d'os dans des sacs",
+            "en": "Bone fragments in bags",
+            "es": "Fragmentos de hueso en bolsas",
+            "ar": "شظايا عظام في أكياس"
+          },
+          "value": "bone_fragments_bags",
+          "icon":"https://www.dropbox.com/scl/fi/51c8rkljnxydi202v03gg/fragments_os_sac.png?rlkey=zundd0sejduqgmb0skqx34afl&st=h99gt0cv&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Corps complet",
+            "en": "Complete body",
+            "es": "Cuerpo completo",
+            "ar": "جثة كاملة"
+          },
+          "value": "complete_body",
+          "icon":"https://www.dropbox.com/scl/fi/hu9w65h4jz4r5q8eh0tjr/Corps-complet.png?rlkey=1g5i4pojd2m29fvu5ddlj5eft&st=2s1tk45h&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Vêtements (y compris les chaussures)",
+            "en": "Clothing (including shoes)",
+            "es": " Prendas (incluyendo zapatos)",
+            "ar": "ملابس (بما في ذلك الأحذية)"
+          },
+          "value": "clothing",
+          "icon":"https://www.dropbox.com/scl/fi/dg3f43xk2sscqrst7bpur/vetements.png?rlkey=lo0rh9xjx8frnwuntsl8zxugr&st=4zzz2xap&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Objets personnels (accessoires, documents)",
+            "en": "Personal items (accessories, documents)",
+            "es": "Objetos personales (accesorios, documentos)",
+            "ar": "أغراض شخصية (إكسسوارات، مستندات)"
+          },
+          "value": "personal_items",
+          "icon":"https://www.dropbox.com/scl/fi/f6h4m6kjt2jg4bhcmp9wg/effets_personnels.png?rlkey=802kttn4ag9kpkrk6ljncj2li&st=16i2nwiz&dl=1"
         }
       ]
     },
@@ -69,9 +141,40 @@
           },
           "value": "unknown",
           "icon": "https://www.dropbox.com/scl/fi/dvnqeqnbgxk8wcvhn2ij6/unknown.png?rlkey=dlhvjfvlbml6qz06037qo7sbm&st=0pwkthzu&dl=1"
+        },
+        {
+          "label": {
+            "fr": "Enfant",
+            "en": "Child",
+            "ar": "طفل",
+            "es": "Niño"
+          },
+          "value": "child",
+          "icon": "icons/child.png"
+        },
+        {
+          "label": {
+            "fr": "Adulte",
+            "en": "Adult",
+            "ar": "بالغ",
+            "es": "Adulto"
+          },
+          "value": "adult",
+          "icon": "icons/adult.png"
+        },
+        {
+          "label": {
+            "fr": "Senior",
+            "en": "Senior",
+            "ar": "كبير السن",
+            "es": "Mayor"
+          },
+          "value": "old",
+          "icon": "icons/old.png"
         }
       ]
     },
+  
     {
       "key": "age",
       "type": "icons",
@@ -111,156 +214,150 @@
       ]
     },
     {
-      "key": "vehicle_type",
+      "key": "level",
       "label": {
-        "fr": "Type de véhicule",
-        "en": "Vehicle type",
-        "ar": "نوع المركبة",
-        "es": "Tipo de vehículo"
-      },
-      "type": "icons",
-      "multiple": false,
-      "mandatory": false,
-      "options": [
-        {
-          "label": {
-            "fr": "Voiture",
-            "en": "Car",
-            "ar": "سيارة",
-            "es": "Coche"
-          },
-          "value": "car",
-          "icon": "https://example.com/car.png"
-        },
-        {
-          "label": {
-            "fr": "Moto",
-            "en": "Motorcycle",
-            "ar": "دراجة نارية",
-            "es": "Motocicleta"
-          },
-          "value": "moto",
-          "icon": "https://example.com/moto.png"
-        },
-        {
-          "label": {
-            "fr": "Camion",
-            "en": "Truck",
-            "ar": "شاحنة",
-            "es": "Camión"
-          },
-          "value": "truck",
-          "icon": "https://example.com/truck.png"
-        }
-      ]
-    },
-    {
-      "key": "priority",
-      "label": {
-        "fr": "Priorité",
-        "en": "Priority",
-        "ar": "الأولوية",
-        "es": "Prioridad"
+        "fr": "Niveau",
+        "en": "Level",
+        "es": "Nivel"
       },
       "type": "simpledropdown",
       "mandatory": true,
+      "personalized": false,
       "placeholder": {
-        "fr": "Sélectionner la priorité",
-        "en": "Select priority",
-        "ar": "حدد الأولوية",
-        "es": "Seleccionar prioridad"
+        "fr": "Sélectionner un niveau",
+        "en": "Select a level",
+        "es": "Seleccionar un nivel"
       },
       "emptyText": {
-        "fr": "Aucune priorité",
-        "en": "No priority",
-        "ar": "لا توجد أولوية",
-        "es": "Sin prioridad"
+        "fr": "Aucun niveau",
+        "en": "No level",
+        "es": "Sin nivel"
       },
       "options": [
         {
           "label": {
-            "fr": "Haute",
-            "en": "High",
-            "ar": "عالية",
-            "es": "Alta"
+            "fr": "Niveau 1",
+            "en": "Level 1",
+            "es": "Nivel 1"
           },
-          "value": "high"
+          "value": "level_1"
         },
         {
           "label": {
-            "fr": "Moyenne",
-            "en": "Medium",
-            "ar": "متوسطة",
-            "es": "Media"
+            "fr": "Niveau 2",
+            "en": "Level 2",
+            "es": "Nivel 2"
           },
-          "value": "medium"
+          "value": "level_2"
         },
         {
           "label": {
-            "fr": "Basse",
-            "en": "Low",
-            "ar": "منخفضة",
-            "es": "Baja"
+            "fr": "Niveau 3",
+            "en": "Level 3",
+            "es": "Nivel 3"
           },
-          "value": "low"
+          "value": "level_3"
         }
       ]
     },
     {
-      "key": "tags_multi",
+      "key": "tags",
       "label": {
-        "fr": "Tags",
+        "fr": "Étiquettes",
         "en": "Tags",
-        "ar": "العلامات",
         "es": "Etiquetas"
       },
       "type": "dropdown",
       "multiple": true,
       "mandatory": false,
+      "personalized": false,
       "placeholder": {
-        "fr": "Ajouter des tags",
+        "fr": "Ajouter des étiquettes",
         "en": "Add tags",
-        "ar": "إضافة علامات",
         "es": "Añadir etiquetas"
       },
       "emptyText": {
-        "fr": "Aucun tag",
-        "en": "No tag",
-        "ar": "لا توجد علامات",
+        "fr": "Aucune étiquette",
+        "en": "No tags",
         "es": "Sin etiquetas"
       },
       "options": [
         {
           "label": {
-            "fr": "Urgent",
-            "en": "Urgent",
-            "ar": "عاجل",
-            "es": "Urgente"
+            "fr": "Tag 1",
+            "en": "Tag 1",
+            "es": "Etiqueta 1"
           },
-          "value": "urgent"
+          "value": "tag_1"
         },
         {
           "label": {
-            "fr": "Important",
-            "en": "Important",
-            "ar": "مهم",
-            "es": "Importante"
+            "fr": "Tag 2",
+            "en": "Tag 2",
+            "es": "Etiqueta 2"
           },
-          "value": "important"
+          "value": "tag_2"
         },
         {
           "label": {
-            "fr": "Archive",
-            "en": "Archive",
-            "ar": "أرشيف",
-            "es": "Archivo"
+            "fr": "Tag 3",
+            "en": "Tag 3",
+            "es": "Etiqueta 3"
           },
-          "value": "archive"
+          "value": "tag_3"
         }
       ]
     },
     {
-      "key": "ethnicity",
+      "key": "options_multi",
+      "label": {
+        "fr": "Options multiples",
+        "en": "Multiple options",
+        "es": "Opciones múltiples"
+      },
+      "type": "dropdown",
+      "multiple": true,
+      "mandatory": false,
+      "personalized": false,
+      "placeholder": {
+        "fr": "Sélectionner des options",
+        "en": "Select options",
+        "es": "Seleccionar opciones"
+      },
+      "emptyText": {
+        "fr": "Aucune option",
+        "en": "No option",
+        "es": "Sin opción"
+      },
+      "options": [
+        {
+          "label": {
+            "fr": "Option A",
+            "en": "Option A",
+            "es": "Opción A"
+          },
+          "value": "option_a"
+        },
+        {
+          "label": {
+            "fr": "Option B",
+            "en": "Option B",
+            "es": "Opción B"
+          },
+          "value": "option_b"
+        },
+        {
+          "label": {
+            "fr": "Option C",
+            "en": "Option C",
+            "es": "Opción C"
+          },
+          "value": "option_c"
+        }
+      ]
+    },
+    {
+      "key": "category",
       "personalized": false,
       "mandatory": false
     },
@@ -269,33 +366,29 @@
       "label": {
         "fr": "Référence",
         "en": "Reference",
-        "ar": "مرجع",
         "es": "Referencia"
       },
       "type": "text",
       "mandatory": true,
       "placeholder": {
-        "fr": "Ex: REF-2024-001",
-        "en": "Ex: REF-2024-001",
-        "ar": "مثال: REF-2024-001",
-        "es": "Ej: REF-2024-001"
+        "fr": "Ex: REF-001",
+        "en": "Ex: REF-001",
+        "es": "Ej: REF-001"
       }
     },
     {
-      "key": "contact",
+      "key": "name",
       "label": {
-        "fr": "Contact",
-        "en": "Contact",
-        "ar": "جهة الاتصال",
-        "es": "Contacto"
+        "fr": "Nom",
+        "en": "Name",
+        "es": "Nombre"
       },
       "type": "text",
       "mandatory": false,
       "placeholder": {
-        "fr": "Téléphone ou email",
-        "en": "Phone or email",
-        "ar": "الهاتف أو البريد الإلكتروني",
-        "es": "Teléfono o correo"
+        "fr": "Entrer un nom",
+        "en": "Enter a name",
+        "es": "Ingresar un nombre"
       }
     },
     {
@@ -306,18 +399,16 @@
     {
       "key": "notes",
       "label": {
-        "fr": "Notes supplémentaires",
-        "en": "Additional notes",
-        "ar": "ملاحظات إضافية",
-        "es": "Notas adicionales"
+        "fr": "Notes",
+        "en": "Notes",
+        "es": "Notas"
       },
       "type": "textarea",
       "mandatory": false,
       "placeholder": {
-        "fr": "Détails complémentaires...",
-        "en": "Additional details...",
-        "ar": "تفاصيل إضافية...",
-        "es": "Detalles adicionales..."
+        "fr": "Informations...",
+        "en": "Information...",
+        "es": "Información..."
       }
     }
   ]
