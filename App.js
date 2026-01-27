@@ -88,11 +88,13 @@ const App = () => {
     return (
       <SafeAreaView style={styles.loaderContainer}>
         <View style={styles.logoContainer}>
-          <Image
-            source={require("./assets/logo_divi_splash.png")}
-            style={styles.logo}
-            resizeMode="contain"
-          />
+          <View style={styles.logoWrapper}>
+            <Image
+              source={require("./assets/logo_divi.png")}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          </View>
           <Text style={styles.appName}>Divi</Text>
         </View>
         <View style={styles.loadingSection}>
@@ -157,9 +159,8 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   logo: {
-    width: 320,
-    height: 320,
-    marginBottom: 8,
+    width: 250,
+    height: 250,
   },
   appName: {
     fontSize: 40,

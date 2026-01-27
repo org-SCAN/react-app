@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleCustomFieldChange, handleLoadConfig } from "../../components/Settings/SettingsHandler";
+import { handleSaveUserId, handleSaveEmail, handleUpdateCaseNumber, handleCustomFieldChange, handleLoadConfig, handleResetConfig } from "../../components/Settings/SettingsHandler";
 import { useSelector } from "react-redux";
 import { THEME_COLOR } from "../../theme/constants";
 import SettingsFormField from "../../components/Settings/SettingsFormField";
 import SettingsFormFreeField from "./SettingsFormFreeField";
+import SettingsButton from "../../components/Settings/SettingsButton";
 
 const SettingsForm = (props) => {
   const { intlData, setAlertStates, setLoading, dispatch, theme } = props;
@@ -24,9 +25,13 @@ const SettingsForm = (props) => {
 
   const handleCustomConfigSave = () => {
     if (customConfigUrl.trim() !== "") {
-      handleLoadConfig(dispatch, "custom", customConfigUrl, setAlertStates, setLoading);
+      handleLoadConfig(dispatch, customConfigUrl, setAlertStates, setLoading);
       setCustomConfigUrl('');
     }
+  };
+
+  const handleResetToDefault = () => {
+    handleResetConfig(dispatch, setAlertStates);
   };
 
   return (
@@ -44,6 +49,15 @@ const SettingsForm = (props) => {
         noStoredText={intlData.messages.Settings?.noSavedConfigUrl || "Aucune configuration chargée"}
         styles={styles}
       />
+      
+      {/* Bouton pour réinitialiser à la config par défaut */}
+      {storedConfigUrl && (
+        <SettingsButton
+          onPress={handleResetToDefault}
+          buttonText={intlData.messages.Settings?.resetToDefaultConfig || "Réinitialiser à la configuration par défaut"}
+          {...props}
+        />
+      )}
 
       <SettingsFormFreeField
         title={intlData.messages.Settings.customFieldTitle}

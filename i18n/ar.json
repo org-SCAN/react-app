@@ -121,6 +121,7 @@
     "noSavedConfigUrl": "لا يوجد تكوين مخصص",
     "configLoadSuccess": "تم تحميل التكوين بنجاح",
     "configLoadError": "حدث خطأ أثناء تحميل التكوين",
+    "resetToDefaultConfig": "إعادة تعيين التكوين",
     "temporaryExportTitle": "تصدير مؤقت (USB)",
     "noDataToExport": "لا توجد حالات للتصدير",
     "exportError": "خطأ أثناء التصدير",

@@ -4,13 +4,13 @@
     "slug": "divi",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/logo_divi.png",
+    "icon": "./assets/Logo_divi_sans_fond_resize.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/logo_divi_splash.png",
+      "image": "./assets/Logo_divi_sans_fond.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff",
-      "imageUrl": "./assets/logo_divi_splash.png"
+      "imageUrl": "./assets/Logo_divi_sans_fond.png"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -28,13 +28,10 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo_divi_splash.png",
+        "foregroundImage": "./assets/Logo_divi_sans_fond_resize.png",
         "backgroundColor": "#FFFFFF"
       },
       "package": "app.allisson2.divi"
-    },
-    "web": {
-      "favicon": "./assets/logo_divi_splash.png"
     },
     "owner": "allisson2",
     "plugins": [

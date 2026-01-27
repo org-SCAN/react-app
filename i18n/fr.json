@@ -49,7 +49,7 @@
     "pleaseSelectIcon": "Veuillez sélectionner une icône pour \"{field}\"",
     "pleaseFillField": "Veuillez remplir le champ \"{field}\"",
     "pleaseSelectValue": "Veuillez sélectionner une valeur pour \"{field}\"",
-    "enterDescription": "Ajouter des informations...",
+    "enterDescription": "Ajoutez des informations...",
     "description": "Description",
     "typePlaceholder": "Sélectionnez un type",
     "ethnicity": "Ethnicité",
@@ -120,6 +120,7 @@
     "noSavedConfigUrl": "Aucune configuration personnalisée",
     "configLoadSuccess": "Configuration chargée avec succès",
     "configLoadError": "Erreur lors du chargement de la configuration",
+    "resetToDefaultConfig": "Réinitialiser la configuration",
     "temporaryExportTitle": "Export temporaire (USB)",
     "noDataToExport": "Aucun cas à exporter",
     "exportError": "Erreur lors de l'export",
@@ -136,7 +137,7 @@
   },
   "Mail": {
     "subject": "[CAS] ",
-    "body": "<em>Ce mail provient de l'application Divilite. S'il vous plaît ne répondez pas.</em>"
+    "body": "<em>Ce mail provient de l'application Divi. S'il vous plaît ne répondez pas.</em>"
   },
   "Pictures": {
     "title": "Photos",

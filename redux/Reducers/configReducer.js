@@ -1,10 +1,10 @@
 import { SAVE_CONFIG_TYPE, SAVE_CUSTOM_CONFIG_URL, UPDATE_FORM_CONFIG } from '../constants';
-import dividocConfig from '../../configs/Dividoc.json';
+import DefaultConfig from '../../configs/DefaultConfig.json';
 
 const initialState = {
-  configType: "dividoc",
+  configType: "default",
   customConfigUrl: "",
-  formConfig: dividocConfig,
+  formConfig: DefaultConfig,
 };
 
 const configReducer = (state = initialState, action) => {

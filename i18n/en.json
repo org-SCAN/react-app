@@ -121,6 +121,7 @@
     "noSavedConfigUrl": "No custom configuration",
     "configLoadSuccess": "Configuration loaded successfully",
     "configLoadError": "Error loading configuration",
+    "resetToDefaultConfig": "Reset configuration",
     "temporaryExportTitle": "Temporary export (USB)",
     "noDataToExport": "No cases to export",
     "exportError": "Error during export",
@@ -137,7 +138,7 @@
   },
   "Mail": {
     "subject": "[CASE] ",
-    "body": "<em>This email comes from the Divilite application. Please do not reply.</em>"
+    "body": "<em>This email comes from the Divi application. Please do not reply.</em>"
   },
   "Pictures": {
     "title": "Photos",

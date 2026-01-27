@@ -109,7 +109,7 @@
     {
       "key": "sex",
       "type": "icons",
-      "mandatory": true,
+      "mandatory": false,
       "personalized": false,
       "options": [
         {
@@ -130,7 +130,7 @@
             "es": "Hombre"
           },
           "value": "man",
-          "icon": "https://www.dropbox.com/scl/fi/m7eh2e55sgegteubcefu6/man.jpg?rlkey=an4o7mu3fyhmoaj5r9hkoa5qz&st=quhro4is&dl=1"
+          "icon": "https://www.dropbox.com/scl/fi/s1a3voyvqshohnwc6f8mg/homme.png?rlkey=nanoe5s665x81v62bxtkiwljf&st=apzqwkt7&dl=1"
         },
         {
           "label": {
@@ -141,44 +141,13 @@
           },
           "value": "unknown",
           "icon": "https://www.dropbox.com/scl/fi/dvnqeqnbgxk8wcvhn2ij6/unknown.png?rlkey=dlhvjfvlbml6qz06037qo7sbm&st=0pwkthzu&dl=1"
-        },
-        {
-          "label": {
-            "fr": "Enfant",
-            "en": "Child",
-            "ar": "طفل",
-            "es": "Niño"
-          },
-          "value": "child",
-          "icon": "icons/child.png"
-        },
-        {
-          "label": {
-            "fr": "Adulte",
-            "en": "Adult",
-            "ar": "بالغ",
-            "es": "Adulto"
-          },
-          "value": "adult",
-          "icon": "icons/adult.png"
-        },
-        {
-          "label": {
-            "fr": "Senior",
-            "en": "Senior",
-            "ar": "كبير السن",
-            "es": "Mayor"
-          },
-          "value": "old",
-          "icon": "icons/old.png"
         }
-      ]
+    ]
     },
-  
     {
       "key": "age",
       "type": "icons",
-      "mandatory": true,
+      "mandatory": false,
       "personalized": false,
       "options": [
         {
@@ -213,169 +182,7 @@
         }
       ]
     },
-    {
-      "key": "level",
-      "label": {
-        "fr": "Niveau",
-        "en": "Level",
-        "es": "Nivel"
-      },
-      "type": "simpledropdown",
-      "mandatory": true,
-      "personalized": false,
-      "placeholder": {
-        "fr": "Sélectionner un niveau",
-        "en": "Select a level",
-        "es": "Seleccionar un nivel"
-      },
-      "emptyText": {
-        "fr": "Aucun niveau",
-        "en": "No level",
-        "es": "Sin nivel"
-      },
-      "options": [
-        {
-          "label": {
-            "fr": "Niveau 1",
-            "en": "Level 1",
-            "es": "Nivel 1"
-          },
-          "value": "level_1"
-        },
-        {
-          "label": {
-            "fr": "Niveau 2",
-            "en": "Level 2",
-            "es": "Nivel 2"
-          },
-          "value": "level_2"
-        },
-        {
-          "label": {
-            "fr": "Niveau 3",
-            "en": "Level 3",
-            "es": "Nivel 3"
-          },
-          "value": "level_3"
-        }
-      ]
-    },
-    {
-      "key": "tags",
-      "label": {
-        "fr": "Étiquettes",
-        "en": "Tags",
-        "es": "Etiquetas"
-      },
-      "type": "dropdown",
-      "multiple": true,
-      "mandatory": false,
-      "personalized": false,
-      "placeholder": {
-        "fr": "Ajoutez des étiquettes",
-        "en": "Add tags",
-        "es": "Añadir etiquetas"
-      },
-      "emptyText": {
-        "fr": "Aucune étiquette",
-        "en": "No tags",
-        "es": "Sin etiquetas"
-      },
-      "options": [
-        {
-          "label": {
-            "fr": "Tag 1",
-            "en": "Tag 1",
-            "es": "Etiqueta 1"
-          },
-          "value": "tag_1"
-        },
-        {
-          "label": {
-            "fr": "Tag 2",
-            "en": "Tag 2",
-            "es": "Etiqueta 2"
-          },
-          "value": "tag_2"
-        },
-        {
-          "label": {
-            "fr": "Tag 3",
-            "en": "Tag 3",
-            "es": "Etiqueta 3"
-          },
-          "value": "tag_3"
-        }
-      ]
-    },
-    {
-      "key": "options_multi",
-      "label": {
-        "fr": "Options multiples",
-        "en": "Multiple options",
-        "es": "Opciones múltiples"
-      },
-      "type": "dropdown",
-      "multiple": true,
-      "mandatory": false,
-      "personalized": false,
-      "placeholder": {
-        "fr": "Sélectionner des options",
-        "en": "Select options",
-        "es": "Seleccionar opciones"
-      },
-      "emptyText": {
-        "fr": "Aucune option",
-        "en": "No option",
-        "es": "Sin opción"
-      },
-      "options": [
-        {
-          "label": {
-            "fr": "Option A",
-            "en": "Option A",
-            "es": "Opción A"
-          },
-          "value": "option_a"
-        },
-        {
-          "label": {
-            "fr": "Option B",
-            "en": "Option B",
-            "es": "Opción B"
-          },
-          "value": "option_b"
-        },
-        {
-          "label": {
-            "fr": "Option C",
-            "en": "Option C",
-            "es": "Opción C"
-          },
-          "value": "option_c"
-        }
-      ]
-    },
-    {
-      "key": "category",
-      "personalized": false,
-      "mandatory": false
-    },
-    {
-      "key": "reference",
-      "label": {
-        "fr": "Référence",
-        "en": "Reference",
-        "es": "Referencia"
-      },
-      "type": "text",
-      "mandatory": true,
-      "placeholder": {
-        "fr": "Ex: REF-001",
-        "en": "Ex: REF-001",
-        "es": "Ej: REF-001"
-      }
-    },
+    
     {
       "key": "name",
       "label": {
@@ -386,7 +193,7 @@
       "type": "text",
       "mandatory": false,
       "placeholder": {
-        "fr": "Entrer un nom",
+        "fr": "Entrez un nom",
         "en": "Enter a name",
         "es": "Ingresar un nombre"
       }
@@ -395,21 +202,6 @@
       "key": "description",
       "personalized": false,
       "mandatory": false
-    },
-    {
-      "key": "notes",
-      "label": {
-        "fr": "Notes",
-        "en": "Notes",
-        "es": "Notas"
-      },
-      "type": "textarea",
-      "mandatory": false,
-      "placeholder": {
-        "fr": "Informations...",
-        "en": "Information...",
-        "es": "Información..."
-      }
     }
   ]
 }
