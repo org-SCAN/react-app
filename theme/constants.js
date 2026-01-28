@@ -38,4 +38,4 @@ export const THEME_COLOR = {
     },
 }
 
-export const SCAN_DOC = "https://github.com/org-SCAN/doc/blob/c64d7c72a2889f781e556573799c706ea1557769/user_guide_divi.md";
+export const SCAN_DOC = "https://github.com/org-SCAN/doc/blob/ab0dd96e74294c321cf6839f80c299989079ef46/user_guide_divi.md";
