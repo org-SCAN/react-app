@@ -120,7 +120,7 @@
             "es": "Mujer"
           },
           "value": "woman",
-          "icon": "https://www.dropbox.com/scl/fi/5sdefisb2xfv9vas8u71j/woman.png?rlkey=thnvx7e4zpihbazfyu4mddkan&st=yqexbof8&dl=1"
+          "icon": "icons/woman.png"
         },
         {
           "label": {
@@ -130,7 +130,7 @@
             "es": "Hombre"
           },
           "value": "man",
-          "icon": "https://www.dropbox.com/scl/fi/s1a3voyvqshohnwc6f8mg/homme.png?rlkey=nanoe5s665x81v62bxtkiwljf&st=apzqwkt7&dl=1"
+          "icon": "icons/man.png"
         },
         {
           "label": {
@@ -140,7 +140,7 @@
             "es": "Desconocido"
           },
           "value": "unknown",
-          "icon": "https://www.dropbox.com/scl/fi/dvnqeqnbgxk8wcvhn2ij6/unknown.png?rlkey=dlhvjfvlbml6qz06037qo7sbm&st=0pwkthzu&dl=1"
+          "icon": "icons/unknown.png"
         }
     ]
     },
